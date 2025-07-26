@@ -7,6 +7,7 @@ frappe.pages['easy-pos'].on_page_load = function (wrapper) {
 	
 	$('div.navbar-fixed-top').find('.container').css('padding', '0');
 	$(document).find('#body').html('<div id="easy-pos-app"></div>')
+	$(document).find('.sticky-top').hide();
 
 	frappe.require('easypos.bundle.js', () => {
 		// Vue app mounted from here
