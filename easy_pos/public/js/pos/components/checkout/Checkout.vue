@@ -12,7 +12,7 @@
 
         <!-- Cart Items -->
         <div class="checkout-card">
-            <CartItems />
+            <CartItems :cartItems="cartItems"/>
         </div>
 
         <!-- Discount Section -->
@@ -146,9 +146,11 @@ export default {
         Customer,
         CartItems
     },
+    props: {
+        cartItems: Array,
+    },
     data() {
         return {
-            cartItems: [],
             customerSearch: '',
             customers: [],
             selectedCustomer: null,

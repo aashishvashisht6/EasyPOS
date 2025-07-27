@@ -49,14 +49,10 @@ export default {
     name: "CartItems",
     data() {
         return {
-            cartItems: this.cartItems || []
         };
     },
     props: {
-        // cartItems: {
-        //     type: Array,
-        //     required: true
-        // }
+        cartItems: Array
     },
     methods: {
         removeFromCart(index) {

@@ -42,7 +42,6 @@ export default {
             });
         },
         selectGroup(groupName) {
-            console.log("Selected Group:", this.selectedGroup, "New Group:", groupName);
             this.$emit('group-selected', groupName);
         }
     }

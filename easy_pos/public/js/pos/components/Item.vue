@@ -53,7 +53,8 @@
 
 export default {
     props: {
-        selectedGroup: String
+        selectedGroup: String,
+        cartItems: Array,
     },
     components: {
         // RecycleScroller
@@ -86,6 +87,9 @@ export default {
                     this.items = resp?.message || [];
                 }
             });
+        },
+        addToCart(item) {
+            this.$emit('item-added', item);
         }
     }
 

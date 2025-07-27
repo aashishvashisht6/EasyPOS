@@ -9,12 +9,12 @@
 
             <!-- Section 2: Item Search and Cards -->
             <div class="col-md-6 section items-section">
-                <Item :selectedGroup="selectedGroup"/>
+                <Item :selectedGroup="selectedGroup" :cartItems="cartItems" @item-added="onItemAdded"/>
             </div>
 
             <!-- Section 3: Checkout -->
             <div class="col-md-4 section checkout-section">
-                <Checkout />
+                <Checkout :cartItems="cartItems"/>
             </div>
         </div>
     </div>
@@ -33,12 +33,22 @@ export default {
     data() {
         return {
             selectedGroup: null,
+            cartItems: [],
         };
     },
     methods: {
         onGroupSelected(group) {
             this.selectedGroup = group
-        }
+        },
+        onItemAdded(item) {
+            const existingItem = this.cartItems.find(cartItem => cartItem.name === item.name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                this.cartItems.push({ ...item, quantity: 1 });
+            }
+            console.log("Item added to cart:", this.cartItems);
+        },
     }
 }
 </script>
