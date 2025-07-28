@@ -1,11 +1,4 @@
 <template>
-    <div class="checkout-card-header d-flex justify-content-between align-items-center">
-        <span>
-            <i class="fas fa-shopping-basket me-2"></i>
-            Cart Items
-        </span>
-        <span class="badge bg-light text-dark">{{ cartItems.length }}</span>
-    </div>
     <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
         <div v-if="cartItems.length === 0" class="empty-cart">
             <i class="fas fa-shopping-cart"></i>

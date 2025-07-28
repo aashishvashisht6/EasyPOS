@@ -3,18 +3,18 @@
         <div class="row h-100">
             <!-- Section 1: Item Groups -->
             <div class="col-md-2 section item-groups-section">
-                <ItemGroup @group-selected="onGroupSelected" :selectedGroup="selectedGroup"/>
+                <ItemGroup @group-selected="onGroupSelected" :selectedGroup="selectedGroup" />
             </div>
 
 
             <!-- Section 2: Item Search and Cards -->
             <div class="col-md-6 section items-section">
-                <Item :selectedGroup="selectedGroup" :cartItems="cartItems" @item-added="onItemAdded"/>
+                <Item :selectedGroup="selectedGroup" :cartItems="cartItems" @item-added="onItemAdded" />
             </div>
 
             <!-- Section 3: Checkout -->
             <div class="col-md-4 section checkout-section">
-                <Checkout :cartItems="cartItems"/>
+                <Checkout :cartItems="cartItems" />
             </div>
         </div>
     </div>
@@ -34,7 +34,15 @@ export default {
         return {
             selectedGroup: null,
             cartItems: [],
+            isOnline: navigator.onLine
         };
+    },
+    created() {
+        window.addEventListener('online', console.log("You are online!"));
+        window.addEventListener('offline', () => {
+            this.isOnline = false;
+            console.log("You're offline. Orders will be saved locally.");
+        });
     },
     methods: {
         onGroupSelected(group) {

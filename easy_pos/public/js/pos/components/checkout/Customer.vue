@@ -1,15 +1,5 @@
 <template>
   <div class="customer-search-container">
-    <!-- Header -->
-    <div class="customer-header">
-      <div class="header-content">
-        <div class="icon-wrapper">
-          <i class="fas fa-user"></i>
-        </div>
-        <h3 class="header-title">Customer Details</h3>
-      </div>
-    </div>
-
     <!-- Search Input Container -->
     <div class="search-container">
       <div class="search-input-wrapper" :class="{ 'focused': isInputFocused, 'has-results': showDropdown }">
@@ -138,46 +128,46 @@ export default {
     return {
       customerSearch: '',
       customers: [
-        { 
-          id: 1, 
-          name: 'John Doe', 
-          phone: '+1 (555) 123-4567',
-          email: 'john.doe@email.com',
-          loyaltyPoints: 120,
-          totalOrders: 15
-        },
-        { 
-          id: 2, 
-          name: 'Jane Smith', 
-          phone: '+1 (555) 987-6543',
-          email: 'jane.smith@email.com',
-          loyaltyPoints: 280,
-          totalOrders: 32
-        },
-        { 
-          id: 3, 
-          name: 'Alice Johnson', 
-          phone: '+1 (555) 456-7890',
-          email: 'alice.johnson@email.com',
-          loyaltyPoints: 450,
-          totalOrders: 58
-        },
-        { 
-          id: 4, 
-          name: 'Bob Wilson', 
-          phone: '+1 (555) 321-0987',
-          email: 'bob.wilson@email.com',
-          loyaltyPoints: 75,
-          totalOrders: 8
-        },
-        { 
-          id: 5, 
-          name: 'Carol Davis', 
-          phone: '+1 (555) 654-3210',
-          email: 'carol.davis@email.com',
-          loyaltyPoints: 320,
-          totalOrders: 41
-        }
+        // { 
+        //   id: 1, 
+        //   name: 'John Doe', 
+        //   phone: '+1 (555) 123-4567',
+        //   email: 'john.doe@email.com',
+        //   loyaltyPoints: 120,
+        //   totalOrders: 15
+        // },
+        // { 
+        //   id: 2, 
+        //   name: 'Jane Smith', 
+        //   phone: '+1 (555) 987-6543',
+        //   email: 'jane.smith@email.com',
+        //   loyaltyPoints: 280,
+        //   totalOrders: 32
+        // },
+        // { 
+        //   id: 3, 
+        //   name: 'Alice Johnson', 
+        //   phone: '+1 (555) 456-7890',
+        //   email: 'alice.johnson@email.com',
+        //   loyaltyPoints: 450,
+        //   totalOrders: 58
+        // },
+        // { 
+        //   id: 4, 
+        //   name: 'Bob Wilson', 
+        //   phone: '+1 (555) 321-0987',
+        //   email: 'bob.wilson@email.com',
+        //   loyaltyPoints: 75,
+        //   totalOrders: 8
+        // },
+        // { 
+        //   id: 5, 
+        //   name: 'Carol Davis', 
+        //   phone: '+1 (555) 654-3210',
+        //   email: 'carol.davis@email.com',
+        //   loyaltyPoints: 320,
+        //   totalOrders: 41
+        // }
       ],
       selectedCustomer: null,
       isInputFocused: false,
@@ -210,10 +200,22 @@ export default {
         customer.name.toLowerCase().includes(searchTerm) ||
         customer.phone.toLowerCase().includes(searchTerm) ||
         customer.email.toLowerCase().includes(searchTerm)
-      ).slice(0, 5); // Limit to 5 results for better UX
+      ).slice(0, 5); // Limit to 20 results for better UX
     }
   },
+  created() {
+    this.getCustomers();
+  },
   methods: {
+    getCustomers() {
+      frappe.call({
+                method: "easy_pos.api.customer.get_customers",
+                args: {},
+                callback: (resp) => {
+                    this.customers = resp?.message || [];
+                }
+            });
+    },
     handleInput() {
       // Clear previous timeout
       if (this.searchTimeout) {
