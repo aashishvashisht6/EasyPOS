@@ -1,0 +1,28 @@
+.cart-section {
+    background-color: #f8f9fa;
+    border-left: 1px solid #dee2e6;
+    width: 100%;
+}
+.cart-section-card {
+    height: 100%;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.cart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 0.2fr;
+  gap: 8px;
+  align-items: center;
+}
+.cart-header {
+  background-color: #e9ecef;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+  .cart-section {
+    width: 36%;
+    flex: 1;
+  }
+}

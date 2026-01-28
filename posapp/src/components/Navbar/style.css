@@ -1,0 +1,20 @@
+.navbar-other-items {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+}
+
+.navbar-opening-item {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .navbar-other-items {
+    flex-wrap: nowrap;
+  }
+
+  .navbar-opening-item {
+    display: flex;
+  }
+}

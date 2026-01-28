@@ -1,0 +1,16 @@
+{
+  "name": "easypos",
+  "version": "1.0.0",
+  "description": "Easy POS",
+  "scripts": {
+    "postinstall": "cd posapp && yarn install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd posapp && yarn dev",
+    "build": "cd posapp && yarn build"
+  },
+  "keywords": [],
+  "author": "Aashish",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
