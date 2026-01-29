@@ -1,6 +1,14 @@
-import "./style.css"
+import { logOutUser } from "../../api/User";
+import "./style.css";
 
 const Navbar = () => {
+  const handleLogout = () => {
+    // TODO Need to add CSRf Token
+    logOutUser().then((data) => {
+      const redirectUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `${window.location.origin}/login?redirect-to=${redirectUrl}`;
+    });
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
       <div className="container-fluid">
@@ -26,11 +34,7 @@ const Navbar = () => {
           </div>
         </a>
 
-        
-
-        <div
-          className="d-flex justify-content-end gap-3 flex-shrink-1 navbar-other-items"
-        >
+        <div className="d-flex justify-content-end gap-3 flex-shrink-1 navbar-other-items">
           <div className="input-group input-group-sm h-50 my-auto">
             <span className="input-group-text">POS Profile</span>
             <input
@@ -87,11 +91,11 @@ const Navbar = () => {
 
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
+                <button className="dropdown-item" onClick={handleLogout}>
+                  Log Out
+                </button>
               </li>
-              <li>
+              {/* <li>
                 <a className="dropdown-item" href="#">
                   Another action
                 </a>
@@ -100,7 +104,7 @@ const Navbar = () => {
                 <a className="dropdown-item" href="#">
                   Something else here
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

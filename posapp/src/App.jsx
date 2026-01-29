@@ -1,13 +1,13 @@
-import Navbar from './components/Navbar';
-import ItemGroup from './components/ItemGroup';
-import Items from './components/Items';
-import Cart from './components/Cart'
+import Navbar from "./components/Navbar";
+import ItemGroup from "./components/ItemGroup";
+import Items from "./components/Items";
+import Cart from "./components/Cart";
+import { AuthProvider } from "./components/Auth/AuthProvider";
 
 function App() {
-
   return (
-    <>
-      <Navbar/>
+    <AuthProvider>
+      <Navbar />
       <div className="container-fluid" style={{ position: "relative" }}>
         <div className="d-flex flex-wrap">
           <ItemGroup />
@@ -15,8 +15,8 @@ function App() {
           <Cart />
         </div>
       </div>
-    </>
-  )
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
