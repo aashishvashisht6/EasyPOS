@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { logOutUser } from "../../api/User";
+import { POSContext } from "../Opening/POSProvider";
 import "./style.css";
 
 const Navbar = () => {
+  const { openingDetail } = useContext(POSContext);
   const handleLogout = () => {
     // TODO Need to add CSRf Token
     logOutUser().then((data) => {
@@ -36,20 +39,24 @@ const Navbar = () => {
 
         <div className="d-flex justify-content-end gap-3 flex-shrink-1 navbar-other-items">
           <div className="input-group input-group-sm h-50 my-auto">
-            <span className="input-group-text">POS Profile</span>
+            <span className="input-group-text w-50">POS Profile</span>
             <input
               type="text"
               aria-label="First name"
               className="form-control w-30 outline-none"
+              disabled={1}
+              value={openingDetail?.pos_profile}
             />
           </div>
 
           <div className="input-group input-group-sm h-50 my-auto navbar-opening-item">
-            <span className="input-group-text">POS Opening Entry</span>
+            <span className="input-group-text w-50">POS Opening Entry</span>
             <input
               type="text"
               aria-label="First name"
               className="form-control w-30"
+              disabled={1}
+              value={openingDetail?.name}
             />
           </div>
 

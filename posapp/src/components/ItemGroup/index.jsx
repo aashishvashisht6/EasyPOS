@@ -1,34 +1,45 @@
 import { useEffect, useState } from "react";
-import "./style.css"
+import "./style.css";
 import { fetchItemGroups } from "../../api/ItemGroup";
 
-const ItemGroup = () => {
+const ItemGroup = ({ selectedGroup, onChangeGroup }) => {
   const [itemGroups, setItemGroups] = useState([]);
 
   const getItemGroups = () => {
-    fetchItemGroups().then(data => {
-      setItemGroups(data)
-    })
-  }
+    fetchItemGroups().then((data) => {
+      setItemGroups(data);
+    });
+  };
 
+  
   useEffect(() => {
-    getItemGroups()
-  }, [])
+    getItemGroups();
+  }, []);
 
   return (
     <div
       className="sidebar mx-0 d-none d-lg-block"
-      style={{ borderRight: "1px solid #E6EAED", width: "9%", maxHeight: "90vh", overflowY: "scroll" }}
+      style={{
+        borderRight: "1px solid #E6EAED",
+        width: "9%",
+        maxHeight: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ul className="d-flex flex-column nav">
         {itemGroups.length > 0 &&
           itemGroups.map((row, idx) => {
             return (
               <li className="nav-item mt-3" key={idx}>
-                <div className="card align-items-center text-center item-group-card">
+                <div
+                  className={`card align-items-center text-center item-group-card cursor-pointer ${
+                    selectedGroup === row.item_group ? "selected-group" : ""
+                  }`}
+                  onClick={() => onChangeGroup(row.item_group)}
+                >
                   <img
                     src={row.image}
-                    alt={row.item_code}
+                    alt={row.item_group}
                     height={50}
                     width={50}
                   />

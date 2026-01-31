@@ -1,20 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import "./style.css";
 import { fetchCustomers } from "../../api/Customer";
+import { postDraftInvoice } from "../../api/Invoice";
+import { POSContext } from "../Opening/POSProvider";
 
-const Cart = () => {
+const Cart = ({ invoiceDetails, onChangeInvoice }) => {
+  const { openingDetail } = useContext(POSContext);
   const [customers, setCustomers] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const cartItems = invoiceDetails.items ?? [];
+
+  const itemTotal = useMemo(() => {
+    return (invoiceDetails?.items ?? []).reduce(
+      (sum, item) => sum + item.amount,
+      0,
+    );
+  }, [invoiceDetails?.items]);
 
   const filteredCustomers = customers.filter((cust) =>
     cust.customer_name?.toLowerCase().includes(searchText.toLowerCase()),
   );
 
+  const clearCart = () => {
+    onChangeInvoice({ ...invoiceDetails, items: [] });
+  };
+
   const getCustomers = () => {
     fetchCustomers().then((data) => setCustomers(data));
   };
+
+  const createDraftInvoice = () => {
+    const customer = invoiceDetails.customer ?? "";
+    const items = invoiceDetails.items ?? [];
+    if(!customer){
+      alert("Please Select Customer")
+      return
+    }
+    if(items.length < 1){
+      alert("Please Add one or more Items in Cart")
+      return 
+    }
+    postDraftInvoice(invoiceDetails, openingDetail, 0).then(data => {
+      console.log(data)
+    })
+  }
+
   useEffect(() => {
     getCustomers();
   }, []);
@@ -57,7 +88,7 @@ const Cart = () => {
                   key={cust.name}
                   className="dropdown-item h-50"
                   onClick={() => {
-                    setSelectedCustomer(cust);
+                    onChangeInvoice({ ...invoiceDetails, customer: cust.name });
                     setSearchText(cust.customer_name);
                     setShowDropdown(false);
                   }}
@@ -76,7 +107,9 @@ const Cart = () => {
         <div className="cart-item-section">
           <div className="d-flex justify-content-between align-items-center">
             <h6 className="mb-0">Cart Details</h6>
-            <span className="btn btn-sm btn-danger">Clear</span>
+            <span className="btn btn-sm btn-danger" onClick={clearCart}>
+              Clear
+            </span>
           </div>
 
           {/* Item cart Section */}
@@ -88,66 +121,58 @@ const Cart = () => {
               overflowY: "scroll",
             }}
           >
-            <div className="accordion accordion-flush" id="accordionItemFlush">
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button collapsed p-2"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseOne"
-                    aria-expanded="false"
-                    aria-controls="flush-collapseOne"
-                  >
-                    <div className="cart-grid w-100 cart-header p-2 text-center bg-white m-0">
-                      <p className="m-0">Item Code</p>
-                      <p className="m-0">Qty</p>
-                      <p className="m-0">Rate</p>
-                      <p className="m-0">Total</p>
-                    </div>
-                  </button>
-                </h2>
-                <div
-                  id="flush-collapseOne"
-                  className="accordion-collapse collapse"
-                  data-bs-parent="#accordionFlushExample"
-                >
-                  <div className="accordion-body row col-12 container">
-                    <div className="col-sm-12 col-md-6">
-                      <div className="input-group mx-2">
-                        <span
-                          className="input-group-text"
-                          id="inputGroup-sizing-default"
-                        >
-                          Serial No
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control"
-                          aria-label="Sizing example input"
-                          aria-describedby="inputGroup-sizing-default"
-                        />
+            {/* Header row */}
+            <div className="cart-grid cart-header p-2 text-center bg-white fw-bold">
+              <div>Item Code</div>
+              <div>Qty</div>
+              <div>Rate</div>
+              <div>Total</div>
+            </div>
+
+            <div className="accordion accordion-flush" id="cartAccordion">
+              {cartItems.map((item, index) => (
+                <div className="accordion-item" key={index}>
+                  <h2 className="accordion-header">
+                    <button
+                      className="accordion-button collapsed p-2"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#cart-collapse-${index}`}
+                    >
+                      <div className="cart-grid w-100 text-center">
+                        <div>{item.item_code}</div>
+                        <div>{item.qty}</div>
+                        <div>{item.rate}</div>
+                        <div>{item.amount}</div>
                       </div>
-                    </div>
-                    <div className="col-sm-12 col-md-6">
-                      <div className="input-group mx-2">
-                        <span
-                          className="input-group-text"
-                          id="inputGroup-sizing-default"
-                        >
-                          Batch No
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control"
-                          aria-label="Sizing example input"
-                          aria-describedby="inputGroup-sizing-default"
-                        />
+                    </button>
+                  </h2>
+
+                  <div
+                    id={`cart-collapse-${index}`}
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#cartAccordion"
+                  >
+                    <div className="accordion-body">
+                      <div className="row g-2">
+                        <div className="col-md-6">
+                          <div className="input-group">
+                            <span className="input-group-text">Serial No</span>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+
+                        <div className="col-md-6">
+                          <div className="input-group">
+                            <span className="input-group-text">Batch No</span>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -157,35 +182,15 @@ const Cart = () => {
             <div className="row">
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
-                  <span
-                    className="input-group-text"
-                    id="inputGroup-sizing-default"
-                  >
-                    Item Total
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default"
-                  />
+                  <span className="input-group-text w-50">Item Total</span>
+                  <input type="text" className="form-control" disabled={1} value={itemTotal} />
                 </div>
               </div>
 
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
-                  <span
-                    className="input-group-text"
-                    id="inputGroup-sizing-default"
-                  >
-                    Taxes Total
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default"
-                  />
+                  <span className="input-group-text w-50">Taxes Total</span>
+                  <input type="text" className="form-control" disabled={1} value={0} />
                 </div>
               </div>
             </div>
@@ -194,42 +199,28 @@ const Cart = () => {
             <div className="row">
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
-                  <span
-                    className="input-group-text"
-                    id="inputGroup-sizing-default"
-                  >
-                    Apply Discount On
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default"
-                  />
+                  <span className="input-group-text w-50">Discount On</span>
+                  <select className="form-control">
+                    <option selected disabled={1}>
+                      Discount On
+                    </option>
+                    <option value="Grand Total">Grand Total</option>
+                    <option value="Net Total">Net Total</option>
+                  </select>
                 </div>
               </div>
 
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
-                  <span
-                    className="input-group-text"
-                    id="inputGroup-sizing-default"
-                  >
-                    Discount
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default"
-                  />
+                  <span className="input-group-text w-50">Discount</span>
+                  <input type="text" className="form-control" />
                 </div>
               </div>
             </div>
 
             <div className="row mt-1">
               <div className="col-md-6 col-sm-12">
-                <button className="btn btn-md btn-primary w-100">Save</button>
+                <button className="btn btn-md btn-primary w-100" onClick={createDraftInvoice}>Save</button>
               </div>
               <div className="col-md-6 col-sm-12">
                 <button className="btn btn-md btn-primary w-100">

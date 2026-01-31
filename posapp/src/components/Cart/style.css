@@ -8,16 +8,15 @@
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .cart-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr 0.2fr;
-  gap: 8px;
+  grid-template-columns: 35% 15% 20% 20% 10%;
   align-items: center;
 }
+
 .cart-header {
-  background-color: #e9ecef;
-  padding: 8px;
-  border-radius: 4px;
+  border-bottom: 1px solid #dee2e6;
 }
 
 @media (min-width: 768px) {

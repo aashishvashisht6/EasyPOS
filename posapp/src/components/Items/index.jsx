@@ -2,19 +2,54 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { fetchItems } from "../../api/Items";
 
-const Items = () => {
+const Items = ({ selectedGroup, invoiceDetails, onChangeInvoice }) => {
   const [items, setItems] = useState([]);
   const [itemQty, setItemQty] = useState({});
 
   const getItems = () => {
-    fetchItems().then((data) => {
+    fetchItems(selectedGroup).then((data) => {
       setItems(data);
     });
   };
 
   useEffect(() => {
     getItems();
-  }, []);
+  }, [selectedGroup]);
+
+  const addItemToCart = (item_code, rate) => {
+    const qty = itemQty[item_code] ?? 1;
+
+    const existingItem = invoiceDetails.items.find(
+      (item) => item.item_code === item_code,
+    );
+
+    let items;
+
+    if (existingItem) {
+      items = invoiceDetails.items.map((item) =>
+        item.item_code === item_code
+          ? {
+              ...item,
+              qty: item.qty + qty,
+              rate,
+              amount: (item.qty + qty) * rate,
+            }
+          : item,
+      );
+    } else {
+      items = [
+        ...invoiceDetails.items,
+        {
+          item_code,
+          qty,
+          rate,
+          amount: qty * rate,
+        },
+      ];
+    }
+
+    onChangeInvoice({ ...invoiceDetails, items });
+  };
 
   return (
     <div className="product-section mx-2 border-0">
@@ -46,12 +81,13 @@ const Items = () => {
           items.map((row) => {
             return (
               <div className="col-sm-3 mt-3" key={row.item_code}>
-                <div className="card align-items-center text-center overflow-hidden">
+                <div className="card align-items-center text-center overflow-hidden cursor-pointer">
                   <img
                     src={row.image}
                     alt={row.item_code}
                     height={130}
                     width={120}
+                    onClick={() => addItemToCart(row.item_code, row.rate)}
                   />
                   <p className="mb-0 mt-0">{row.item_group}</p>
                   <p className="mb-0 mt-0">{row.item_code}</p>

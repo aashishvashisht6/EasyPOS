@@ -12,3 +12,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.cursor-pointer:hover {
+  border-color:rgb(254, 159, 67) !important;
+}
+
+.selected-group{
+  border-color:rgb(254, 159, 67) !important;
+}

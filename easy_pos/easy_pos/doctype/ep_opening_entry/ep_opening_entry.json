@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "autoname": "EP-OP-.######.",
+ "creation": "2026-01-31 23:39:27.143872",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "period_start_date",
+  "period_end_date",
+  "column_break_3",
+  "posting_date",
+  "status",
+  "section_break_5",
+  "company",
+  "pos_profile",
+  "column_break_7",
+  "user",
+  "pos_closing_entry",
+  "opening_balance_details_section",
+  "balance_details",
+  "section_break_9",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "period_start_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Period Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Period End Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Draft\nOpen\nClosed\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pos_profile",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "POS Profile",
+   "options": "POS Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "Cashier",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pos_closing_entry",
+   "fieldtype": "Data",
+   "label": "POS Closing Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "opening_balance_details_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "balance_details",
+   "fieldtype": "Table",
+   "label": "Opening Balance Details",
+   "options": "POS Opening Entry Detail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "EP Opening Entry",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-01-31 23:42:55.835338",
+ "modified_by": "Administrator",
+ "module": "Easy Pos",
+ "name": "EP Opening Entry",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
