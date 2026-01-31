@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function App() {
   const [activeItemGroup, setActiveItemGroup] = useState("")
-  const [invoiceDetails, setInvoiceDetails] = useState({"customer": "", "items": []})
+  const [invoiceDetails, setInvoiceDetails] = useState({"customer": "", "items": [], "payments": []})
 
   return (
     <AuthProvider>

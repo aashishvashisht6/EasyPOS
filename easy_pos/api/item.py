@@ -3,7 +3,7 @@ import frappe
 @frappe.whitelist()
 def get_item_groups():
     """Getting All Item groups as needs for offline functionality"""
-    item_groups = frappe.get_all("Item Group", filters={"disabled":0}, fields=["name as item_group", "image"], order_by="lft asc")
+    item_groups = frappe.get_all("Item Group", filters={}, fields=["name as item_group", "image"], order_by="lft asc")
     for group in item_groups:
         if not group.image:
             group['image'] = "https://dreamspos.dreamstechnologies.com/html/template/assets/img/products/pos-product-01.png"

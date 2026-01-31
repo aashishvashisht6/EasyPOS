@@ -12,6 +12,11 @@ const Navbar = () => {
       window.location.href = `${window.location.origin}/login?redirect-to=${redirectUrl}`;
     });
   };
+
+  const handleToDesk = () => {
+   window.location.href = `${window.location.origin}/app`;
+  }
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
       <div className="container-fluid">
@@ -102,16 +107,11 @@ const Navbar = () => {
                   Log Out
                 </button>
               </li>
-              {/* <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
               <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li> */}
+                <button className="dropdown-item" onClick={handleToDesk}>
+                  Switch To Desk
+                </button>
+              </li>
             </ul>
           </div>
         </div>

@@ -3,12 +3,15 @@ import "./style.css";
 import { fetchCustomers } from "../../api/Customer";
 import { postDraftInvoice } from "../../api/Invoice";
 import { POSContext } from "../Opening/POSProvider";
+import InvoicePay from "../InvoicePay";
 
 const Cart = ({ invoiceDetails, onChangeInvoice }) => {
   const { openingDetail } = useContext(POSContext);
   const [customers, setCustomers] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [saveDraft, setSaveDraft] = useState(false);
+  const [payInvoice, setPayInvoice] = useState(false);
   const cartItems = invoiceDetails.items ?? [];
 
   const itemTotal = useMemo(() => {
@@ -33,18 +36,22 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
   const createDraftInvoice = () => {
     const customer = invoiceDetails.customer ?? "";
     const items = invoiceDetails.items ?? [];
-    if(!customer){
-      alert("Please Select Customer")
-      return
+    if (!customer) {
+      alert("Please Select Customer");
+      return;
     }
-    if(items.length < 1){
-      alert("Please Add one or more Items in Cart")
-      return 
+    if (items.length < 1) {
+      alert("Please Add one or more Items in Cart");
+      return;
     }
-    postDraftInvoice(invoiceDetails, openingDetail, 0).then(data => {
-      console.log(data)
-    })
-  }
+    setSaveDraft(true);
+    postDraftInvoice(invoiceDetails, openingDetail, 0).then((data) => {
+      if (data?.name) {
+        setSaveDraft(false);
+      }
+      console.log(data);
+    });
+  };
 
   useEffect(() => {
     getCustomers();
@@ -183,14 +190,24 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
                   <span className="input-group-text w-50">Item Total</span>
-                  <input type="text" className="form-control" disabled={1} value={itemTotal} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled={1}
+                    value={itemTotal}
+                  />
                 </div>
               </div>
 
               <div className="discount-input col-sm-12 col-md-6">
                 <div className="input-group mb-1">
                   <span className="input-group-text w-50">Taxes Total</span>
-                  <input type="text" className="form-control" disabled={1} value={0} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled={1}
+                    value={0}
+                  />
                 </div>
               </div>
             </div>
@@ -220,7 +237,23 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
 
             <div className="row mt-1">
               <div className="col-md-6 col-sm-12">
-                <button className="btn btn-md btn-primary w-100" onClick={createDraftInvoice}>Save</button>
+                <button
+                  className="btn btn-md btn-primary w-100"
+                  onClick={createDraftInvoice}
+                  disabled={saveDraft ? 1 : 0}
+                >
+                  {saveDraft ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2 text-primary"
+                        role="status"
+                      />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save"
+                  )}
+                </button>
               </div>
               <div className="col-md-6 col-sm-12">
                 <button className="btn btn-md btn-primary w-100">
@@ -231,11 +264,22 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
 
             <div className="row mt-2">
               <div className="col-12 ">
-                <button className="btn btn-md btn-success w-100">
+                <button
+                  className="btn btn-md btn-success w-100"
+                  onClick={() => setPayInvoice(true)}
+                >
                   Pay Now
                 </button>
               </div>
             </div>
+
+            {payInvoice && (
+              <InvoicePay
+                onClose={() => setPayInvoice(false)}
+                invoiceDetails={invoiceDetails}
+                onChangeInvoice={onChangeInvoice}
+              />
+            )}
           </div>
         </div>
       </div>
