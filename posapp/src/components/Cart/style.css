@@ -4,7 +4,7 @@
     width: 100%;
 }
 .cart-section-card {
-    height: 100%;
+    min-height: 100%;
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

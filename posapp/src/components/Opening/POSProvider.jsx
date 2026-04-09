@@ -16,7 +16,7 @@ const POSProvider = ({ children }) => {
     fetchOpeningEntry(user.email).then((data) => {
       if (data && data.pos_profile) {
         setHasOpeningEntry(true);
-        setOpeningDetail(data)
+        setOpeningDetail(data);
       } else {
         setHasOpeningEntry(false);
       }
@@ -25,12 +25,17 @@ const POSProvider = ({ children }) => {
   };
 
   const setOpeningEntry = (opening_details) => {
-    console.log(opening_details, "opening_details")
-    if(opening_details?.name){
-        setHasOpeningEntry(true)
-        setOpeningDetail(opening_details)
+    console.log(opening_details, "opening_details");
+    if (opening_details?.name) {
+      setHasOpeningEntry(true);
+      setOpeningDetail(opening_details);
     }
-  }
+  };
+
+  const clearPOSContext = () => {
+    setHasOpeningEntry(false);
+    setOpeningDetail({});
+  };
 
   useEffect(() => {
     if (!user?.email) return;
@@ -39,7 +44,7 @@ const POSProvider = ({ children }) => {
 
   if (loading)
     return (
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="d-flex justify-content-center align-items-center h-100">
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -51,7 +56,7 @@ const POSProvider = ({ children }) => {
   }
 
   return (
-    <POSContext.Provider value={{ hasOpeningEntry, openingDetail }}>
+    <POSContext.Provider value={{ hasOpeningEntry, openingDetail, clearPOSContext }}>
       {children}
     </POSContext.Provider>
   );

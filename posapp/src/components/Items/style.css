@@ -2,7 +2,7 @@
     border: 1px solid #E6EAED;
     width: 100%;
     max-height: 90vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 .x-small-text {
