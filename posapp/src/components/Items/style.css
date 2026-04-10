@@ -7,7 +7,11 @@
 }
 .x-small-text {
     font-size: x-small;
-  }
+}
+.item-card{
+    transition: border-color 0.2s ease;
+    max-height: 100%;
+}
 @media (min-width: 768px) {
   .product-section {
     width: 54%;

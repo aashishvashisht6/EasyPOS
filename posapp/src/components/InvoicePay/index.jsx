@@ -45,7 +45,6 @@ const InvoicePay = ({ onClose, invoiceDetails, onChangeInvoice }) => {
   };
 
   const createPaymentInvoice = () => {
-    console.log("called")
     const customer = invoiceDetails.customer ?? "";
     const items = invoiceDetails.items ?? [];
     const payments = invoiceDetails.payments ?? [];

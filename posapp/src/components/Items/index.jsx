@@ -3,12 +3,12 @@ import "./style.css";
 import { fetchItems } from "../../api/Items";
 import useVirtualScroll from "../../hooks/VirtualScroll";
 
-const CARD_HEIGHT = 280;
+const CARD_HEIGHT = 250;
 const COLUMNS = 4;
 
 // ── Memoized card (unchanged) ──────────────────────────────────────────────
 const ItemCard = memo(({ item, qty, onAdd, onIncrement, onDecrement }) => (
-  <div className="card align-items-center text-center overflow-hidden cursor-pointer h-100">
+  <button className="card align-items-center text-center overflow-hidden cursor-pointer h-60 item-card w-100" onClick={() => onAdd(item.item_code, item.rate)}>
     {item.image ? (
       <img src={item.image} alt={item.item_code} height={100} width={90} />
     ) : (
@@ -25,7 +25,7 @@ const ItemCard = memo(({ item, qty, onAdd, onIncrement, onDecrement }) => (
     )}
 
     <p className="mb-0 mt-0">{item.item_group}</p>
-    <p className="mb-0 mt-0">{item.item_code}</p>
+    <p className="mb-0 mt-0">{item.item_code.length > 20 ? `${item.item_code.substring(0, 20)}...` : item.item_code}</p>
     <span className="badge rounded-pill text-bg-primary x-small-text fw-lighter">
       {item.item_name}
     </span>
@@ -48,7 +48,7 @@ const ItemCard = memo(({ item, qty, onAdd, onIncrement, onDecrement }) => (
         </button>
       </div>
     </div>
-  </div>
+  </button>
 ));
 
 // ── Main component ─────────────────────────────────────────────────────────
