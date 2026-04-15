@@ -1,14 +1,18 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/assets/easy_pos/posapp/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>posapp</title>
-    <script type="module" crossorigin src="/assets/easy_pos/posapp/assets/index-4IP20cQs.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/easy_pos/posapp/assets/index-CZQGhK6E.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/assets/easy_pos/posapp/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>posapp</title>
+		<script type="module" crossorigin src="/assets/easy_pos/posapp/assets/index-CnDOznFx.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/easy_pos/posapp/assets/index-DTkLzw6L.css">
+	</head>
+	<body>
+		<div id="root"></div>
+		<script>
+			window.csrf_token = "{{csrf_token}}";
+			window.pos_boot = {{boot | tojson}};
+		</script>
+	</body>
 </html>
