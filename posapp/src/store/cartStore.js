@@ -1,22 +1,30 @@
 import { create } from "zustand";
+import { flt } from "../utils/number";
 
 const initialState = {
   customer: "",
   items: [],
   payments: [],
   salesInvoiceName: "",
+  // Order-level ("additional") discount — maps to Sales Invoice's
+  // apply_discount_on / additional_discount_percentage fields.
+  discountOn: "",
+  discountPercentage: "",
 };
 
 const useCartStore = create((set, get) => ({
   ...initialState,
 
-  addItem: (item_code, rate, qty = 1, meta = {}) => {
+  // `precision` is the site's Currency Precision (posSessionStore.currencyPrecision,
+  // defaults to 2) — passed by the caller so amount math stays consistent with
+  // what the backend will round to on save.
+  addItem: (item_code, rate, qty = 1, meta = {}, precision = 2) => {
     const items = get().items;
     const existingItem = items.find((item) => item.item_code === item_code);
     const updatedItems = existingItem
       ? items.map((item) =>
           item.item_code === item_code
-            ? { ...item, qty: item.qty + qty, rate, amount: (item.qty + qty) * rate }
+            ? { ...item, qty: item.qty + qty, rate, amount: flt((item.qty + qty) * rate, precision) }
             : item,
         )
       : [
@@ -25,11 +33,11 @@ const useCartStore = create((set, get) => ({
             item_code,
             qty,
             rate,
-            amount: qty * rate,
+            amount: flt(qty * rate, precision),
             has_serial_no: !!meta.has_serial_no,
             has_batch_no: !!meta.has_batch_no,
-            serial_no: "",
-            batch_no: "",
+            serial_no: meta.serial_no ?? "",
+            batch_no: meta.batch_no ?? "",
             // Item-level discount, independent of the cart/order-level discount.
             discount_amount: 0,
           },
@@ -49,21 +57,21 @@ const useCartStore = create((set, get) => ({
     });
   },
 
-  updateItemQty: (index, qty) => {
+  updateItemQty: (index, qty, precision = 2) => {
     const nextQty = Math.max(qty, 1);
     set({
       items: get().items.map((item, i) =>
-        i === index ? { ...item, qty: nextQty, amount: nextQty * item.rate } : item,
+        i === index ? { ...item, qty: nextQty, amount: flt(nextQty * item.rate, precision) } : item,
       ),
     });
   },
 
-  updateItemQtyByCode: (item_code, qty) => {
+  updateItemQtyByCode: (item_code, qty, precision = 2) => {
     const nextQty = Math.max(qty, 1);
     set({
       items: get().items.map((item) =>
         item.item_code === item_code
-          ? { ...item, qty: nextQty, amount: nextQty * item.rate }
+          ? { ...item, qty: nextQty, amount: flt(nextQty * item.rate, precision) }
           : item,
       ),
     });
@@ -88,12 +96,17 @@ const useCartStore = create((set, get) => ({
 
   setSalesInvoiceName: (salesInvoiceName) => set({ salesInvoiceName }),
 
+  setDiscountOn: (discountOn) => set({ discountOn }),
+  setDiscountPercentage: (discountPercentage) => set({ discountPercentage }),
+
   loadDraft: (draft) => {
     set({
       customer: draft.customer ?? "",
       items: draft.items ?? [],
       payments: draft.payments ?? [],
       salesInvoiceName: draft.name ?? "",
+      discountOn: draft.discountOn ?? "",
+      discountPercentage: draft.discountPercentage ?? "",
     });
   },
 

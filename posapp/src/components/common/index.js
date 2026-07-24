@@ -7,6 +7,7 @@ export { default as DateField } from "./DateField";
 export { default as LinkField } from "./LinkField";
 export { default as FieldShell } from "./FieldShell";
 export { default as Modal } from "./Modal";
+export { default as AlertModal } from "./AlertModal";
 export { default as ListTable } from "./ListTable";
 export { default as FilterChips } from "./FilterChips";
 export { default as Pagination } from "./Pagination";

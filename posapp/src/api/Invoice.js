@@ -1,5 +1,14 @@
 import axios from "axios";
 
+export const fetchPrecisionSettings = async () => {
+	try {
+		const response = await axios.get("/api/method/easy_pos.api.pos.get_precision_settings");
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const postDraftInvoice = async (invoice, opening_details, submit) => {
 	try {
 		const response = await axios.post("/api/method/easy_pos.api.pos.create_invoice", {

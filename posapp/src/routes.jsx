@@ -12,6 +12,7 @@ import CustomerListPage from "./pages/CustomerListPage";
 import SettingsPage from "./pages/SettingsPage";
 import POSProfileListPage from "./pages/POSProfileListPage";
 import POSProfileEditorPage from "./pages/POSProfileEditorPage";
+import SyncPage from "./pages/SyncPage";
 
 export function Spinner() {
   return (
@@ -118,6 +119,7 @@ function AppRoutes() {
         <Route path="/posapp/pos-profile" element={<POSProfileListPage />} />
         <Route path="/posapp/pos-profile/new" element={<POSProfileEditorPage />} />
         <Route path="/posapp/pos-profile/:name" element={<POSProfileEditorPage />} />
+        <Route path="/posapp/sync" element={<SyncPage />} />
       </Route>
       <Route path="/posapp" element={<Navigate to="/posapp/terminal" replace />} />
       <Route path="*" element={<Navigate to="/posapp/terminal" replace />} />

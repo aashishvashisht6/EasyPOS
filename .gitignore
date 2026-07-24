@@ -7,3 +7,4 @@ node_modules
 __pycache__
 easy_pos/public/dist/
 easy_pos/public/posapp/
+easy_pos/www/posapp.*

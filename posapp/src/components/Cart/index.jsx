@@ -6,13 +6,16 @@ import useCartStore from "../../store/cartStore";
 import InvoicePay from "../InvoicePay";
 import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
-import { LinkField } from "../common";
+import { LinkField, TextField, SelectField, NumberField, AlertModal } from "../common";
+import { roundCurrency } from "../../utils/number";
 
 const Cart = () => {
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
   const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+  const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
+  const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
 
   const customer = useCartStore((s) => s.customer);
   const cartItems = useCartStore((s) => s.items);
@@ -24,15 +27,18 @@ const Cart = () => {
   const loadDraft = useCartStore((s) => s.loadDraft);
   const updateItemField = useCartStore((s) => s.updateItemField);
   const updateItemQty = useCartStore((s) => s.updateItemQty);
+  const discountOn = useCartStore((s) => s.discountOn);
+  const setDiscountOn = useCartStore((s) => s.setDiscountOn);
+  const discount = useCartStore((s) => s.discountPercentage);
+  const setDiscount = useCartStore((s) => s.setDiscountPercentage);
 
   const [customerLabel, setCustomerLabel] = useState("");
   const [saveDraft, setSaveDraft] = useState(false);
   const [payInvoice, setPayInvoice] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
-  const [discountOn, setDiscountOn] = useState("");
-  const [discount, setDiscount] = useState("");
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [showNewCustomer, setShowNewCustomer] = useState(false);
+  const [validationError, setValidationError] = useState("");
 
   const itemTotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0),
@@ -47,23 +53,27 @@ const Cart = () => {
   );
 
   const netAfterItemDiscount = useMemo(
-    () => parseFloat((itemTotal - itemDiscountTotal).toFixed(2)),
-    [itemTotal, itemDiscountTotal]
+    () => roundCurrency(itemTotal - itemDiscountTotal, currencyPrecision),
+    [itemTotal, itemDiscountTotal, currencyPrecision]
   );
 
   const discountAmount = useMemo(() => {
     const d = parseFloat(discount) || 0;
     if (!discountOn || !d) return 0;
     const base = discountOn === "Net Total" ? netAfterItemDiscount : itemTotal;
-    return parseFloat(((base * d) / 100).toFixed(2));
-  }, [discount, discountOn, itemTotal, netAfterItemDiscount]);
+    return roundCurrency((base * d) / 100, currencyPrecision);
+  }, [discount, discountOn, itemTotal, netAfterItemDiscount, currencyPrecision]);
 
   const grandTotal = useMemo(
-    () => parseFloat((netAfterItemDiscount - discountAmount).toFixed(2)),
-    [netAfterItemDiscount, discountAmount]
+    () => roundCurrency(netAfterItemDiscount - discountAmount, currencyPrecision),
+    [netAfterItemDiscount, discountAmount, currencyPrecision]
   );
 
-  const formatAmount = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN")}`;
+  const formatAmount = (value) =>
+    `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+      minimumFractionDigits: currencyPrecision,
+      maximumFractionDigits: currencyPrecision,
+    })}`;
 
   const clearCart = () => {
     clearItems();
@@ -81,11 +91,11 @@ const Cart = () => {
       return;
     }
     if (!customer) {
-      alert("Please select a customer");
+      setValidationError("Please select a customer");
       return;
     }
     if (cartItems.length < 1) {
-      alert("Please add at least one item to the cart");
+      setValidationError("Please add at least one item to the cart");
       return;
     }
     setSaveDraft(true);
@@ -94,12 +104,23 @@ const Cart = () => {
         item_code, qty, rate, amount, serial_no, batch_no, discount_amount,
       }),
     );
-    postDraftInvoice({ customer, items, payments: [], sales_invoice: salesInvoiceName }, openingDetail, 0).then((data) => {
+    postDraftInvoice(
+      {
+        customer,
+        items,
+        payments: [],
+        sales_invoice: salesInvoiceName,
+        apply_discount_on: discountOn || undefined,
+        additional_discount_percentage: roundCurrency(parseFloat(discount) || 0, floatPrecision),
+      },
+      openingDetail,
+      0,
+    ).then((data) => {
       if (data?.name) {
         setSaveDraft(false);
         setSalesInvoiceName(data.name);
       } else {
-        alert("Failed to save draft");
+        setValidationError("Failed to save draft");
         setSaveDraft(false);
       }
     });
@@ -126,6 +147,8 @@ const Cart = () => {
           mode_of_payment: p.mode_of_payment,
           amount: p.amount,
         })),
+        discountOn: doc.apply_discount_on || "",
+        discountPercentage: doc.additional_discount_percentage || "",
       });
       setCustomerLabel(doc.customer_name || doc.customer || "");
       setShowDraftPicker(false);
@@ -155,7 +178,7 @@ const Cart = () => {
               label="Customer"
               doctype="Customer"
               value={customer}
-              displayValue={customerLabel}
+              displayValue={customer ? customerLabel : ""}
               placeholder="Search customer..."
               actionIcon="bi-person-plus"
               actionTitle="New customer"
@@ -230,12 +253,12 @@ const Cart = () => {
                             <button
                               type="button"
                               disabled={item.qty <= 1}
-                              onClick={() => updateItemQty(index, item.qty - 1)}
+                              onClick={() => updateItemQty(index, item.qty - 1, currencyPrecision)}
                             >
                               −
                             </button>
                             <span>{item.qty}</span>
-                            <button type="button" onClick={() => updateItemQty(index, item.qty + 1)}>
+                            <button type="button" onClick={() => updateItemQty(index, item.qty + 1, currencyPrecision)}>
                               +
                             </button>
                           </div>
@@ -264,13 +287,13 @@ const Cart = () => {
                             {item.has_serial_no && (
                               <div style={{ minWidth: 130, flex: 1 }}>
                                 <div className="cart-detail-label">Serial No</div>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm cart-detail-input"
+                                <TextField
+                                  size="sm"
+                                  className="cart-detail-input"
                                   placeholder="Enter serial no"
                                   value={item.serial_no ?? ""}
                                   onClick={(e) => e.stopPropagation()}
-                                  onChange={(e) => updateItemField(index, "serial_no", e.target.value)}
+                                  onChange={(value) => updateItemField(index, "serial_no", value)}
                                 />
                               </div>
                             )}
@@ -278,13 +301,13 @@ const Cart = () => {
                             {item.has_batch_no && (
                               <div style={{ minWidth: 130, flex: 1 }}>
                                 <div className="cart-detail-label">Batch No</div>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm cart-detail-input"
+                                <TextField
+                                  size="sm"
+                                  className="cart-detail-input"
                                   placeholder="Enter batch no"
                                   value={item.batch_no ?? ""}
                                   onClick={(e) => e.stopPropagation()}
-                                  onChange={(e) => updateItemField(index, "batch_no", e.target.value)}
+                                  onChange={(value) => updateItemField(index, "batch_no", value)}
                                 />
                               </div>
                             )}
@@ -301,30 +324,31 @@ const Cart = () => {
           {/* ── Discount ── */}
           <div className="px-3 pt-2 pb-2 border-top">
             <p className="cart-section-label mb-2">Order Discount</p>
-            <div className="d-flex gap-2">
-              <select
-                className="form-select form-select-sm cart-discount-select"
-                value={discountOn}
-                onChange={(e) => setDiscountOn(e.target.value)}
-                style={{ flex: 1.4 }}
-              >
-                <option value="" disabled>Apply on…</option>
-                <option value="Grand Total">Grand Total</option>
-                <option value="Net Total">Net Total</option>
-              </select>
-              <div className="input-group input-group-sm" style={{ flex: 1 }}>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  className="form-control cart-discount-input"
-                  placeholder="0"
-                  value={discount}
-                  onChange={(e) => {
-                    const raw = e.target.value.replace(/[^0-9.]/g, "");
-                    if (raw === "" || Number(raw) <= 100) setDiscount(raw);
-                  }}
+            <div className="d-flex gap-2 cart-discount-row">
+              <div style={{ flex: 1.4 }}>
+                <SelectField
+                  size="sm"
+                  className="cart-discount-select"
+                  placeholder="Apply on…"
+                  value={discountOn}
+                  onChange={setDiscountOn}
+                  options={[
+                    { label: "Grand Total", value: "Grand Total" },
+                    { label: "Net Total", value: "Net Total" },
+                  ]}
                 />
-                <span className="input-group-text cart-discount-suffix">%</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <NumberField
+                  size="sm"
+                  className="cart-discount-input"
+                  placeholder="0"
+                  min={0}
+                  max={100}
+                  suffix="%"
+                  value={discount}
+                  onChange={(value) => setDiscount(value === "" ? "" : Math.min(value, 100))}
+                />
               </div>
             </div>
           </div>
@@ -442,6 +466,12 @@ const Cart = () => {
           }}
         />
       )}
+
+      <AlertModal
+        open={!!validationError}
+        onClose={() => setValidationError("")}
+        message={validationError}
+      />
     </div>
   );
 };

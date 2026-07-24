@@ -5,6 +5,7 @@ import { fetchProfile } from "../../api/POSProfile";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
 import { Modal, CurrencyField } from "../common";
+import { roundCurrency } from "../../utils/number";
 
 const InvoicePay = ({ onClose, grandTotal }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -13,6 +14,8 @@ const InvoicePay = ({ onClose, grandTotal }) => {
   const [loadingModes, setLoadingModes] = useState(true);
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+  const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
+  const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
 
   useEffect(() => {
     fetchProfile(openingDetail.pos_profile).then((data) => {
@@ -25,13 +28,22 @@ const InvoicePay = ({ onClose, grandTotal }) => {
   const items = useCartStore((s) => s.items);
   const payments = useCartStore((s) => s.payments);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
+  const discountOn = useCartStore((s) => s.discountOn);
+  const discountPercentage = useCartStore((s) => s.discountPercentage);
   const updatePayment = useCartStore((s) => s.updatePayment);
   const resetCart = useCartStore((s) => s.resetCart);
 
-  const paidAmount = payments.reduce((sum, row) => sum + (parseFloat(row.amount) || 0), 0);
-  const balanceDue = parseFloat((grandTotal - paidAmount).toFixed(2));
+  const paidAmount = roundCurrency(
+    payments.reduce((sum, row) => sum + (parseFloat(row.amount) || 0), 0),
+    currencyPrecision,
+  );
+  const balanceDue = roundCurrency(grandTotal - paidAmount, currencyPrecision);
 
-  const formatAmount = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN")}`;
+  const formatAmount = (value) =>
+    `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+      minimumFractionDigits: currencyPrecision,
+      maximumFractionDigits: currencyPrecision,
+    })}`;
 
   const getPaymentAmount = (mode_of_payment) =>
     payments.find((row) => row.mode_of_payment === mode_of_payment)?.amount ?? "";
@@ -57,7 +69,14 @@ const InvoicePay = ({ onClose, grandTotal }) => {
       }),
     );
     postPaymentInvoice(
-      { customer, items: cleanItems, payments, sales_invoice: salesInvoiceName },
+      {
+        customer,
+        items: cleanItems,
+        payments,
+        sales_invoice: salesInvoiceName,
+        apply_discount_on: discountOn || undefined,
+        additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
+      },
       openingDetail,
       1,
     ).then((data) => {

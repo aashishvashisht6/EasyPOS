@@ -4,7 +4,7 @@ import FieldShell from "./FieldShell";
 
 /**
  * Number field prefixed with the active shift's currency symbol, resolved from
- * the open POS Profile's currency (see posSessionStore.loadCurrencyForProfile).
+ * the open POS Profile's currency (see posSessionStore.loadProfileDetails).
  * Pass `currency` to override (e.g. a multi-currency price list), otherwise it
  * follows the currently open till.
  */

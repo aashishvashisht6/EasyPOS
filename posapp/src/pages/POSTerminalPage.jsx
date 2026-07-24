@@ -15,7 +15,7 @@ const POSTerminalPage = () => {
       title: "POS Terminal",
       searchValue: searchText,
       onSearchChange: setSearchText,
-      searchPlaceholder: "Search items or SKU",
+      searchPlaceholder: "Scan barcode/serial/batch or search items",
     });
   }, [searchText, setTopbar]);
 
@@ -26,7 +26,11 @@ const POSTerminalPage = () => {
       </div>
 
       <div style={{ flex: 1, display: "flex", padding: "12px 16px 16px", gap: 16, minHeight: 0 }}>
-        <Items selectedGroup={activeItemGroup} searchText={searchText} />
+        <Items
+          selectedGroup={activeItemGroup}
+          searchText={searchText}
+          onSearchResolved={() => setSearchText("")}
+        />
         <Cart />
       </div>
 

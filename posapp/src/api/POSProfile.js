@@ -28,6 +28,25 @@ export const fetchProfiles = async (filters = {}, limit_start = 0, limit_page_le
 	return { profiles: data?.data ?? [], total_count: data?.total_count ?? 0 };
 };
 
+// Flat list of enabled POS Profiles for a company — used by the Opening Entry
+// flow's dropdown, distinct from fetchProfiles' paginated {profiles, total_count}
+// shape (which is for the POS Profile list page).
+export const fetchProfilesForCompany = async (company) => {
+	try {
+		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+			params: {
+				doctype: "POS Profile",
+				filters: JSON.stringify({ company, disabled: 0 }),
+				fields: JSON.stringify(["name"]),
+				limit: 100,
+			},
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const fetchProfile = async (pos_profile) => {
 	try {
 		const response = await axios.get("/api/method/frappe.client.get", {

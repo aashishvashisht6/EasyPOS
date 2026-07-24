@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchCompanies } from "../../api/Company";
-import { fetchProfile, fetchProfiles } from "../../api/POSProfile";
+import { fetchProfile, fetchProfilesForCompany } from "../../api/POSProfile";
 import { postOpeningEntry } from "../../api/OpeningEntry";
 import { fetchCurrencySymbol } from "../../api/Currency";
 import usePOSSessionStore from "../../store/posSessionStore";
@@ -30,7 +30,7 @@ const OpeningEntryModal = () => {
   const onChangeCompany = (value) => {
     setOpeningForm({ company: value, pos_profile: "", balance_details: [] });
     setProfile(null);
-    fetchProfiles(value).then((data) => setProfiles(data ?? []));
+    fetchProfilesForCompany(value).then((data) => setProfiles(data ?? []));
   };
 
   const onChangeProfile = (value) => {

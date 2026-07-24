@@ -9,7 +9,7 @@ import {
   createProfile,
   saveProfile,
 } from "../api/POSProfile";
-import { SelectField } from "../components/common";
+import { SelectField, CheckboxField } from "../components/common";
 
 const emptyProfile = {
   name: "",
@@ -66,7 +66,13 @@ const POSProfileEditorPage = () => {
   }, [isEdit, setTopbar]);
 
   const addPaymentRow = () => {
-    setForm({ ...form, payments: [...form.payments, { mode_of_payment: "", default: 0 }] });
+    setForm({
+      ...form,
+      payments: [
+        ...form.payments,
+        { mode_of_payment: "", default: 0, ep_automatically_calculated: 1 },
+      ],
+    });
   };
 
   const updatePaymentRow = (index, mode_of_payment) => {
@@ -75,6 +81,13 @@ const POSProfileEditorPage = () => {
       payments: form.payments.map((row, i) =>
         i === index ? { ...row, mode_of_payment } : row,
       ),
+    });
+  };
+
+  const updatePaymentRowField = (index, field, value) => {
+    setForm({
+      ...form,
+      payments: form.payments.map((row, i) => (i === index ? { ...row, [field]: value } : row)),
     });
   };
 
@@ -188,7 +201,7 @@ const POSProfileEditorPage = () => {
               form.payments.map((row, idx) => (
                 <div
                   key={idx}
-                  className="d-flex align-items-center gap-2 px-3 py-2"
+                  className="d-flex align-items-start gap-2 px-3 py-2"
                   style={{
                     borderBottom: idx === form.payments.length - 1 ? "none" : "1px solid var(--color-border-faint)",
                   }}
@@ -200,6 +213,20 @@ const POSProfileEditorPage = () => {
                       onChange={(value) => updatePaymentRow(idx, value)}
                       options={modesOfPayment.map((m) => ({ label: m.name, value: m.name }))}
                     />
+                  </div>
+                  <div style={{ flex: 1, paddingTop: 8 }}>
+                    <CheckboxField
+                      label="Automatically Calculated"
+                      checked={row.ep_automatically_calculated ?? 1}
+                      onChange={(checked) =>
+                        updatePaymentRowField(idx, "ep_automatically_calculated", checked ? 1 : 0)
+                      }
+                    />
+                    <div className="pos-field-description" style={{ fontSize: 11, color: "var(--color-text-faint)", marginTop: 2 }}>
+                      When checked, the closing amount for this payment method is calculated
+                      automatically from sales. Uncheck to have the cashier manually count and
+                      enter the amount at POS closing.
+                    </div>
                   </div>
                   <button
                     type="button"

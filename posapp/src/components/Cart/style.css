@@ -228,9 +228,20 @@
   border-radius: var(--radius-sm);
 }
 
+/* The common Field components wrap their control in a `.pos-field` div with a
+   default margin-bottom (see FieldShell) — that's fine on a form but overflows
+   these dense inline rows, so it's neutralized within each row's own scope. */
+.cart-line-detail .pos-field {
+  margin-bottom: 0;
+}
+
+.cart-discount-row .pos-field {
+  margin-bottom: 0;
+}
+
 .cart-discount-select,
 .cart-discount-input,
-.cart-discount-suffix {
+.cart-discount-row .input-group-text {
   font-family: var(--font-body);
   font-size: 12px;
   border-color: var(--color-border-input);

@@ -5,3 +5,6 @@
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 easy_pos.patches.add_pos_profile_closing_entry_type
+easy_pos.patches.add_pos_payment_method_auto_calculated
+easy_pos.patches.add_sales_invoice_opening_entry
+easy_pos.patches.rename_ep_opening_entry_closing_field

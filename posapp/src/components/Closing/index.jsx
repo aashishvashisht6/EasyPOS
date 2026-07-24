@@ -4,23 +4,21 @@ import { fetchClosingEntry, postClosingEntry } from "../../api/ClosingEntry";
 import usePOSSessionStore from "../../store/posSessionStore";
 import { CurrencyField, Modal } from "../common";
 
-const isCashMode = (mode_of_payment) => (mode_of_payment ?? "").toLowerCase().includes("cash");
-
 const ClosingModal = ({ onConfirm, onClose }) => {
   const [closingDetails, setClosingDetails] = useState([]);
   const [countedAmounts, setCountedAmounts] = useState({});
-  const [manualEntry, setManualEntry] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const clearOpeningEntry = usePOSSessionStore((s) => s.clearOpeningEntry);
 
+  const hasManualRows = closingDetails.some((row) => !row.automatically_calculated);
+
   useEffect(() => {
     fetchClosingEntry(openingDetail).then((data) => {
       const details = data?.details ?? [];
       setClosingDetails(details);
-      setManualEntry(data?.entry_type === "Manually Entered");
       setCountedAmounts(
         Object.fromEntries(details.map((row) => [row.mode_of_payment, row.closing_amount ?? 0])),
       );
@@ -53,8 +51,8 @@ const ClosingModal = ({ onConfirm, onClose }) => {
     <Modal
       title="Close your till"
       subtitle={
-        manualEntry
-          ? "Count your cash drawer and enter the actual amount below."
+        hasManualRows
+          ? "Count the drawer and enter the actual amount for manually entered payment modes."
           : "Review the counted totals for this shift before closing."
       }
       onClose={onClose}
@@ -99,7 +97,7 @@ const ClosingModal = ({ onConfirm, onClose }) => {
       ) : (
         <div className="closing-rows">
           {closingDetails.map((row, idx) => {
-            const editable = manualEntry && isCashMode(row.mode_of_payment);
+            const editable = !row.automatically_calculated;
             const counted = countedAmounts[row.mode_of_payment] ?? row.closing_amount ?? 0;
             const diff = editable ? counted - (row.closing_amount ?? 0) : 0;
             return (
@@ -120,7 +118,7 @@ const ClosingModal = ({ onConfirm, onClose }) => {
 
                   {editable ? (
                     <div className="closing-figure">
-                      <div className="closing-figure-label">Counted Cash</div>
+                      <div className="closing-figure-label">Counted</div>
                       <CurrencyField
                         className="mb-0"
                         value={counted}

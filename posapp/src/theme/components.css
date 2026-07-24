@@ -295,6 +295,11 @@
   font-weight: 500;
 }
 
+.pos-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* Card / panel */
 .pos-card {
   background: var(--color-surface);
@@ -602,6 +607,11 @@
   border: 1.5px solid var(--color-primary);
 }
 
+.pos-item-card.out-of-stock {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .pos-item-check-badge {
   position: absolute;
   top: 6px;
@@ -647,12 +657,30 @@
   white-space: nowrap;
 }
 
+.pos-item-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 2px;
+}
+
 .pos-item-price {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   color: var(--color-primary);
-  margin-top: 2px;
+}
+
+.pos-item-stock {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-faint);
+  white-space: nowrap;
+}
+
+.pos-item-stock.out {
+  color: var(--color-danger-text);
 }
 
 .pos-item-stepper {

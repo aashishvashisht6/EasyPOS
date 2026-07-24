@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { fetchCompanies } from "../api/Company";
-import { fetchProfile, fetchProfiles } from "../api/POSProfile";
+import { fetchProfile, fetchProfilesForCompany } from "../api/POSProfile";
 import { postOpeningEntry } from "../api/OpeningEntry";
 import usePOSSessionStore from "../store/posSessionStore";
 import Logo from "../components/Logo";
@@ -70,8 +70,8 @@ const OpeningEntryPage = () => {
   };
 
   const getProfiles = (company) => {
-    fetchProfiles(company).then((data) => {
-      setProfiles(data);
+    fetchProfilesForCompany(company).then((data) => {
+      setProfiles(data ?? []);
     });
   };
 
