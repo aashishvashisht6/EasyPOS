@@ -177,4 +177,82 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 		sales_invoice.submit()
 
 	return sales_invoice.as_dict()
-	
+
+
+@frappe.whitelist()
+def cancel_sales_invoice(name: str) -> dict:
+	sales_invoice = frappe.get_doc("Sales Invoice", name)
+	sales_invoice.cancel()
+	return sales_invoice.as_dict()
+
+
+@frappe.whitelist()
+def create_credit_note(name: str, items: list, taxes: list = None) -> dict:
+	original = frappe.get_doc("Sales Invoice", name)
+
+	if original.docstatus != 1:
+		frappe.throw("Only a submitted invoice can be returned")
+	if original.is_return:
+		frappe.throw("Cannot create a credit note against a credit note")
+
+	currency_precision = get_currency_precision()
+
+	return_items = []
+	for item in items or []:
+		qty = flt(item.get("qty"))
+		if not qty:
+			continue
+		return_items.append({
+			"item_code": item.get("item_code"),
+			"item_name": item.get("item_name"),
+			"uom": item.get("uom"),
+			"rate": flt(item.get("rate"), precision=currency_precision),
+			"qty": -abs(qty),
+			"warehouse": item.get("warehouse") or original.set_warehouse,
+			"income_account": item.get("income_account"),
+			"cost_center": item.get("cost_center"),
+		})
+
+	if not return_items:
+		frappe.throw("Select at least one item to return")
+
+	# charge_type "Actual" uses tax_amount directly; percentage-based charge
+	# types (On Net Total, On Previous Row Amount, ...) recompute tax_amount
+	# from rate against the return's own (negative) net total — both fields
+	# are passed through so either editable column takes effect correctly.
+	return_taxes = []
+	for tax in taxes or []:
+		return_taxes.append({
+			"charge_type": tax.get("charge_type"),
+			"account_head": tax.get("account_head"),
+			"description": tax.get("description"),
+			"cost_center": tax.get("cost_center"),
+			"rate": flt(tax.get("rate")),
+			"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
+		})
+
+	credit_note = frappe.get_doc({
+		"doctype": "Sales Invoice",
+		"customer": original.customer,
+		"company": original.company,
+		"is_return": 1,
+		"return_against": name,
+		"selling_price_list": original.selling_price_list,
+		"currency": original.currency,
+		"set_warehouse": original.set_warehouse,
+		"update_stock": 1,
+		"items": return_items,
+		"taxes": return_taxes,
+		"taxes_and_charges": original.taxes_and_charges,
+		# Mirrors the original invoice's POS context so the credit note shows
+		# up in the Invoices list view (fetchInvoices filters on is_pos=1) and
+		# stays scoped to the same shift for closing calculations — a return
+		# with is_pos unset silently disappeared from the list page.
+		"is_pos": original.is_pos,
+		"pos_profile": original.pos_profile,
+		"custom_ep_opening_entry": original.custom_ep_opening_entry,
+	})
+	credit_note.insert()
+	credit_note.submit()
+
+	return credit_note.as_dict()

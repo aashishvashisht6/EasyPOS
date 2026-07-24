@@ -61,3 +61,20 @@ export const fetchInvoice = async (name) => {
 		console.error(error);
 	}
 };
+
+// Errors are intentionally left to propagate (no try/catch) so callers can
+// surface the backend's frappe.throw message (e.g. validation errors) in the
+// UI instead of it being swallowed here.
+export const cancelInvoice = async (name) => {
+	const response = await axios.post("/api/method/easy_pos.api.pos.cancel_sales_invoice", { name });
+	return response.data.message;
+};
+
+export const createCreditNote = async (name, items, taxes) => {
+	const response = await axios.post("/api/method/easy_pos.api.pos.create_credit_note", {
+		name,
+		items,
+		taxes,
+	});
+	return response.data.message;
+};

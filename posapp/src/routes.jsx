@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import OpeningEntryPage from "./pages/OpeningEntryPage";
 import POSTerminalPage from "./pages/POSTerminalPage";
 import InvoiceRegisterPage from "./pages/InvoiceRegisterPage";
+import InvoiceDetailPage from "./pages/InvoiceDetailPage";
 import CustomerListPage from "./pages/CustomerListPage";
 import SettingsPage from "./pages/SettingsPage";
 import POSProfileListPage from "./pages/POSProfileListPage";
@@ -114,6 +115,7 @@ function AppRoutes() {
       >
         <Route path="/posapp/terminal" element={<POSTerminalPage />} />
         <Route path="/posapp/invoices" element={<InvoiceRegisterPage />} />
+        <Route path="/posapp/invoices/:name" element={<InvoiceDetailPage />} />
         <Route path="/posapp/customers" element={<CustomerListPage />} />
         <Route path="/posapp/settings" element={<SettingsPage />} />
         <Route path="/posapp/pos-profile" element={<POSProfileListPage />} />

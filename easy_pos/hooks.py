@@ -169,7 +169,14 @@ required_apps = ["erpnext"]
 # Testing
 # -------
 
-# before_tests = "easy_pos.install.before_tests"
+# `bench run-tests --app easy_pos` only loads hooks registered under this
+# app's own hooks.py (frappe.get_hooks(..., app_name="easy_pos")), so
+# ERPNext's own before_tests (which runs the setup wizard fixtures — e.g.
+# the "Transit" Warehouse Type — and creates a default Company) never fires
+# on its own. Without it, the first ad hoc test Company record blows up in
+# Company.create_default_warehouses() with "Could not find Warehouse Type:
+# Transit". Reuse ERPNext's before_tests so those fixtures exist first.
+before_tests = "erpnext.setup.utils.before_tests"
 
 # Overriding Methods
 # ------------------------------

@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import usePOSSessionStore from "../store/posSessionStore";
 import { fetchInvoices } from "../api/InvoiceRegister";
-import { fetchInvoice } from "../api/Invoice";
-import { Modal, ListTable, FilterChips, Pagination, LinkField, TextField } from "../components/common";
+import { ListTable, FilterChips, Pagination, LinkField, TextField } from "../components/common";
+import { formatDate, invoiceStatusBadgeClass } from "../utils/format";
 
 const PAGE_SIZE = 20;
 
@@ -13,30 +13,6 @@ const STATUS_FILTERS = [
   { label: "Unpaid", value: "Unpaid" },
   { label: "Overdue", value: "Overdue" },
 ];
-
-const badgeClass = (status) => {
-  switch (status) {
-    case "Paid":
-      return "pos-badge pos-badge-paid";
-    case "Unpaid":
-    case "Unpaid and Discounted":
-      return "pos-badge pos-badge-unpaid";
-    case "Overdue":
-    case "Overdue and Discounted":
-      return "pos-badge pos-badge-overdue";
-    default:
-      return "pos-badge";
-  }
-};
-
-const formatDate = (value) => {
-  if (!value) return "";
-  return new Date(value).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-};
 
 const INVOICE_COLUMNS = [
   {
@@ -67,7 +43,7 @@ const INVOICE_COLUMNS = [
     key: "status",
     label: "Status",
     width: "0.9fr",
-    render: (inv) => <span className={badgeClass(inv.status)}>{inv.status}</span>,
+    render: (inv) => <span className={invoiceStatusBadgeClass(inv.status)}>{inv.status}</span>,
   },
   {
     key: "pos_profile",
@@ -92,7 +68,6 @@ const InvoiceRegisterPage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const loadInvoices = () => {
     setLoading(true);
@@ -140,17 +115,6 @@ const InvoiceRegisterPage = () => {
       searchPlaceholder: "Search invoice or customer",
     });
   }, [setTopbar, search]);
-
-  const openDetail = (name) => {
-    fetchInvoice(name).then((doc) => setSelectedInvoice(doc));
-  };
-
-  const openPrintView = (name) => {
-    window.open(
-      `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(name)}`,
-      "_blank",
-    );
-  };
 
   const visibleInvoices = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -239,10 +203,10 @@ const InvoiceRegisterPage = () => {
               rows={visibleInvoices}
               loading={loading}
               emptyMessage="No invoices found"
-              onRowClick={(inv) => openDetail(inv.name)}
-              rowStyle={(inv) => ({
-                background: inv.status?.startsWith("Overdue") ? "var(--color-warning-bg-soft)" : "transparent",
-              })}
+              onRowClick={(inv) => navigate(`/posapp/invoices/${encodeURIComponent(inv.name)}`)}
+              rowStyle={(inv) =>
+                inv.status?.startsWith("Overdue") ? { background: "var(--color-warning-bg-soft)" } : null
+              }
             />
           </div>
 
@@ -256,71 +220,6 @@ const InvoiceRegisterPage = () => {
           </div>
         </div>
       </div>
-
-      <Modal
-        open={!!selectedInvoice}
-        onClose={() => setSelectedInvoice(null)}
-        title={selectedInvoice?.name}
-        subtitle={selectedInvoice?.customer}
-        size="lg"
-        footer={
-          <button
-            type="button"
-            className="pos-btn pos-btn-primary"
-            onClick={() => openPrintView(selectedInvoice.name)}
-          >
-            Print / Reprint
-          </button>
-        }
-      >
-        {selectedInvoice && (
-          <>
-            <p className="mb-3" style={{ fontSize: 13 }}>
-              <strong>Grand Total:</strong> ₹{selectedInvoice.grand_total}
-            </p>
-
-            <h6>Items</h6>
-            <table className="table table-sm table-bordered mb-3">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th className="text-center">Qty</th>
-                  <th className="text-end">Rate</th>
-                  <th className="text-end">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(selectedInvoice.items ?? []).map((item, idx) => (
-                  <tr key={idx}>
-                    <td>{item.item_code}</td>
-                    <td className="text-center">{item.qty}</td>
-                    <td className="text-end">₹{item.rate}</td>
-                    <td className="text-end">₹{item.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <h6>Payments</h6>
-            <table className="table table-sm table-bordered mb-0">
-              <thead>
-                <tr>
-                  <th>Mode of Payment</th>
-                  <th className="text-end">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(selectedInvoice.payments ?? []).map((p, idx) => (
-                  <tr key={idx}>
-                    <td>{p.mode_of_payment}</td>
-                    <td className="text-end">₹{p.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-      </Modal>
     </>
   );
 };
