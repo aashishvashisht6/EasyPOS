@@ -61,54 +61,6 @@ export const fetchProfile = async (pos_profile) => {
 	}
 };
 
-export const fetchWarehouses = async () => {
-	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
-			params: {
-				doctype: "Warehouse",
-				filters: JSON.stringify({ disabled: 0 }),
-				fields: JSON.stringify(["name"]),
-				limit: 200,
-			},
-		});
-		return response.data.message;
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-export const fetchPriceLists = async () => {
-	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
-			params: {
-				doctype: "Price List",
-				filters: JSON.stringify({ selling: 1 }),
-				fields: JSON.stringify(["name"]),
-				limit: 200,
-			},
-		});
-		return response.data.message;
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-export const fetchModesOfPayment = async () => {
-	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
-			params: {
-				doctype: "Mode of Payment",
-				filters: JSON.stringify({ enabled: 1 }),
-				fields: JSON.stringify(["name"]),
-				limit: 200,
-			},
-		});
-		return response.data.message;
-	} catch (error) {
-		console.error(error);
-	}
-};
-
 export const createProfile = async (profile) => {
 	const response = await axios.post("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "POS Profile", ...profile }),

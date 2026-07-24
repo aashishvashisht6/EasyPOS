@@ -3,6 +3,7 @@ import { fetchOpeningEntry } from "../api/OpeningEntry";
 import { fetchProfile } from "../api/POSProfile";
 import { fetchCurrencySymbol } from "../api/Currency";
 import { fetchPrecisionSettings } from "../api/Invoice";
+import { fetchTaxesAndChargesTemplate } from "../api/Tax";
 
 const DEFAULT_CURRENCY = "INR";
 const DEFAULT_SYMBOL = "₹";
@@ -26,6 +27,12 @@ const usePOSSessionStore = create((set, get) => ({
   // Opening Entry exists, so items show with no stock/rate until then.
   warehouse: "",
   priceList: "",
+  // Order-level tax template + its resolved rows (see api/Tax.js) — POS
+  // invoices don't get taxes auto-populated server-side, so the terminal
+  // fetches these once per shift to preview and later submit the invoice's
+  // own `taxes` table (easy_pos.api.pos.create_invoice).
+  taxesAndCharges: "",
+  taxTemplateRows: [],
 
   loadProfileDetails: async (pos_profile) => {
     if (!pos_profile) return;
@@ -35,8 +42,10 @@ const usePOSSessionStore = create((set, get) => ({
     ]);
     if (!profile) return;
     const currency = profile.currency || DEFAULT_CURRENCY;
-    const symbol =
-      currency === get().currencyCode ? get().currencySymbol : await fetchCurrencySymbol(currency);
+    const [symbol, taxTemplateRows] = await Promise.all([
+      currency === get().currencyCode ? get().currencySymbol : fetchCurrencySymbol(currency),
+      fetchTaxesAndChargesTemplate(profile.taxes_and_charges),
+    ]);
     set({
       currencyCode: currency,
       currencySymbol: symbol,
@@ -44,6 +53,8 @@ const usePOSSessionStore = create((set, get) => ({
       floatPrecision: precisionSettings?.float_precision ?? DEFAULT_FLOAT_PRECISION,
       warehouse: profile.warehouse || "",
       priceList: profile.selling_price_list || "",
+      taxesAndCharges: profile.taxes_and_charges || "",
+      taxTemplateRows,
     });
   },
 
@@ -69,7 +80,14 @@ const usePOSSessionStore = create((set, get) => ({
   },
 
   clearOpeningEntry: () => {
-    set({ hasOpeningEntry: false, openingDetail: {}, warehouse: "", priceList: "" });
+    set({
+      hasOpeningEntry: false,
+      openingDetail: {},
+      warehouse: "",
+      priceList: "",
+      taxesAndCharges: "",
+      taxTemplateRows: [],
+    });
   },
 
   openOpeningModal: () => set({ openingModalOpen: true }),

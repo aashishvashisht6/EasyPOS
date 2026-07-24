@@ -1,5 +1,5 @@
 import frappe
-from frappe.utils import flt
+from frappe.utils import flt, getdate, nowdate
 from easy_pos.api.pos import get_currency_precision
 
 ITEM_FIELDS = [
@@ -24,6 +24,143 @@ def _get_stock_map(item_codes, warehouse):
         fields=["item_code", "actual_qty"],
     )
     return {row.item_code: row.actual_qty for row in rows}
+
+
+def _company_from_warehouse(warehouse):
+    """Item Tax Template resolution is company-scoped in ERPNext (a template
+    only applies if its own `company` matches the transaction's company —
+    erpnext.stock.get_item_details._get_item_tax_template). The POS terminal
+    doesn't collect a company directly, but a warehouse always belongs to
+    exactly one, so it's derived from there; stays None until a warehouse is
+    known, in which case no company filtering happens (matches every item's
+    template, same as before this template resolution existed).
+    """
+    if not warehouse:
+        return None
+    return frappe.get_cached_value("Warehouse", warehouse, "company")
+
+
+def _first_valid_item_tax_template(parent_names, company):
+    """{parent: item_tax_template} — first Item Tax row per parent (an Item or
+    an Item Group; both use the same child doctype) whose template is
+    enabled, matches `company` (when known), and isn't date-scoped to a
+    `valid_from` in the future. Mirrors
+    erpnext.stock.get_item_details._get_item_tax_template's own disabled/
+    company/validity checks; tax_category matching is left out since the POS
+    terminal doesn't collect a customer Tax Category, so only the default
+    (blank tax_category) row applies — same simplification as before.
+    Minimum/maximum net rate validity (also supported by ERPNext for the same
+    row) isn't checked here — a rarer setup this terminal doesn't yet cover.
+    """
+    if not parent_names:
+        return {}
+    ItemTax = frappe.qb.DocType("Item Tax")
+    rows = (
+        frappe.qb.from_(ItemTax)
+        .select(ItemTax.parent, ItemTax.item_tax_template, ItemTax.tax_category, ItemTax.valid_from)
+        .where(ItemTax.parent.isin(parent_names))
+    ).run(as_dict=True)
+
+    today = getdate(nowdate())
+    result = {}
+    for row in rows:
+        if row.parent in result or row.tax_category:
+            continue
+        if row.valid_from and getdate(row.valid_from) > today:
+            continue
+        template_disabled, template_company = frappe.get_cached_value(
+            "Item Tax Template", row.item_tax_template, ["disabled", "company"]
+        )
+        if template_disabled:
+            continue
+        if company and template_company != company:
+            continue
+        result[row.parent] = row.item_tax_template
+    return result
+
+
+def _item_group_chain(item_group, parent_of):
+    """[item_group, its parent, its grandparent, ...] — walks parent_item_group
+    the same way erpnext.stock.get_item_details._get_item_tax_template_from_item_group
+    walks get_ancestors_of("Item Group", ...), so a group tax can be inherited
+    from any ancestor, not just the item's immediate group."""
+    chain = []
+    seen = set()
+    while item_group and item_group not in seen:
+        chain.append(item_group)
+        seen.add(item_group)
+        item_group = parent_of.get(item_group)
+    return chain
+
+
+def _resolve_item_tax_templates(items, company):
+    """{item_code: item_tax_template}, honoring ERPNext's own priority order
+    (erpnext.stock.get_item_details.get_item_tax_template): the item's own
+    Item Tax Template wins first; only if the item has none does its Item
+    Group's template apply, checked at the item's own group and then each
+    ancestor group in turn; an item matching neither falls back to the plain
+    order-level tax rate, same as ERPNext.
+    """
+    item_codes = [item.item_code for item in items]
+    item_level = _first_valid_item_tax_template(item_codes, company)
+
+    needed_codes = [code for code in item_codes if code not in item_level]
+    if not needed_codes:
+        return item_level
+
+    item_groups_by_code = {item.item_code: item.item_group for item in items}
+    parent_of = {
+        g.name: g.parent_item_group
+        for g in frappe.get_all("Item Group", fields=["name", "parent_item_group"])
+    }
+    group_chains = {code: _item_group_chain(item_groups_by_code.get(code), parent_of) for code in needed_codes}
+    all_groups_needed = {group for chain in group_chains.values() for group in chain}
+    group_level = _first_valid_item_tax_template(list(all_groups_needed), company)
+
+    resolved = dict(item_level)
+    for code in needed_codes:
+        for group in group_chains[code]:
+            if group in group_level:
+                resolved[code] = group_level[group]
+                break
+    return resolved
+
+
+def _get_item_tax_map(items, warehouse):
+    """{item_code: (item_tax_template, {account_head: rate})} — see
+    _resolve_item_tax_templates for the item-then-item-group priority. The
+    template name must round-trip back to create_invoice as each Sales
+    Invoice Item's `item_tax_template` — ERPNext's own update_item_tax_map
+    (erpnext.controllers.taxes_and_totals) only rebuilds item_tax_rate from
+    whatever item_tax_template is already on the row, it does not look it up
+    from the Item itself. The rate map is only for the terminal's pre-save
+    preview; an item resolving to no template falls back to the order-level
+    tax rate, same as ERPNext.
+    """
+    if not items:
+        return {}
+    company = _company_from_warehouse(warehouse)
+    item_templates = _resolve_item_tax_templates(items, company)
+
+    template_names = list({t for t in item_templates.values() if t})
+    template_rates = {}
+    for template_name in template_names:
+        rate_map = {}
+        for row in frappe.get_cached_doc("Item Tax Template", template_name).taxes:
+            # erpnext.stock.get_item_details.get_item_tax_map only includes a
+            # row whose Account belongs to the same company — a shared
+            # template listing accounts across companies shouldn't leak a
+            # foreign company's rate into this one's tax preview.
+            if company and frappe.get_cached_value("Account", row.tax_type, "company") != company:
+                continue
+            rate_map[row.tax_type] = flt(row.tax_rate)
+        template_rates[template_name] = rate_map
+
+    return {
+        item_code: (template_name, template_rates.get(template_name, {}))
+        for item_code, template_name in item_templates.items()
+        if template_name
+    }
 
 
 def _get_rate_map(item_codes, price_list):
@@ -58,6 +195,7 @@ def _attach_stock_and_rate(items, warehouse, price_list):
     item_codes = [item.item_code for item in items]
     stock_map = _get_stock_map(item_codes, warehouse)
     rate_map = _get_rate_map(item_codes, price_list)
+    tax_map = _get_item_tax_map(items, warehouse)
     for item in items:
         if warehouse and item.get("is_stock_item"):
             item.stock = stock_map.get(item.item_code, 0)
@@ -66,6 +204,7 @@ def _attach_stock_and_rate(items, warehouse, price_list):
         item.rate = (
             flt(rate_map.get(item.item_code, 0), precision=currency_precision) if price_list else None
         )
+        item.item_tax_template, item.item_tax_rate = tax_map.get(item.item_code, ("", {}))
     return items
 
 
@@ -82,9 +221,6 @@ def _get_item(item_code, warehouse=None, price_list=None, **extra):
 def get_item_groups():
     """Getting All Item groups as needs for offline functionality"""
     item_groups = frappe.get_all("Item Group", filters={}, fields=["name as item_group", "image"], order_by="lft asc")
-    # for group in item_groups:
-    #     if not group.image:
-    #         group['image'] = "https://dreamspos.dreamstechnologies.com/html/template/assets/img/products/pos-product-01.png"
     return item_groups
 
 @frappe.whitelist()
@@ -112,9 +248,6 @@ def get_items(item_group=None, warehouse=None, price_list=None):
         fields=ITEM_FIELDS,
         order_by="name asc",
     )
-    # for item in items:
-    #     if not item.image:
-    #         item.image = "https://dreamspos.dreamstechnologies.com/html/template/assets/img/products/pos-product-01.png"
     _attach_stock_and_rate(items, warehouse, price_list)
     return items
 

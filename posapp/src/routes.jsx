@@ -5,15 +5,21 @@ import usePOSSessionStore from "./store/posSessionStore";
 import AppLayout from "./components/Layout/AppLayout";
 
 import LoginPage from "./pages/LoginPage";
-import OpeningEntryPage from "./pages/OpeningEntryPage";
 import POSTerminalPage from "./pages/POSTerminalPage";
 import InvoiceRegisterPage from "./pages/InvoiceRegisterPage";
 import InvoiceDetailPage from "./pages/InvoiceDetailPage";
 import CustomerListPage from "./pages/CustomerListPage";
+import CustomerDetailPage from "./pages/CustomerDetailPage";
 import SettingsPage from "./pages/SettingsPage";
 import POSProfileListPage from "./pages/POSProfileListPage";
-import POSProfileEditorPage from "./pages/POSProfileEditorPage";
+import POSProfileDetailPage from "./pages/POSProfileDetailPage";
 import SyncPage from "./pages/SyncPage";
+import ItemPriceListPage from "./pages/ItemPriceListPage";
+import ItemPriceDetailPage from "./pages/ItemPriceDetailPage";
+import PriceListListPage from "./pages/PriceListListPage";
+import PriceListDetailPage from "./pages/PriceListDetailPage";
+import DiscountListPage from "./pages/DiscountListPage";
+import DiscountDetailPage from "./pages/DiscountDetailPage";
 
 export function Spinner() {
   return (
@@ -60,22 +66,6 @@ function LoadOpeningEntry({ children }) {
   return children;
 }
 
-function RequireNoOpeningEntry({ children }) {
-  const user = useAuthStore((s) => s.user);
-  const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
-  const loading = usePOSSessionStore((s) => s.loading);
-  const checkOpeningEntry = usePOSSessionStore((s) => s.checkOpeningEntry);
-
-  useEffect(() => {
-    if (user?.email) checkOpeningEntry(user.email);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  if (loading) return <Spinner />;
-  if (hasOpeningEntry) return <Navigate to="/posapp/terminal" replace />;
-  return children;
-}
-
 function AppRoutes() {
   const checkSession = useAuthStore((s) => s.checkSession);
 
@@ -95,16 +85,6 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/posapp/opening"
-        element={
-          <RequireAuth>
-            <RequireNoOpeningEntry>
-              <OpeningEntryPage />
-            </RequireNoOpeningEntry>
-          </RequireAuth>
-        }
-      />
-      <Route
         element={
           <RequireAuth>
             <LoadOpeningEntry>
@@ -117,10 +97,20 @@ function AppRoutes() {
         <Route path="/posapp/invoices" element={<InvoiceRegisterPage />} />
         <Route path="/posapp/invoices/:name" element={<InvoiceDetailPage />} />
         <Route path="/posapp/customers" element={<CustomerListPage />} />
+        <Route path="/posapp/customers/:name" element={<CustomerDetailPage />} />
         <Route path="/posapp/settings" element={<SettingsPage />} />
         <Route path="/posapp/pos-profile" element={<POSProfileListPage />} />
-        <Route path="/posapp/pos-profile/new" element={<POSProfileEditorPage />} />
-        <Route path="/posapp/pos-profile/:name" element={<POSProfileEditorPage />} />
+        <Route path="/posapp/pos-profile/new" element={<POSProfileDetailPage />} />
+        <Route path="/posapp/pos-profile/:name" element={<POSProfileDetailPage />} />
+        <Route path="/posapp/item-price" element={<ItemPriceListPage />} />
+        <Route path="/posapp/item-price/new" element={<ItemPriceDetailPage />} />
+        <Route path="/posapp/item-price/:name" element={<ItemPriceDetailPage />} />
+        <Route path="/posapp/price-list" element={<PriceListListPage />} />
+        <Route path="/posapp/price-list/new" element={<PriceListDetailPage />} />
+        <Route path="/posapp/price-list/:name" element={<PriceListDetailPage />} />
+        <Route path="/posapp/discounts" element={<DiscountListPage />} />
+        <Route path="/posapp/discounts/new" element={<DiscountDetailPage />} />
+        <Route path="/posapp/discounts/:name" element={<DiscountDetailPage />} />
         <Route path="/posapp/sync" element={<SyncPage />} />
       </Route>
       <Route path="/posapp" element={<Navigate to="/posapp/terminal" replace />} />

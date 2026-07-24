@@ -72,8 +72,29 @@ export const fetchTerritories = async () => {
 	}
 };
 
+export const fetchCustomer = async (name) => {
+	try {
+		const response = await axios.get("/api/method/frappe.client.get", {
+			params: {
+				doctype: "Customer",
+				name,
+			},
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const createCustomer = async (customer) => {
 	const response = await axios.post("/api/method/frappe.client.insert", {
+		doc: JSON.stringify({ doctype: "Customer", ...customer }),
+	});
+	return response.data.message;
+};
+
+export const saveCustomer = async (customer) => {
+	const response = await axios.post("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Customer", ...customer }),
 	});
 	return response.data.message;

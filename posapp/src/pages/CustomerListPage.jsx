@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { fetchCustomers, fetchCustomerGroups, fetchTerritories } from "../api/Customer";
-import { ListTable, FilterChips, Pagination, SelectField, TextField, Modal } from "../components/common";
+import { ListTable, FilterChips, Pagination, SelectField, TextField } from "../components/common";
 import NewCustomerModal from "../components/Customer/NewCustomerModal";
 
 const PAGE_SIZE = 20;
@@ -62,6 +62,7 @@ const CUSTOMER_COLUMNS = [
 
 const CustomerListPage = () => {
   const { setTopbar } = useOutletContext();
+  const navigate = useNavigate();
 
   const [status, setStatus] = useState("");
   const [customerGroup, setCustomerGroup] = useState("");
@@ -78,7 +79,6 @@ const CustomerListPage = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
     fetchCustomerGroups().then((data) => setCustomerGroups(data ?? []));
@@ -207,7 +207,7 @@ const CustomerListPage = () => {
               rows={customers}
               loading={loading}
               emptyMessage="No customers found"
-              onRowClick={(c) => setSelectedCustomer(c)}
+              onRowClick={(c) => navigate(`/posapp/customers/${encodeURIComponent(c.name)}`)}
             />
           </div>
 
@@ -231,23 +231,6 @@ const CustomerListPage = () => {
           }}
         />
       )}
-
-      <Modal
-        open={!!selectedCustomer}
-        onClose={() => setSelectedCustomer(null)}
-        title={selectedCustomer?.customer_name}
-        subtitle={selectedCustomer?.name}
-      >
-        {selectedCustomer && (
-          <div className="d-flex flex-column gap-2" style={{ fontSize: 13 }}>
-            <div><strong>Mobile No:</strong> {selectedCustomer.mobile_no || "—"}</div>
-            <div><strong>Email:</strong> {selectedCustomer.email_id || "—"}</div>
-            <div><strong>Customer Group:</strong> {selectedCustomer.customer_group || "—"}</div>
-            <div><strong>Territory:</strong> {selectedCustomer.territory || "—"}</div>
-            <div><strong>Status:</strong> {selectedCustomer.disabled ? "Inactive" : "Active"}</div>
-          </div>
-        )}
-      </Modal>
     </>
   );
 };

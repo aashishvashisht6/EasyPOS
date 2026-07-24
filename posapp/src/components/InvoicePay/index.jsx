@@ -7,7 +7,7 @@ import useCartStore from "../../store/cartStore";
 import { Modal, CurrencyField } from "../common";
 import { roundCurrency } from "../../utils/number";
 
-const InvoicePay = ({ onClose, grandTotal }) => {
+const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [paymentModes, setPaymentModes] = useState([]);
@@ -64,8 +64,8 @@ const InvoicePay = ({ onClose, grandTotal }) => {
     setError("");
     setSubmitting(true);
     const cleanItems = items.map(
-      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount }) => ({
-        item_code, qty, rate, amount, serial_no, batch_no, discount_amount,
+      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template }) => ({
+        item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template,
       }),
     );
     postPaymentInvoice(
@@ -76,6 +76,7 @@ const InvoicePay = ({ onClose, grandTotal }) => {
         sales_invoice: salesInvoiceName,
         apply_discount_on: discountOn || undefined,
         additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
+        taxes,
       },
       openingDetail,
       1,

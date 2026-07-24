@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
-import usePOSSessionStore from "../store/posSessionStore";
 import { TextField, CheckboxField } from "../components/common";
 
 const LoginPage = () => {
@@ -31,14 +30,8 @@ const LoginPage = () => {
       return;
     }
 
-    const { checkOpeningEntry } = usePOSSessionStore.getState();
-    await checkOpeningEntry(usr);
-    const { hasOpeningEntry } = usePOSSessionStore.getState();
-
     setSubmitting(false);
-    navigate(hasOpeningEntry ? "/posapp/terminal" : "/posapp/opening", {
-      replace: true,
-    });
+    navigate("/posapp/terminal", { replace: true });
   };
 
   const displayError = fieldError || error;

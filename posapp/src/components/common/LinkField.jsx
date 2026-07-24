@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { searchLink } from "../../api/Search";
 import FieldShell from "./FieldShell";
 
@@ -48,6 +49,7 @@ const LinkField = ({
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [dropdownRect, setDropdownRect] = useState(null);
 
   // While not actively editing, the box just reflects what the parent knows (label or raw value).
   const shownValue = isEditing ? query : displayValue ?? value ?? "";
@@ -62,6 +64,30 @@ const LinkField = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Dropdown is portaled to <body> and positioned with fixed coordinates
+  // instead of being absolutely positioned inside `.pos-link-field` — a
+  // LinkField used inside any scrollable/overflow ancestor (e.g. ChildTable's
+  // horizontal-scroll wrapper) would otherwise get its dropdown clipped or
+  // mispositioned by that ancestor. Reposition on scroll (capture, so scroll
+  // on a nested container is caught too) and resize while open.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const updateRect = () => {
+      if (containerRef.current) {
+        setDropdownRect(containerRef.current.getBoundingClientRect());
+      }
+    };
+
+    updateRect();
+    window.addEventListener("scroll", updateRect, true);
+    window.addEventListener("resize", updateRect);
+    return () => {
+      window.removeEventListener("scroll", updateRect, true);
+      window.removeEventListener("resize", updateRect);
+    };
+  }, [isOpen]);
 
   const runSearch = (txt) => {
     setLoading(true);
@@ -164,41 +190,53 @@ const LinkField = ({
           )}
         </div>
 
-        {isOpen && (
-          <div className="pos-link-dropdown">
-            {loading ? (
-              <div className="pos-link-empty">
-                <span className="spinner-border spinner-border-sm" role="status" />
-              </div>
-            ) : options.length === 0 ? (
-              <div className="pos-link-empty">No {doctype} found</div>
-            ) : (
-              options.map((option, index) => (
-                <button
-                  type="button"
-                  key={option.value}
-                  className={`pos-link-option ${index === highlightedIndex ? "active" : ""}`}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    selectOption(option);
-                  }}
-                >
-                  {renderOption ? (
-                    renderOption(option)
-                  ) : (
-                    <>
-                      <div className="pos-link-option-label">{option.value}</div>
-                      {option.description && (
-                        <div className="pos-link-option-desc">{option.description}</div>
-                      )}
-                    </>
-                  )}
-                </button>
-              ))
-            )}
-          </div>
-        )}
+        {isOpen &&
+          dropdownRect &&
+          createPortal(
+            <div
+              className="pos-link-dropdown"
+              style={{
+                position: "fixed",
+                top: dropdownRect.bottom + 4,
+                left: dropdownRect.left,
+                width: dropdownRect.width,
+                right: "auto",
+              }}
+            >
+              {loading ? (
+                <div className="pos-link-empty">
+                  <span className="spinner-border spinner-border-sm" role="status" />
+                </div>
+              ) : options.length === 0 ? (
+                <div className="pos-link-empty">No {doctype} found</div>
+              ) : (
+                options.map((option, index) => (
+                  <button
+                    type="button"
+                    key={option.value}
+                    className={`pos-link-option ${index === highlightedIndex ? "active" : ""}`}
+                    onMouseEnter={() => setHighlightedIndex(index)}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      selectOption(option);
+                    }}
+                  >
+                    {renderOption ? (
+                      renderOption(option)
+                    ) : (
+                      <>
+                        <div className="pos-link-option-label">{option.value}</div>
+                        {option.description && (
+                          <div className="pos-link-option-desc">{option.description}</div>
+                        )}
+                      </>
+                    )}
+                  </button>
+                ))
+              )}
+            </div>,
+            document.body,
+          )}
       </div>
     </FieldShell>
   );

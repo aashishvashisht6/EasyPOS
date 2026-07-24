@@ -40,6 +40,12 @@ const useCartStore = create((set, get) => ({
             batch_no: meta.batch_no ?? "",
             // Item-level discount, independent of the cart/order-level discount.
             discount_amount: 0,
+            // Item Tax Template link (sent to create_invoice so ERPNext's own
+            // calculate_taxes_and_totals applies the item-wise override) and
+            // its resolved {account_head: rate} map (client-side tax preview
+            // only — see easy_pos.api.item._get_item_tax_map).
+            item_tax_template: meta.item_tax_template ?? "",
+            item_tax_rate: meta.item_tax_rate ?? {},
           },
         ];
     set({ items: updatedItems });

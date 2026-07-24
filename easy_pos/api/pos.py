@@ -1,5 +1,6 @@
 import frappe
 import json
+from frappe.query_builder.functions import Sum
 from frappe.utils import now, today, flt, cint, get_number_format_info
 
 
@@ -48,7 +49,7 @@ def get_closing_entry(opening_details: dict) -> dict:
 	query = (
 			frappe.qb.from_(SalesInvoice)
 			.join(SalesInvoicePayment).on(SalesInvoicePayment.parent == SalesInvoice.name)
-			.select(SalesInvoicePayment.mode_of_payment, SalesInvoicePayment.amount).where(
+			.select(SalesInvoicePayment.mode_of_payment, Sum(SalesInvoicePayment.amount).as_("amount")).where(
 			(SalesInvoice.custom_ep_opening_entry == opening_details.get("name"))
 			& (SalesInvoice.docstatus == 1)
 			).groupby(SalesInvoicePayment.mode_of_payment)
@@ -118,6 +119,33 @@ def create_closing_entry(closing_details: dict) -> dict:
 
 
 @frappe.whitelist()
+def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
+	"""Resolved order-level tax rows for a Sales Taxes and Charges Template —
+	the same shape the terminal needs to preview taxes before the invoice is
+	saved. POS invoices (is_pos=1) skip ERPNext's own auto-population of the
+	`taxes` table from this template (see accounts_controller.set_taxes_and_charges,
+	which early-returns when is_pos is set), so the terminal must build and pass
+	the `taxes` rows itself on create_invoice, same as create_credit_note already
+	does by copying the original invoice's taxes."""
+	if not taxes_and_charges:
+		return []
+	doc = frappe.get_cached_doc("Sales Taxes and Charges Template", taxes_and_charges)
+	return [
+		{
+			"charge_type": row.charge_type,
+			"row_id": row.row_id,
+			"account_head": row.account_head,
+			"description": row.description,
+			"cost_center": row.cost_center,
+			"rate": row.rate,
+			"tax_amount": row.tax_amount,
+			"included_in_print_rate": row.included_in_print_rate,
+		}
+		for row in doc.taxes
+	]
+
+
+@frappe.whitelist()
 def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 	# Same warehouse + price list the terminal fetched stock/rate from (see
 	# easy_pos.api.item.get_items) so the invoice deducts stock from where it
@@ -150,6 +178,27 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 	for payment in payments:
 		payment["amount"] = flt(payment.get("amount"), precision=currency_precision)
 
+	# Order-level tax rows the terminal computed from the POS Profile's
+	# taxes_and_charges template (see get_taxes_and_charges_template) — POS
+	# invoices don't get these auto-populated server-side (is_pos short-circuits
+	# accounts_controller.set_taxes_and_charges), so they must be passed in
+	# explicitly, same as create_credit_note does for returns. tax_amount is
+	# only a display hint from the frontend preview; calculate_taxes_and_totals
+	# recomputes it for real from rate + item_tax_rate on save.
+	taxes = []
+	for tax in invoice.get("taxes") or []:
+		taxes.append({
+			"charge_type": tax.get("charge_type"),
+			"row_id": tax.get("row_id"),
+			"account_head": tax.get("account_head"),
+			"description": tax.get("description"),
+			"cost_center": tax.get("cost_center"),
+			"rate": flt(tax.get("rate")),
+			"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
+			"included_in_print_rate": tax.get("included_in_print_rate"),
+		})
+	tax_fields = {"taxes": taxes, "taxes_and_charges": pos_profile.taxes_and_charges}
+
 	if invoice.get("sales_invoice"):
 		sales_invoice = frappe.get_doc("Sales Invoice", invoice.get("sales_invoice"))
 		sales_invoice.update({
@@ -159,6 +208,7 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 			"set_warehouse": pos_profile.warehouse,
 			"selling_price_list": pos_profile.selling_price_list,
 			**discount_fields,
+			**tax_fields,
 		})
 		sales_invoice.save()
 	else:
@@ -170,6 +220,7 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 								 "set_warehouse": pos_profile.warehouse,
 								 "selling_price_list": pos_profile.selling_price_list,
 								 **discount_fields,
+								 **tax_fields,
 								 })
 		sales_invoice.insert()
 

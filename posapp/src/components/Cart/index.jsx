@@ -8,6 +8,7 @@ import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
 import { LinkField, TextField, SelectField, NumberField, AlertModal } from "../common";
 import { roundCurrency } from "../../utils/number";
+import { computeCartTotals } from "../../utils/tax";
 
 const Cart = () => {
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
@@ -16,6 +17,7 @@ const Cart = () => {
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
+  const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
 
   const customer = useCartStore((s) => s.customer);
   const cartItems = useCartStore((s) => s.items);
@@ -57,16 +59,24 @@ const Cart = () => {
     [itemTotal, itemDiscountTotal, currencyPrecision]
   );
 
-  const discountAmount = useMemo(() => {
-    const d = parseFloat(discount) || 0;
-    if (!discountOn || !d) return 0;
-    const base = discountOn === "Net Total" ? netAfterItemDiscount : itemTotal;
-    return roundCurrency((base * d) / 100, currencyPrecision);
-  }, [discount, discountOn, itemTotal, netAfterItemDiscount, currencyPrecision]);
-
-  const grandTotal = useMemo(
-    () => roundCurrency(netAfterItemDiscount - discountAmount, currencyPrecision),
-    [netAfterItemDiscount, discountAmount, currencyPrecision]
+  // Order-level tax rows previewed from the POS Profile's taxes_and_charges
+  // template, plus the additional order discount's effect on them — mirrors
+  // erpnext.controllers.taxes_and_totals (calculate_taxes + apply_discount_amount):
+  // the discount is distributed pro-rata across items and tax is recomputed
+  // on the reduced total, not just subtracted from the post-tax grand total.
+  // Item-wise rate overrides come from each cart item's item_tax_rate (see
+  // easy_pos.api.item._get_item_tax_map).
+  const { taxRows, totalTax: totalTaxAmount, discountAmount, grandTotal } = useMemo(
+    () =>
+      computeCartTotals({
+        items: cartItems,
+        taxTemplateRows,
+        netTotal: netAfterItemDiscount,
+        discountOn,
+        discountPercentage: discount,
+        precision: currencyPrecision,
+      }),
+    [cartItems, taxTemplateRows, netAfterItemDiscount, discountOn, discount, currencyPrecision]
   );
 
   const formatAmount = (value) =>
@@ -100,8 +110,8 @@ const Cart = () => {
     }
     setSaveDraft(true);
     const items = cartItems.map(
-      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount }) => ({
-        item_code, qty, rate, amount, serial_no, batch_no, discount_amount,
+      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template }) => ({
+        item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template,
       }),
     );
     postDraftInvoice(
@@ -112,6 +122,7 @@ const Cart = () => {
         sales_invoice: salesInvoiceName,
         apply_discount_on: discountOn || undefined,
         additional_discount_percentage: roundCurrency(parseFloat(discount) || 0, floatPrecision),
+        taxes: taxRows,
       },
       openingDetail,
       0,
@@ -142,6 +153,8 @@ const Cart = () => {
           batch_no: item.batch_no ?? "",
           has_serial_no: !!item.serial_no,
           has_batch_no: !!item.batch_no,
+          item_tax_template: item.item_tax_template ?? "",
+          item_tax_rate: item.item_tax_rate ? JSON.parse(item.item_tax_rate) : {},
         })),
         payments: (doc.payments ?? []).map((p) => ({
           mode_of_payment: p.mode_of_payment,
@@ -361,8 +374,19 @@ const Cart = () => {
             </div>
             <div className="d-flex justify-content-between mb-1">
               <span className="cart-total-label">Taxes</span>
-              <span className="cart-total-value">{formatAmount(0)}</span>
+              <span className="cart-total-value">{formatAmount(totalTaxAmount)}</span>
             </div>
+
+            {taxRows.map((row) => (
+              <div className="d-flex justify-content-between mb-1" key={row.account_head}>
+                <span className="cart-total-label" style={{ paddingLeft: 10, fontSize: 11.5 }}>
+                  {row.description || row.account_head} {row.rate ? `(${row.rate}%)` : ""}
+                </span>
+                <span className="cart-total-value" style={{ fontSize: 11.5 }}>
+                  {formatAmount(row.tax_amount)}
+                </span>
+              </div>
+            ))}
 
             {itemDiscountTotal > 0 && (
               <div className="d-flex justify-content-between mb-1">
@@ -449,6 +473,7 @@ const Cart = () => {
         <InvoicePay
           onClose={() => setPayInvoice(false)}
           grandTotal={grandTotal}
+          taxes={taxRows}
         />
       )}
 

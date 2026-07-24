@@ -19,15 +19,12 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
   const fullName = useAuthStore((s) => s.user?.full_name);
+  const email = useAuthStore((s) => s.user?.email);
   const logout = useAuthStore((s) => s.logout);
   const [showClosingModal, setShowClosingModal] = useState(false);
 
   const handleLogout = () => {
     logout().then(() => navigate("/posapp/login", { replace: true }));
-  };
-
-  const handleToDesk = () => {
-    window.location.href = `${window.location.origin}/app`;
   };
 
   return (
@@ -72,25 +69,31 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
             </button>
           )}
 
-          <div className="dropdown-center">
+          <div className="position-relative">
             <button
               type="button"
-              className="pos-avatar pos-avatar-active border-0"
+              className="pos-user-trigger border-0"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              style={{ cursor: "pointer" }}
             >
-              {getInitials(fullName)}
+              <span className="pos-avatar pos-avatar-active">{getInitials(fullName)}</span>
+              <i className="bi bi-chevron-down pos-user-trigger-caret" />
             </button>
-            <ul className="dropdown-menu dropdown-menu-end">
-              <li>
-                <button className="dropdown-item" onClick={handleLogout}>
-                  Log out
-                </button>
+            <ul className="dropdown-menu dropdown-menu-end pos-user-menu">
+              <li className="pos-user-menu-header">
+                <span className="pos-avatar pos-avatar-active pos-user-menu-avatar">{getInitials(fullName)}</span>
+                <div className="pos-user-menu-identity">
+                  <div className="pos-user-menu-name">{fullName || "User"}</div>
+                  {email && <div className="pos-user-menu-email">{email}</div>}
+                </div>
               </li>
               <li>
-                <button className="dropdown-item" onClick={handleToDesk}>
-                  Switch to desk
+                <hr className="pos-user-menu-divider" />
+              </li>
+              <li>
+                <button className="dropdown-item pos-user-menu-item pos-user-menu-item-danger" onClick={handleLogout}>
+                  <i className="bi bi-box-arrow-right" />
+                  Log out
                 </button>
               </li>
             </ul>

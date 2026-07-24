@@ -131,6 +131,8 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
             has_batch_no: item.has_batch_no,
             serial_no: item.serial_no ?? "",
             batch_no: item.batch_no ?? "",
+            item_tax_template: item.item_tax_template,
+            item_tax_rate: item.item_tax_rate,
           }, currencyPrecision);
         }
         setSearchResults(null);
@@ -184,6 +186,8 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
       addItem(item.item_code, item.rate, qty, {
         has_serial_no: item.has_serial_no,
         has_batch_no: item.has_batch_no,
+        item_tax_template: item.item_tax_template,
+        item_tax_rate: item.item_tax_rate,
       }, currencyPrecision);
     },
     [itemQty, addItem, hasOpeningEntry, openOpeningModal, currencyPrecision],
