@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "posapp",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["dev"],
+      "port": 8080,
+      "url": "http://localhost:8080"
+    }
+  ]
+}

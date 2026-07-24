@@ -1,0 +1,72 @@
+:root {
+  /* Brand */
+  --color-primary: #f59e0b;
+  --color-primary-hover: #d98708;
+  --color-primary-tint: rgba(245, 158, 11, 0.12);
+  --color-primary-tint-soft: rgba(245, 158, 11, 0.08);
+  --color-on-primary: #10141c;
+
+  /* Dark surfaces (sidebar, login panel, cart panel) */
+  --color-dark-surface: #10141c;
+  --color-dark-text: #f6f7fb;
+  --color-dark-text-muted: #9aa1b2;
+  --color-dark-text-dim: #c7cbd6;
+  --color-dark-text-faint: #5b6172;
+  --color-dark-border: rgba(255, 255, 255, 0.1);
+
+  /* App surfaces */
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafbfc;
+
+  /* Borders */
+  --color-border: #e2e5ec;
+  --color-border-soft: #e8eaef;
+  --color-border-faint: #f1f2f5;
+  --color-border-input: #d8dbe3;
+
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6b7280;
+  --color-text-faint: #9ca3af;
+
+  /* Status: success */
+  --color-success-bg: #eafbf1;
+  --color-success-text: #15803d;
+  --color-success-icon: #16a34a;
+
+  /* Status: warning / unpaid */
+  --color-warning-bg: #fef9e7;
+  --color-warning-bg-soft: #fdf3e2;
+  --color-warning-text: #92610a;
+  --color-warning-text-strong: #b45309;
+
+  /* Status: danger / overdue / conflict */
+  --color-danger-bg: #fef2f2;
+  --color-danger-bg-soft: #fef8f8;
+  --color-danger-text: #b91c1c;
+  --color-danger-icon: #dc2626;
+
+  /* Avatar (non-active user) */
+  --color-avatar-bg: #374151;
+  --color-avatar-text: #e2e5ec;
+
+  /* Typography */
+  --font-heading: 'Lexend', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-pill: 16px;
+
+  /* Shadow */
+  --shadow-hairline: 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+
+  /* Layout */
+  --sidebar-width: 64px;
+  --topbar-height: 56px;
+}

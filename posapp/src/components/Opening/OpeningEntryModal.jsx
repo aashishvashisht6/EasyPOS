@@ -2,205 +2,164 @@ import { useEffect, useState } from "react";
 import { fetchCompanies } from "../../api/Company";
 import { fetchProfile, fetchProfiles } from "../../api/POSProfile";
 import { postOpeningEntry } from "../../api/OpeningEntry";
+import { fetchCurrencySymbol } from "../../api/Currency";
+import usePOSSessionStore from "../../store/posSessionStore";
+import { SelectField, CurrencyField, Modal } from "../common";
 
-const OpeningEntryModal = ({ onSuccess }) => {
+const OpeningEntryModal = () => {
+  const isOpen = usePOSSessionStore((s) => s.openingModalOpen);
+  const closeOpeningModal = usePOSSessionStore((s) => s.closeOpeningModal);
+  const setOpeningEntry = usePOSSessionStore((s) => s.setOpeningEntry);
+
+  const [companies, setCompanies] = useState([]);
+  const [profiles, setProfiles] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [currencySymbol, setCurrencySymbol] = useState("");
   const [openingForm, setOpeningForm] = useState({
     company: "",
     pos_profile: "",
     balance_details: [],
   });
-  const [companies, setCompanies] = useState([]);
-  const [profiles, setProfiles] = useState([]);
-  const [profile, setProfile] = useState([]);
-
-  const getCompanies = () => {
-    fetchCompanies().then((data) => {
-      setCompanies(data);
-    });
-  };
-
-  const onChangeCompany = (event) => {
-    const value = event.target.value;
-    setOpeningForm({ ...openingForm, company: value });
-    getProfiles(value);
-  };
-
-  const onChangeProfile = (event) => {
-    const value = event.target.value;
-    getPOSProfile(value);
-    setOpeningForm({ ...openingForm, pos_profile: value });
-  };
-
-  const onChangePaymentAmount = (event, mode_of_payment) => {
-    const balanceRow = openingForm?.balance_details.find(
-      (row) => row.mode_of_payment === mode_of_payment,
-    );
-    if (!balanceRow) {
-      const balance_details = openingForm?.balance_details;
-      balance_details.push({
-        mode_of_payment,
-        opening_amount: event.target.value,
-      });
-      setOpeningForm({ ...openingForm, balance_details });
-    } else {
-      const balance_details = openingForm.balance_details.map((row) =>
-        row.mode_of_payment === mode_of_payment
-          ? { ...row, opening_amount: event.target.value }
-          : row,
-      );
-
-      setOpeningForm({
-        ...openingForm,
-        balance_details,
-      });
-    }
-  };
-
-  const getPOSProfile = (pos_profile) => {
-    fetchProfile(pos_profile).then((data) => {
-      setProfile(data);  
-    });
-  };
-
-  const getProfiles = (company) => {
-    fetchProfiles(company).then((data) => {
-      setProfiles(data);
-    });
-  };
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    getCompanies();
-  }, []);
+    if (isOpen) fetchCompanies().then((data) => setCompanies(data ?? []));
+  }, [isOpen]);
 
-  const submitOpeningEntry = () => {
-    postOpeningEntry(openingForm).then(data => {
-        if(data?.name){
-            onSuccess(data)
-        }
-    })
-
+  const onChangeCompany = (value) => {
+    setOpeningForm({ company: value, pos_profile: "", balance_details: [] });
+    setProfile(null);
+    fetchProfiles(value).then((data) => setProfiles(data ?? []));
   };
 
+  const onChangeProfile = (value) => {
+    setOpeningForm((prev) => ({ ...prev, pos_profile: value, balance_details: [] }));
+    fetchProfile(value).then((data) => {
+      setProfile(data);
+      if (data?.currency) fetchCurrencySymbol(data.currency).then(setCurrencySymbol);
+      // Every payment mode on the profile is mandatory on submit — default
+      // each to 0 so the cashier isn't forced to touch fields they don't use.
+      setOpeningForm((prev) => ({
+        ...prev,
+        balance_details: (data?.payments ?? []).map((row) => ({
+          mode_of_payment: row.mode_of_payment,
+          opening_amount: 0,
+        })),
+      }));
+    });
+  };
+
+  const onChangePaymentAmount = (mode_of_payment, amount) => {
+    setOpeningForm((prev) => {
+      const exists = prev.balance_details.some((row) => row.mode_of_payment === mode_of_payment);
+      const balance_details = exists
+        ? prev.balance_details.map((row) =>
+            row.mode_of_payment === mode_of_payment ? { ...row, opening_amount: amount } : row,
+          )
+        : [...prev.balance_details, { mode_of_payment, opening_amount: amount }];
+      return { ...prev, balance_details };
+    });
+  };
+
+  const handleClose = () => {
+    setOpeningForm({ company: "", pos_profile: "", balance_details: [] });
+    setProfile(null);
+    setCurrencySymbol("");
+    setError("");
+    closeOpeningModal();
+  };
+
+  const handleSubmit = () => {
+    setError("");
+    setSubmitting(true);
+    postOpeningEntry(openingForm)
+      .then((data) => {
+        if (data?.name) {
+          setOpeningEntry(data);
+          handleClose();
+        } else {
+          setError("Failed to open till");
+        }
+      })
+      .catch((err) => {
+        setError(err?.response?.data?.exc_type || "Failed to open till");
+      })
+      .finally(() => setSubmitting(false));
+  };
+
+  if (!isOpen) return null;
+
   return (
-    <div className="container-fluid" style={{ minHeight: "100%" }}>
-      <div
-        className="modal show"
-        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
-        tabIndex="-1"
-      >
-        <div className="modal-dialog modal-dialog-centered modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">POS Opening Entry</h5>
-            </div>
+    <Modal
+      title="Open your till"
+      subtitle="A shift needs to be open before you can ring up sales."
+      onClose={handleClose}
+      footer={
+        <>
+          <button type="button" className="pos-btn pos-btn-secondary" onClick={handleClose}>
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="pos-btn pos-btn-primary"
+            onClick={handleSubmit}
+            disabled={submitting || !openingForm.company || !openingForm.pos_profile}
+          >
+            {submitting ? (
+              <>
+                <span className="spinner-border spinner-border-sm" role="status" />
+                Opening…
+              </>
+            ) : (
+              "Open till"
+            )}
+          </button>
+        </>
+      }
+    >
+      {error && <div className="alert alert-danger py-2">{error}</div>}
 
-            <div className="modal-body">
-              {/* Input fields for POS Opening Entry */}
+      <SelectField
+        label="Company"
+        placeholder="Select company"
+        required
+        value={openingForm.company}
+        onChange={onChangeCompany}
+        options={companies.map((c) => ({ label: c.company_name, value: c.name }))}
+      />
 
-              <div className="mb-3">
-                <label className="form-label">Company</label>
+      <SelectField
+        label="POS Profile"
+        placeholder="Select POS profile"
+        required
+        disabled={!openingForm.company}
+        value={openingForm.pos_profile}
+        onChange={onChangeProfile}
+        options={profiles.map((p) => ({ label: p.name, value: p.name }))}
+      />
 
-                <select
-                  className="form-select"
-                  aria-label="Select Company"
-                  value={openingForm.company}
-                  defaultValue={"Select Company"}
-                  onChange={onChangeCompany}
-                >
-                  <option value="" disabled={1}>
-                    Select Company
-                  </option>
-                  {companies && companies.length > 0
-                    ? companies.map((row, idx) => {
-                        return (
-                          <option key={idx} value={row.name}>
-                            {row.company_name}
-                          </option>
-                        );
-                      })
-                    : null}
-                </select>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">POS Profile</label>
-                <select
-                  className="form-select"
-                  aria-label="Select POS Profile"
-                  value={openingForm.pos_profile}
-                  onChange={onChangeProfile}
-                  defaultValue={"Select Company"}
-                >
-                  <option value="" disabled={1}>
-                    Select POS Profile
-                  </option>
-                  {profiles && profiles.length > 0
-                    ? profiles.map((row, idx) => {
-                        return (
-                          <option key={idx} value={row.name}>
-                            {row.name}
-                          </option>
-                        );
-                      })
-                    : null}
-                </select>
-              </div>
-
-              {openingForm.company && openingForm.pos_profile && (
-                <div className="mb-3 table-responsive">
-                  <table className="table table-sm table-bordered align-middle mb-0">
-                    <thead className="table-light sticky-top">
-                      <tr className="text-align-center">
-                        <th style={{ width: "50%", textAlign: "center" }}>
-                          Mode Of Payment
-                        </th>
-                        <th style={{ width: "50%", textAlign: "center" }}>
-                          Opening Amount
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {profile?.payments && profile.payments.length > 0
-                        ? profile.payments.map((row, idx) => {
-                            return (
-                              <tr key={idx}>
-                                <td>
-                                  <input
-                                    className="form-control border-white"
-                                    placeholder="Mode Of Payment"
-                                    readOnly={1}
-                                    value={row.mode_of_payment}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control border-white"
-                                    placeholder="Opening Amount"
-                                    onChange={(event) =>
-                                      onChangePaymentAmount(
-                                        event,
-                                        row.mode_of_payment,
-                                      )
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          })
-                        : null}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn btn-primary" onClick={submitOpeningEntry}>Submit</button>
-            </div>
-          </div>
+      {profile?.payments?.length > 0 && (
+        <div>
+          <label className="pos-field-label">Opening balance</label>
+          {profile.payments.map((row) => (
+            <CurrencyField
+              key={row.mode_of_payment}
+              label={row.mode_of_payment}
+              placeholder="0"
+              min={0}
+              currency={currencySymbol || undefined}
+              value={
+                openingForm.balance_details.find(
+                  (b) => b.mode_of_payment === row.mode_of_payment,
+                )?.opening_amount ?? ""
+              }
+              onChange={(value) => onChangePaymentAmount(row.mode_of_payment, value)}
+            />
+          ))}
         </div>
-      </div>
-    </div>
+      )}
+    </Modal>
   );
 };
 

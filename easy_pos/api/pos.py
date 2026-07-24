@@ -17,6 +17,7 @@ def check_opening_entry(user: str) -> dict:
 @frappe.whitelist()
 def get_closing_entry(opening_details: dict) -> dict:
 	open_voucher = frappe.get_doc("EP Opening Entry", opening_details.get("name"))
+	pos_profile = frappe.get_doc("POS Profile", opening_details.get("pos_profile"))
 
 	SalesInvoice = frappe.qb.DocType("Sales Invoice")
 	SalesInvoicePayment = frappe.qb.DocType("Sales Invoice Payment")
@@ -32,12 +33,18 @@ def get_closing_entry(opening_details: dict) -> dict:
 	payments = query.run(as_dict=True)
 
 	closing_amount_dict = { payment.get("mode_of_payment"): payment.get("amount") for payment in payments }
+	opening_amount_dict = {
+		balance.get("mode_of_payment"): balance.get("opening_amount")
+		for balance in open_voucher.get("balance_details")
+	}
 
 	closing_balance = []
 
-	for balance in open_voucher.get("balance_details"):
-		mode_of_payment = balance.get("mode_of_payment")
-		opening_amount = balance.get("opening_amount")
+	# Derived from the POS Profile's currently configured payment modes (not the
+	# Opening Entry's snapshot) so newly added modes show up for an already-open shift.
+	for payment_row in pos_profile.get("payments"):
+		mode_of_payment = payment_row.get("mode_of_payment")
+		opening_amount = opening_amount_dict.get(mode_of_payment, 0)
 		closing_amount = closing_amount_dict.get(mode_of_payment, 0)
 		closing_balance.append({
 			"mode_of_payment": mode_of_payment,
@@ -45,7 +52,11 @@ def get_closing_entry(opening_details: dict) -> dict:
 			"closing_amount": closing_amount
 		})
 
-	return closing_balance
+	closing_entry_type = frappe.db.get_value(
+		"POS Profile", opening_details.get("pos_profile"), "ep_closing_entry_type"
+	) or "Automatically Calculated"
+
+	return {"entry_type": closing_entry_type, "details": closing_balance}
 
 @frappe.whitelist()
 def create_opening_entry(opening_details: dict) -> dict:
@@ -74,8 +85,17 @@ def create_closing_entry(closing_details: dict) -> dict:
 					"pos_opening_entry": closing_details.get("pos_opening_entry"),
                     "user": frappe.session.user
                 }).insert().submit()
-	
-	return closing_entry.as_dict()			
+
+	if closing_details.get("pos_opening_entry"):
+		frappe.db.set_value(
+			"EP Opening Entry",
+			closing_details.get("pos_opening_entry"),
+			"pos_closing_entry",
+			closing_entry.name,
+		)
+
+	return closing_entry.as_dict()
+
 
 @frappe.whitelist()
 def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:

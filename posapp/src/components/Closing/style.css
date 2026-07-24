@@ -1,0 +1,93 @@
+.closing-entry-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+}
+
+.closing-entry-pill-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-faint);
+}
+
+.closing-entry-pill-value {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.closing-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.closing-row {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  background: var(--color-surface);
+}
+
+.closing-row-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.closing-row-figures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.closing-figure {
+  min-width: 0;
+}
+
+.closing-figure .pos-field {
+  margin-bottom: 0;
+}
+
+.closing-figure .input-group-text {
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.closing-figure .form-control {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.closing-figure-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-faint);
+  margin-bottom: 2px;
+}
+
+.closing-figure-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+}

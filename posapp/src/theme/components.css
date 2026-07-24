@@ -1,0 +1,718 @@
+/* Sidebar */
+.pos-sidebar {
+  width: var(--sidebar-width);
+  background: var(--color-dark-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  flex-shrink: 0;
+}
+
+.pos-sidebar-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.pos-sidebar-logo i {
+  color: var(--color-on-primary);
+  font-size: 18px;
+}
+
+.pos-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  width: 100%;
+}
+
+.pos-sidebar-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 9px 0;
+  cursor: pointer;
+}
+
+.pos-sidebar-item i {
+  color: var(--color-dark-text-muted);
+  font-size: 19px;
+}
+
+.pos-sidebar-item.active {
+  background: var(--color-primary-tint);
+}
+
+.pos-sidebar-item.active i {
+  color: var(--color-primary);
+}
+
+/* Avatar */
+.pos-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: var(--color-avatar-bg);
+  color: var(--color-avatar-text);
+}
+
+.pos-avatar.pos-avatar-active {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Topbar */
+.pos-topbar {
+  height: var(--topbar-height);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+
+.pos-topbar-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Left group (title + search) shrinks first on narrower tablets; the right
+   group (status/actions/avatar) keeps its size so controls stay tappable. */
+.pos-topbar > .d-flex:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pos-topbar > .d-flex:last-child {
+  flex-shrink: 0;
+}
+
+.pos-search {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 100px;
+  max-width: 260px;
+}
+
+.pos-search i {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-faint);
+  font-size: 14px;
+}
+
+.pos-search input {
+  width: 100%;
+  height: 30px;
+  padding-left: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+/* Sync / status pill (dot + label) */
+.pos-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.pos-status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pos-status-pill.success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.pos-status-pill.success .dot {
+  background: var(--color-success-icon);
+}
+
+/* Status badges (invoice / entity state) */
+.pos-badge {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 5px;
+  width: fit-content;
+  display: inline-block;
+}
+
+.pos-badge-paid,
+.pos-badge-success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.pos-badge-unpaid,
+.pos-badge-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.pos-badge-overdue,
+.pos-badge-danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+/* Filter chip (status filter / category filter) */
+.pos-chip {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pos-chip.active {
+  background: var(--color-dark-surface);
+  border-color: var(--color-dark-surface);
+  color: var(--color-dark-text);
+}
+
+.pos-chip.danger {
+  background: var(--color-danger-bg);
+  border-color: #fecaca;
+  color: var(--color-danger-text);
+}
+
+/* Category chip (POS terminal filters, with icon + count) */
+.pos-category-chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.pos-category-chip i {
+  color: var(--color-text-muted);
+  font-size: 16px;
+}
+
+.pos-category-chip span {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.pos-category-chip.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.pos-category-chip.active i,
+.pos-category-chip.active span {
+  color: var(--color-on-primary);
+}
+
+.pos-category-chip .count {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--color-text-faint);
+}
+
+/* Buttons */
+.pos-btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.pos-btn-primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.pos-btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.pos-btn-secondary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Card / panel */
+.pos-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-soft);
+}
+
+/* Common form fields (src/components/common) */
+.pos-field {
+  margin-bottom: 14px;
+}
+
+/* NumberField: hide native spinner arrows, use the stepper UI instead */
+.pos-field input[type="number"]::-webkit-outer-spin-button,
+.pos-field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pos-field input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.pos-field-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.pos-field-required {
+  color: var(--color-danger-text);
+  margin-left: 2px;
+}
+
+.pos-field-error {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-danger-text);
+  margin-top: 4px;
+}
+
+.pos-field-help {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-text-faint);
+  margin-top: 4px;
+}
+
+.pos-checkbox:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Link field (Frappe Link field autocomplete clone) */
+.pos-link-field {
+  position: relative;
+}
+
+.pos-link-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(16, 20, 28, 0.12);
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.pos-link-option {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  cursor: pointer;
+  display: block;
+}
+
+.pos-link-option.active,
+.pos-link-option:hover {
+  background: var(--color-primary-tint-soft);
+}
+
+.pos-link-option-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.pos-link-option-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  margin-top: 1px;
+}
+
+.pos-link-empty {
+  padding: 14px 10px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-faint);
+}
+
+/* Login screen */
+.pos-login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  padding: 24px;
+}
+
+.pos-login-card {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  width: 100%;
+  max-width: 920px;
+  min-height: 520px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-hairline), 0 20px 60px rgba(16, 20, 28, 0.12);
+}
+
+.pos-login-brand-panel {
+  background: var(--color-dark-surface);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pos-login-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pos-login-brand-header span {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--color-dark-text);
+  letter-spacing: 0.2px;
+}
+
+.pos-login-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.3;
+  color: var(--color-dark-text);
+  margin: 64px 0 0;
+}
+
+.pos-login-subheading {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-dark-text-muted);
+  line-height: 1.6;
+  margin: 16px 0 0;
+  max-width: 320px;
+}
+
+.pos-login-features {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pos-login-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pos-login-feature i {
+  color: var(--color-primary);
+  font-size: 16px;
+}
+
+.pos-login-feature span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-dark-text-dim);
+}
+
+.pos-login-footer {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-dark-text-faint);
+  margin: 0;
+}
+
+.pos-login-form-panel {
+  background: var(--color-bg);
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pos-login-form-inner {
+  max-width: 340px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.pos-login-form-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--color-text-primary);
+  margin: 0 0 6px;
+}
+
+.pos-login-form-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0 0 28px;
+}
+
+.pos-login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.pos-login-remember {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.pos-login-link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-warning-text-strong);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.pos-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.pos-login-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.pos-login-divider-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 720px) {
+  .pos-login-card {
+    grid-template-columns: 1fr;
+  }
+  .pos-login-brand-panel {
+    display: none;
+  }
+}
+
+/* Item card (POS terminal grid) */
+.pos-item-card {
+  min-width: 0;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  background: var(--color-surface);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.pos-item-card.in-cart {
+  border: 1.5px solid var(--color-primary);
+}
+
+.pos-item-check-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.pos-item-icon {
+  width: 100%;
+  height: 44px;
+  background: var(--color-warning-bg-soft);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  color: var(--color-warning-text-strong);
+  font-size: 18px;
+  overflow: hidden;
+}
+
+.pos-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pos-item-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pos-item-price {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.pos-item-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pos-item-stepper button {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-input);
+  background: var(--color-surface);
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pos-item-stepper button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pos-item-stepper span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Inputs (login form etc.) */
+.pos-input-group {
+  position: relative;
+}
+
+.pos-input-group i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-faint);
+  font-size: 16px;
+}
+
+.pos-input-group input {
+  width: 100%;
+  height: 42px;
+  padding-left: 38px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-input);
+  background: var(--color-surface);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}

@@ -1,78 +1,86 @@
-import { useEffect, useState, useMemo, useContext } from "react";
+import { useState, useMemo } from "react";
 import "./style.css";
-import { fetchCustomers } from "../../api/Customer";
-import { postDraftInvoice } from "../../api/Invoice";
-import { POSContext } from "../Opening/POSProvider";
+import { postDraftInvoice, fetchInvoice } from "../../api/Invoice";
+import usePOSSessionStore from "../../store/posSessionStore";
+import useCartStore from "../../store/cartStore";
 import InvoicePay from "../InvoicePay";
+import NewCustomerModal from "../Customer/NewCustomerModal";
+import DraftPickerModal from "./DraftPickerModal";
+import { LinkField } from "../common";
 
-const Cart = ({ invoiceDetails, onChangeInvoice }) => {
-  const { openingDetail } = useContext(POSContext);
-  const [customers, setCustomers] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+const Cart = () => {
+  const openingDetail = usePOSSessionStore((s) => s.openingDetail);
+  const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
+  const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
+  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+
+  const customer = useCartStore((s) => s.customer);
+  const cartItems = useCartStore((s) => s.items);
+  const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
+  const setCustomer = useCartStore((s) => s.setCustomer);
+  const removeItem = useCartStore((s) => s.removeItem);
+  const clearItems = useCartStore((s) => s.clearItems);
+  const setSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
+  const loadDraft = useCartStore((s) => s.loadDraft);
+  const updateItemField = useCartStore((s) => s.updateItemField);
+  const updateItemQty = useCartStore((s) => s.updateItemQty);
+
+  const [customerLabel, setCustomerLabel] = useState("");
   const [saveDraft, setSaveDraft] = useState(false);
   const [payInvoice, setPayInvoice] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [discountOn, setDiscountOn] = useState("");
   const [discount, setDiscount] = useState("");
-
-  const cartItems = invoiceDetails.items ?? [];
+  const [showDraftPicker, setShowDraftPicker] = useState(false);
+  const [showNewCustomer, setShowNewCustomer] = useState(false);
 
   const itemTotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0),
     [cartItems]
   );
 
+  // Item-level discounts are independent of the order-level discount below —
+  // each item carries its own discount_amount (auto-applied, e.g. via pricing rules).
+  const itemDiscountTotal = useMemo(
+    () => cartItems.reduce((sum, item) => sum + (item.discount_amount ?? 0), 0),
+    [cartItems]
+  );
+
+  const netAfterItemDiscount = useMemo(
+    () => parseFloat((itemTotal - itemDiscountTotal).toFixed(2)),
+    [itemTotal, itemDiscountTotal]
+  );
+
   const discountAmount = useMemo(() => {
     const d = parseFloat(discount) || 0;
     if (!discountOn || !d) return 0;
-    return parseFloat(((itemTotal * d) / 100).toFixed(2));
-  }, [discount, discountOn, itemTotal]);
+    const base = discountOn === "Net Total" ? netAfterItemDiscount : itemTotal;
+    return parseFloat(((base * d) / 100).toFixed(2));
+  }, [discount, discountOn, itemTotal, netAfterItemDiscount]);
 
   const grandTotal = useMemo(
-    () => parseFloat((itemTotal - discountAmount).toFixed(2)),
-    [itemTotal, discountAmount]
+    () => parseFloat((netAfterItemDiscount - discountAmount).toFixed(2)),
+    [netAfterItemDiscount, discountAmount]
   );
 
-  const filteredCustomers = customers.filter((c) =>
-    c.customer_name?.toLowerCase().includes(searchText.toLowerCase())
-  );
-
-  const getCustomers = () => {
-    fetchCustomers().then((data) => setCustomers(data));
-  };
+  const formatAmount = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN")}`;
 
   const clearCart = () => {
-    onChangeInvoice({ ...invoiceDetails, items: [] });
+    clearItems();
     setExpandedIndex(null);
   };
 
-  const removeItem = (index) => {
-    const updated = cartItems.filter((_, i) => i !== index);
-    onChangeInvoice({ ...invoiceDetails, items: updated });
+  const handleRemoveItem = (index) => {
+    removeItem(index);
     if (expandedIndex === index) setExpandedIndex(null);
   };
 
-  const updateItemField = (index, field, value) => {
-    const updated = cartItems.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    );
-    onChangeInvoice({ ...invoiceDetails, items: updated });
-  };
-
-  const selectCustomer = (cust) => {
-    onChangeInvoice({ ...invoiceDetails, customer: cust.name });
-    setSearchText(cust.customer_name);
-    setShowDropdown(false);
-  };
-
-  const clearCustomer = () => {
-    setSearchText("");
-    onChangeInvoice({ ...invoiceDetails, customer: "" });
-  };
-
   const createDraftInvoice = () => {
-    if (!invoiceDetails.customer) {
+    if (!hasOpeningEntry) {
+      openOpeningModal();
+      return;
+    }
+    if (!customer) {
       alert("Please select a customer");
       return;
     }
@@ -81,10 +89,15 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
       return;
     }
     setSaveDraft(true);
-    postDraftInvoice(invoiceDetails, openingDetail, 0).then((data) => {
+    const items = cartItems.map(
+      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount }) => ({
+        item_code, qty, rate, amount, serial_no, batch_no, discount_amount,
+      }),
+    );
+    postDraftInvoice({ customer, items, payments: [], sales_invoice: salesInvoiceName }, openingDetail, 0).then((data) => {
       if (data?.name) {
         setSaveDraft(false);
-        onChangeInvoice({ ...invoiceDetails, sales_invoice: data.name });
+        setSalesInvoiceName(data.name);
       } else {
         alert("Failed to save draft");
         setSaveDraft(false);
@@ -92,335 +105,274 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
     });
   };
 
-  useEffect(() => {
-    getCustomers();
-  }, []);
+  const selectDraft = (draftName) => {
+    fetchInvoice(draftName).then((doc) => {
+      if (!doc) return;
+      loadDraft({
+        name: doc.name,
+        customer: doc.customer,
+        items: (doc.items ?? []).map((item) => ({
+          item_code: item.item_code,
+          qty: item.qty,
+          rate: item.rate,
+          amount: item.amount,
+          discount_amount: item.discount_amount ?? 0,
+          serial_no: item.serial_no ?? "",
+          batch_no: item.batch_no ?? "",
+          has_serial_no: !!item.serial_no,
+          has_batch_no: !!item.batch_no,
+        })),
+        payments: (doc.payments ?? []).map((p) => ({
+          mode_of_payment: p.mode_of_payment,
+          amount: p.amount,
+        })),
+      });
+      setCustomerLabel(doc.customer_name || doc.customer || "");
+      setShowDraftPicker(false);
+    });
+  };
 
   return (
-    <div className="cart-section p-2">
-      <div className="card cart-section-card">
+    <div className="cart-section">
+      <div className="cart-section-card">
 
         {/* ── Header ── */}
-        <div className="card-header d-flex align-items-center justify-content-between py-2 px-3 customer-cart-section">
-          <h5 className="mb-0" style={{ fontSize: 15 }}>Shopping Cart</h5>
-          <span className="badge bg-primary rounded-pill">{cartItems.length}</span>
+        <div className="cart-header-bar d-flex align-items-center justify-content-between py-2 px-3">
+          <div className="d-flex align-items-center gap-2">
+            <i className="bi bi-cart3" style={{ fontSize: 15, color: "var(--color-text-secondary)" }} />
+            <h5 className="mb-0" style={{ fontFamily: "var(--font-heading)", fontSize: 15, fontWeight: 600, color: "var(--color-text-primary)" }}>
+              Shopping Cart
+            </h5>
+          </div>
+          <span className="pos-badge pos-badge-success">{cartItems.length} item{cartItems.length === 1 ? "" : "s"}</span>
         </div>
 
         <div className="card-body p-0 d-flex flex-column" style={{ minHeight: 0, flex: 1 }}>
 
           {/* ── Customer ── */}
-          <div className="px-3 pt-2 pb-2 border-bottom position-relative">
-            <p
-              className="text-muted mb-1"
-              style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}
-            >
-              Customer
-            </p>
-
-            {/* Selected pill */}
-            {invoiceDetails.customer && !showDropdown ? (
-              <div className="d-flex align-items-center gap-2 border rounded-2 px-2 py-1 bg-light">
-                <div
-                  className="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-semibold flex-shrink-0"
-                  style={{ width: 26, height: 26, fontSize: 10 }}
-                >
-                  {searchText?.slice(0, 2).toUpperCase()}
-                </div>
-                <span className="fw-medium text-dark" style={{ fontSize: 13 }}>
-                  {searchText}
-                </span>
-                <button
-                  className="btn btn-link btn-sm text-muted ms-auto p-0 text-decoration-none"
-                  style={{ fontSize: 12 }}
-                  onClick={clearCustomer}
-                >
-                  Change
-                </button>
-              </div>
-            ) : (
-              <div className="input-group input-group-sm">
-                <span className="input-group-text bg-white border-end-0">
-                  <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16" className="text-muted">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.44 1.406a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
-                  </svg>
-                </span>
-                <input
-                  type="text"
-                  className="form-control border-start-0"
-                  placeholder="Search customer..."
-                  value={searchText}
-                  onChange={(e) => { setSearchText(e.target.value); setShowDropdown(true); }}
-                  onFocus={() => setShowDropdown(true)}
-                  onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-                  style={{ fontSize: 13 }}
-                />
-              </div>
-            )}
-
-            {/* Dropdown */}
-            {showDropdown && searchText && (
-              <div
-                className="dropdown-menu show w-100 p-0 shadow-sm border mt-1"
-                style={{ maxHeight: 200, overflowY: "auto", zIndex: 200 }}
-              >
-                {filteredCustomers.length === 0 ? (
-                  <div className="dropdown-item text-muted py-2" style={{ fontSize: 13 }}>
-                    No customers found
+          <div className="px-3 pt-3 pb-2 border-bottom">
+            <LinkField
+              label="Customer"
+              doctype="Customer"
+              value={customer}
+              displayValue={customerLabel}
+              placeholder="Search customer..."
+              actionIcon="bi-person-plus"
+              actionTitle="New customer"
+              onAction={() => setShowNewCustomer(true)}
+              onChange={(value, option) => {
+                setCustomer(value ?? "");
+                setCustomerLabel(option?.description || option?.value || "");
+              }}
+              renderOption={(option) => (
+                <div className="d-flex align-items-center gap-2">
+                  <div className="pos-avatar" style={{ width: 28, height: 28 }}>
+                    {(option.description || option.value)?.slice(0, 2).toUpperCase()}
                   </div>
-                ) : (
-                  filteredCustomers.slice(0, 10).map((cust) => (
-                    <button
-                      key={cust.name}
-                      className="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                      onMouseDown={() => selectCustomer(cust)}
-                    >
-                      <div
-                        className="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-semibold flex-shrink-0"
-                        style={{ width: 28, height: 28, fontSize: 11 }}
-                      >
-                        {cust.customer_name?.slice(0, 2).toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="fw-medium" style={{ fontSize: 13 }}>{cust.customer_name}</div>
-                        {cust.mobile_no && (
-                          <div className="text-muted" style={{ fontSize: 11 }}>{cust.mobile_no}</div>
-                        )}
-                      </div>
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
+                  <div>
+                    <div className="pos-link-option-label">{option.description || option.value}</div>
+                    {option.description && (
+                      <div className="pos-link-option-desc">{option.value}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            />
           </div>
 
           {/* ── Cart Items ── */}
           <div className="d-flex flex-column" style={{ flex: 1, minHeight: 0 }}>
 
             {/* Toolbar */}
-            <div className="d-flex align-items-center justify-content-between px-3 py-1 border-bottom">
-              <p
-                className="text-muted mb-0"
-                style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}
-              >
-                Cart Items
-              </p>
+            <div className="d-flex align-items-center justify-content-between px-3 pt-2 pb-1">
+              <p className="cart-section-label mb-0">Cart Items</p>
               {cartItems.length > 0 && (
-                <button
-                  className="btn btn-link btn-sm text-danger p-0 text-decoration-none"
-                  style={{ fontSize: 12 }}
-                  onClick={clearCart}
-                >
+                <button className="cart-clear-btn" onClick={clearCart}>
+                  <i className="bi bi-trash3" />
                   Clear all
                 </button>
               )}
             </div>
 
-            {/* Table */}
-            <div className="overflow-auto" style={{ flex: 1 }}>
+            {/* List */}
+            <div className="overflow-auto" style={{ flex: 1, minHeight: 0 }}>
               {cartItems.length === 0 ? (
                 <div className="d-flex flex-column align-items-center justify-content-center text-muted gap-2 py-5">
-                  <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16" className="opacity-25">
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
-                  </svg>
+                  <i className="bi bi-cart-x" style={{ fontSize: 28, opacity: 0.3 }} />
                   <span style={{ fontSize: 13 }}>No items in cart</span>
+                  <span style={{ fontSize: 11.5, color: "var(--color-text-faint)" }}>Tap an item to add it here</span>
                 </div>
               ) : (
-                /* Key fix: table-layout fixed + matching col widths on th and td */
-                <table
-                  className="table table-sm table-hover align-middle mb-0"
-                  style={{ fontSize: 13, tableLayout: "fixed", width: "100%" }}
-                >
-                  <colgroup>
-                    <col style={{ width: "38%" }} />
-                    <col style={{ width: "14%" }} />
-                    <col style={{ width: "20%" }} />
-                    <col style={{ width: "21%" }} />
-                    <col style={{ width: "7%" }} />
-                  </colgroup>
-                  <thead className="table-light border-bottom">
-                    <tr>
-                      <th
-                        className="ps-3 text-muted fw-semibold"
-                        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}
-                      >
-                        Item
-                      </th>
-                      <th
-                        className="text-center text-muted fw-semibold"
-                        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}
-                      >
-                        Qty
-                      </th>
-                      <th
-                        className="text-end text-muted fw-semibold"
-                        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}
-                      >
-                        Rate
-                      </th>
-                      <th
-                        className="text-end text-muted fw-semibold"
-                        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}
-                      >
-                        Total
-                      </th>
-                      <th />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cartItems.map((item, index) => (
-                      <>
-                        <tr
-                          key={`item-${index}`}
-                          className={expandedIndex === index ? "table-primary" : ""}
-                          style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            setExpandedIndex(expandedIndex === index ? null : index)
-                          }
+                <div className="cart-lines">
+                  {cartItems.map((item, index) => {
+                    const expanded = expandedIndex === index;
+                    return (
+                      <div key={`item-${index}`} className={`cart-line-wrap ${expanded ? "expanded" : ""}`}>
+                        <div
+                          className="cart-line"
+                          onClick={() => setExpandedIndex(expanded ? null : index)}
                         >
-                          <td className="ps-3">
-                            <div
-                              className="fw-medium text-truncate"
-                              style={{ maxWidth: "100%" }}
-                              title={item.item_code}
-                            >
+                          <div className="cart-line-icon">
+                            <i className="bi bi-box-seam" />
+                          </div>
+
+                          <div className="cart-line-info">
+                            <div className="cart-line-name" title={item.item_code}>
                               {item.item_code}
                             </div>
-                            <div className="text-primary" style={{ fontSize: 10 }}>
-                              {expandedIndex === index ? "▲ hide" : "▼ details"}
+                            <div className="cart-line-meta">
+                              {formatAmount(item.rate)} each
+                              <i className={`bi bi-chevron-${expanded ? "up" : "down"}`} />
                             </div>
-                          </td>
-                          <td className="text-center">{item.qty}</td>
-                          <td className="text-end">₹{(item.rate ?? 0).toLocaleString("en-IN")}</td>
-                          <td className="text-end fw-semibold">
-                            ₹{(item.amount ?? 0).toLocaleString("en-IN")}
-                          </td>
-                          <td className="text-center">
-                            <button
-                              className="btn btn-link btn-sm text-muted p-0 lh-1"
-                              style={{ fontSize: 16 }}
-                              title="Remove"
-                              onClick={(e) => { e.stopPropagation(); removeItem(index); }}
-                            >
-                              &times;
-                            </button>
-                          </td>
-                        </tr>
+                          </div>
 
-                        {/* Expanded detail */}
-                        {expandedIndex === index && (
-                          <tr key={`detail-${index}`} className="table-light">
-                            {/* <td colSpan={5} className="px-3 py-2">
-                              <div className="row g-2">
-                                <div className="col-6">
-                                  <label
-                                    className="form-label text-muted mb-1"
-                                    style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.04em", fontWeight: 600 }}
-                                  >
-                                    Serial No
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control form-control-sm"
-                                    placeholder="Enter serial number"
-                                    value={item.serial_no ?? ""}
-                                    onChange={(e) => updateItemField(index, "serial_no", e.target.value)}
-                                    onClick={(e) => e.stopPropagation()}
-                                  />
-                                </div>
-                                <div className="col-6">
-                                  <label
-                                    className="form-label text-muted mb-1"
-                                    style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.04em", fontWeight: 600 }}
-                                  >
-                                    Batch No
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control form-control-sm"
-                                    placeholder="Enter batch number"
-                                    value={item.batch_no ?? ""}
-                                    onChange={(e) => updateItemField(index, "batch_no", e.target.value)}
-                                    onClick={(e) => e.stopPropagation()}
-                                  />
-                                </div>
+                          <div className="cart-line-qty" onClick={(e) => e.stopPropagation()}>
+                            <button
+                              type="button"
+                              disabled={item.qty <= 1}
+                              onClick={() => updateItemQty(index, item.qty - 1)}
+                            >
+                              −
+                            </button>
+                            <span>{item.qty}</span>
+                            <button type="button" onClick={() => updateItemQty(index, item.qty + 1)}>
+                              +
+                            </button>
+                          </div>
+
+                          <div className="cart-line-amount">{formatAmount(item.amount)}</div>
+
+                          <button
+                            type="button"
+                            className="cart-line-remove"
+                            title="Remove"
+                            onClick={(e) => { e.stopPropagation(); handleRemoveItem(index); }}
+                          >
+                            <i className="bi bi-x-lg" />
+                          </button>
+                        </div>
+
+                        {expanded && (
+                          <div className="cart-line-detail">
+                            <div>
+                              <div className="cart-detail-label">Discount</div>
+                              <div className="cart-detail-value" style={{ fontFamily: "var(--font-mono)" }}>
+                                {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)}` : formatAmount(0)}
                               </div>
-                            </td> */}
-                          </tr>
+                            </div>
+
+                            {item.has_serial_no && (
+                              <div style={{ minWidth: 130, flex: 1 }}>
+                                <div className="cart-detail-label">Serial No</div>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm cart-detail-input"
+                                  placeholder="Enter serial no"
+                                  value={item.serial_no ?? ""}
+                                  onClick={(e) => e.stopPropagation()}
+                                  onChange={(e) => updateItemField(index, "serial_no", e.target.value)}
+                                />
+                              </div>
+                            )}
+
+                            {item.has_batch_no && (
+                              <div style={{ minWidth: 130, flex: 1 }}>
+                                <div className="cart-detail-label">Batch No</div>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm cart-detail-input"
+                                  placeholder="Enter batch no"
+                                  value={item.batch_no ?? ""}
+                                  onClick={(e) => e.stopPropagation()}
+                                  onChange={(e) => updateItemField(index, "batch_no", e.target.value)}
+                                />
+                              </div>
+                            )}
+                          </div>
                         )}
-                      </>
-                    ))}
-                  </tbody>
-                </table>
+                      </div>
+                    );
+                  })}
+                </div>
               )}
             </div>
           </div>
 
+          {/* ── Discount ── */}
+          <div className="px-3 pt-2 pb-2 border-top">
+            <p className="cart-section-label mb-2">Order Discount</p>
+            <div className="d-flex gap-2">
+              <select
+                className="form-select form-select-sm cart-discount-select"
+                value={discountOn}
+                onChange={(e) => setDiscountOn(e.target.value)}
+                style={{ flex: 1.4 }}
+              >
+                <option value="" disabled>Apply on…</option>
+                <option value="Grand Total">Grand Total</option>
+                <option value="Net Total">Net Total</option>
+              </select>
+              <div className="input-group input-group-sm" style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  className="form-control cart-discount-input"
+                  placeholder="0"
+                  value={discount}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/[^0-9.]/g, "");
+                    if (raw === "" || Number(raw) <= 100) setDiscount(raw);
+                  }}
+                />
+                <span className="input-group-text cart-discount-suffix">%</span>
+              </div>
+            </div>
+          </div>
+
           {/* ── Totals ── */}
-          <div className="px-3 pt-2 pb-1 border-top">
+          <div className="cart-totals px-3 py-2">
             <div className="d-flex justify-content-between mb-1">
-              <span className="text-muted" style={{ fontSize: 13 }}>Item Total</span>
-              <span className="fw-medium" style={{ fontSize: 13 }}>₹{itemTotal.toLocaleString("en-IN")}</span>
+              <span className="cart-total-label">Item Total</span>
+              <span className="cart-total-value">{formatAmount(itemTotal)}</span>
             </div>
-            <div className="d-flex justify-content-between mb-2">
-              <span className="text-muted" style={{ fontSize: 13 }}>Taxes</span>
-              <span className="fw-medium" style={{ fontSize: 13 }}>₹0</span>
-            </div>
-
-            {/* Discount */}
-            <div className="row g-1 mb-1">
-              <div className="col-7">
-                <select
-                  className="form-select form-select-sm"
-                  value={discountOn}
-                  onChange={(e) => setDiscountOn(e.target.value)}
-                  style={{ fontSize: 12 }}
-                >
-                  <option value="" disabled>Discount on…</option>
-                  <option value="Grand Total">Grand Total</option>
-                  <option value="Net Total">Net Total</option>
-                </select>
-              </div>
-              <div className="col-5">
-                <div className="input-group input-group-sm">
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="0"
-                    min={0}
-                    max={100}
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                    style={{ fontSize: 12 }}
-                  />
-                  <span className="input-group-text" style={{ fontSize: 12 }}>%</span>
-                </div>
-              </div>
+            <div className="d-flex justify-content-between mb-1">
+              <span className="cart-total-label">Taxes</span>
+              <span className="cart-total-value">{formatAmount(0)}</span>
             </div>
 
-            {discountAmount > 0 && (
+            {itemDiscountTotal > 0 && (
               <div className="d-flex justify-content-between mb-1">
-                <span className="text-success" style={{ fontSize: 12 }}>
-                  Discount ({discount}% on {discountOn})
-                </span>
-                <span className="text-success fw-medium" style={{ fontSize: 12 }}>
-                  – ₹{discountAmount.toLocaleString("en-IN")}
+                <span className="cart-total-label" style={{ color: "var(--color-success-text)" }}>Item Discounts</span>
+                <span className="cart-total-value" style={{ color: "var(--color-success-text)" }}>
+                  – {formatAmount(itemDiscountTotal)}
                 </span>
               </div>
             )}
 
-            <hr className="my-2" />
-            <div className="d-flex justify-content-between align-items-center mb-1">
-              <span className="fw-bold" style={{ fontSize: 14 }}>Grand Total</span>
-              <span className="fw-bold" style={{ fontSize: 20 }}>₹{grandTotal.toLocaleString("en-IN")}</span>
+            {discountAmount > 0 && (
+              <div className="d-flex justify-content-between mb-1">
+                <span className="cart-total-label" style={{ color: "var(--color-success-text)" }}>
+                  Order Discount ({discount}%)
+                </span>
+                <span className="cart-total-value" style={{ color: "var(--color-success-text)" }}>
+                  – {formatAmount(discountAmount)}
+                </span>
+              </div>
+            )}
+
+            <div className="cart-grand-total d-flex justify-content-between align-items-center">
+              <span>Grand Total</span>
+              <span>{formatAmount(grandTotal)}</span>
             </div>
           </div>
 
           {/* ── Actions ── */}
-          <div className="px-3 pb-3 pt-1">
+          <div className="px-3 pb-3 pt-1 position-relative">
             <div className="row g-2 mb-2">
               <div className="col-6">
                 <button
-                  className="btn btn-outline-primary btn-sm w-100"
+                  className="pos-btn pos-btn-secondary w-100"
+                  style={{ height: 36, fontSize: 12.5 }}
                   onClick={createDraftInvoice}
                   disabled={saveDraft}
                 >
@@ -430,23 +382,39 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
                       Saving…
                     </>
                   ) : (
-                    "Save Draft"
+                    <>
+                      <i className="bi bi-save2 me-1" />
+                      Save Draft
+                    </>
                   )}
                 </button>
               </div>
               <div className="col-6">
-                <button className="btn btn-outline-primary btn-sm w-100">
+                <button
+                  className="pos-btn pos-btn-secondary w-100"
+                  style={{ height: 36, fontSize: 12.5 }}
+                  onClick={() => setShowDraftPicker(true)}
+                >
+                  <i className="bi bi-folder2-open me-1" />
                   Load Draft
                 </button>
               </div>
             </div>
 
             <button
-              className="btn btn-primary w-100"
-              onClick={() => setPayInvoice(true)}
-              disabled={cartItems.length === 0 || !invoiceDetails.customer}
+              className="pos-btn pos-btn-primary w-100"
+              style={{ height: 44, fontSize: 14 }}
+              onClick={() => {
+                if (!hasOpeningEntry) {
+                  openOpeningModal();
+                  return;
+                }
+                setPayInvoice(true);
+              }}
+              disabled={cartItems.length === 0 || !customer}
             >
-              Pay ₹{grandTotal.toLocaleString("en-IN")}
+              <i className="bi bi-credit-card me-1" />
+              Pay {formatAmount(grandTotal)}
             </button>
           </div>
 
@@ -456,8 +424,22 @@ const Cart = ({ invoiceDetails, onChangeInvoice }) => {
       {payInvoice && (
         <InvoicePay
           onClose={() => setPayInvoice(false)}
-          invoiceDetails={{ ...invoiceDetails, grandTotal, discountAmount, discountOn }}
-          onChangeInvoice={onChangeInvoice}
+          grandTotal={grandTotal}
+        />
+      )}
+
+      {showDraftPicker && (
+        <DraftPickerModal onClose={() => setShowDraftPicker(false)} onSelect={selectDraft} />
+      )}
+
+      {showNewCustomer && (
+        <NewCustomerModal
+          onClose={() => setShowNewCustomer(false)}
+          onCreated={(doc) => {
+            setCustomer(doc.name);
+            setCustomerLabel(doc.customer_name || doc.name);
+            setShowNewCustomer(false);
+          }}
         />
       )}
     </div>

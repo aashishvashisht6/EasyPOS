@@ -1,66 +1,37 @@
 import { useEffect, useState } from "react";
-import "./style.css";
 import { fetchItemGroups } from "../../api/ItemGroup";
 
 const ItemGroup = ({ selectedGroup, onChangeGroup }) => {
   const [itemGroups, setItemGroups] = useState([]);
 
-  const getItemGroups = () => {
-    fetchItemGroups().then((data) => {
-      setItemGroups(data);
-    });
-  };
-
   useEffect(() => {
-    getItemGroups();
+    fetchItemGroups().then((data) => setItemGroups(data ?? []));
   }, []);
 
   return (
-    <div
-      className="sidebar mx-0 d-none d-lg-block"
-      style={{
-        borderRight: "1px solid #E6EAED",
-        width: "7%",
-        maxHeight: "90vh",
-        overflowY: "scroll",
-      }}
-    >
-      <ul className="d-flex flex-column nav">
-        {itemGroups.length > 0 &&
-          itemGroups.map((row, idx) => {
-            return (
-              <li className="nav-item mt-3" key={idx}>
-                <div
-                  className={`card align-items-center text-center item-group-card cursor-pointer ${
-                    selectedGroup === row.item_group ? "selected-group" : ""
-                  }`}
-                  onClick={() => onChangeGroup(row.item_group)}
-                >
-                  {row.image ? (
-                    <img
-                      src={row.image}
-                      alt={row.item_group}
-                      height={40}
-                      width={35}
-                    />
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="35"
-                      height="40"
-                      fill="currentColor"
-                      className="bi bi-shop-window"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
-                    </svg>
-                  )}
-                  <p className="mb-0">{row.item_group}</p>
-                </div>
-              </li>
-            );
-          })}
-      </ul>
+    <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 2 }}>
+      <div
+        className={`pos-category-chip ${selectedGroup === "" ? "active" : ""}`}
+        onClick={() => onChangeGroup("")}
+      >
+        <i className="bi bi-grid" />
+        <span>All</span>
+      </div>
+
+      {itemGroups.map((row) => (
+        <div
+          key={row.item_group}
+          className={`pos-category-chip ${selectedGroup === row.item_group ? "active" : ""}`}
+          onClick={() => onChangeGroup(row.item_group)}
+        >
+          {row.image ? (
+            <img src={row.image} alt={row.item_group} width={16} height={16} style={{ objectFit: "cover", borderRadius: 4 }} />
+          ) : (
+            <i className="bi bi-tag" />
+          )}
+          <span>{row.item_group}</span>
+        </div>
+      ))}
     </div>
   );
 };

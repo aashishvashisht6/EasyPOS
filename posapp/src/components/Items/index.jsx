@@ -1,119 +1,143 @@
 import { useEffect, useState, useCallback, useMemo, useRef, memo } from "react";
-import "./style.css";
 import { fetchItems } from "../../api/Items";
 import useVirtualScroll from "../../hooks/VirtualScroll";
+import useCartStore from "../../store/cartStore";
+import usePOSSessionStore from "../../store/posSessionStore";
 
-const CARD_HEIGHT = 250;
-const COLUMNS = 4;
+const CARD_HEIGHT = 150; // actual card content is ~138.5px tall — must exceed that or virtualized rows overlap
+const CARD_MIN_WIDTH = 150; // px, includes gap — drives responsive column count
+const GRID_GAP = 10;
 
-// ── Memoized card (unchanged) ──────────────────────────────────────────────
-const ItemCard = memo(({ item, qty, onAdd, onIncrement, onDecrement }) => (
-  <button className="card align-items-center text-center overflow-hidden cursor-pointer h-60 item-card w-100" onClick={() => onAdd(item.item_code, item.rate)}>
-    {item.image ? (
-      <img src={item.image} alt={item.item_code} height={100} width={90} />
-    ) : (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="90"
-        height="100"
-        fill="currentColor"
-        className="bi bi-shop-window"
-        viewBox="0 0 16 16"
-      >
-        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
-      </svg>
+// ── Memoized card ───────────────────────────────────────────────────────────
+const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement }) => (
+  <div
+    className={`pos-item-card ${inCart ? "in-cart" : ""}`}
+    onClick={() => onAdd(item)}
+  >
+    {inCart && (
+      <div className="pos-item-check-badge">
+        <i className="bi bi-check" />
+      </div>
     )}
 
-    <p className="mb-0 mt-0">{item.item_group}</p>
-    <p className="mb-0 mt-0">{item.item_code.length > 20 ? `${item.item_code.substring(0, 20)}...` : item.item_code}</p>
-    <span className="badge rounded-pill text-bg-primary x-small-text fw-lighter">
-      {item.item_name}
-    </span>
-    <div className="d-flex align-items-center justify-content-between price w-100 px-2 my-3">
-      <p className="text-gray-9 mb-0 fw-semibold">₹ {item.rate}</p>
-      <div className="d-flex align-items-center gap-2">
-        <button
-          className="btn btn-sm btn-outline-secondary"
-          disabled={qty <= 1}
-          onClick={() => onDecrement(item.item_code)}
-        >
-          −
-        </button>
-        <span className="fw-semibold">{qty}</span>
-        <button
-          className="btn btn-sm btn-outline-primary"
-          onClick={() => onIncrement(item.item_code)}
-        >
-          +
-        </button>
-      </div>
+    <div className="pos-item-icon">
+      {item.image ? <img src={item.image} alt={item.item_code} /> : <i className="bi bi-box-seam" />}
     </div>
-  </button>
+
+    <div className="pos-item-name" title={item.item_name || item.item_code}>
+      {item.item_name || item.item_code}
+    </div>
+    <div className="pos-item-price">₹{item.rate}</div>
+
+    <div className="pos-item-stepper">
+      <button
+        type="button"
+        disabled={qty <= 1}
+        onClick={(e) => { e.stopPropagation(); onDecrement(item.item_code); }}
+      >
+        −
+      </button>
+      <span>{qty}</span>
+      <button type="button" onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}>
+        +
+      </button>
+    </div>
+  </div>
 ));
 
 // ── Main component ─────────────────────────────────────────────────────────
-const Items = ({ selectedGroup, invoiceDetails, onChangeInvoice }) => {
+const Items = ({ selectedGroup, searchText = "" }) => {
   const [items, setItems] = useState([]);
   const [itemQty, setItemQty] = useState({});
+  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef(null);
+  const addItem = useCartStore((s) => s.addItem);
+  const cartItems = useCartStore((s) => s.items);
+  const updateItemQtyByCode = useCartStore((s) => s.updateItemQtyByCode);
+  const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
+  const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
 
   useEffect(() => {
     fetchItems(selectedGroup).then(setItems);
   }, [selectedGroup]);
 
-  const cartItemMap = useMemo(
-    () => new Map(invoiceDetails.items.map((item) => [item.item_code, item])),
-    [invoiceDetails.items],
+  // Track panel width so the grid adapts across tablet/laptop/desktop instead
+  // of squeezing a fixed column count into whatever space the Cart leaves it.
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const columns = useMemo(() => {
+    if (!containerWidth) return 4;
+    return Math.max(2, Math.min(8, Math.floor((containerWidth + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP))));
+  }, [containerWidth]);
+
+  const cartQtyByCode = useMemo(
+    () => new Map(cartItems.map((item) => [item.item_code, item.qty])),
+    [cartItems],
   );
+  const cartCodes = useMemo(() => new Set(cartQtyByCode.keys()), [cartQtyByCode]);
+
+  const filteredItems = useMemo(() => {
+    const query = searchText.trim().toLowerCase();
+    if (!query) return items;
+    return items.filter(
+      (item) =>
+        item.item_code?.toLowerCase().includes(query) ||
+        item.item_name?.toLowerCase().includes(query),
+    );
+  }, [items, searchText]);
 
   const addItemToCart = useCallback(
-    (item_code, rate) => {
-      const qty = itemQty[item_code] ?? 1;
-      const existingItem = cartItemMap.get(item_code);
-
-      const updatedItems = existingItem
-        ? invoiceDetails.items.map((item) =>
-            item.item_code === item_code
-              ? {
-                  ...item,
-                  qty: item.qty + qty,
-                  rate,
-                  amount: (item.qty + qty) * rate,
-                }
-              : item,
-          )
-        : [
-            ...invoiceDetails.items,
-            { item_code, qty, rate, amount: qty * rate },
-          ];
-
-      onChangeInvoice({ ...invoiceDetails, items: updatedItems });
+    (item) => {
+      if (!hasOpeningEntry) {
+        openOpeningModal();
+        return;
+      }
+      const qty = itemQty[item.item_code] ?? 1;
+      addItem(item.item_code, item.rate, qty, {
+        has_serial_no: item.has_serial_no,
+        has_batch_no: item.has_batch_no,
+      });
     },
-    [itemQty, cartItemMap, invoiceDetails, onChangeInvoice],
+    [itemQty, addItem, hasOpeningEntry, openOpeningModal],
   );
 
   const handleDecrement = useCallback((item_code) => {
+    if (cartQtyByCode.has(item_code)) {
+      updateItemQtyByCode(item_code, cartQtyByCode.get(item_code) - 1);
+      return;
+    }
     setItemQty((prev) => ({
       ...prev,
       [item_code]: Math.max((prev[item_code] ?? 1) - 1, 1),
     }));
-  }, []);
+  }, [cartQtyByCode, updateItemQtyByCode]);
 
   const handleIncrement = useCallback((item_code) => {
+    if (cartQtyByCode.has(item_code)) {
+      updateItemQtyByCode(item_code, cartQtyByCode.get(item_code) + 1);
+      return;
+    }
     setItemQty((prev) => ({
       ...prev,
       [item_code]: (prev[item_code] ?? 1) + 1,
     }));
-  }, []);
+  }, [cartQtyByCode, updateItemQtyByCode]);
 
-  // Chunk flat list → rows of 4
+  // Chunk flat list → rows of `columns`
   const rows = useMemo(() => {
     const result = [];
-    for (let i = 0; i < items.length; i += COLUMNS) {
-      result.push(items.slice(i, i + COLUMNS));
+    for (let i = 0; i < filteredItems.length; i += columns) {
+      result.push(filteredItems.slice(i, i + columns));
     }
     return result;
-  }, [items]);
+  }, [filteredItems, columns]);
 
   const { visibleRange, totalHeight, onScroll } = useVirtualScroll({
     totalRows: rows.length,
@@ -121,72 +145,58 @@ const Items = ({ selectedGroup, invoiceDetails, onChangeInvoice }) => {
     containerRef,
   });
 
-  // Only slice the rows that are actually visible
   const visibleRows = rows.slice(visibleRange.start, visibleRange.end + 1);
 
   return (
-    <div className="product-section mx-2 border-0">
-      <div className="input-group mb-3 mt-3">
-        <span className="input-group-text">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-search"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-          </svg>
-        </span>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search Item Code, Item Name, Batch & Serial No"
-        />
-      </div>
-
-      {/* Scrollable container */}
+    <div
+      className="pos-card"
+      style={{ flex: 1, padding: 14, minWidth: 0, height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}
+    >
       <div
         ref={containerRef}
         onScroll={onScroll}
-        style={{
-          height: "calc(100vh - 160px)",
-          overflowY: "auto",
-          position: "relative",
-        }}
+        style={{ flex: 1, overflowY: "auto", position: "relative", minHeight: 0 }}
       >
-        {/* Full height spacer — makes the scrollbar reflect actual list size */}
+        {filteredItems.length === 0 ? (
+          <div className="d-flex flex-column align-items-center justify-content-center text-muted gap-2 h-100">
+            <i className="bi bi-box-seam" style={{ fontSize: 30, opacity: 0.25 }} />
+            <span style={{ fontSize: 13 }}>
+              {searchText ? "No items match your search" : "No items in this category"}
+            </span>
+          </div>
+        ) : (
         <div style={{ height: totalHeight, position: "relative" }}>
-          {/* Only visible rows are rendered, positioned absolutely */}
           {visibleRows.map((rowItems, i) => {
             const rowIndex = visibleRange.start + i;
             return (
               <div
                 key={rowIndex}
-                className="row mx-0"
                 style={{
                   position: "absolute",
-                  top: rowIndex * CARD_HEIGHT, // ← pushes row to correct position
+                  top: rowIndex * CARD_HEIGHT,
                   width: "100%",
                   height: CARD_HEIGHT,
+                  display: "grid",
+                  gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                  gap: GRID_GAP,
                 }}
               >
                 {rowItems.map((item) => (
-                  <div className="col-sm-3 p-2" key={item.item_code}>
-                    <ItemCard
-                      item={item}
-                      qty={itemQty[item.item_code] ?? 1}
-                      onAdd={addItemToCart}
-                      onIncrement={handleIncrement}
-                      onDecrement={handleDecrement}
-                    />
-                  </div>
+                  <ItemCard
+                    key={item.item_code}
+                    item={item}
+                    qty={cartQtyByCode.get(item.item_code) ?? itemQty[item.item_code] ?? 1}
+                    inCart={cartCodes.has(item.item_code)}
+                    onAdd={addItemToCart}
+                    onIncrement={handleIncrement}
+                    onDecrement={handleDecrement}
+                  />
                 ))}
               </div>
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );

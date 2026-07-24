@@ -24,7 +24,12 @@ def get_items(item_group=None):
         else:
             filters.update({"item_group": item_group})
 
-    items = frappe.get_all("Item", filters=filters, fields=["name as item_code", "item_name", "description", "item_group", "image"], order_by="name asc")
+    items = frappe.get_all(
+        "Item",
+        filters=filters,
+        fields=["name as item_code", "item_name", "description", "item_group", "image", "has_serial_no", "has_batch_no"],
+        order_by="name asc",
+    )
     for item in items:
         # if not item.image:
         #     item.image = "https://dreamspos.dreamstechnologies.com/html/template/assets/img/products/pos-product-01.png"
