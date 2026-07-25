@@ -14,7 +14,7 @@ const getInitials = (name) => {
     .toUpperCase();
 };
 
-const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Search..." }) => {
+const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Search...", onScanClick }) => {
   const navigate = useNavigate();
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
@@ -37,10 +37,22 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
               <i className="bi bi-search" />
               <input
                 type="text"
+                className={onScanClick ? "has-scan-btn" : ""}
                 placeholder={searchPlaceholder}
                 value={searchValue}
                 onChange={(e) => onSearchChange(e.target.value)}
               />
+              {onScanClick && (
+                <button
+                  type="button"
+                  className="pos-search-scan-btn"
+                  title="Scan with camera"
+                  aria-label="Scan with camera"
+                  onClick={onScanClick}
+                >
+                  <i className="bi bi-upc-scan" />
+                </button>
+              )}
             </div>
           )}
         </div>

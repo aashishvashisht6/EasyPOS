@@ -30,6 +30,12 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
         </div>
       )}
 
+      {item.is_product_bundle && (
+        <div className="pos-item-bundle-badge" title="Product Bundle">
+          <i className="bi bi-boxes" />
+        </div>
+      )}
+
       <div className="pos-item-icon">
         {item.image ? <img src={item.image} alt={item.item_code} /> : <i className="bi bi-box-seam" />}
       </div>
@@ -137,6 +143,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
             batch_no: item.batch_no ?? "",
             item_tax_template: item.item_tax_template,
             item_tax_rate: item.item_tax_rate,
+            is_product_bundle: item.is_product_bundle,
           }, currencyPrecision);
         }
         setSearchResults(null);
@@ -192,6 +199,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         has_batch_no: item.has_batch_no,
         item_tax_template: item.item_tax_template,
         item_tax_rate: item.item_tax_rate,
+        is_product_bundle: item.is_product_bundle,
       }, currencyPrecision);
     },
     [itemQty, addItem, hasOpeningEntry, openOpeningModal, currencyPrecision],

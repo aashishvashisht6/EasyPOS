@@ -196,6 +196,24 @@ const InvoiceDetailPage = () => {
                 { value: money(invoice.net_total), align: "end" },
               ],
             },
+            ...(invoice.packed_items?.length
+              ? [
+                  {
+                    type: "table",
+                    title: "Bundle Components",
+                    columns: [
+                      { key: "parent_item", label: "Bundle Item", width: "1.4fr" },
+                      { key: "item_code", label: "Component", width: "1.4fr" },
+                      { key: "qty", label: "Qty", width: "0.6fr", align: "center" },
+                      { key: "uom", label: "UOM", width: "0.7fr" },
+                      { key: "warehouse", label: "Warehouse", width: "1.2fr" },
+                    ],
+                    rows: invoice.packed_items,
+                    rowKey: "name",
+                    emptyMessage: "No bundle components",
+                  },
+                ]
+              : []),
             {
               type: "fields",
               title: "Additional Discount",

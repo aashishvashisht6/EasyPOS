@@ -2,9 +2,9 @@
 
 Status: **approved for future implementation** (2026-07-25) — not yet built. This is a planning document only; each item below still needs its own implementation plan before work starts. Selected from a broader feature-gap analysis against common POS products, cross-checked against what Easy POS already ships (see [README's Features](../README.md#features) and [Roadmap](../README.md#roadmap) sections) so nothing here duplicates existing functionality.
 
-## 1. Barcode Scanner Hardware Input
+## 1. Barcode Scanner Hardware Input — ✅ Done (2026-07-25)
 
-Accept input from USB/Bluetooth barcode scanners (and optionally a device camera) directly into the Terminal's item search, so a cashier can scan an item's barcode to add it to the cart instead of typing/searching. Most hardware scanners act as a keyboard-wedge device (rapid keystrokes + Enter), so this is largely a matter of listening for fast sequential input on the existing search box in `posapp/src/pages/POSTerminalPage.jsx` and resolving it against `Item` barcodes via `easy_pos/api/item.py`. Already flagged in the README roadmap as a planned hardware capability.
+~~Accept input from USB/Bluetooth barcode scanners (and optionally a device camera) directly into the Terminal's item search, so a cashier can scan an item's barcode to add it to the cart instead of typing/searching. Most hardware scanners act as a keyboard-wedge device (rapid keystrokes + Enter), so this is largely a matter of listening for fast sequential input on the existing search box in `posapp/src/pages/POSTerminalPage.jsx` and resolving it against `Item` barcodes via `easy_pos/api/item.py`. Already flagged in the README roadmap as a planned hardware capability.~~ Shipped, both input methods: `posapp/src/hooks/useBarcodeScanner.js` is a reusable global-keydown hook detecting a hardware keyboard-wedge scanner's fast-keystrokes-then-Enter pattern anywhere on the page (skipped while an editable field has focus, so manual typing in the search box is unaffected); `posapp/src/components/common/BarcodeScannerModal.jsx` is a camera-based equivalent using the new `@zxing/browser` dependency. Both feed the scanned code into `POSTerminalPage.jsx`'s existing `searchText` state, reusing `Items`' existing debounce/match/auto-add pipeline rather than duplicating cart logic. See the "Barcode scanning" entry in [`CLAUDE.md`](../CLAUDE.md) for the full implementation notes, including a gotcha around `AppLayout.jsx`'s topbar prop allowlist.
 
 ## 2. Receipt Delivery
 
@@ -34,9 +34,9 @@ Optionally prompt the customer (or send a follow-up link) to rate their experien
 
 When adding an item with variants (ERPNext's Item Attribute / template-variant model — e.g. size/color) to the cart, show an attribute-picker instead of requiring the cashier to know the exact variant `item_code`. Touches the item grid/search in `POSTerminalPage.jsx` and `easy_pos/api/item.py`'s item resolution.
 
-## 9. Bundle / Kit Items
+## 9. Bundle / Kit Items — ✅ Done (2026-07-25)
 
-Support selling a composite "kit" item that, on submit, decrements stock for its component items (ERPNext's Product Bundle doctype) rather than the kit itself. Needs cart/backend awareness that a line is a bundle so `create_invoice` in `easy_pos/api/pos.py` submits the right stock-affecting rows, mirroring how ERPNext's own Sales Invoice already expands Product Bundles.
+~~Support selling a composite "kit" item that, on submit, decrements stock for its component items (ERPNext's Product Bundle doctype) rather than the kit itself. Needs cart/backend awareness that a line is a bundle so `create_invoice` in `easy_pos/api/pos.py` submits the right stock-affecting rows, mirroring how ERPNext's own Sales Invoice already expands Product Bundles.~~ Shipped: the item grid/search (`easy_pos/api/item.py`) stamps an `is_product_bundle` flag on any item that's a Product Bundle's `new_item_code`, shown as a badge on `Items/index.jsx`'s item card; the cart line's expand panel (`Cart/index.jsx`) fetches and previews the bundle's components (read-only) via a new `get_product_bundle_contents` endpoint; and `InvoiceDetailPage.jsx` shows the exploded `packed_items` on a submitted invoice. **No change was needed in `create_invoice`** — a bundle parent item goes through as a normal Sales Invoice Item row, and ERPNext's own `update_packing_list`/`make_packing_list` (fires whenever `update_stock=1`, always set here) auto-populates `packed_items` and deducts component stock exactly as desk's own Sales Invoice does. See the "Product Bundle support" entry in [`CLAUDE.md`](../CLAUDE.md) for the full gotcha (notably: bundle components can't be serial/batch-tracked items yet).
 
 ## 10. Reports & Dashboard for Cashier
 

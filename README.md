@@ -30,7 +30,9 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ### 🧾 Checkout & Sales
 - **POS Terminal** — cart-based checkout with live item search, quantity/rate editing, line and invoice-level discounts, and multi-mode (split) payments in one screen
+- **Barcode scanning** — scan with a USB/Bluetooth hardware scanner (keyboard-wedge input, works anywhere on the Terminal without clicking into the search box first) or the device camera; both resolve against item barcode/serial/batch/item code and auto-add a unique match straight to the cart
 - **Held / draft sales** — park an in-progress cart as a Draft invoice and pull it back into the terminal later via the draft picker, so a cashier can serve another customer without losing a sale
+- **Product Bundles** — add an ERPNext Product Bundle straight from the item grid like any other item; the terminal flags it with a bundle badge and previews its components in the cart, while ERPNext itself explodes it into the invoice's packed items and deducts component stock on checkout
 
 ### 🏷️ Pricing & Discounts
 - **Discounts (Pricing Rules)** — a dedicated admin screen (list + editor) for ERPNext Pricing Rules: percentage discounts, flat-amount discounts, and free-item ("Buy X Get Y") rules, scoped by item/item group/brand, customer/customer group, min/max qty or amount, priority, and validity dates — applied automatically to the cart, on top of manual per-cart overrides
@@ -72,11 +74,11 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments, Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, and installable-PWA app shell caching. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, and installable-PWA app shell caching. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype
-- **Reporting & hardware** — X/Z shift reports, barcode scanner input, and cash-drawer triggering
+- **Reporting & hardware** — X/Z shift reports and cash-drawer triggering
 
 See [`docs/UPCOMING_FEATURES.md`](docs/UPCOMING_FEATURES.md) for the full, itemized backlog beyond this roadmap (receipt delivery, split bill, manager-approval PINs, item variants, and more).
 
@@ -126,6 +128,7 @@ yarn build    # production build; also copies built HTML into the Frappe app
 - Zustand 5 (global state)
 - Bootstrap 5 + Bootstrap Icons
 - Vite 7
+- @zxing/browser (camera barcode/QR scanning)
 
 **Backend**
 - Frappe Framework

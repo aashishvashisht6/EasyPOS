@@ -52,6 +52,11 @@ const useCartStore = create((set, get) => ({
             has_batch_no: !!meta.has_batch_no,
             serial_no: meta.serial_no ?? "",
             batch_no: meta.batch_no ?? "",
+            // Display-only — a Product Bundle parent item (easy_pos.api.item's
+            // is_product_bundle flag). ERPNext explodes it into packed_items
+            // itself on save; this only drives the cart line's bundle badge
+            // and read-only component preview.
+            is_product_bundle: !!meta.is_product_bundle,
             // Item-level discount, independent of the cart/order-level discount —
             // populated by applyPricing() from the Pricing Rule engine, or left
             // at 0 until the next pricing fetch resolves (see PP-01/PP-02 for

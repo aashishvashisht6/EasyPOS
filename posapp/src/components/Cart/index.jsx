@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { postDraftInvoice, fetchInvoice } from "../../api/Invoice";
+import { fetchProductBundleContents } from "../../api/Items";
 import { fetchCartPricing } from "../../api/Pricing";
 import { fetchCustomerLoyaltySummary } from "../../api/LoyaltyProgram";
 import usePOSSessionStore from "../../store/posSessionStore";
@@ -61,6 +62,9 @@ const Cart = () => {
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
   const [pricingLoading, setPricingLoading] = useState(false);
+  // Read-only Product Bundle component preview, fetched lazily per item_code
+  // the first time its cart line is expanded (see easy_pos.api.item.get_product_bundle_contents).
+  const [bundleContents, setBundleContents] = useState({});
 
   // POS Profile customer_groups restriction (PP-05) — empty = unrestricted,
   // same convention as item_groups (see easy_pos.api.item._allowed_item_groups).
@@ -356,10 +360,22 @@ const Cart = () => {
                       <div key={`item-${index}`} className={`cart-line-wrap ${expanded ? "expanded" : ""}`}>
                         <div
                           className="cart-line"
-                          onClick={() => setExpandedIndex(expanded ? null : index)}
+                          onClick={() => {
+                            const next = expanded ? null : index;
+                            setExpandedIndex(next);
+                            if (
+                              next !== null &&
+                              item.is_product_bundle &&
+                              !bundleContents[item.item_code]
+                            ) {
+                              fetchProductBundleContents(item.item_code).then((rows) => {
+                                setBundleContents((prev) => ({ ...prev, [item.item_code]: rows ?? [] }));
+                              });
+                            }
+                          }}
                         >
                           <div className="cart-line-icon">
-                            <i className="bi bi-box-seam" />
+                            <i className={`bi ${item.is_product_bundle ? "bi-boxes" : "bi-box-seam"}`} />
                           </div>
 
                           <div className="cart-line-info">
@@ -464,6 +480,33 @@ const Cart = () => {
                                   onClick={(e) => e.stopPropagation()}
                                   onChange={(value) => updateItemField(index, "batch_no", value)}
                                 />
+                              </div>
+                            )}
+
+                            {item.is_product_bundle && (
+                              <div style={{ minWidth: 200, flex: 1 }}>
+                                <div className="cart-detail-label">
+                                  <i className="bi bi-boxes me-1" />
+                                  Bundle Contents
+                                </div>
+                                {bundleContents[item.item_code] === undefined ? (
+                                  <div style={{ fontSize: 11, color: "var(--color-text-faint)" }}>Loading…</div>
+                                ) : bundleContents[item.item_code].length === 0 ? (
+                                  <div style={{ fontSize: 11, color: "var(--color-text-faint)" }}>No components</div>
+                                ) : (
+                                  bundleContents[item.item_code].map((row, i) => (
+                                    <div
+                                      key={`bundle-${item.item_code}-${i}`}
+                                      className="d-flex justify-content-between"
+                                      style={{ fontSize: 11.5 }}
+                                    >
+                                      <span>{row.item_name || row.item_code}</span>
+                                      <span style={{ color: "var(--color-text-faint)" }}>
+                                        {row.qty * item.qty} {row.uom}
+                                      </span>
+                                    </div>
+                                  ))
+                                )}
                               </div>
                             )}
                           </div>

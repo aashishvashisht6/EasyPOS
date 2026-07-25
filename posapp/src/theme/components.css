@@ -235,6 +235,32 @@
   box-sizing: border-box;
 }
 
+.pos-search input.has-scan-btn {
+  padding-right: 26px;
+}
+
+.pos-search-scan-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-faint);
+  border-radius: var(--radius-sm);
+}
+
+.pos-search-scan-btn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-subtle, rgba(0, 0, 0, 0.05));
+}
+
 /* Sync / status pill (dot + label) */
 .pos-status-pill {
   display: flex;
@@ -868,6 +894,21 @@
   align-items: center;
   justify-content: center;
   font-size: 9px;
+}
+
+.pos-item-bundle-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-warning-bg-soft);
+  color: var(--color-warning-text-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
 }
 
 .pos-item-icon {

@@ -14,6 +14,20 @@ ITEM_FIELDS = [
 ]
 
 
+def _get_bundle_item_codes(item_codes):
+    """Subset of `item_codes` that are a Product Bundle's parent item (`new_item_code`)
+    — mirrors erpnext.stock.doctype.packed_item.packed_item.is_product_bundle, batched
+    for the whole grid/search result instead of one exists() check per item."""
+    if not item_codes:
+        return set()
+    rows = frappe.get_all(
+        "Product Bundle",
+        filters={"new_item_code": ["in", item_codes], "disabled": 0},
+        pluck="new_item_code",
+    )
+    return set(rows)
+
+
 def _get_stock_map(item_codes, warehouse):
     """actual_qty per item_code for the given warehouse; empty until a warehouse is known."""
     if not warehouse or not item_codes:
@@ -266,6 +280,7 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
     stock_map = _get_stock_map(item_codes, warehouse)
     rate_map = _get_rate_map(item_codes, price_list, customer)
     tax_map = _get_item_tax_map(items, warehouse)
+    bundle_codes = _get_bundle_item_codes(item_codes)
     for item in items:
         if warehouse and item.get("is_stock_item"):
             item.stock = stock_map.get(item.item_code, 0)
@@ -275,6 +290,7 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
             flt(rate_map.get(item.item_code, 0), precision=currency_precision) if price_list else None
         )
         item.item_tax_template, item.item_tax_rate = tax_map.get(item.item_code, ("", {}))
+        item.is_product_bundle = item.item_code in bundle_codes
     return items
 
 
@@ -285,6 +301,36 @@ def _get_item(item_code, warehouse=None, price_list=None, customer=None, **extra
     _attach_stock_and_rate([item], warehouse, price_list, customer)
     item.update(extra)
     return item
+
+
+@frappe.whitelist()
+def get_product_bundle_contents(item_code):
+    """Component rows of the Product Bundle whose `new_item_code` is `item_code`
+    — display-only for the cart line's detail panel (see is_product_bundle
+    above). ERPNext explodes the actual bundle into Sales Invoice `packed_items`
+    itself (make_packing_list, fired from Sales Invoice.validate whenever
+    update_stock=1, which create_invoice always sets) — this is purely a
+    preview so the cashier can see what's inside before checking out.
+    """
+    ProductBundle = frappe.qb.DocType("Product Bundle")
+    ProductBundleItem = frappe.qb.DocType("Product Bundle Item")
+    Item = frappe.qb.DocType("Item")
+    rows = (
+        frappe.qb.from_(ProductBundleItem)
+        .join(ProductBundle)
+        .on(ProductBundleItem.parent == ProductBundle.name)
+        .left_join(Item)
+        .on(Item.name == ProductBundleItem.item_code)
+        .select(
+            ProductBundleItem.item_code,
+            Item.item_name,
+            ProductBundleItem.qty,
+            ProductBundleItem.uom,
+        )
+        .where((ProductBundle.new_item_code == item_code) & (ProductBundle.disabled == 0))
+        .orderby(ProductBundleItem.idx)
+    ).run(as_dict=True)
+    return rows
 
 
 @frappe.whitelist()

@@ -8,6 +8,7 @@ const DEFAULT_TOPBAR = {
   searchValue: undefined,
   onSearchChange: undefined,
   searchPlaceholder: undefined,
+  onScanClick: undefined,
 };
 
 // Persistent app shell: Sidebar + Topbar stay mounted across route changes,
@@ -40,6 +41,7 @@ const AppLayout = () => {
           searchValue={topbar.searchValue}
           onSearchChange={topbar.onSearchChange}
           searchPlaceholder={topbar.searchPlaceholder}
+          onScanClick={topbar.onScanClick}
         />
 
         <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>

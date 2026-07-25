@@ -15,3 +15,4 @@ export { default as Pagination } from "./Pagination";
 export { default as DetailField } from "./DetailField";
 export { default as ChildTable } from "./ChildTable";
 export { default as FormView } from "./FormView";
+export { default as BarcodeScannerModal } from "./BarcodeScannerModal";

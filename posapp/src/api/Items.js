@@ -27,3 +27,17 @@ export const searchItem = async (search_text, warehouse, price_list, customer, p
 		console.error(error);
 	}
 };
+
+// Read-only component list (item_code/item_name/qty/uom) of a Product Bundle
+// parent item — display-only preview for the cart line detail panel; ERPNext
+// itself explodes the bundle into Sales Invoice packed_items on save.
+export const fetchProductBundleContents = async (item_code) => {
+	try {
+		const response = await engineGet("/api/method/easy_pos.api.item.get_product_bundle_contents", {
+			params: { item_code },
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
