@@ -163,24 +163,94 @@ def _get_item_tax_map(items, warehouse):
     }
 
 
-def _get_rate_map(item_codes, price_list):
-    """price_list_rate per item_code for the given selling price list; empty until a price list is known."""
+def _get_rate_map(item_codes, price_list, customer=None):
+    """price_list_rate per item_code for the given selling price list; empty until a price list is known.
+
+    Resolution order per item (mirrors erpnext.stock.get_item_details.get_price_list_rate's
+    intent, simplified for the grid/search preview — the full engine, incl.
+    Pricing Rule application, runs at cart time via easy_pos.api.pricing.get_cart_pricing):
+    1. A customer-specific Item Price row (customer set, matching `customer`) for this price list.
+    2. A generic Item Price row (no customer) for this price list.
+    Both are further filtered to rows whose valid_from/valid_upto window includes
+    today; if neither yields a match, the Item's own `standard_rate` is used.
+    """
     if not price_list or not item_codes:
         return {}
+    today = getdate(nowdate())
+    filters = {"item_code": ["in", item_codes], "price_list": price_list, "selling": 1}
     rows = frappe.get_all(
         "Item Price",
-        filters={"item_code": ["in", item_codes], "price_list": price_list, "selling": 1},
-        fields=["item_code", "price_list_rate"],
+        filters=filters,
+        fields=["item_code", "price_list_rate", "customer", "valid_from", "valid_upto"],
     )
-    rate_map = {}
+
+    def _is_valid(row):
+        if row.valid_from and getdate(row.valid_from) > today:
+            return False
+        if row.valid_upto and getdate(row.valid_upto) < today:
+            return False
+        return True
+
+    customer_rate, generic_rate = {}, {}
     for row in rows:
-        # First match wins — a second Item Price row for the same item (eg. a
-        # customer-specific rate) shouldn't override the general price list rate.
-        rate_map.setdefault(row.item_code, row.price_list_rate)
+        if not _is_valid(row):
+            continue
+        if customer and row.customer == customer:
+            customer_rate.setdefault(row.item_code, row.price_list_rate)
+        elif not row.customer:
+            generic_rate.setdefault(row.item_code, row.price_list_rate)
+
+    rate_map = {}
+    for item_code in item_codes:
+        if item_code in customer_rate:
+            rate_map[item_code] = customer_rate[item_code]
+        elif item_code in generic_rate:
+            rate_map[item_code] = generic_rate[item_code]
+
+    missing = [code for code in item_codes if code not in rate_map]
+    if missing:
+        standard_rates = frappe.get_all(
+            "Item", filters={"name": ["in", missing]}, fields=["name", "standard_rate"]
+        )
+        for row in standard_rates:
+            if row.standard_rate:
+                rate_map[row.name] = row.standard_rate
+
     return rate_map
 
 
-def _attach_stock_and_rate(items, warehouse, price_list):
+def _allowed_item_groups(pos_profile):
+    """Set of Item Group names the given POS Profile restricts the terminal to
+    (expanded to include descendants of each configured group), or None when
+    the profile's `item_groups` child table is empty — ERPNext's own convention
+    for "no restriction, every group allowed"."""
+    if not pos_profile:
+        return None
+    rows = frappe.get_all(
+        "POS Item Group",
+        filters={"parent": pos_profile, "parenttype": "POS Profile"},
+        fields=["item_group"],
+    )
+    if not rows:
+        return None
+
+    groups = frappe.get_all("Item Group", fields=["name", "parent_item_group"])
+    children_of = {}
+    for g in groups:
+        children_of.setdefault(g.parent_item_group, []).append(g.name)
+
+    expanded = set()
+    stack = [row.item_group for row in rows]
+    while stack:
+        group = stack.pop()
+        if group in expanded:
+            continue
+        expanded.add(group)
+        stack.extend(children_of.get(group, []))
+    return expanded
+
+
+def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
     """
     Stamps stock/rate onto each item dict in place. Both stay None until a
     warehouse/price list is known — ie. before an Opening Entry exists — so the
@@ -194,7 +264,7 @@ def _attach_stock_and_rate(items, warehouse, price_list):
     currency_precision = get_currency_precision()
     item_codes = [item.item_code for item in items]
     stock_map = _get_stock_map(item_codes, warehouse)
-    rate_map = _get_rate_map(item_codes, price_list)
+    rate_map = _get_rate_map(item_codes, price_list, customer)
     tax_map = _get_item_tax_map(items, warehouse)
     for item in items:
         if warehouse and item.get("is_stock_item"):
@@ -208,11 +278,11 @@ def _attach_stock_and_rate(items, warehouse, price_list):
     return items
 
 
-def _get_item(item_code, warehouse=None, price_list=None, **extra):
+def _get_item(item_code, warehouse=None, price_list=None, customer=None, **extra):
     item = frappe.db.get_value("Item", item_code, ITEM_FIELDS, as_dict=True)
     if not item:
         return None
-    _attach_stock_and_rate([item], warehouse, price_list)
+    _attach_stock_and_rate([item], warehouse, price_list, customer)
     item.update(extra)
     return item
 
@@ -224,11 +294,13 @@ def get_item_groups():
     return item_groups
 
 @frappe.whitelist()
-def get_items(item_group=None, warehouse=None, price_list=None):
+def get_items(item_group=None, warehouse=None, price_list=None, customer=None, pos_profile=None):
     """
     Getting All Items as needs for offline functionality.
     stock/rate are resolved from `warehouse`/`price_list` — the POS Profile
     behind the cashier's Opening Entry — and stay None until those are known.
+    `pos_profile`, when given, restricts results to its configured `item_groups`
+    (empty on the profile = no restriction, matching ERPNext's own convention).
     """
     filters = {"disabled":0, "has_variants":0}
     if item_group:
@@ -242,23 +314,35 @@ def get_items(item_group=None, warehouse=None, price_list=None):
         else:
             filters.update({"item_group": item_group})
 
+    allowed_groups = _allowed_item_groups(pos_profile)
+    if allowed_groups is not None:
+        current = filters.get("item_group")
+        if current is None:
+            filters["item_group"] = ["in", list(allowed_groups)]
+        elif isinstance(current, list) and current[0] == "in":
+            filters["item_group"] = ["in", [g for g in current[1] if g in allowed_groups]]
+        elif current not in allowed_groups:
+            filters["item_group"] = ["in", []]
+
     items = frappe.get_all(
         "Item",
         filters=filters,
         fields=ITEM_FIELDS,
         order_by="name asc",
     )
-    _attach_stock_and_rate(items, warehouse, price_list)
+    _attach_stock_and_rate(items, warehouse, price_list, customer)
     return items
 
 
 @frappe.whitelist()
-def search_item(search_text, warehouse=None, price_list=None):
+def search_item(search_text, warehouse=None, price_list=None, customer=None, pos_profile=None):
     """
     Resolve a scanned/typed value against everything a cashier might key into the
     POS search box: an item barcode, a serial no, a batch no, an exact item code,
     or a fuzzy item code/name/barcode search. stock/rate are resolved the same
     way as get_items — from the warehouse/price list behind the Opening Entry.
+    `pos_profile`'s `item_groups` restriction (see get_items) applies here too —
+    a scanned/typed item outside the allowed groups resolves to no match.
 
     Returns {"match_type": "barcode"|"serial_no"|"batch_no"|"item_code"|"search", "items": [...]}
     "items" has exactly one entry for the first four (exact) match types, so the
@@ -268,31 +352,36 @@ def search_item(search_text, warehouse=None, price_list=None):
     if not search_text:
         return {"match_type": "search", "items": []}
 
+    allowed_groups = _allowed_item_groups(pos_profile)
+
+    def _allowed(item):
+        return item and (allowed_groups is None or item.item_group in allowed_groups)
+
     # 1. Barcode — exact match on the Item's barcodes child table
     item_code = frappe.db.get_value("Item Barcode", {"barcode": search_text}, "parent")
     if item_code:
-        item = _get_item(item_code, warehouse, price_list)
-        if item:
+        item = _get_item(item_code, warehouse, price_list, customer)
+        if _allowed(item):
             return {"match_type": "barcode", "items": [item]}
 
     # 2. Serial No — exact match, carries its item + batch along
     if frappe.db.exists("Serial No", search_text):
         serial = frappe.db.get_value("Serial No", search_text, ["item_code", "batch_no"], as_dict=True)
-        item = _get_item(serial.item_code, warehouse, price_list, serial_no=search_text, batch_no=serial.batch_no or "")
-        if item:
+        item = _get_item(serial.item_code, warehouse, price_list, customer, serial_no=search_text, batch_no=serial.batch_no or "")
+        if _allowed(item):
             return {"match_type": "serial_no", "items": [item]}
 
     # 3. Batch No — exact match
     if frappe.db.exists("Batch", search_text):
         batch_item = frappe.db.get_value("Batch", search_text, "item")
-        item = _get_item(batch_item, warehouse, price_list, batch_no=search_text)
-        if item:
+        item = _get_item(batch_item, warehouse, price_list, customer, batch_no=search_text)
+        if _allowed(item):
             return {"match_type": "batch_no", "items": [item]}
 
     # 4. Item code — exact match
     if frappe.db.exists("Item", search_text):
-        item = _get_item(search_text, warehouse, price_list)
-        if item:
+        item = _get_item(search_text, warehouse, price_list, customer)
+        if _allowed(item):
             return {"match_type": "item_code", "items": [item]}
 
     # 5. Fallback — fuzzy search across item code, item name, and barcode
@@ -323,9 +412,10 @@ def search_item(search_text, warehouse=None, price_list=None):
                 | ItemBarcode.barcode.like(like)
             )
         )
-        .orderby(Item.name)
-        .limit(50)
     )
+    if allowed_groups is not None:
+        query = query.where(Item.item_group.isin(list(allowed_groups)))
+    query = query.orderby(Item.name).limit(50)
     items = query.run(as_dict=True)
-    _attach_stock_and_rate(items, warehouse, price_list)
+    _attach_stock_and_rate(items, warehouse, price_list, customer)
     return {"match_type": "search", "items": items}

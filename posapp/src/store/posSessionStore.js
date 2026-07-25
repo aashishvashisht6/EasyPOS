@@ -33,6 +33,15 @@ const usePOSSessionStore = create((set, get) => ({
   // own `taxes` table (easy_pos.api.pos.create_invoice).
   taxesAndCharges: "",
   taxTemplateRows: [],
+  // Pricing-related POS Profile flags/restrictions — fetched once per shift,
+  // same as warehouse/priceList above, and unused until the Terminal wires
+  // them in (see docs/POS_PRICING_USE_CASES.md, category D).
+  posProfile: "",
+  ignorePricingRule: false,
+  allowRateChange: false,
+  allowDiscountChange: false,
+  itemGroups: [],
+  customerGroups: [],
 
   loadProfileDetails: async (pos_profile) => {
     if (!pos_profile) return;
@@ -55,6 +64,12 @@ const usePOSSessionStore = create((set, get) => ({
       priceList: profile.selling_price_list || "",
       taxesAndCharges: profile.taxes_and_charges || "",
       taxTemplateRows,
+      posProfile: profile.name || pos_profile,
+      ignorePricingRule: !!profile.ignore_pricing_rule,
+      allowRateChange: !!profile.allow_rate_change,
+      allowDiscountChange: !!profile.allow_discount_change,
+      itemGroups: (profile.item_groups ?? []).map((row) => row.item_group),
+      customerGroups: (profile.customer_groups ?? []).map((row) => row.customer_group),
     });
   },
 
@@ -87,6 +102,12 @@ const usePOSSessionStore = create((set, get) => ({
       priceList: "",
       taxesAndCharges: "",
       taxTemplateRows: [],
+      posProfile: "",
+      ignorePricingRule: false,
+      allowRateChange: false,
+      allowDiscountChange: false,
+      itemGroups: [],
+      customerGroups: [],
     });
   },
 

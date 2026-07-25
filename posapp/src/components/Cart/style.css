@@ -235,7 +235,8 @@
   margin-bottom: 0;
 }
 
-.cart-discount-row .pos-field {
+.cart-discount-row .pos-field,
+.cart-coupon-row .pos-field {
   margin-bottom: 0;
 }
 

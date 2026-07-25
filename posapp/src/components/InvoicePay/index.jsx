@@ -4,7 +4,7 @@ import { postPaymentInvoice } from "../../api/Invoice";
 import { fetchProfile } from "../../api/POSProfile";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
-import { Modal, CurrencyField } from "../common";
+import { Modal, CurrencyField, NumberField, CheckboxField } from "../common";
 import { roundCurrency } from "../../utils/number";
 
 const InvoicePay = ({ onClose, grandTotal, taxes }) => {
@@ -26,18 +26,40 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
 
   const customer = useCartStore((s) => s.customer);
   const items = useCartStore((s) => s.items);
+  const freeItems = useCartStore((s) => s.freeItems);
   const payments = useCartStore((s) => s.payments);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
   const discountOn = useCartStore((s) => s.discountOn);
   const discountPercentage = useCartStore((s) => s.discountPercentage);
+  const couponCode = useCartStore((s) => s.couponCode);
   const updatePayment = useCartStore((s) => s.updatePayment);
   const resetCart = useCartStore((s) => s.resetCart);
+  const loyaltyProgram = useCartStore((s) => s.loyaltyProgram);
+  const loyaltyPointsBalance = useCartStore((s) => s.loyaltyPointsBalance);
+  const loyaltyConversionFactor = useCartStore((s) => s.loyaltyConversionFactor);
+
+  const [redeemLoyaltyPoints, setRedeemLoyaltyPoints] = useState(false);
+  const [pointsToRedeem, setPointsToRedeem] = useState("");
 
   const paidAmount = roundCurrency(
     payments.reduce((sum, row) => sum + (parseFloat(row.amount) || 0), 0),
     currencyPrecision,
   );
-  const balanceDue = roundCurrency(grandTotal - paidAmount, currencyPrecision);
+
+  // Redemption value can't exceed either the customer's balance or the
+  // invoice total — mirrors erpnext's own validate_loyalty_points, which
+  // frappe.throws if loyalty_amount ends up bigger than the total. Capping
+  // client-side here just avoids a round trip to hit that error.
+  const maxRedeemablePoints =
+    loyaltyConversionFactor > 0
+      ? Math.max(0, Math.min(loyaltyPointsBalance, Math.floor(grandTotal / loyaltyConversionFactor)))
+      : 0;
+  const loyaltyAmount =
+    redeemLoyaltyPoints && loyaltyConversionFactor > 0
+      ? roundCurrency((parseFloat(pointsToRedeem) || 0) * loyaltyConversionFactor, currencyPrecision)
+      : 0;
+
+  const balanceDue = roundCurrency(grandTotal - paidAmount - loyaltyAmount, currencyPrecision);
 
   const formatAmount = (value) =>
     `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
@@ -63,11 +85,24 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
     }
     setError("");
     setSubmitting(true);
-    const cleanItems = items.map(
-      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template }) => ({
-        item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template,
-      }),
-    );
+    const cleanItems = [
+      ...items.map(
+        ({
+          item_code, qty, rate, amount, serial_no, batch_no,
+          discount_amount, discount_percentage, price_list_rate, pricing_rules, item_tax_template,
+        }) => ({
+          item_code, qty, rate, amount, serial_no, batch_no,
+          discount_amount, discount_percentage, price_list_rate,
+          pricing_rules: pricing_rules?.length ? pricing_rules.join(",") : undefined,
+          item_tax_template,
+        }),
+      ),
+      ...freeItems.map(({ item_code, qty, rate, uom, pricing_rules }) => ({
+        item_code, qty, rate, amount: 0, is_free_item: 1, uom,
+        pricing_rules: pricing_rules || undefined,
+      })),
+    ];
+    const redeemedPoints = redeemLoyaltyPoints ? Math.floor(parseFloat(pointsToRedeem) || 0) : 0;
     postPaymentInvoice(
       {
         customer,
@@ -77,9 +112,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         apply_discount_on: discountOn || undefined,
         additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
         taxes,
+        loyalty_program: loyaltyProgram || undefined,
+        redeem_loyalty_points: redeemedPoints > 0 ? 1 : 0,
+        loyalty_points: redeemedPoints,
       },
       openingDetail,
       1,
+      couponCode || undefined,
     ).then((data) => {
       setSubmitting(false);
       if (data?.name) {
@@ -126,6 +165,37 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         <span className="invoice-pay-pill-value">{formatAmount(grandTotal)}</span>
       </div>
 
+      {loyaltyProgram && loyaltyPointsBalance > 0 && (
+        <div className="mb-3">
+          <CheckboxField
+            label={`Redeem Loyalty Points (${loyaltyPointsBalance} available)`}
+            checked={redeemLoyaltyPoints}
+            onChange={(checked) => {
+              setRedeemLoyaltyPoints(checked);
+              if (!checked) setPointsToRedeem("");
+            }}
+          />
+          {redeemLoyaltyPoints && (
+            <div className="d-flex align-items-center gap-2">
+              <div style={{ flex: 1 }}>
+                <NumberField
+                  placeholder="0"
+                  min={0}
+                  max={maxRedeemablePoints}
+                  value={pointsToRedeem}
+                  onChange={(value) =>
+                    setPointsToRedeem(value === "" ? "" : Math.min(value, maxRedeemablePoints))
+                  }
+                />
+              </div>
+              <div style={{ fontSize: 12, color: "var(--color-text-muted)", whiteSpace: "nowrap", marginBottom: 14 }}>
+                = {formatAmount(loyaltyAmount)}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       <label className="pos-field-label">Payment Summary</label>
 
       {loadingModes ? (
@@ -160,6 +230,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
           <div className="invoice-pay-figure-label">Paid Amount</div>
           <div className="invoice-pay-figure-value">{formatAmount(paidAmount)}</div>
         </div>
+        {loyaltyAmount > 0 && (
+          <div>
+            <div className="invoice-pay-figure-label">Loyalty Redeemed</div>
+            <div className="invoice-pay-figure-value" style={{ color: "var(--color-success-text)" }}>
+              {formatAmount(loyaltyAmount)}
+            </div>
+          </div>
+        )}
         <div>
           <div className="invoice-pay-figure-label">{balanceDue > 0 ? "Balance Due" : "Change to Return"}</div>
           <div

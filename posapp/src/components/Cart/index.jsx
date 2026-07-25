@@ -1,14 +1,18 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./style.css";
 import { postDraftInvoice, fetchInvoice } from "../../api/Invoice";
+import { fetchCartPricing } from "../../api/Pricing";
+import { fetchCustomerLoyaltySummary } from "../../api/LoyaltyProgram";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
 import InvoicePay from "../InvoicePay";
 import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
-import { LinkField, TextField, SelectField, NumberField, AlertModal } from "../common";
+import { LinkField, TextField, SelectField, NumberField, CurrencyField, AlertModal } from "../common";
 import { roundCurrency } from "../../utils/number";
 import { computeCartTotals } from "../../utils/tax";
+
+const PRICING_DEBOUNCE_MS = 400;
 
 const Cart = () => {
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
@@ -18,9 +22,14 @@ const Cart = () => {
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
+  const posProfile = usePOSSessionStore((s) => s.posProfile);
+  const allowRateChange = usePOSSessionStore((s) => s.allowRateChange);
+  const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
+  const customerGroups = usePOSSessionStore((s) => s.customerGroups);
 
   const customer = useCartStore((s) => s.customer);
   const cartItems = useCartStore((s) => s.items);
+  const freeItems = useCartStore((s) => s.freeItems);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
   const setCustomer = useCartStore((s) => s.setCustomer);
   const removeItem = useCartStore((s) => s.removeItem);
@@ -33,6 +42,12 @@ const Cart = () => {
   const setDiscountOn = useCartStore((s) => s.setDiscountOn);
   const discount = useCartStore((s) => s.discountPercentage);
   const setDiscount = useCartStore((s) => s.setDiscountPercentage);
+  const couponCode = useCartStore((s) => s.couponCode);
+  const setCouponCode = useCartStore((s) => s.setCouponCode);
+  const applyPricing = useCartStore((s) => s.applyPricing);
+  const loyaltyProgram = useCartStore((s) => s.loyaltyProgram);
+  const loyaltyPointsBalance = useCartStore((s) => s.loyaltyPointsBalance);
+  const setLoyaltySummary = useCartStore((s) => s.setLoyaltySummary);
 
   const [customerLabel, setCustomerLabel] = useState("");
   const [saveDraft, setSaveDraft] = useState(false);
@@ -41,6 +56,64 @@ const Cart = () => {
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [showNewCustomer, setShowNewCustomer] = useState(false);
   const [validationError, setValidationError] = useState("");
+  const [couponInput, setCouponInput] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [pricingLoading, setPricingLoading] = useState(false);
+
+  // POS Profile customer_groups restriction (PP-05) — empty = unrestricted,
+  // same convention as item_groups (see easy_pos.api.item._allowed_item_groups).
+  const customerFilters = customerGroups.length
+    ? { customer_group: ["in", customerGroups] }
+    : undefined;
+
+  // Re-resolve Pricing Rule discounts (rate/discount_amount/free items) through
+  // easy_pos.api.pricing.get_cart_pricing whenever cart contents, the selected
+  // customer, or the coupon code change — covers live threshold re-evaluation
+  // (PR-06/07/22) and coupon codes (PR-11). Skipped while ignore_pricing_rule
+  // is set on the profile — the backend still returns 0 discount in that case,
+  // this just avoids the redundant round trip when the cart itself is empty.
+  const cartKey = cartItems.map((item) => `${item.item_code}:${item.qty}`).join("|");
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      // Removing the last line one-by-one (rather than "Clear all") doesn't go
+      // through clearItems() — free items from a now-gone rule must still drop.
+      if (freeItems.length > 0) applyPricing({ items: [], free_items: [] });
+      return;
+    }
+    if (!posProfile) return;
+    setCouponError("");
+    const handle = setTimeout(() => {
+      setPricingLoading(true);
+      fetchCartPricing(
+        cartItems.map(({ item_code, qty }) => ({ item_code, qty })),
+        customer,
+        posProfile,
+        couponCode,
+      )
+        .then((result) => {
+          applyPricing(result, currencyPrecision);
+        })
+        .catch((err) => {
+          if (couponCode) {
+            setCouponError(err?.response?.data?.exc_type || "Invalid or expired coupon code");
+          }
+        })
+        .finally(() => setPricingLoading(false));
+    }, PRICING_DEBOUNCE_MS);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartKey, customer, posProfile, couponCode, currencyPrecision]);
+
+  // Loyalty Program enrollment + live points balance for the selected
+  // customer — fetched once here so both this badge and InvoicePay's redeem
+  // UI read from the same cartStore fields instead of double-fetching.
+  useEffect(() => {
+    if (!customer) return;
+    fetchCustomerLoyaltySummary(customer, openingDetail.company).then((summary) => {
+      setLoyaltySummary(summary);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customer, openingDetail.company]);
 
   const itemTotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0),
@@ -109,11 +182,23 @@ const Cart = () => {
       return;
     }
     setSaveDraft(true);
-    const items = cartItems.map(
-      ({ item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template }) => ({
-        item_code, qty, rate, amount, serial_no, batch_no, discount_amount, item_tax_template,
-      }),
-    );
+    const items = [
+      ...cartItems.map(
+        ({
+          item_code, qty, rate, amount, serial_no, batch_no,
+          discount_amount, discount_percentage, price_list_rate, pricing_rules, item_tax_template,
+        }) => ({
+          item_code, qty, rate, amount, serial_no, batch_no,
+          discount_amount, discount_percentage, price_list_rate,
+          pricing_rules: pricing_rules?.length ? pricing_rules.join(",") : undefined,
+          item_tax_template,
+        }),
+      ),
+      ...freeItems.map(({ item_code, qty, rate, uom, pricing_rules }) => ({
+        item_code, qty, rate, amount: 0, is_free_item: 1, uom,
+        pricing_rules: pricing_rules || undefined,
+      })),
+    ];
     postDraftInvoice(
       {
         customer,
@@ -126,6 +211,7 @@ const Cart = () => {
       },
       openingDetail,
       0,
+      couponCode || undefined,
     ).then((data) => {
       if (data?.name) {
         setSaveDraft(false);
@@ -192,6 +278,7 @@ const Cart = () => {
               doctype="Customer"
               value={customer}
               displayValue={customer ? customerLabel : ""}
+              filters={customerFilters}
               placeholder="Search customer..."
               actionIcon="bi-person-plus"
               actionTitle="New customer"
@@ -214,6 +301,12 @@ const Cart = () => {
                 </div>
               )}
             />
+            {customer && loyaltyProgram && (
+              <div className="mt-1" style={{ fontSize: 11, color: "var(--color-text-muted)" }}>
+                <i className="bi bi-award me-1" style={{ color: "var(--color-primary)" }} />
+                {loyaltyPointsBalance} loyalty point{loyaltyPointsBalance === 1 ? "" : "s"} available
+              </div>
+            )}
           </div>
 
           {/* ── Cart Items ── */}
@@ -290,11 +383,43 @@ const Cart = () => {
 
                         {expanded && (
                           <div className="cart-line-detail">
+                            <div style={{ minWidth: 110 }}>
+                              <div className="cart-detail-label">Rate</div>
+                              {allowRateChange ? (
+                                <CurrencyField
+                                  size="sm"
+                                  className="cart-detail-input"
+                                  value={item.rate}
+                                  onClick={(e) => e.stopPropagation()}
+                                  onChange={(value) => {
+                                    const rate = value === "" ? 0 : value;
+                                    updateItemField(index, "rate", rate);
+                                    updateItemField(
+                                      index,
+                                      "amount",
+                                      roundCurrency(item.qty * rate, currencyPrecision),
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                <div className="cart-detail-value" style={{ fontFamily: "var(--font-mono)" }}>
+                                  {formatAmount(item.rate)}
+                                </div>
+                              )}
+                            </div>
+
                             <div>
                               <div className="cart-detail-label">Discount</div>
                               <div className="cart-detail-value" style={{ fontFamily: "var(--font-mono)" }}>
                                 {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)}` : formatAmount(0)}
+                                {item.discount_percentage > 0 ? ` (${item.discount_percentage.toFixed(1)}%)` : ""}
                               </div>
+                              {item.pricing_rules?.length > 0 && (
+                                <div style={{ fontSize: 10.5, color: "var(--color-success-text)" }}>
+                                  <i className="bi bi-tag-fill me-1" />
+                                  {item.pricing_rules.join(", ")}
+                                </div>
+                              )}
                             </div>
 
                             {item.has_serial_no && (
@@ -345,6 +470,7 @@ const Cart = () => {
                   placeholder="Apply on…"
                   value={discountOn}
                   onChange={setDiscountOn}
+                  disabled={!allowDiscountChange}
                   options={[
                     { label: "Grand Total", value: "Grand Total" },
                     { label: "Net Total", value: "Net Total" },
@@ -360,11 +486,84 @@ const Cart = () => {
                   max={100}
                   suffix="%"
                   value={discount}
+                  disabled={!allowDiscountChange}
                   onChange={(value) => setDiscount(value === "" ? "" : Math.min(value, 100))}
                 />
               </div>
             </div>
+            {!allowDiscountChange && (
+              <div style={{ fontSize: 10.5, color: "var(--color-text-faint)" }} className="mt-1">
+                This POS Profile doesn't allow manual discount changes.
+              </div>
+            )}
+
+            <div className="d-flex align-items-center gap-2 mt-2 cart-coupon-row">
+              <div style={{ flex: 1 }}>
+                <TextField
+                  size="sm"
+                  placeholder="Coupon code"
+                  value={couponInput}
+                  onChange={setCouponInput}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setCouponCode(couponInput.trim());
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                className="pos-btn pos-btn-secondary"
+                style={{ height: 30, fontSize: 11.5, padding: "0 10px" }}
+                onClick={() => setCouponCode(couponInput.trim())}
+                disabled={pricingLoading || !couponInput.trim()}
+              >
+                Apply
+              </button>
+              {couponCode && (
+                <button
+                  type="button"
+                  className="cart-clear-btn"
+                  title="Remove coupon"
+                  onClick={() => {
+                    setCouponCode("");
+                    setCouponInput("");
+                    setCouponError("");
+                  }}
+                >
+                  <i className="bi bi-x-lg" />
+                </button>
+              )}
+            </div>
+            {couponCode && !couponError && (
+              <div style={{ fontSize: 10.5, color: "var(--color-success-text)" }} className="mt-1">
+                <i className="bi bi-check-circle me-1" />
+                Coupon "{couponCode}" applied
+              </div>
+            )}
+            {couponError && (
+              <div style={{ fontSize: 10.5, color: "var(--color-danger-text)" }} className="mt-1">
+                {couponError}
+              </div>
+            )}
           </div>
+
+          {freeItems.length > 0 && (
+            <div className="px-3 pt-1 pb-2">
+              <p className="cart-section-label mb-2">Free Items</p>
+              {freeItems.map((item, i) => (
+                <div
+                  key={`free-${item.item_code}-${i}`}
+                  className="d-flex justify-content-between align-items-center mb-1"
+                  style={{ fontSize: 12 }}
+                >
+                  <span>
+                    <i className="bi bi-gift-fill me-1" style={{ color: "var(--color-success-text)" }} />
+                    {item.item_code} × {item.qty}
+                  </span>
+                  <span style={{ color: "var(--color-success-text)" }}>FREE</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* ── Totals ── */}
           <div className="cart-totals px-3 py-2">

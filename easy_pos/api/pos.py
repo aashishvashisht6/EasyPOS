@@ -146,7 +146,7 @@ def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
 
 
 @frappe.whitelist()
-def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
+def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_code: str = None) -> dict:
 	# Same warehouse + price list the terminal fetched stock/rate from (see
 	# easy_pos.api.item.get_items) so the invoice deducts stock from where it
 	# was actually shown as available, completing the POS Profile-driven flow.
@@ -173,6 +173,13 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 		item["rate"] = flt(item.get("rate"), precision=currency_precision)
 		item["amount"] = flt(item.get("amount"), precision=currency_precision)
 		item["discount_amount"] = flt(item.get("discount_amount"), precision=currency_precision)
+		# Pricing Rule outcome from easy_pos.api.pricing.get_cart_pricing, carried
+		# through so the saved Sales Invoice Item records what actually discounted
+		# it (desk's own POS/Sales Invoice persists the same fields).
+		if item.get("price_list_rate") is not None:
+			item["price_list_rate"] = flt(item.get("price_list_rate"), precision=currency_precision)
+		if item.get("discount_percentage") is not None:
+			item["discount_percentage"] = flt(item.get("discount_percentage"))
 
 	payments = invoice.get("payments") or []
 	for payment in payments:
@@ -199,6 +206,20 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 		})
 	tax_fields = {"taxes": taxes, "taxes_and_charges": pos_profile.taxes_and_charges}
 
+	# Loyalty Program earn/redeem — ERPNext's own Sales Invoice.on_submit /
+	# calculate_taxes_and_totals do the actual work (create the earned
+	# Loyalty Point Entry, fold loyalty_amount into paid_amount) as long as
+	# these fields are set going in; see erpnext.accounts.doctype.sales_invoice.
+	# loyalty_program is set whenever the customer is enrolled (so points are
+	# earned even when the cashier isn't redeeming this time); redemption only
+	# applies when the cashier explicitly ticked it with a positive points value.
+	redeeming = bool(invoice.get("redeem_loyalty_points")) and cint(invoice.get("loyalty_points")) > 0
+	loyalty_fields = {
+		"loyalty_program": invoice.get("loyalty_program") or "",
+		"redeem_loyalty_points": 1 if redeeming else 0,
+		"loyalty_points": cint(invoice.get("loyalty_points")) if redeeming else 0,
+	}
+
 	if invoice.get("sales_invoice"):
 		sales_invoice = frappe.get_doc("Sales Invoice", invoice.get("sales_invoice"))
 		sales_invoice.update({
@@ -209,6 +230,7 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 			"selling_price_list": pos_profile.selling_price_list,
 			**discount_fields,
 			**tax_fields,
+			**loyalty_fields,
 		})
 		sales_invoice.save()
 	else:
@@ -221,11 +243,19 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool) -> dict:
 								 "selling_price_list": pos_profile.selling_price_list,
 								 **discount_fields,
 								 **tax_fields,
+								 **loyalty_fields,
 								 })
 		sales_invoice.insert()
 
 	if submit:
 		sales_invoice.submit()
+		if coupon_code:
+			from easy_pos.api.pricing import _coupon_code_name
+			from erpnext.accounts.doctype.pricing_rule.utils import update_coupon_code_count
+
+			coupon_name = _coupon_code_name(coupon_code)
+			if coupon_name:
+				update_coupon_code_count(coupon_name, "used")
 
 	return sales_invoice.as_dict()
 

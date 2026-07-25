@@ -87,14 +87,18 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
   const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const priceList = usePOSSessionStore((s) => s.priceList);
+  const posProfile = usePOSSessionStore((s) => s.posProfile);
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
+  const customer = useCartStore((s) => s.customer);
 
   // Re-fetches once the Opening Entry resolves a warehouse/price list, so items
   // that were showing with no stock/rate pick theirs up without a page reload.
+  // Also re-fetches when the cart's customer changes (customer-specific Item
+  // Price) or when a POS Profile item_groups restriction narrows the catalog.
   useEffect(() => {
-    fetchItems(selectedGroup, warehouse, priceList).then(setItems);
-  }, [selectedGroup, warehouse, priceList]);
+    fetchItems(selectedGroup, warehouse, priceList, customer, posProfile).then(setItems);
+  }, [selectedGroup, warehouse, priceList, customer, posProfile]);
 
   // Debounced backend search — covers item code, name, barcode, serial no and
   // batch no in one call (see easy_pos.api.item.search_item). A scanner types
@@ -111,7 +115,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
     setSearching(true);
     let cancelled = false;
     const handle = setTimeout(async () => {
-      const result = await searchItem(query, warehouse, priceList);
+      const result = await searchItem(query, warehouse, priceList, customer, posProfile);
       if (cancelled || !result) return;
 
       const scannedOutOfStock =

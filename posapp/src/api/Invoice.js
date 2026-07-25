@@ -9,10 +9,10 @@ export const fetchPrecisionSettings = async () => {
 	}
 };
 
-export const postDraftInvoice = async (invoice, opening_details, submit) => {
+export const postDraftInvoice = async (invoice, opening_details, submit, coupon_code) => {
 	try {
 		const response = await axios.post("/api/method/easy_pos.api.pos.create_invoice", {
-            invoice, opening_details, submit
+            invoice, opening_details, submit, coupon_code
         });
 		return response.data.message;
 	} catch (error) {
@@ -20,10 +20,10 @@ export const postDraftInvoice = async (invoice, opening_details, submit) => {
 	}
 };
 
-export const postPaymentInvoice = async (invoice, opening_details, submit) => {
+export const postPaymentInvoice = async (invoice, opening_details, submit, coupon_code) => {
 	try {
 		const response = await axios.post("/api/method/easy_pos.api.pos.create_invoice", {
-            invoice, opening_details, submit
+            invoice, opening_details, submit, coupon_code
         });
 		return response.data.message;
 	} catch (error) {

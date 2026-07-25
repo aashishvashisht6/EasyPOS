@@ -3,6 +3,12 @@ import { Link, useOutletContext } from "react-router-dom";
 
 const SETTINGS_ITEMS = [
   {
+    icon: "bi-award",
+    label: "Loyalty Program",
+    description: "Configure tiers, points and redemption rules",
+    to: "/posapp/loyalty-program",
+  },
+  {
     icon: "bi-people",
     label: "Users",
     description: "Manage cashier accounts and permissions",

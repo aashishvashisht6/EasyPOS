@@ -34,6 +34,8 @@ const emptyCustomer = {
   primary_address: "",
   customer_primary_contact: "",
   credit_limits: [],
+  loyalty_program: "",
+  loyalty_program_tier: "",
   modified: null,
 };
 
@@ -271,6 +273,27 @@ const CustomerDetailPage = () => {
           <div className="col-6 col-md-4">
             <TextField label="Website" value={form.website} onChange={update("website")} />
           </div>
+        </div>
+      </div>
+
+      <div className="pos-card mb-3 p-3 p-md-4">
+        <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
+          Loyalty Program
+        </h6>
+        <div className="row g-3">
+          <div className="col-6 col-md-4">
+            <LinkField
+              label="Loyalty Program"
+              doctype="Loyalty Program"
+              value={form.loyalty_program}
+              onChange={update("loyalty_program")}
+            />
+          </div>
+          {form.loyalty_program && (
+            <div className="col-6 col-md-4">
+              <TextField label="Tier" value={form.loyalty_program_tier} disabled readOnly />
+            </div>
+          )}
         </div>
       </div>
 
