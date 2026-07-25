@@ -9,9 +9,15 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./api/config.js";
 import { fetchCsrfToken } from "./api/Auth.js";
+import { initEngine } from "./engine/index.js";
+import PwaUpdateBanner from "./pwa/PwaUpdateBanner.jsx";
 
 // Production gets window.csrf_token from the Jinja template; the Vite dev
 // server serves a plain index.html, so fetch it explicitly here too.
+// Opens the local offline DB and loads the offline-mode flag; failures (e.g.
+// not logged in yet) are non-fatal and don't block app boot.
+initEngine().catch(() => {});
+
 fetchCsrfToken()
   .then((token) => { window.csrf_token = token; })
   .catch(() => {})
@@ -21,6 +27,7 @@ fetchCsrfToken()
         <BrowserRouter>
           <AppRoutes />
         </BrowserRouter>
+        <PwaUpdateBanner />
       </StrictMode>,
     )
   });

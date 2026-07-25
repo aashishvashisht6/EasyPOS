@@ -24,7 +24,7 @@ and any additional context you want future readers to have.
 
 **Easy POS** is a free, open-source Point of Sale (POS) application for **ERPNext and the Frappe Framework**, built as a modern React 19 single-page app (`posapp/`) and packaged as an installable Frappe app (`easy_pos`). It replaces the standard ERPNext POS screen with a purpose-built retail checkout experience — a fast cart-and-payment terminal, shift-based cash management, invoice and returns handling, and admin screens for POS Profiles, Price Lists, and Discounts — while reusing ERPNext's own **Sales Invoice**, **Customer**, and **POS Profile** doctypes as the system of record, so there is no separate database to keep in sync.
 
-The project targets small and mid-size retail counters — shops, cafés, and multi-terminal stores already running ERPNext — that want a snappier, cashier-friendly POS UI without abandoning their existing accounting, inventory, and reporting stack. It is being built out in stages toward a fully **offline-first Progressive Web App**: today's release covers the full online checkout-to-close workflow (see [Features](#features)); RxDB-backed local storage, offline invoice queueing, and background sync are the next milestones on the [roadmap](#roadmap).
+The project targets small and mid-size retail counters — shops, cafés, and multi-terminal stores already running ERPNext — that want a snappier, cashier-friendly POS UI without abandoning their existing accounting, inventory, and reporting stack. It is being built out in stages toward a fully **offline-first Progressive Web App**: today's release covers the full online checkout-to-close workflow plus an installable PWA app shell (see [Features](#features)); RxDB-backed local storage, offline invoice queueing, and background sync are the next milestones on the [roadmap](#roadmap).
 
 ## Features
 
@@ -57,13 +57,20 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 - Talks to Frappe over thin, purpose-built whitelisted API methods (`easy_pos/api/*.py`) rather than raw REST calls, keeping business logic (tax/total recalculation, shift scoping, permission checks) on the server where ERPNext already enforces it
 - Every screen reuses ERPNext's real doctypes end-to-end, so invoices, customers, and stock movements created through Easy POS show up natively in ERPNext's own reports and ledgers
 
+### 📲 Installable PWA
+- Install Easy POS on a till/tablet/desktop like a native app — standalone window, home-screen/app-list icon, custom splash screen
+- The app shell (JS/CSS/icons) is precached by a service worker for instant repeat loads, with a prompt-to-reload banner when a new version is deployed — never a silent mid-transaction reload
+- Transactional data and API calls are always fetched live (cookie-based auth, shared-terminal safe) — this covers installability and static-asset caching only, not full offline operation (see [Roadmap](#roadmap))
+
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and discounts, invoice register, and returns. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and discounts, invoice register, returns, and installable-PWA app shell caching. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype
 - **Reporting & hardware** — X/Z shift reports, barcode scanner input, and cash-drawer triggering
+
+See [`docs/UPCOMING_FEATURES.md`](docs/UPCOMING_FEATURES.md) for the full, itemized backlog beyond this roadmap (receipt delivery, split bill, manager-approval PINs, item variants, and more).
 
 ## Screenshots
 

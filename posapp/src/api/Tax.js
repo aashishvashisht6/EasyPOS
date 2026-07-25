@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet } from "../engine";
 
 // Resolved order-level tax rows (charge_type, account_head, rate, ...) for the
 // POS Profile's default taxes_and_charges template — see
@@ -8,7 +8,7 @@ import axios from "axios";
 export const fetchTaxesAndChargesTemplate = async (taxes_and_charges) => {
 	if (!taxes_and_charges) return [];
 	try {
-		const response = await axios.get(
+		const response = await engineGet(
 			"/api/method/easy_pos.api.pos.get_taxes_and_charges_template",
 			{ params: { taxes_and_charges } },
 		);

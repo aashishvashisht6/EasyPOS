@@ -1,8 +1,8 @@
-import axios from "axios";
+import { engineGet } from "../engine";
 
 export const fetchCompanies = async (user) => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
             params: {
                 doctype: "Company",
                 fields: JSON.stringify(["name", "company_name"]),

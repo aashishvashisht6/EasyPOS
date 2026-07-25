@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet } from "../engine";
 
 // warehouse/price_list come from the open POS Profile (posSessionStore) — until
 // an Opening Entry exists neither is known, so stock/rate come back as null.
@@ -6,7 +6,7 @@ import axios from "axios";
 // rows; `pos_profile` restricts results to the profile's configured item_groups.
 export const fetchItems = async (item_group, warehouse, price_list, customer, pos_profile) => {
 	try {
-		const response = await axios.get("/api/method/easy_pos.api.item.get_items", {
+		const response = await engineGet("/api/method/easy_pos.api.item.get_items", {
 			params: { item_group, warehouse, price_list, customer, pos_profile },
 		});
 		return response.data.message;
@@ -19,7 +19,7 @@ export const fetchItems = async (item_group, warehouse, price_list, customer, po
 // batch no, or a fuzzy item code/name search — see easy_pos.api.item.search_item.
 export const searchItem = async (search_text, warehouse, price_list, customer, pos_profile) => {
 	try {
-		const response = await axios.get("/api/method/easy_pos.api.item.search_item", {
+		const response = await engineGet("/api/method/easy_pos.api.item.search_item", {
 			params: { search_text, warehouse, price_list, customer, pos_profile },
 		});
 		return response.data.message;

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { enginePost } from "../engine";
 
 /**
  * Generic paginated list fetch shared by all POS list-view pages
@@ -20,7 +20,7 @@ export const fetchList = async (doctype, options = {}) => {
 	} = options;
 
 	try {
-		const response = await axios.post("/api/method/easy_pos.api.list_view.get_list", {
+		const response = await enginePost("/api/method/easy_pos.api.list_view.get_list", {
 			doctype,
 			fields,
 			filters,

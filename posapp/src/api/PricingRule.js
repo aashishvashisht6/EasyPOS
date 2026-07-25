@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const PRICING_RULE_FIELDS = [
@@ -41,7 +41,7 @@ export const fetchPricingRules = async (filters = {}, limit_start = 0, limit_pag
 
 export const fetchPricingRule = async (name) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: {
 				doctype: "Pricing Rule",
 				name,
@@ -54,14 +54,14 @@ export const fetchPricingRule = async (name) => {
 };
 
 export const createPricingRule = async (pricingRule) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Pricing Rule", ...pricingRule }),
 	});
 	return response.data.message;
 };
 
 export const savePricingRule = async (pricingRule) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Pricing Rule", ...pricingRule }),
 	});
 	return response.data.message;
@@ -74,7 +74,7 @@ export const fetchPriceListsFor = async ({ selling, buying, currency } = {}) => 
 		if (selling) filters.selling = 1;
 		if (buying) filters.buying = 1;
 		if (currency) filters.currency = currency;
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
 			params: {
 				doctype: "Price List",
 				filters: JSON.stringify(filters),
@@ -91,7 +91,7 @@ export const fetchPriceListsFor = async ({ selling, buying, currency } = {}) => 
 // Mirrors pricing_rule.py's validate_price_list_with_currency (Price List's own currency).
 export const fetchPriceListCurrency = async (price_list) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_value", {
+		const response = await engineGet("/api/method/frappe.client.get_value", {
 			params: {
 				doctype: "Price List",
 				fieldname: JSON.stringify(["currency"]),
@@ -110,7 +110,7 @@ export const fetchPriceListCurrency = async (price_list) => {
 // here silently breaks rate/qty conversion when the rule is applied at billing.
 export const fetchItemUoms = async (item_code) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: { doctype: "Item", name: item_code },
 		});
 		const item = response.data.message;
@@ -128,7 +128,7 @@ export const fetchItemUoms = async (item_code) => {
 export const fetchItemsValidationData = async (item_codes) => {
 	if (!item_codes?.length) return [];
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_list", {
+		const response = await engineGet("/api/method/frappe.client.get_list", {
 			params: {
 				doctype: "Item",
 				filters: JSON.stringify([["name", "in", item_codes]]),

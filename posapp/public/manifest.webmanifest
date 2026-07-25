@@ -1,0 +1,29 @@
+{
+  "name": "Easy POS",
+  "short_name": "Easy POS",
+  "start_url": "/posapp/",
+  "scope": "/posapp/",
+  "display": "standalone",
+  "theme_color": "#f59e0b",
+  "background_color": "#10141c",
+  "icons": [
+    {
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
-import axios from "axios";
+import { enginePost } from "../engine";
 
 export const fetchClosingEntry = async (opening_details) => {
 	try {
-		const response = await axios.post("/api/method/easy_pos.api.pos.get_closing_entry", {
+		const response = await enginePost("/api/method/easy_pos.api.pos.get_closing_entry", {
             opening_details
         });
 		return response.data.message;
@@ -13,7 +13,7 @@ export const fetchClosingEntry = async (opening_details) => {
 
 export const postClosingEntry = async (closing_details) => {
 	try {
-		const response = await axios.post("/api/method/easy_pos.api.pos.create_closing_entry", {
+		const response = await enginePost("/api/method/easy_pos.api.pos.create_closing_entry", {
             closing_details
         });
 		return response.data.message;

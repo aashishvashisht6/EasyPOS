@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "creation": "2026-07-25 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_offline_mode"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "description": "When enabled, the POS Terminal reads/writes from the local offline database instead of calling the server directly, and syncs changes back once online.",
+   "fieldname": "enable_offline_mode",
+   "fieldtype": "Check",
+   "label": "Enable Offline Mode"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-07-25 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Easy Pos",
+ "name": "EASYPOS Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

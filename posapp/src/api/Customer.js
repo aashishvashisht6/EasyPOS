@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const CUSTOMER_FIELDS = [
@@ -42,7 +42,7 @@ export const fetchCustomers = async (filters = {}, limit_start = 0, limit_page_l
 
 export const fetchCustomerGroups = async () => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
 			params: {
 				doctype: "Customer Group",
 				filters: JSON.stringify({ is_group: 0 }),
@@ -58,7 +58,7 @@ export const fetchCustomerGroups = async () => {
 
 export const fetchTerritories = async () => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
 			params: {
 				doctype: "Territory",
 				filters: JSON.stringify({ is_group: 0 }),
@@ -74,7 +74,7 @@ export const fetchTerritories = async () => {
 
 export const fetchCustomer = async (name) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: {
 				doctype: "Customer",
 				name,
@@ -87,14 +87,14 @@ export const fetchCustomer = async (name) => {
 };
 
 export const createCustomer = async (customer) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Customer", ...customer }),
 	});
 	return response.data.message;
 };
 
 export const saveCustomer = async (customer) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Customer", ...customer }),
 	});
 	return response.data.message;
@@ -158,21 +158,21 @@ export const fetchCustomerContacts = async (customerName) => {
 };
 
 export const fetchAddress = async (name) => {
-	const response = await axios.get("/api/method/frappe.client.get", {
+	const response = await engineGet("/api/method/frappe.client.get", {
 		params: { doctype: "Address", name },
 	});
 	return response.data.message;
 };
 
 export const fetchContact = async (name) => {
-	const response = await axios.get("/api/method/frappe.client.get", {
+	const response = await engineGet("/api/method/frappe.client.get", {
 		params: { doctype: "Contact", name },
 	});
 	return response.data.message;
 };
 
 export const createAddress = async (customerName, address) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({
 			doctype: "Address",
 			...address,
@@ -183,18 +183,18 @@ export const createAddress = async (customerName, address) => {
 };
 
 export const saveAddress = async (address) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Address", ...address }),
 	});
 	return response.data.message;
 };
 
 export const deleteAddress = async (name) => {
-	await axios.post("/api/method/frappe.client.delete", { doctype: "Address", name });
+	await enginePost("/api/method/frappe.client.delete", { doctype: "Address", name });
 };
 
 export const createContact = async (customerName, contact) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({
 			doctype: "Contact",
 			...contact,
@@ -205,19 +205,19 @@ export const createContact = async (customerName, contact) => {
 };
 
 export const saveContact = async (contact) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Contact", ...contact }),
 	});
 	return response.data.message;
 };
 
 export const deleteContact = async (name) => {
-	await axios.post("/api/method/frappe.client.delete", { doctype: "Contact", name });
+	await enginePost("/api/method/frappe.client.delete", { doctype: "Contact", name });
 };
 
 export const fetchAddressDisplay = async (addressName) => {
 	try {
-		const response = await axios.get(
+		const response = await engineGet(
 			"/api/method/frappe.contacts.doctype.address.address.get_address_display",
 			{ params: { address_dict: addressName } },
 		);

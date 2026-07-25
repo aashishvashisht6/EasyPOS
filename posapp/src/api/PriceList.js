@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const PRICE_LIST_FIELDS = ["name", "price_list_name", "currency", "buying", "selling", "enabled"];
@@ -27,7 +27,7 @@ export const fetchPriceLists = async (filters = {}, limit_start = 0, limit_page_
 
 export const fetchPriceList = async (name) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: { doctype: "Price List", name },
 		});
 		return response.data.message;
@@ -37,14 +37,14 @@ export const fetchPriceList = async (name) => {
 };
 
 export const createPriceList = async (priceList) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Price List", ...priceList }),
 	});
 	return response.data.message;
 };
 
 export const savePriceList = async (priceList) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Price List", ...priceList }),
 	});
 	return response.data.message;

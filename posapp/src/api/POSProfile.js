@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const PROFILE_FIELDS = ["name", "company", "warehouse", "selling_price_list", "disabled"];
@@ -33,7 +33,7 @@ export const fetchProfiles = async (filters = {}, limit_start = 0, limit_page_le
 // shape (which is for the POS Profile list page).
 export const fetchProfilesForCompany = async (company) => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
 			params: {
 				doctype: "POS Profile",
 				filters: JSON.stringify({ company, disabled: 0 }),
@@ -49,7 +49,7 @@ export const fetchProfilesForCompany = async (company) => {
 
 export const fetchProfile = async (pos_profile) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
             params: {
                 doctype: "POS Profile",
                 name: pos_profile
@@ -62,14 +62,14 @@ export const fetchProfile = async (pos_profile) => {
 };
 
 export const createProfile = async (profile) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "POS Profile", ...profile }),
 	});
 	return response.data.message;
 };
 
 export const saveProfile = async (profile) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "POS Profile", ...profile }),
 	});
 	return response.data.message;
@@ -80,7 +80,7 @@ export const saveProfile = async (profile) => {
 // letter head and perpetual-inventory flag whenever the profile's Company changes.
 export const fetchCompanyDefaults = async (company) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_value", {
+		const response = await engineGet("/api/method/frappe.client.get_value", {
 			params: {
 				doctype: "Company",
 				fieldname: JSON.stringify(["default_letter_head", "enable_perpetual_inventory"]),

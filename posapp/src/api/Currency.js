@@ -1,8 +1,8 @@
-import axios from "axios";
+import { engineGet } from "../engine";
 
 export const fetchCurrencySymbol = async (currency) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_value", {
+		const response = await engineGet("/api/method/frappe.client.get_value", {
 			params: {
 				doctype: "Currency",
 				fieldname: "symbol",

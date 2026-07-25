@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const ITEM_PRICE_FIELDS = [
@@ -42,7 +42,7 @@ export const fetchItemPrices = async (filters = {}, limit_start = 0, limit_page_
 
 export const fetchItemPrice = async (name) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: { doctype: "Item Price", name },
 		});
 		return response.data.message;
@@ -52,14 +52,14 @@ export const fetchItemPrice = async (name) => {
 };
 
 export const createItemPrice = async (itemPrice) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Item Price", ...itemPrice }),
 	});
 	return response.data.message;
 };
 
 export const saveItemPrice = async (itemPrice) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Item Price", ...itemPrice }),
 	});
 	return response.data.message;
@@ -69,7 +69,7 @@ export const saveItemPrice = async (itemPrice) => {
 // and buying/selling/currency are fetch_from Item/Price List respectively.
 export const fetchItemDetails = async (item_code) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_value", {
+		const response = await engineGet("/api/method/frappe.client.get_value", {
 			params: {
 				doctype: "Item",
 				fieldname: JSON.stringify(["item_name", "stock_uom"]),
@@ -84,7 +84,7 @@ export const fetchItemDetails = async (item_code) => {
 
 export const fetchPriceListDetails = async (price_list) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get_value", {
+		const response = await engineGet("/api/method/frappe.client.get_value", {
 			params: {
 				doctype: "Price List",
 				fieldname: JSON.stringify(["buying", "selling", "currency"]),
@@ -99,7 +99,7 @@ export const fetchPriceListDetails = async (price_list) => {
 
 export const fetchPriceListOptions = async () => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {
+		const response = await engineGet("/api/method/frappe.desk.reportview.get_list", {
 			params: {
 				doctype: "Price List",
 				fields: JSON.stringify(["name"]),

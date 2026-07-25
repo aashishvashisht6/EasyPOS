@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
 const LOYALTY_PROGRAM_FIELDS = [
@@ -35,7 +35,7 @@ export const fetchLoyaltyPrograms = async (filters = {}, limit_start = 0, limit_
 
 export const fetchLoyaltyProgram = async (name) => {
 	try {
-		const response = await axios.get("/api/method/frappe.client.get", {
+		const response = await engineGet("/api/method/frappe.client.get", {
 			params: { doctype: "Loyalty Program", name },
 		});
 		return response.data.message;
@@ -45,14 +45,14 @@ export const fetchLoyaltyProgram = async (name) => {
 };
 
 export const createLoyaltyProgram = async (program) => {
-	const response = await axios.post("/api/method/frappe.client.insert", {
+	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Loyalty Program", ...program }),
 	});
 	return response.data.message;
 };
 
 export const saveLoyaltyProgram = async (program) => {
-	const response = await axios.post("/api/method/frappe.client.save", {
+	const response = await enginePost("/api/method/frappe.client.save", {
 		doc: JSON.stringify({ doctype: "Loyalty Program", ...program }),
 	});
 	return response.data.message;
@@ -63,7 +63,7 @@ export const saveLoyaltyProgram = async (program) => {
 export const fetchCustomerLoyaltySummary = async (customer, company) => {
 	if (!customer) return null;
 	try {
-		const response = await axios.get("/api/method/easy_pos.api.loyalty.get_customer_loyalty_summary", {
+		const response = await engineGet("/api/method/easy_pos.api.loyalty.get_customer_loyalty_summary", {
 			params: { customer, company },
 		});
 		return response.data.message;

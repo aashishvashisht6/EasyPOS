@@ -1,4 +1,4 @@
-import axios from "axios";
+import { enginePost } from "../engine";
 
 // Resolves discount/rate for the current cart lines through ERPNext's own
 // Pricing Rule engine (easy_pos.api.pricing.get_cart_pricing) — matching,
@@ -9,7 +9,7 @@ import axios from "axios";
 // sees why a coupon didn't apply instead of the discount just silently
 // not showing up.
 export const fetchCartPricing = async (items, customer, pos_profile, coupon_code) => {
-	const response = await axios.post("/api/method/easy_pos.api.pricing.get_cart_pricing", {
+	const response = await enginePost("/api/method/easy_pos.api.pricing.get_cart_pricing", {
 		items: JSON.stringify(items),
 		customer: customer || undefined,
 		pos_profile,

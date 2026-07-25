@@ -1,4 +1,4 @@
-import axios from "axios";
+import { engineGet } from "../engine";
 
 /**
  * Mirrors what Frappe desk's own Link field calls (frappe.desk.search.search_link),
@@ -6,7 +6,7 @@ import axios from "axios";
  */
 export const searchLink = async (doctype, txt = "", filters = {}, pageLength = 20) => {
 	try {
-		const response = await axios.get("/api/method/frappe.desk.search.search_link", {
+		const response = await engineGet("/api/method/frappe.desk.search.search_link", {
 			params: {
 				doctype,
 				txt,
