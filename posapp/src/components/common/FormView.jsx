@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
 import DetailField from "./DetailField";
 import ChildTable from "./ChildTable";
+import PageLoader from "./PageLoader";
+import PageHeader from "./PageHeader";
 
 // Generic read-only document detail page: a header (back link, title, badge,
 // actions) followed by an ordered list of blocks. Doctype pages
@@ -13,39 +14,11 @@ import ChildTable from "./ChildTable";
 //   { type: "table", title, columns, rows, rowKey, emptyMessage, footer },
 // ]
 const FormView = ({ title, subtitle, badge, backTo, backLabel = "Back", actions, blocks = [], loading }) => {
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center py-5">
-        <span className="spinner-border" role="status" />
-      </div>
-    );
-  }
+  if (loading) return <PageLoader />;
 
   return (
     <div className="px-3 px-md-4 py-3 py-md-4">
-      <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-        <div style={{ minWidth: 0 }}>
-          {backTo && (
-            <Link
-              to={backTo}
-              className="d-inline-flex align-items-center gap-1 mb-2 text-decoration-none"
-              style={{ fontSize: 12.5, color: "var(--color-text-muted)" }}
-            >
-              <i className="bi bi-arrow-left" /> {backLabel}
-            </Link>
-          )}
-          <div className="d-flex flex-wrap align-items-center gap-2">
-            <h5 className="mb-0 text-break">{title}</h5>
-            {badge}
-          </div>
-          {subtitle && (
-            <p className="text-muted mb-0 text-break" style={{ fontSize: 13 }}>
-              {subtitle}
-            </p>
-          )}
-        </div>
-        {actions && <div className="d-flex flex-wrap gap-2 flex-shrink-0">{actions}</div>}
-      </div>
+      <PageHeader title={title} subtitle={subtitle} badge={badge} backTo={backTo} backLabel={backLabel} actions={actions} />
 
       {blocks.map((block, i) => (
         <div className="pos-card mb-3 p-3 p-md-4" key={`${block.type}-${block.title || i}`}>

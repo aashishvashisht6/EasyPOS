@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link, useOutletContext } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchItemPrice, createItemPrice, saveItemPrice, fetchItemDetails, fetchPriceListDetails } from "../api/ItemPrice";
-import { LinkField, CurrencyField, DateField, CheckboxField, TextField } from "../components/common";
+import {
+  LinkField,
+  CurrencyField,
+  DateField,
+  CheckboxField,
+  TextField,
+  PageLoader,
+  PageHeader,
+  ErrorAlert,
+  SaveButton,
+} from "../components/common";
 
 const emptyItemPrice = {
   name: "",
@@ -143,44 +153,18 @@ const ItemPriceDetailPage = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center py-5">
-        <span className="spinner-border" role="status" />
-      </div>
-    );
-  }
+  if (loading) return <PageLoader />;
 
   return (
     <div className="px-3 px-md-4 py-3 py-md-4">
-      <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-        <div style={{ minWidth: 0 }}>
-          <Link
-            to="/posapp/item-price"
-            className="d-inline-flex align-items-center gap-1 mb-2 text-decoration-none"
-            style={{ fontSize: 12.5, color: "var(--color-text-muted)" }}
-          >
-            <i className="bi bi-arrow-left" /> Item Prices
-          </Link>
-          <div className="d-flex flex-wrap align-items-center gap-2">
-            <h5 className="mb-0 text-break">{isEdit ? form.name : "New Item Price"}</h5>
-          </div>
-        </div>
-        <div className="d-flex flex-wrap gap-2 flex-shrink-0">
-          <button type="button" className="pos-btn pos-btn-primary" onClick={handleSubmit} disabled={saving}>
-            {saving ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" />
-                Saving…
-              </>
-            ) : (
-              "Save"
-            )}
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title={isEdit ? form.name : "New Item Price"}
+        backTo="/posapp/item-price"
+        backLabel="Item Prices"
+        actions={<SaveButton saving={saving} onClick={handleSubmit} />}
+      />
 
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>

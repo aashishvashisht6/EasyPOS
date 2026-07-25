@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link, useOutletContext } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchProfile, createProfile, saveProfile, fetchCompanyDefaults } from "../api/POSProfile";
-import { LinkField, CheckboxField, CurrencyField, SelectField, ChildTable } from "../components/common";
+import {
+  LinkField,
+  CheckboxField,
+  CurrencyField,
+  SelectField,
+  ChildTable,
+  PageLoader,
+  PageHeader,
+  ErrorAlert,
+  SaveButton,
+} from "../components/common";
 
 const emptyProfile = {
   name: "",
@@ -184,44 +194,18 @@ const POSProfileDetailPage = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center py-5">
-        <span className="spinner-border" role="status" />
-      </div>
-    );
-  }
+  if (loading) return <PageLoader />;
 
   return (
     <div className="px-3 px-md-4 py-3 py-md-4">
-      <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-        <div style={{ minWidth: 0 }}>
-          <Link
-            to="/posapp/pos-profile"
-            className="d-inline-flex align-items-center gap-1 mb-2 text-decoration-none"
-            style={{ fontSize: 12.5, color: "var(--color-text-muted)" }}
-          >
-            <i className="bi bi-arrow-left" /> POS Profiles
-          </Link>
-          <div className="d-flex flex-wrap align-items-center gap-2">
-            <h5 className="mb-0 text-break">{isEdit ? form.name : "New POS Profile"}</h5>
-          </div>
-        </div>
-        <div className="d-flex flex-wrap gap-2 flex-shrink-0">
-          <button type="button" className="pos-btn pos-btn-primary" onClick={handleSubmit} disabled={saving}>
-            {saving ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" />
-                Saving…
-              </>
-            ) : (
-              "Save"
-            )}
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title={isEdit ? form.name : "New POS Profile"}
+        backTo="/posapp/pos-profile"
+        backLabel="POS Profiles"
+        actions={<SaveButton saving={saving} onClick={handleSubmit} />}
+      />
 
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>

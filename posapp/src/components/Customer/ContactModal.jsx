@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createContact, saveContact } from "../../api/Customer";
-import { Modal, TextField, CheckboxField } from "../common";
+import { Modal, TextField, CheckboxField, ErrorAlert } from "../common";
 
 const blankForm = {
   first_name: "",
@@ -83,7 +83,7 @@ const ContactModal = ({ customerName, contact, onClose, onSaved }) => {
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <div className="row g-3">
         <div className="col-6">

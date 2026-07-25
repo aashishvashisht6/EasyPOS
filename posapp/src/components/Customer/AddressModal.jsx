@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createAddress, saveAddress } from "../../api/Customer";
-import { Modal, TextField, SelectField, LinkField, CheckboxField } from "../common";
+import { Modal, TextField, SelectField, LinkField, CheckboxField, ErrorAlert } from "../common";
 
 const ADDRESS_TYPES = [
   "Billing",
@@ -86,7 +86,7 @@ const AddressModal = ({ customerName, address, onClose, onSaved }) => {
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <div className="row g-3">
         <div className="col-6">

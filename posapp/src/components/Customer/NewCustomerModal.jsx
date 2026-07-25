@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createCustomer, fetchCustomerGroups, fetchTerritories } from "../../api/Customer";
-import { Modal, TextField, SelectField } from "../common";
+import { Modal, TextField, SelectField, ErrorAlert } from "../common";
 
 const emptyForm = {
   customer_name: "",
@@ -73,7 +73,7 @@ const NewCustomerModal = ({ onClose, onCreated }) => {
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <TextField
         label="Customer Name"

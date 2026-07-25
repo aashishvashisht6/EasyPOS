@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, ChildTable } from "../common";
+import { Modal, ChildTable, ErrorAlert } from "../common";
 import { createCreditNote } from "../../api/Invoice";
 import { flt } from "../../utils/number";
 
@@ -117,7 +117,7 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <h6 className="mb-2" style={{ fontSize: 13, fontWeight: 600 }}>
         Items to Return

@@ -4,7 +4,7 @@ import { fetchProfile, fetchProfilesForCompany } from "../../api/POSProfile";
 import { postOpeningEntry } from "../../api/OpeningEntry";
 import { fetchCurrencySymbol } from "../../api/Currency";
 import usePOSSessionStore from "../../store/posSessionStore";
-import { SelectField, CurrencyField, Modal } from "../common";
+import { SelectField, CurrencyField, Modal, ErrorAlert } from "../common";
 
 const OpeningEntryModal = () => {
   const isOpen = usePOSSessionStore((s) => s.openingModalOpen);
@@ -118,7 +118,7 @@ const OpeningEntryModal = () => {
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <SelectField
         label="Company"

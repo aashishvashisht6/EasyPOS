@@ -4,7 +4,7 @@ import { postPaymentInvoice } from "../../api/Invoice";
 import { fetchProfile } from "../../api/POSProfile";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
-import { Modal, CurrencyField, NumberField, CheckboxField } from "../common";
+import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
 import { roundCurrency } from "../../utils/number";
 
 const InvoicePay = ({ onClose, grandTotal, taxes }) => {
@@ -158,7 +158,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         </>
       }
     >
-      {error && <div className="alert alert-danger py-2">{error}</div>}
+      <ErrorAlert message={error} />
 
       <div className="invoice-pay-pill mb-3">
         <span className="invoice-pay-pill-label">Grand Total</span>
