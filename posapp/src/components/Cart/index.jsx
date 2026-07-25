@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { postDraftInvoice, fetchInvoice } from "../../api/Invoice";
 import { fetchCartPricing } from "../../api/Pricing";
@@ -15,6 +16,7 @@ import { computeCartTotals } from "../../utils/tax";
 const PRICING_DEBOUNCE_MS = 400;
 
 const Cart = () => {
+  const navigate = useNavigate();
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
   const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
@@ -306,6 +308,21 @@ const Cart = () => {
                 <i className="bi bi-award me-1" style={{ color: "var(--color-primary)" }} />
                 {loyaltyPointsBalance} loyalty point{loyaltyPointsBalance === 1 ? "" : "s"} available
               </div>
+            )}
+            {customer && (
+              <button
+                type="button"
+                className="btn btn-link p-0 mt-1"
+                style={{ fontSize: 11, textDecoration: "none", color: "var(--color-primary)" }}
+                onClick={() =>
+                  navigate(
+                    `/posapp/invoices?customer=${encodeURIComponent(customer)}&customerName=${encodeURIComponent(customerLabel || customer)}`,
+                  )
+                }
+              >
+                <i className="bi bi-clock-history me-1" />
+                View purchase history
+              </button>
             )}
           </div>
 

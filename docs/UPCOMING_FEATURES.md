@@ -22,9 +22,9 @@ Let a single cart be divided into multiple separate invoices — split evenly, b
 
 Require a second-factor PIN (from a manager/supervisor role) before allowing an item-level discount, a manual rate override, or removing a line — the POS Profile flags `allow_rate_change`/`allow_discount_change` already gate *whether* these are allowed at all; this adds an approval step *when* they're used. Needs a lightweight PIN-prompt modal and a backend check against a manager-role user, plus an audit trail (see #10 for reporting tie-in).
 
-## 6. Customer Purchase History (Invoice Register, Pre-Filtered by Customer)
+## 6. Customer Purchase History (Invoice Register, Pre-Filtered by Customer) — ✅ Done (2026-07-25)
 
-From a customer's detail page (`CustomerDetailPage.jsx`) or the Cart's selected customer, navigate straight into the existing `InvoiceRegisterPage` pre-filtered to that customer's invoices, instead of building a separate history view. Mostly wiring: pass a `customer` query param/filter into the Invoice Register's existing filter state.
+~~From a customer's detail page (`CustomerDetailPage.jsx`) or the Cart's selected customer, navigate straight into the existing `InvoiceRegisterPage` pre-filtered to that customer's invoices, instead of building a separate history view. Mostly wiring: pass a `customer` query param/filter into the Invoice Register's existing filter state.~~ Shipped: a "View purchase history" link in the Cart's customer block (`posapp/src/components/Cart/index.jsx`, shown once a customer is selected) navigates to `/posapp/invoices?customer=<name>&customerName=<label>`. `InvoiceRegisterPage.jsx` seeds its `customer`/`customerName` filter state from those query params via `useSearchParams` on mount — no other plumbing needed since the existing filter/fetch logic already handled a pre-set customer filter. See the "Deep-linking a filtered list page" entry in [`CLAUDE.md`](../CLAUDE.md) for the pattern.
 
 ## 7. Post-Sale Feedback
 

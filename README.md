@@ -31,17 +31,25 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 ### 🧾 Checkout & Sales
 - **POS Terminal** — cart-based checkout with live item search, quantity/rate editing, line and invoice-level discounts, and multi-mode (split) payments in one screen
 - **Held / draft sales** — park an in-progress cart as a Draft invoice and pull it back into the terminal later via the draft picker, so a cashier can serve another customer without losing a sale
-- **Discounts & pricing rules** — percentage, flat-amount, and free-item discounts sourced from ERPNext Pricing Rules, plus manual per-cart overrides
-- **Price Lists** — manage item price lists and rates used to price the cart, independent of discount rules
+
+### 🏷️ Pricing & Discounts
+- **Discounts (Pricing Rules)** — a dedicated admin screen (list + editor) for ERPNext Pricing Rules: percentage discounts, flat-amount discounts, and free-item ("Buy X Get Y") rules, scoped by item/item group/brand, customer/customer group, min/max qty or amount, priority, and validity dates — applied automatically to the cart, on top of manual per-cart overrides
+- **Item Prices** — a dedicated list + editor for individual Item Price records (item, price list, rate, currency, valid-from/upto) used to price cart lines
+- **Price Lists** — manage the Price List records themselves (selling/buying, currency, enabled state) that Item Prices and the cart price against, independent of discount rules
+
+### 🎁 Loyalty Program
+- **Loyalty Program admin** — create and edit ERPNext Loyalty Programs (list + detail editor): program type, conversion factor (currency-per-point), qualifying customer group, expiry/validity window, and tiered collection rules
+- **Points earn & redeem in-cart** — the Cart shows the selected customer's enrolled program and live points balance; at payment, a cashier can redeem points toward the invoice total, capped at the customer's balance and the amount the grand total can actually absorb (mirrors ERPNext's own `validate_loyalty_points` check), with the redeemed amount broken out separately in the payment summary
 
 ### 🧮 Invoices & Returns
 - **Invoice Register** — a searchable, filterable, paginated list of all POS Sales Invoices with status badges (Paid, Overdue, Draft, Return, ...)
 - **Invoice detail view** — itemized line view, taxes and charges, additional discounts, and payment breakdown for any invoice
 - **Cancel invoice** — cancel a submitted invoice with confirmation
 - **Credit notes / returns** — issue a return against any non-return invoice; the backend recomputes taxes and totals against the return's own negative net total rather than trusting client math, and the resulting credit note carries the original invoice's POS profile and shift so it stays visible in reporting
+- **Customer purchase history** — jump straight from the cart's selected customer to their filtered Invoice Register, one click, no separate history screen to maintain
 
 ### 👥 Customers
-- Searchable, paginated customer directory with quick-create for walk-in and repeat customers, wired straight into the cart
+- Searchable, paginated customer directory with quick-create for walk-in and repeat customers, wired straight into the cart, including loyalty program enrollment and points balance
 
 ### 🧑‍💼 Shift Management
 - **Opening Entry** — start a shift by declaring an opening cash balance per payment mode, scoped to the cashier and POS Profile
@@ -50,7 +58,7 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ### ⚙️ Administration
 - **POS Profile editor** — full CRUD editor for POS Profiles, including their `payments` child table (available payment modes) and the auto/manual closing behavior per mode
-- **Settings hub** — a landing page for secondary/admin screens that don't warrant their own sidebar icon
+- **Settings hub** — a landing page for secondary/admin screens that don't warrant their own sidebar icon (currently Loyalty Program, with user management planned)
 
 ### 🔌 Frappe-Native by Design
 - Runs as a standard Frappe app (`bench get-app` / `bench install-app`) — no external services or databases to stand up
@@ -64,7 +72,7 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and discounts, invoice register, returns, and installable-PWA app shell caching. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments, Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, and installable-PWA app shell caching. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype

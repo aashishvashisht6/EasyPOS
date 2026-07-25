@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import usePOSSessionStore from "../store/posSessionStore";
 import { fetchInvoices } from "../api/InvoiceRegister";
 import { ListTable, FilterChips, Pagination, LinkField, TextField } from "../components/common";
@@ -56,11 +56,12 @@ const INVOICE_COLUMNS = [
 const InvoiceRegisterPage = () => {
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
 
   const [status, setStatus] = useState("");
-  const [customer, setCustomer] = useState("");
-  const [customerName, setCustomerName] = useState("");
+  const [customer, setCustomer] = useState(() => searchParams.get("customer") || "");
+  const [customerName, setCustomerName] = useState(() => searchParams.get("customerName") || "");
   const [mobileNo, setMobileNo] = useState("");
   const [email, setEmail] = useState("");
   const [search, setSearch] = useState("");
