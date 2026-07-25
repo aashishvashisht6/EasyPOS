@@ -201,6 +201,10 @@ const LinkField = ({
                 left: dropdownRect.left,
                 width: dropdownRect.width,
                 right: "auto",
+                // Portaled to <body>, so it escapes any ancestor Modal's
+                // stacking context — must out-rank Modal's z-index (1050)
+                // or it renders invisibly behind the modal.
+                zIndex: 1060,
               }}
             >
               {loading ? (

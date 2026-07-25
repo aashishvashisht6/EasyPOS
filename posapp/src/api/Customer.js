@@ -99,3 +99,130 @@ export const saveCustomer = async (customer) => {
 	});
 	return response.data.message;
 };
+
+const linkedToCustomer = (customerName) => [
+	["Dynamic Link", "link_doctype", "=", "Customer"],
+	["Dynamic Link", "link_name", "=", customerName],
+];
+
+const ADDRESS_FIELDS = [
+	"name",
+	"address_title",
+	"address_type",
+	"address_line1",
+	"address_line2",
+	"city",
+	"county",
+	"state",
+	"country",
+	"pincode",
+	"phone",
+	"fax",
+	"email_id",
+	"is_primary_address",
+	"is_shipping_address",
+	"disabled",
+];
+
+const CONTACT_FIELDS = [
+	"name",
+	"first_name",
+	"last_name",
+	"email_id",
+	"phone",
+	"mobile_no",
+	"designation",
+	"department",
+	"company_name",
+	"is_primary_contact",
+];
+
+export const fetchCustomerAddresses = async (customerName) => {
+	const data = await fetchList("Address", {
+		fields: ADDRESS_FIELDS,
+		filters: linkedToCustomer(customerName),
+		order_by: "is_primary_address desc, `tabAddress`.creation asc",
+		limit_page_length: 0,
+	});
+	return data?.data ?? [];
+};
+
+export const fetchCustomerContacts = async (customerName) => {
+	const data = await fetchList("Contact", {
+		fields: CONTACT_FIELDS,
+		filters: linkedToCustomer(customerName),
+		order_by: "is_primary_contact desc, `tabContact`.creation asc",
+		limit_page_length: 0,
+	});
+	return data?.data ?? [];
+};
+
+export const fetchAddress = async (name) => {
+	const response = await axios.get("/api/method/frappe.client.get", {
+		params: { doctype: "Address", name },
+	});
+	return response.data.message;
+};
+
+export const fetchContact = async (name) => {
+	const response = await axios.get("/api/method/frappe.client.get", {
+		params: { doctype: "Contact", name },
+	});
+	return response.data.message;
+};
+
+export const createAddress = async (customerName, address) => {
+	const response = await axios.post("/api/method/frappe.client.insert", {
+		doc: JSON.stringify({
+			doctype: "Address",
+			...address,
+			links: [{ link_doctype: "Customer", link_name: customerName }],
+		}),
+	});
+	return response.data.message;
+};
+
+export const saveAddress = async (address) => {
+	const response = await axios.post("/api/method/frappe.client.save", {
+		doc: JSON.stringify({ doctype: "Address", ...address }),
+	});
+	return response.data.message;
+};
+
+export const deleteAddress = async (name) => {
+	await axios.post("/api/method/frappe.client.delete", { doctype: "Address", name });
+};
+
+export const createContact = async (customerName, contact) => {
+	const response = await axios.post("/api/method/frappe.client.insert", {
+		doc: JSON.stringify({
+			doctype: "Contact",
+			...contact,
+			links: [{ link_doctype: "Customer", link_name: customerName }],
+		}),
+	});
+	return response.data.message;
+};
+
+export const saveContact = async (contact) => {
+	const response = await axios.post("/api/method/frappe.client.save", {
+		doc: JSON.stringify({ doctype: "Contact", ...contact }),
+	});
+	return response.data.message;
+};
+
+export const deleteContact = async (name) => {
+	await axios.post("/api/method/frappe.client.delete", { doctype: "Contact", name });
+};
+
+export const fetchAddressDisplay = async (addressName) => {
+	try {
+		const response = await axios.get(
+			"/api/method/frappe.contacts.doctype.address.address.get_address_display",
+			{ params: { address_dict: addressName } },
+		);
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};

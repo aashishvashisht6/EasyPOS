@@ -120,6 +120,7 @@ const LoginPage = () => {
 
               <div className="pos-login-row">
                 <CheckboxField
+                  dense
                   label="Remember this device"
                   checked={rememberDevice}
                   onChange={setRememberDevice}

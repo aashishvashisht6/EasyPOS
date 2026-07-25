@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link, useOutletContext } from "react-router-dom";
-import { fetchProfile, createProfile, saveProfile } from "../api/POSProfile";
+import { fetchProfile, createProfile, saveProfile, fetchCompanyDefaults } from "../api/POSProfile";
 import { LinkField, CheckboxField, CurrencyField, SelectField, ChildTable } from "../components/common";
 
 const emptyProfile = {
@@ -57,6 +57,7 @@ const POSProfileDetailPage = () => {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [perpetualInventoryEnabled, setPerpetualInventoryEnabled] = useState(false);
 
   useEffect(() => {
     if (!isEdit) {
@@ -72,6 +73,11 @@ const POSProfileDetailPage = () => {
           ...data,
           modified: data.modified,
         });
+        if (data.company) {
+          fetchCompanyDefaults(data.company).then((defaults) => {
+            setPerpetualInventoryEnabled(!!defaults?.enable_perpetual_inventory);
+          });
+        }
       }
       setLoading(false);
     });
@@ -82,6 +88,23 @@ const POSProfileDetailPage = () => {
   }, [isEdit, form.name, setTopbar]);
 
   const update = (field) => (value) => setForm((f) => ({ ...f, [field]: value }));
+
+  // Mirrors pos_profile.js's `company` trigger: fetches the Company's default
+  // letter head and its perpetual-inventory setting (which controls whether
+  // Expense Account is shown at all).
+  const handleCompanyChange = (value) => {
+    setForm((f) => ({ ...f, company: value }));
+    if (!value) {
+      setPerpetualInventoryEnabled(false);
+      return;
+    }
+    fetchCompanyDefaults(value).then((defaults) => {
+      setPerpetualInventoryEnabled(!!defaults?.enable_perpetual_inventory);
+      if (defaults?.default_letter_head) {
+        setForm((f) => ({ ...f, letter_head: defaults.default_letter_head }));
+      }
+    });
+  };
 
   const addRow = (field, blank) => {
     setForm((f) => ({ ...f, [field]: [...f[field], blank] }));
@@ -103,15 +126,48 @@ const POSProfileDetailPage = () => {
       setError("Company and Warehouse are required");
       return;
     }
+
+    const payments = form.payments.filter((r) => r.mode_of_payment);
+    const item_groups = form.item_groups.filter((r) => r.item_group);
+    const customer_groups = form.customer_groups.filter((r) => r.customer_group);
+
+    // Mirrors pos_profile.py's validate_payment_methods: at least one row,
+    // and exactly one of them marked default.
+    if (payments.length === 0) {
+      setError("Payment methods are mandatory. Please add at least one payment method.");
+      return;
+    }
+    const defaultModeCount = payments.filter((r) => r.default).length;
+    if (defaultModeCount === 0) {
+      setError("Please select a default mode of payment");
+      return;
+    }
+    if (defaultModeCount > 1) {
+      setError("You can only select one mode of payment as default");
+      return;
+    }
+
+    // Mirrors pos_profile.py's validate_duplicate_groups.
+    const itemGroupNames = item_groups.map((r) => r.item_group);
+    if (new Set(itemGroupNames).size !== itemGroupNames.length) {
+      setError("Duplicate item group found in the item group table");
+      return;
+    }
+    const customerGroupNames = customer_groups.map((r) => r.customer_group);
+    if (new Set(customerGroupNames).size !== customerGroupNames.length) {
+      setError("Duplicate customer group found in the customer group table");
+      return;
+    }
+
     setError("");
     setSaving(true);
     try {
       const payload = {
         ...form,
         applicable_for_users: form.applicable_for_users.filter((r) => r.user),
-        payments: form.payments.filter((r) => r.mode_of_payment),
-        item_groups: form.item_groups.filter((r) => r.item_group),
-        customer_groups: form.customer_groups.filter((r) => r.customer_group),
+        payments,
+        item_groups,
+        customer_groups,
       };
       // Merge into the full fetched document so fields outside this form
       // (creation, owner, ...) are preserved — frappe.client.save replaces
@@ -173,21 +229,45 @@ const POSProfileDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Company" required doctype="Company" value={form.company} onChange={update("company")} />
+            <LinkField label="Company" required doctype="Company" value={form.company} onChange={handleCompanyChange} />
           </div>
           <div className="col-6 col-md-4">
             <LinkField label="Customer" doctype="Customer" value={form.customer} onChange={update("customer")} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Warehouse" required doctype="Warehouse" value={form.warehouse} onChange={update("warehouse")} />
+            <LinkField
+              label="Warehouse"
+              required
+              doctype="Warehouse"
+              filters={[
+                ["Warehouse", "company", "in", ["", form.company]],
+                ["Warehouse", "is_group", "=", 0],
+              ]}
+              value={form.warehouse}
+              onChange={update("warehouse")}
+            />
           </div>
           <div className="col-6 col-md-4">
             <LinkField label="Campaign" doctype="Campaign" value={form.campaign} onChange={update("campaign")} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Company Address" doctype="Address" value={form.company_address} onChange={update("company_address")} />
+            <LinkField
+              label="Company Address"
+              doctype="Address"
+              help={!form.company ? "Select a Company first" : undefined}
+              filters={
+                form.company
+                  ? [
+                      ["Dynamic Link", "link_doctype", "=", "Company"],
+                      ["Dynamic Link", "link_name", "=", form.company],
+                    ]
+                  : undefined
+              }
+              value={form.company_address}
+              onChange={update("company_address")}
+            />
           </div>
-          <div className="col-6 col-md-4 d-flex align-items-center" style={{ paddingTop: 8 }}>
+          <div className="col-6 col-md-4">
             <CheckboxField label="Disabled" checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
           </div>
         </div>
@@ -220,6 +300,7 @@ const POSProfileDetailPage = () => {
               width: "1fr",
               render: (row, idx) => (
                 <CheckboxField
+                  dense
                   label="Default"
                   checked={row.default}
                   onChange={(v) => updateRow("applicable_for_users", idx, { default: v ? 1 : 0 })}
@@ -273,6 +354,7 @@ const POSProfileDetailPage = () => {
               width: "0.7fr",
               render: (row, idx) => (
                 <CheckboxField
+                  dense
                   label="Default"
                   checked={row.default}
                   onChange={(v) => updateRow("payments", idx, { default: v ? 1 : 0 })}
@@ -285,6 +367,7 @@ const POSProfileDetailPage = () => {
               width: "0.9fr",
               render: (row, idx) => (
                 <CheckboxField
+                  dense
                   label="Allow in Returns"
                   checked={row.allow_in_returns}
                   onChange={(v) => updateRow("payments", idx, { allow_in_returns: v ? 1 : 0 })}
@@ -298,6 +381,7 @@ const POSProfileDetailPage = () => {
               render: (row, idx) => (
                 <div>
                   <CheckboxField
+                    dense
                     label="Automatically Calculated"
                     checked={row.ep_automatically_calculated ?? 1}
                     onChange={(v) => updateRow("payments", idx, { ep_automatically_calculated: v ? 1 : 0 })}
@@ -441,7 +525,13 @@ const POSProfileDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-3">
-            <LinkField label="Print Format" doctype="Print Format" value={form.print_format} onChange={update("print_format")} />
+            <LinkField
+              label="Print Format"
+              doctype="Print Format"
+              filters={[["Print Format", "doc_type", "=", "POS Invoice"]]}
+              value={form.print_format}
+              onChange={update("print_format")}
+            />
           </div>
           <div className="col-6 col-md-3">
             <LinkField label="Letter Head" doctype="Letter Head" value={form.letter_head} onChange={update("letter_head")} />
@@ -450,6 +540,7 @@ const POSProfileDetailPage = () => {
             <LinkField
               label="Terms and Conditions"
               doctype="Terms and Conditions"
+              filters={{ selling: 1 }}
               value={form.tc_name}
               onChange={update("tc_name")}
             />
@@ -458,6 +549,7 @@ const POSProfileDetailPage = () => {
             <LinkField
               label="Print Heading"
               doctype="Print Heading"
+              filters={[["Print Heading", "docstatus", "!=", 2]]}
               value={form.select_print_heading}
               onChange={update("select_print_heading")}
             />
@@ -487,6 +579,11 @@ const POSProfileDetailPage = () => {
               label="Write Off Account"
               required
               doctype="Account"
+              filters={
+                form.company
+                  ? { report_type: "Profit and Loss", is_group: 0, company: form.company }
+                  : undefined
+              }
               value={form.write_off_account}
               onChange={update("write_off_account")}
             />
@@ -496,6 +593,7 @@ const POSProfileDetailPage = () => {
               label="Write Off Cost Center"
               required
               doctype="Cost Center"
+              filters={form.company ? { is_group: 0, company: form.company } : undefined}
               value={form.write_off_cost_center}
               onChange={update("write_off_cost_center")}
             />
@@ -513,25 +611,57 @@ const POSProfileDetailPage = () => {
             <LinkField
               label="Account for Change Amount"
               doctype="Account"
+              help={!form.company ? "Select a Company first" : undefined}
+              filters={
+                form.company
+                  ? { account_type: ["in", ["Cash", "Bank"]], is_group: 0, company: form.company }
+                  : undefined
+              }
               value={form.account_for_change_amount}
               onChange={update("account_for_change_amount")}
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Income Account" doctype="Account" value={form.income_account} onChange={update("income_account")} />
-          </div>
-          <div className="col-6 col-md-4">
             <LinkField
-              label="Expense Account"
+              label="Income Account"
               doctype="Account"
-              value={form.expense_account}
-              onChange={update("expense_account")}
+              help={!form.company ? "Select a Company first" : undefined}
+              filters={
+                form.company
+                  ? { is_group: 0, company: form.company, account_type: "Income Account" }
+                  : undefined
+              }
+              value={form.income_account}
+              onChange={update("income_account")}
             />
           </div>
+          {perpetualInventoryEnabled && (
+            <div className="col-6 col-md-4">
+              <LinkField
+                label="Expense Account"
+                doctype="Account"
+                filters={
+                  form.company
+                    ? { report_type: "Profit and Loss", company: form.company, is_group: 0 }
+                    : undefined
+                }
+                value={form.expense_account}
+                onChange={update("expense_account")}
+              />
+            </div>
+          )}
           <div className="col-6 col-md-4">
             <LinkField
               label="Sales Taxes and Charges Template"
               doctype="Sales Taxes and Charges Template"
+              filters={
+                form.company
+                  ? [
+                      ["Sales Taxes and Charges Template", "company", "=", form.company],
+                      ["Sales Taxes and Charges Template", "docstatus", "!=", 2],
+                    ]
+                  : undefined
+              }
               value={form.taxes_and_charges}
               onChange={update("taxes_and_charges")}
             />
@@ -547,7 +677,7 @@ const POSProfileDetailPage = () => {
               options={["Grand Total", "Net Total"]}
             />
           </div>
-          <div className="col-6 col-md-4 d-flex align-items-center" style={{ paddingTop: 8 }}>
+          <div className="col-6 col-md-4">
             <CheckboxField
               label="Disable Rounded Total"
               checked={form.disable_rounded_total}
@@ -563,7 +693,13 @@ const POSProfileDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Cost Center" doctype="Cost Center" value={form.cost_center} onChange={update("cost_center")} />
+            <LinkField
+              label="Cost Center"
+              doctype="Cost Center"
+              filters={form.company ? { company: form.company, is_group: 0 } : undefined}
+              value={form.cost_center}
+              onChange={update("cost_center")}
+            />
           </div>
           <div className="col-6 col-md-4">
             <LinkField label="Project" doctype="Project" value={form.project} onChange={update("project")} />

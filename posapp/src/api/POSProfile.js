@@ -74,3 +74,21 @@ export const saveProfile = async (profile) => {
 	});
 	return response.data.message;
 };
+
+// Mirrors pos_profile.js's `company` trigger (erpnext.utils.set_letter_head +
+// erpnext.is_perpetual_inventory_enabled), which reads the Company's default
+// letter head and perpetual-inventory flag whenever the profile's Company changes.
+export const fetchCompanyDefaults = async (company) => {
+	try {
+		const response = await axios.get("/api/method/frappe.client.get_value", {
+			params: {
+				doctype: "Company",
+				fieldname: JSON.stringify(["default_letter_head", "enable_perpetual_inventory"]),
+				filters: JSON.stringify({ name: company }),
+			},
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};

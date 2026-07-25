@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useOutletContext } from "react-router-dom";
-import { fetchCustomer, saveCustomer } from "../api/Customer";
+import { fetchCustomer, saveCustomer, fetchAddressDisplay } from "../api/Customer";
 import {
   TextField,
-  NumberField,
   CurrencyField,
   SelectField,
   CheckboxField,
   LinkField,
   ChildTable,
 } from "../components/common";
+import AddressContactSection from "../components/Customer/AddressContactSection";
 
 const emptyCustomer = {
   name: "",
@@ -30,8 +30,9 @@ const emptyCustomer = {
   industry: "",
   website: "",
   customer_details: "",
-  sales_team: [],
-  accounts: [],
+  customer_primary_address: "",
+  primary_address: "",
+  customer_primary_contact: "",
   credit_limits: [],
   modified: null,
 };
@@ -63,6 +64,27 @@ const CustomerDetailPage = () => {
 
   const update = (field) => (value) => setForm((f) => ({ ...f, [field]: value }));
 
+  // Mirrors Customer.js's `customer_primary_contact` trigger: clearing the
+  // primary contact also clears the fetched mobile/email read-only fields.
+  const handlePrimaryContactChange = (value) => {
+    setForm((f) => ({
+      ...f,
+      customer_primary_contact: value,
+      ...(value ? {} : { mobile_no: "", email_id: "" }),
+    }));
+  };
+
+  // Mirrors Customer.js's `customer_primary_address` trigger: re-render the
+  // primary_address display text whenever the linked address changes.
+  const handlePrimaryAddressChange = (value) => {
+    setForm((f) => ({ ...f, customer_primary_address: value, primary_address: "" }));
+    if (value) {
+      fetchAddressDisplay(value).then((display) => {
+        setForm((f) => ({ ...f, primary_address: display || "" }));
+      });
+    }
+  };
+
   const addRow = (field, blank) => {
     setForm((f) => ({ ...f, [field]: [...f[field], blank] }));
   };
@@ -83,13 +105,16 @@ const CustomerDetailPage = () => {
       setError("Customer Name, Customer Group and Territory are required");
       return;
     }
+    const creditLimitCompanies = form.credit_limits.map((r) => r.company).filter(Boolean);
+    if (new Set(creditLimitCompanies).size !== creditLimitCompanies.length) {
+      setError("Credit limit is already defined for one of the selected Companies");
+      return;
+    }
     setError("");
     setSaving(true);
     try {
       const payload = {
         ...form,
-        sales_team: form.sales_team.filter((r) => r.sales_person),
-        accounts: form.accounts.filter((r) => r.company),
         credit_limits: form.credit_limits.filter((r) => r.company),
       };
       // Merge into the full fetched document so fields outside this form
@@ -171,12 +196,20 @@ const CustomerDetailPage = () => {
               label="Customer Group"
               required
               doctype="Customer Group"
+              filters={{ is_group: 0 }}
               value={form.customer_group}
               onChange={update("customer_group")}
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Territory" required doctype="Territory" value={form.territory} onChange={update("territory")} />
+            <LinkField
+              label="Territory"
+              required
+              doctype="Territory"
+              filters={{ is_group: 0 }}
+              value={form.territory}
+              onChange={update("territory")}
+            />
           </div>
           <div className="col-6 col-md-4">
             <TextField label="Tax ID" value={form.tax_id} onChange={update("tax_id")} />
@@ -190,7 +223,7 @@ const CustomerDetailPage = () => {
           <div className="col-6 col-md-4">
             <TextField label="Email" value={form.email_id} disabled readOnly />
           </div>
-          <div className="col-6 col-md-4 d-flex align-items-center" style={{ paddingTop: 8 }}>
+          <div className="col-6 col-md-4">
             <CheckboxField label="Disabled" checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
           </div>
         </div>
@@ -241,124 +274,14 @@ const CustomerDetailPage = () => {
         </div>
       </div>
 
-      <div className="pos-card mb-3 p-3 p-md-4">
-        <ChildTable
-          title="Sales Team"
-          onAddRow={() => addRow("sales_team", { sales_person: "", allocated_percentage: "", commission_rate: "" })}
-          rows={form.sales_team}
-          emptyMessage="No sales team members"
-          columns={[
-            {
-              key: "sales_person",
-              label: "Sales Person",
-              width: "1.6fr",
-              render: (row, idx) => (
-                <LinkField
-                  placeholder="Select Sales Person"
-                  doctype="Sales Person"
-                  value={row.sales_person}
-                  onChange={(v) => updateRow("sales_team", idx, { sales_person: v })}
-                />
-              ),
-            },
-            {
-              key: "allocated_percentage",
-              label: "Contribution %",
-              width: "1fr",
-              render: (row, idx) => (
-                <NumberField
-                  value={row.allocated_percentage}
-                  onChange={(v) => updateRow("sales_team", idx, { allocated_percentage: v })}
-                  min={0}
-                  max={100}
-                />
-              ),
-            },
-            {
-              key: "commission_rate",
-              label: "Commission Rate",
-              width: "1fr",
-              render: (row, idx) => (
-                <NumberField
-                  value={row.commission_rate}
-                  onChange={(v) => updateRow("sales_team", idx, { commission_rate: v })}
-                  min={0}
-                  max={100}
-                />
-              ),
-            },
-            {
-              key: "actions",
-              label: "",
-              width: "40px",
-              align: "center",
-              render: (row, idx) => (
-                <button
-                  type="button"
-                  className="btn btn-link btn-sm text-danger"
-                  onClick={() => removeRow("sales_team", idx)}
-                >
-                  <i className="bi bi-trash" />
-                </button>
-              ),
-            },
-          ]}
-        />
-      </div>
-
-      <div className="pos-card mb-3 p-3 p-md-4">
-        <ChildTable
-          title="Accounts"
-          description="Default receivable account per company."
-          onAddRow={() => addRow("accounts", { company: "", account: "" })}
-          rows={form.accounts}
-          emptyMessage="No accounts configured"
-          columns={[
-            {
-              key: "company",
-              label: "Company",
-              width: "1.4fr",
-              render: (row, idx) => (
-                <LinkField
-                  placeholder="Select Company"
-                  doctype="Company"
-                  value={row.company}
-                  onChange={(v) => updateRow("accounts", idx, { company: v })}
-                />
-              ),
-            },
-            {
-              key: "account",
-              label: "Account",
-              width: "1.4fr",
-              render: (row, idx) => (
-                <LinkField
-                  placeholder="Select Account"
-                  doctype="Account"
-                  filters={row.company ? { company: row.company } : undefined}
-                  value={row.account}
-                  onChange={(v) => updateRow("accounts", idx, { account: v })}
-                />
-              ),
-            },
-            {
-              key: "actions",
-              label: "",
-              width: "40px",
-              align: "center",
-              render: (row, idx) => (
-                <button
-                  type="button"
-                  className="btn btn-link btn-sm text-danger"
-                  onClick={() => removeRow("accounts", idx)}
-                >
-                  <i className="bi bi-trash" />
-                </button>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <AddressContactSection
+        customerName={form.name}
+        isNew={!form.name}
+        primaryAddress={form.customer_primary_address}
+        primaryContact={form.customer_primary_contact}
+        onPrimaryAddressChange={handlePrimaryAddressChange}
+        onPrimaryContactChange={handlePrimaryContactChange}
+      />
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <ChildTable
@@ -398,6 +321,7 @@ const CustomerDetailPage = () => {
               width: "0.9fr",
               render: (row, idx) => (
                 <CheckboxField
+                  dense
                   label="Bypass Check"
                   checked={row.bypass_credit_limit_check}
                   onChange={(v) => updateRow("credit_limits", idx, { bypass_credit_limit_check: v ? 1 : 0 })}

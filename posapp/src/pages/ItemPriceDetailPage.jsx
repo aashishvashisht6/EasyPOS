@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link, useOutletContext } from "react-router-dom";
-import { fetchItemPrice, createItemPrice, saveItemPrice } from "../api/ItemPrice";
+import { fetchItemPrice, createItemPrice, saveItemPrice, fetchItemDetails, fetchPriceListDetails } from "../api/ItemPrice";
 import { LinkField, CurrencyField, DateField, CheckboxField, TextField } from "../components/common";
 
 const emptyItemPrice = {
@@ -69,6 +69,33 @@ const ItemPriceDetailPage = () => {
   }, [isEdit, form.name, setTopbar]);
 
   const update = (field) => (value) => setForm((f) => ({ ...f, [field]: value }));
+
+  // Mirrors item_price.js's onload() add_fetch("item_code", ...): Item Price's
+  // item_name/uom are fetch_from Item's item_name/stock_uom.
+  const handleItemChange = (value) => {
+    setForm((f) => ({ ...f, item_code: value, item_name: "", uom: "" }));
+    if (value) {
+      fetchItemDetails(value).then((details) => {
+        setForm((f) => ({ ...f, item_name: details?.item_name || "", uom: details?.stock_uom || "" }));
+      });
+    }
+  };
+
+  // Mirrors item_price.js's onload() add_fetch("price_list", ...): buying,
+  // selling and currency are fetch_from (read-only) the selected Price List.
+  const handlePriceListChange = (value) => {
+    setForm((f) => ({ ...f, price_list: value, buying: 0, selling: 0, currency: "" }));
+    if (value) {
+      fetchPriceListDetails(value).then((details) => {
+        setForm((f) => ({
+          ...f,
+          buying: details?.buying ?? 0,
+          selling: details?.selling ?? 0,
+          currency: details?.currency || "",
+        }));
+      });
+    }
+  };
 
   const handleSubmit = async () => {
     if (!form.item_code || !form.uom || !form.price_list || !form.price_list_rate) {
@@ -161,10 +188,21 @@ const ItemPriceDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Item" required doctype="Item" value={form.item_code} displayValue={form.item_code} onChange={(v) => update("item_code")(v)} />
+            <LinkField
+              label="Item"
+              required
+              doctype="Item"
+              filters={{ has_variants: 0 }}
+              value={form.item_code}
+              displayValue={form.item_code}
+              onChange={handleItemChange}
+            />
           </div>
           <div className="col-6 col-md-4">
             <LinkField label="UOM" required doctype="UOM" value={form.uom} onChange={update("uom")} />
+          </div>
+          <div className="col-6 col-md-4">
+            <TextField label="Item Name" value={form.item_name} disabled readOnly />
           </div>
         </div>
       </div>
@@ -175,7 +213,7 @@ const ItemPriceDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Price List" required doctype="Price List" value={form.price_list} onChange={update("price_list")} />
+            <LinkField label="Price List" required doctype="Price List" value={form.price_list} onChange={handlePriceListChange} />
           </div>
           <div className="col-6 col-md-4">
             <LinkField label="Customer" doctype="Customer" value={form.customer} onChange={update("customer")} />
@@ -183,9 +221,9 @@ const ItemPriceDetailPage = () => {
           <div className="col-6 col-md-4">
             <LinkField label="Supplier" doctype="Supplier" value={form.supplier} onChange={update("supplier")} />
           </div>
-          <div className="col-6 col-md-4 d-flex align-items-center gap-4" style={{ paddingTop: 8 }}>
-            <CheckboxField label="Buying" checked={form.buying} onChange={(v) => update("buying")(v ? 1 : 0)} />
-            <CheckboxField label="Selling" checked={form.selling} onChange={(v) => update("selling")(v ? 1 : 0)} />
+          <div className="col-6 col-md-4 d-flex flex-wrap gap-4">
+            <CheckboxField label="Buying" checked={form.buying} disabled />
+            <CheckboxField label="Selling" checked={form.selling} disabled />
           </div>
         </div>
       </div>
@@ -196,7 +234,7 @@ const ItemPriceDetailPage = () => {
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Currency" doctype="Currency" value={form.currency} onChange={update("currency")} />
+            <LinkField label="Currency" doctype="Currency" value={form.currency} disabled />
           </div>
           <div className="col-6 col-md-4">
             <CurrencyField label="Rate" required currency={form.currency} value={form.price_list_rate} onChange={update("price_list_rate")} />

@@ -65,6 +65,38 @@ export const saveItemPrice = async (itemPrice) => {
 	return response.data.message;
 };
 
+// Mirrors item_price.js's onload() add_fetch calls: Item Price's item_name/uom
+// and buying/selling/currency are fetch_from Item/Price List respectively.
+export const fetchItemDetails = async (item_code) => {
+	try {
+		const response = await axios.get("/api/method/frappe.client.get_value", {
+			params: {
+				doctype: "Item",
+				fieldname: JSON.stringify(["item_name", "stock_uom"]),
+				filters: JSON.stringify({ name: item_code }),
+			},
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const fetchPriceListDetails = async (price_list) => {
+	try {
+		const response = await axios.get("/api/method/frappe.client.get_value", {
+			params: {
+				doctype: "Price List",
+				fieldname: JSON.stringify(["buying", "selling", "currency"]),
+				filters: JSON.stringify({ name: price_list }),
+			},
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const fetchPriceListOptions = async () => {
 	try {
 		const response = await axios.get("/api/method/frappe.desk.reportview.get_list", {

@@ -459,6 +459,46 @@
   margin-top: 4px;
 }
 
+/* CheckboxField: the spacer reserves the same height as .pos-field-label so
+   the checkbox+label row below lines up with the *input box* of a sibling
+   labeled field in the same grid row, instead of floating vertically
+   centered against it. */
+.pos-checkbox-field-spacer {
+  display: block;
+  height: 20px;
+}
+
+.pos-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 31px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.pos-checkbox-row.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pos-checkbox-row .pos-checkbox {
+  margin: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.pos-checkbox-row.disabled .pos-checkbox {
+  cursor: not-allowed;
+}
+
+.pos-checkbox-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  user-select: none;
+}
+
 /* Read-only label/value pair (FormView detail sections, see DetailField).
    The label is a small uppercase caption; the value sits in a filled,
    bordered box so it reads as "data" at a glance instead of a second line
@@ -528,6 +568,15 @@
   font-family: var(--font-body);
   font-size: 12.5px;
   color: var(--color-text-primary);
+}
+
+/* .pos-field's default margin-bottom (14px, meant for stacked form fields)
+   otherwise makes a cell's grid track taller than the actual input box —
+   the row then centers that padded cell differently than a plain/dense cell
+   (e.g. a dense CheckboxField) next to it, throwing off vertical alignment
+   even though both look like they should sit on the same line. */
+.pos-table-row .pos-field {
+  margin-bottom: 0;
 }
 
 .pos-table-row span.num {

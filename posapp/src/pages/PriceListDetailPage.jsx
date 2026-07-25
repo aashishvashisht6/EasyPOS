@@ -83,6 +83,12 @@ const PriceListDetailPage = () => {
       setError("Price List Name and Currency are required");
       return;
     }
+    // Mirrors price_list.py's validate(): a Price List must be usable for at
+    // least one of Buying/Selling.
+    if (!form.buying && !form.selling) {
+      setError("Price List must be applicable for Buying or Selling");
+      return;
+    }
     if (duplicateCountries.length > 0) {
       setError(`Country added more than once: ${[...new Set(duplicateCountries)].join(", ")}`);
       return;
@@ -173,7 +179,7 @@ const PriceListDetailPage = () => {
           <div className="col-6 col-md-4">
             <LinkField label="Currency" required doctype="Currency" value={form.currency} onChange={update("currency")} />
           </div>
-          <div className="col-12 d-flex align-items-center gap-4" style={{ paddingTop: 8 }}>
+          <div className="col-12 d-flex flex-wrap gap-4">
             <CheckboxField label="Buying" checked={form.buying} onChange={(v) => update("buying")(v ? 1 : 0)} />
             <CheckboxField label="Selling" checked={form.selling} onChange={(v) => update("selling")(v ? 1 : 0)} />
             <CheckboxField label="Enabled" checked={form.enabled} onChange={(v) => update("enabled")(v ? 1 : 0)} />
