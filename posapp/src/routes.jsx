@@ -22,6 +22,7 @@ import DiscountListPage from "./pages/DiscountListPage";
 import DiscountDetailPage from "./pages/DiscountDetailPage";
 import LoyaltyProgramListPage from "./pages/LoyaltyProgramListPage";
 import LoyaltyProgramDetailPage from "./pages/LoyaltyProgramDetailPage";
+import ReportsPage from "./pages/ReportsPage";
 
 export function Spinner() {
   return (
@@ -117,6 +118,7 @@ function AppRoutes() {
         <Route path="/posapp/loyalty-program/new" element={<LoyaltyProgramDetailPage />} />
         <Route path="/posapp/loyalty-program/:name" element={<LoyaltyProgramDetailPage />} />
         <Route path="/posapp/sync" element={<SyncPage />} />
+        <Route path="/posapp/reports" element={<ReportsPage />} />
       </Route>
       <Route path="/posapp" element={<Navigate to="/posapp/terminal" replace />} />
       <Route path="*" element={<Navigate to="/posapp/terminal" replace />} />

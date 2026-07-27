@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { icon: "bi-list-ul", label: "Price Lists", to: "/posapp/price-list" },
   { icon: "bi-percent", label: "Discounts", to: "/posapp/discounts" },
   { icon: "bi-arrow-repeat", label: "Sync", comingSoon: true },
-  { icon: "bi-bar-chart", label: "Reports", comingSoon: true },
+  { icon: "bi-bar-chart", label: "Reports", to: "/posapp/reports" },
   { icon: "bi-gear", label: "Settings", to: "/posapp/settings" },
 ];
 

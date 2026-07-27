@@ -20,3 +20,6 @@ export { default as PageLoader } from "./PageLoader";
 export { default as PageHeader } from "./PageHeader";
 export { default as ErrorAlert } from "./ErrorAlert";
 export { default as SaveButton } from "./SaveButton";
+export { default as Chart } from "./Chart";
+export { default as StatTile } from "./StatTile";
+export { default as ReportCard } from "./ReportCard";

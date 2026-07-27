@@ -357,3 +357,145 @@ def create_credit_note(name: str, items: list, taxes: list = None) -> dict:
 	credit_note.submit()
 
 	return credit_note.as_dict()
+
+
+def _hour_of(posting_time) -> int:
+	"""Sales Invoice.posting_time comes back as a timedelta via frappe.qb, or a
+	'HH:MM:SS' string via frappe.get_all — normalize both to an hour bucket."""
+	if isinstance(posting_time, str):
+		return int(posting_time.split(":")[0]) if posting_time else 0
+	if hasattr(posting_time, "seconds"):
+		return int(posting_time.seconds // 3600)
+	return 0
+
+
+@frappe.whitelist()
+def get_past_shifts(limit: int = 30) -> list:
+	"""Closed EP Opening Entry records for the logged-in cashier, most recent first —
+	powers the Reports page's shift picker so a cashier can review a past shift's
+	summary (get_sales_report's 'shift' scope already accepts any opening_entry,
+	not just the currently open one)."""
+	return frappe.get_all(
+		"EP Opening Entry",
+		filters={
+			"user": frappe.session.user,
+			"docstatus": 1,
+			"ep_closing_entry": ["not in", ["", None]],
+		},
+		fields=["name", "pos_profile", "period_start_date"],
+		order_by="period_start_date desc",
+		limit_page_length=cint(limit),
+	)
+
+
+@frappe.whitelist()
+def get_sales_report(scope: str, opening_entry: str = None, pos_profile: str = None, from_date: str = None, to_date: str = None) -> dict:
+	"""Cashier-scoped reports/dashboard data. `scope` is 'shift' (all invoices under
+	the given opening entry), or 'today'/'range' (the logged-in cashier's own invoices,
+	optionally narrowed to a POS Profile, over from_date..to_date)."""
+	SalesInvoice = frappe.qb.DocType("Sales Invoice")
+	SalesInvoiceItem = frappe.qb.DocType("Sales Invoice Item")
+	SalesInvoicePayment = frappe.qb.DocType("Sales Invoice Payment")
+
+	condition = (SalesInvoice.docstatus == 1) & (SalesInvoice.is_pos == 1)
+
+	if scope == "shift":
+		if not opening_entry:
+			frappe.throw("opening_entry is required for shift scope")
+		condition &= SalesInvoice.custom_ep_opening_entry == opening_entry
+	else:
+		condition &= SalesInvoice.owner == frappe.session.user
+		if pos_profile:
+			condition &= SalesInvoice.pos_profile == pos_profile
+		if from_date and to_date:
+			condition &= (SalesInvoice.posting_date >= from_date) & (SalesInvoice.posting_date <= to_date)
+
+	invoices = (
+		frappe.qb.from_(SalesInvoice)
+		.select(
+			SalesInvoice.name,
+			SalesInvoice.grand_total,
+			SalesInvoice.is_return,
+			SalesInvoice.discount_amount,
+			SalesInvoice.posting_date,
+			SalesInvoice.posting_time,
+			SalesInvoice.customer_name,
+		)
+		.where(condition)
+	).run(as_dict=True)
+
+	sales = [inv for inv in invoices if not cint(inv.is_return)]
+	returns = [inv for inv in invoices if cint(inv.is_return)]
+
+	gross_sales = sum(flt(inv.grand_total) for inv in sales)
+	returns_amount = sum(abs(flt(inv.grand_total)) for inv in returns)
+	discount_amount = sum(flt(inv.discount_amount) for inv in sales)
+	transaction_count = len(sales)
+
+	trend_bucket = {}
+	group_by_hour = scope in ("shift", "today")
+	for inv in sales:
+		key = _hour_of(inv.posting_time) if group_by_hour else str(inv.posting_date)
+		trend_bucket[key] = trend_bucket.get(key, 0) + flt(inv.grand_total)
+
+	if group_by_hour:
+		sales_trend = [
+			{"label": f"{hour:02d}:00", "amount": trend_bucket.get(hour, 0)}
+			for hour in sorted(trend_bucket.keys())
+		]
+	else:
+		sales_trend = [{"label": key, "amount": amount} for key, amount in sorted(trend_bucket.items())]
+
+	payments = (
+		frappe.qb.from_(SalesInvoice)
+		.join(SalesInvoicePayment)
+		.on(SalesInvoicePayment.parent == SalesInvoice.name)
+		.select(SalesInvoicePayment.mode_of_payment, Sum(SalesInvoicePayment.amount).as_("amount"))
+		.where(condition)
+		.groupby(SalesInvoicePayment.mode_of_payment)
+	).run(as_dict=True)
+
+	top_items = (
+		frappe.qb.from_(SalesInvoice)
+		.join(SalesInvoiceItem)
+		.on(SalesInvoiceItem.parent == SalesInvoice.name)
+		.select(
+			SalesInvoiceItem.item_code,
+			SalesInvoiceItem.item_name,
+			Sum(SalesInvoiceItem.qty).as_("qty"),
+			Sum(SalesInvoiceItem.amount).as_("amount"),
+		)
+		.where(condition)
+		.groupby(SalesInvoiceItem.item_code, SalesInvoiceItem.item_name)
+		.orderby(Sum(SalesInvoiceItem.amount), order=frappe.qb.desc)
+		.limit(8)
+	).run(as_dict=True)
+
+	shift_summary = None
+	if scope == "shift":
+		open_voucher = frappe.get_doc("EP Opening Entry", opening_entry)
+		shift_summary = get_closing_entry({"name": opening_entry, "pos_profile": open_voucher.pos_profile})
+
+	recent_invoices = sorted(
+		invoices, key=lambda inv: (str(inv.posting_date), str(inv.posting_time)), reverse=True
+	)[:8]
+
+	return {
+		"kpis": {
+			"gross_sales": gross_sales,
+			"net_sales": gross_sales - returns_amount - discount_amount,
+			"transaction_count": transaction_count,
+			"avg_ticket": (gross_sales / transaction_count) if transaction_count else 0,
+		},
+		"payment_breakdown": payments,
+		"sales_trend": sales_trend,
+		"top_items": top_items,
+		"discounts": {
+			"discount_amount": discount_amount,
+			"discount_count": len([inv for inv in sales if flt(inv.discount_amount) > 0]),
+			"return_amount": returns_amount,
+			"return_count": len(returns),
+		},
+		"shift_summary": shift_summary,
+		"recent_invoices": recent_invoices,
+	}

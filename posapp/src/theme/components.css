@@ -450,9 +450,163 @@
   border: 1px solid var(--color-border-soft);
 }
 
+/* Interactive variant — report/dashboard cards (src/components/common/ReportCard)
+   get a gentle lift on hover so the page reads as explorable, not static. */
+.pos-card-interactive {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.pos-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 20, 28, 0.07);
+  border-color: var(--color-border);
+}
+
+/* Colored icon badge used by ReportCard/StatTile to color-code a section at a
+   glance (accent="primary|success|warning|danger|neutral"). */
+.pos-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.pos-icon-badge.primary {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-hover);
+}
+
+.pos-icon-badge.success {
+  background: var(--color-success-bg);
+  color: var(--color-success-icon);
+}
+
+.pos-icon-badge.warning {
+  background: var(--color-warning-bg-soft);
+  color: var(--color-warning-text-strong);
+}
+
+.pos-icon-badge.danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-icon);
+}
+
+.pos-icon-badge.neutral {
+  background: var(--color-dark-surface);
+  color: var(--color-dark-text);
+}
+
+/* Report/dashboard KPI tile (src/components/common/StatTile) */
+.pos-stat-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.pos-stat-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 20, 28, 0.07);
+  border-color: var(--color-border);
+}
+
+.pos-stat-body {
+  min-width: 0;
+}
+
+.pos-stat-label {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.pos-stat-value {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+
+/* Rank badge + progress bar (Reports page "Top selling items") */
+.pos-rank-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pos-progress-track {
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-faint);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.pos-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* Payment-mode row (Reports page "Shift summary") */
+.pos-mode-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Reports page empty/no-shift state */
+.pos-report-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.pos-report-empty i {
+  font-size: 30px;
+  color: var(--color-text-faint);
+}
+
+.pos-report-empty p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin: 0;
+}
+
 /* Common form fields (src/components/common) */
 .pos-field {
   margin-bottom: 14px;
+}
+
+/* A field placed inline next to plain text/buttons/chips (not stacked in a
+   form) needs .pos-field's default margin-bottom reset, or align-items:
+   center in the row centers the field's padded box instead of the visible
+   input — see CLAUDE.md's FieldShell alignment gotcha. */
+.pos-inline-fields .pos-field {
+  margin-bottom: 0;
 }
 
 /* NumberField: hide native spinner arrows, use the stepper UI instead */
