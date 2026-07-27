@@ -40,6 +40,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const freeItems = useCartStore((s) => s.freeItems);
   const payments = useCartStore((s) => s.payments);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
+  const setSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
   const discountOn = useCartStore((s) => s.discountOn);
   const discountPercentage = useCartStore((s) => s.discountPercentage);
   const couponCode = useCartStore((s) => s.couponCode);
@@ -179,17 +180,22 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const payWithGateway = () => {
     setError("");
     setSubmitting(true);
-    // Pre-opened for the same popup-blocker reason as the manual flow (see
-    // finishCheckout), but the gateway round trip takes noticeably longer than
-    // a direct submit, so it's given visible content immediately — otherwise it
-    // looks like a stray blank tab rather than "your receipt will appear here"
-    // while the actual checkout is happening in this tab.
-    const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
-    if (receiptTab) {
-      receiptTab.document.write(
-        "<title>Receipt</title><body style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px\">Complete the payment in the other tab — your receipt will print here once it's confirmed.</body>",
+
+    // Unlike the manual flow, the receipt tab is NOT pre-opened here — the
+    // Razorpay checkout modal opens in this same tab, so popping a tab the
+    // instant "Pay with Razorpay" is clicked just yanks focus away from the
+    // modal the cashier still needs to interact with. It's opened instead from
+    // onPaymentConfirmed below, which fires inside Razorpay's own success
+    // callback — still close enough to the payment gesture to dodge popup
+    // blockers, but only once there's actually a receipt to show.
+    let receiptTab = null;
+    const onPaymentConfirmed = () => {
+      if (!printReceiptOnOrderComplete) return;
+      receiptTab = window.open("", "_blank");
+      receiptTab?.document.write(
+        "<title>Receipt</title><body style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px\">Finishing up — your receipt will print here once it's confirmed.</body>",
       );
-    }
+    };
 
     getPaymentGateway(gatewayName)
       .pay({
@@ -197,9 +203,19 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         openingDetail,
         amount: gatewayAmount,
         couponCode: couponCode || undefined,
+        // Lets a retry (after a dismissed/failed payment) update the same Draft
+        // invoice instead of create_payment_gateway_order minting a new one —
+        // see buildInvoicePayload's sales_invoice field.
+        onOrderCreated: setSalesInvoiceName,
+        onPaymentConfirmed,
+        // A failed attempt doesn't end the checkout — Razorpay's modal lets the
+        // cashier/customer immediately retry with another method — so just
+        // surface a non-blocking notice rather than tearing down the flow.
+        onAttemptFailed: () => setError("That attempt failed — you can try another payment method in the Razorpay window."),
       })
       .then((data) => {
         setSubmitting(false);
+        setError("");
         finishCheckout(data?.name, receiptTab);
       })
       .catch((err) => {

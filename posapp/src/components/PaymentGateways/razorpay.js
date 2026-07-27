@@ -26,12 +26,24 @@ const loadScript = () => {
 // Common gateway interface (see index.js): pay() resolves with the finalized
 // Sales Invoice dict on success, or rejects with either { cancelled: true }
 // (customer closed the modal — not an error) or an Error with a user-facing message.
-const pay = ({ invoicePayload, openingDetail, amount, couponCode }) =>
+const pay = ({
+  invoicePayload,
+  openingDetail,
+  amount,
+  couponCode,
+  onOrderCreated,
+  onPaymentConfirmed,
+  onAttemptFailed,
+}) =>
   Promise.all([
     createPaymentGatewayOrder("Razorpay", invoicePayload, openingDetail, amount),
     loadScript(),
   ]).then(([order]) => {
     if (!order?.order_id) throw new Error("Failed to start Razorpay payment");
+    // Report the Draft invoice this order was created against immediately, so a
+    // retry after a dismissed/failed payment reuses it (via invoicePayload.sales_invoice)
+    // instead of create_payment_gateway_order minting a second Draft for the same sale.
+    onOrderCreated?.(order.sales_invoice);
 
     return new Promise((resolve, reject) => {
       const rzp = new window.Razorpay({
@@ -42,6 +54,11 @@ const pay = ({ invoicePayload, openingDetail, amount, couponCode }) =>
         name: "POS Payment",
         description: `Invoice ${order.sales_invoice}`,
         handler: (response) => {
+          // Still inside the callback Razorpay invokes right as the customer
+          // finishes paying, so the caller can pop the receipt tab here instead
+          // of the moment "Pay with Razorpay" was clicked — no more yanking the
+          // cashier out of the POS tab before they've even seen the checkout modal.
+          onPaymentConfirmed?.();
           verifyPaymentGatewayOrder(
             "Razorpay",
             order.sales_invoice,
@@ -57,7 +74,15 @@ const pay = ({ invoicePayload, openingDetail, amount, couponCode }) =>
           ondismiss: () => reject({ cancelled: true }),
         },
       });
-      rzp.on("payment.failed", () => reject(new Error("Razorpay payment failed. The invoice is saved as a draft — retry from Held Sales.")));
+      // Razorpay's own modal stays open after a failed attempt and lets the
+      // customer immediately retry with a different method — rejecting the
+      // promise here would settle it permanently, so a later successful
+      // `handler` call (from that retry, still the same modal instance) would
+      // become a silent no-op even though the payment actually went through.
+      // Surface a non-terminal notice instead and let the modal's own retry
+      // flow run its course; only `ondismiss` (modal actually closed) or a
+      // failed verify inside `handler` ends this attempt.
+      rzp.on("payment.failed", () => onAttemptFailed?.());
       rzp.open();
     });
   });
