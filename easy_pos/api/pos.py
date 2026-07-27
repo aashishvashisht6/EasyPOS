@@ -145,8 +145,11 @@ def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
 	]
 
 
-@frappe.whitelist()
-def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_code: str = None) -> dict:
+def _save_sales_invoice(invoice: dict, opening_details: dict):
+	"""Builds/updates the Sales Invoice doc from cart payload + opening details and
+	inserts/saves it (Draft, since callers decide separately whether to submit).
+	Shared by create_invoice and the Razorpay order flow so a gateway-backed
+	checkout constructs the exact same Draft a manual-cash checkout would."""
 	# Same warehouse + price list the terminal fetched stock/rate from (see
 	# easy_pos.api.item.get_items) so the invoice deducts stock from where it
 	# was actually shown as available, completing the POS Profile-driven flow.
@@ -247,17 +250,31 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_co
 								 })
 		sales_invoice.insert()
 
+	return sales_invoice, pos_profile
+
+
+def _finalize_invoice(sales_invoice, pos_profile, coupon_code: str = None) -> None:
+	"""Submit + coupon redemption + receipt notifications — the tail end shared by
+	a normal create_invoice(submit=True) and a payment gateway order being confirmed
+	(see easy_pos.api.payment.verify_payment_gateway_order)."""
+	sales_invoice.submit()
+	if coupon_code:
+		from easy_pos.api.pricing import _coupon_code_name
+		from erpnext.accounts.doctype.pricing_rule.utils import update_coupon_code_count
+
+		coupon_name = _coupon_code_name(coupon_code)
+		if coupon_name:
+			update_coupon_code_count(coupon_name, "used")
+
+	send_receipt_notifications(sales_invoice, pos_profile)
+
+
+@frappe.whitelist()
+def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_code: str = None) -> dict:
+	sales_invoice, pos_profile = _save_sales_invoice(invoice, opening_details)
+
 	if submit:
-		sales_invoice.submit()
-		if coupon_code:
-			from easy_pos.api.pricing import _coupon_code_name
-			from erpnext.accounts.doctype.pricing_rule.utils import update_coupon_code_count
-
-			coupon_name = _coupon_code_name(coupon_code)
-			if coupon_name:
-				update_coupon_code_count(coupon_name, "used")
-
-		send_receipt_notifications(sales_invoice, pos_profile)
+		_finalize_invoice(sales_invoice, pos_profile, coupon_code)
 
 	return sales_invoice.as_dict()
 

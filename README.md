@@ -34,6 +34,10 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 - **Held / draft sales** — park an in-progress cart as a Draft invoice and pull it back into the terminal later via the draft picker, so a cashier can serve another customer without losing a sale
 - **Product Bundles** — add an ERPNext Product Bundle straight from the item grid like any other item; the terminal flags it with a bundle badge and previews its components in the cart, while ERPNext itself explodes it into the invoice's packed items and deducts component stock on checkout
 
+### 💳 Payments
+- **Payment gateways (Razorpay)** — route any POS Payment Method through a live gateway checkout (UPI QR / card, via Razorpay's Checkout modal) instead of the cashier typing a received amount; the invoice only finalizes once the payment is verified server-side, and a dismissed or failed payment safely leaves the sale as a retrievable draft rather than a hard error
+- **Pluggable gateway architecture** — gateways are self-contained modules on both the backend (`easy_pos/api/payment_gateways/`) and frontend (`posapp/src/components/PaymentGateways/`) behind a small registry, so adding another provider later doesn't require touching the checkout screen itself
+
 ### 🏷️ Pricing & Discounts
 - **Discounts (Pricing Rules)** — a dedicated admin screen (list + editor) for ERPNext Pricing Rules: percentage discounts, flat-amount discounts, and free-item ("Buy X Get Y") rules, scoped by item/item group/brand, customer/customer group, min/max qty or amount, priority, and validity dates — applied automatically to the cart, on top of manual per-cart overrides
 - **Item Prices** — a dedicated list + editor for individual Item Price records (item, price list, rate, currency, valid-from/upto) used to price cart lines
@@ -74,11 +78,11 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, and installable-PWA app shell caching. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, a live Razorpay payment gateway checkout, a per-cashier/per-shift reports dashboard, and installable-PWA app shell caching. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype
-- **Reporting & hardware** — X/Z shift reports and cash-drawer triggering
+- **More payment gateways & hardware** — additional gateway modules (Stripe, PayPal, ...) behind the existing pluggable registry, physical card/UPI terminal integration, and cash-drawer triggering
 
 See [`docs/UPCOMING_FEATURES.md`](docs/UPCOMING_FEATURES.md) for the full, itemized backlog beyond this roadmap (receipt delivery, split bill, manager-approval PINs, item variants, and more).
 
@@ -133,24 +137,43 @@ yarn build    # production build; also copies built HTML into the Frappe app
 **Backend**
 - Frappe Framework
 - ERPNext (Sales Invoice, Customer, POS Profile doctypes)
+- Frappe's `payments` app (`Razorpay Settings`) + the `razorpay` Python SDK — used by the Razorpay payment gateway module (`easy_pos/api/payment_gateways/razorpay.py`)
 
 ## Contributing
 
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
+1. **Fork this repository** using the "Fork" button on [aashishvashisht6/EasyPOS](https://github.com/aashishvashisht6/EasyPOS).
 
-```bash
-cd apps/easy_pos
-pre-commit install
-```
+2. **Install your fork** into a bench, pointing `bench get-app` at your fork instead of upstream:
 
-Pre-commit is configured to use the following tools for checking and formatting your code:
+   ```bash
+   cd $PATH_TO_YOUR_BENCH
+   bench get-app https://github.com/<your-username>/EasyPOS --branch develop
+   bench install-app easy_pos
+   ```
 
-- ruff
-- eslint
-- prettier
-- pyupgrade
+3. **Set up `pre-commit`** for code formatting and linting — [install pre-commit](https://pre-commit.com/#installation), then enable it for this repo:
 
-For frontend-only changes, also run `cd posapp && npx eslint .` before committing.
+   ```bash
+   cd apps/easy_pos
+   pre-commit install
+   ```
+
+   Pre-commit is configured to run `ruff`, `eslint`, `prettier`, and `pyupgrade`. For frontend-only changes, also run `cd posapp && npx eslint .` before committing.
+
+4. **Create a branch off `develop`** for your fix or feature:
+
+   ```bash
+   git checkout develop
+   git checkout -b my-fix-or-feature
+   ```
+
+5. **Make your change** — see [`CLAUDE.md`](CLAUDE.md) for the project's conventions and gotchas — then commit and push it to your fork:
+
+   ```bash
+   git push origin my-fix-or-feature
+   ```
+
+6. **Open a pull request** from your fork's branch against this repository's `develop` branch, describing what changed and why.
 
 ### CI
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { postPaymentInvoice } from "../../api/Invoice";
 import { fetchProfile } from "../../api/POSProfile";
+import { fetchPaymentGatewayConfig } from "../../api/Payment";
+import { getPaymentGateway } from "../PaymentGateways";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
 import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
@@ -12,6 +14,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const [error, setError] = useState("");
   const [paymentModes, setPaymentModes] = useState([]);
   const [loadingModes, setLoadingModes] = useState(true);
+  const [gatewayConfig, setGatewayConfig] = useState(null);
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
@@ -21,8 +24,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
 
   useEffect(() => {
     fetchProfile(openingDetail.pos_profile).then((data) => {
-      setPaymentModes(data?.payments ?? []);
+      const modes = data?.payments ?? [];
+      setPaymentModes(modes);
       setLoadingModes(false);
+
+      const gatewayName = modes.find((row) => row.ep_payment_gateway)?.ep_payment_gateway;
+      if (gatewayName) {
+        fetchPaymentGatewayConfig(gatewayName).then((data) => setGatewayConfig(data));
+      }
     });
   }, [openingDetail.pos_profile]);
 
@@ -72,19 +81,88 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const getPaymentAmount = (mode_of_payment) =>
     payments.find((row) => row.mode_of_payment === mode_of_payment)?.amount ?? "";
 
-  const createPaymentInvoice = () => {
+  // At most one POS Payment Method row is flagged ep_payment_gateway per the
+  // add_payment_gateway_fields patch — if the cashier has routed any amount to
+  // it, checkout goes through that gateway (via PaymentGateways' registry)
+  // instead of a direct submit. Swapping/adding gateways only touches that
+  // registry + the backend's easy_pos.api.payment_gateways registry, never here.
+  const gatewayRow = paymentModes.find((row) => row.ep_payment_gateway);
+  const gatewayName = gatewayRow?.ep_payment_gateway;
+  const gatewayAmount = gatewayRow ? parseFloat(getPaymentAmount(gatewayRow.mode_of_payment)) || 0 : 0;
+  const payingViaGateway = !!(gatewayConfig?.enabled && gatewayAmount > 0);
+
+  const buildCleanItems = () => [
+    ...items.map(
+      ({
+        item_code, qty, rate, amount, serial_no, batch_no,
+        discount_amount, discount_percentage, price_list_rate, pricing_rules, item_tax_template,
+      }) => ({
+        item_code, qty, rate, amount, serial_no, batch_no,
+        discount_amount, discount_percentage, price_list_rate,
+        pricing_rules: pricing_rules?.length ? pricing_rules.join(",") : undefined,
+        item_tax_template,
+      }),
+    ),
+    ...freeItems.map(({ item_code, qty, rate, uom, pricing_rules }) => ({
+      item_code, qty, rate, amount: 0, is_free_item: 1, uom,
+      pricing_rules: pricing_rules || undefined,
+    })),
+  ];
+
+  const buildInvoicePayload = () => {
+    const redeemedPoints = redeemLoyaltyPoints ? Math.floor(parseFloat(pointsToRedeem) || 0) : 0;
+    return {
+      customer,
+      items: buildCleanItems(),
+      payments,
+      sales_invoice: salesInvoiceName,
+      apply_discount_on: discountOn || undefined,
+      additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
+      taxes,
+      loyalty_program: loyaltyProgram || undefined,
+      redeem_loyalty_points: redeemedPoints > 0 ? 1 : 0,
+      loyalty_points: redeemedPoints,
+    };
+  };
+
+  // Shared by both the manual and the gateway-confirmed completion paths —
+  // prints the receipt (if enabled) and closes out the cart the same way
+  // regardless of how the invoice got submitted.
+  const finishCheckout = (invoiceName, receiptTab) => {
+    if (invoiceName) {
+      if (receiptTab) {
+        const formatParam = printFormat ? `&format=${encodeURIComponent(printFormat)}` : "";
+        // trigger_print=1 tells Frappe's own printview page to call window.print()
+        // (and auto-close afterwards) as soon as it renders — no separate
+        // window.print() call needed on our side, and it works even though
+        // this tab is a different origin/page than the POS app itself.
+        receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(invoiceName)}${formatParam}&trigger_print=1`;
+      }
+      resetCart();
+      onClose();
+    } else {
+      receiptTab?.close();
+      setError("Failed to complete payment");
+    }
+  };
+
+  const validatePayment = () => {
     if (!customer) {
       setError("Please select a customer");
-      return;
+      return false;
     }
     if (items.length < 1) {
       setError("Please add one or more items to the cart");
-      return;
+      return false;
     }
     if (payments.length < 1 || paidAmount <= 0) {
       setError("Please enter an amount for at least one payment mode");
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const submitManualPayment = () => {
     setError("");
     setSubmitting(true);
     // Opened synchronously, in the same click, so browsers still attribute it
@@ -92,58 +170,46 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
     // .then() (after the network round-trip) loses that gesture and gets
     // silently popup-blocked instead of actually opening a tab.
     const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
-    const cleanItems = [
-      ...items.map(
-        ({
-          item_code, qty, rate, amount, serial_no, batch_no,
-          discount_amount, discount_percentage, price_list_rate, pricing_rules, item_tax_template,
-        }) => ({
-          item_code, qty, rate, amount, serial_no, batch_no,
-          discount_amount, discount_percentage, price_list_rate,
-          pricing_rules: pricing_rules?.length ? pricing_rules.join(",") : undefined,
-          item_tax_template,
-        }),
-      ),
-      ...freeItems.map(({ item_code, qty, rate, uom, pricing_rules }) => ({
-        item_code, qty, rate, amount: 0, is_free_item: 1, uom,
-        pricing_rules: pricing_rules || undefined,
-      })),
-    ];
-    const redeemedPoints = redeemLoyaltyPoints ? Math.floor(parseFloat(pointsToRedeem) || 0) : 0;
-    postPaymentInvoice(
-      {
-        customer,
-        items: cleanItems,
-        payments,
-        sales_invoice: salesInvoiceName,
-        apply_discount_on: discountOn || undefined,
-        additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
-        taxes,
-        loyalty_program: loyaltyProgram || undefined,
-        redeem_loyalty_points: redeemedPoints > 0 ? 1 : 0,
-        loyalty_points: redeemedPoints,
-      },
-      openingDetail,
-      1,
-      couponCode || undefined,
-    ).then((data) => {
+    postPaymentInvoice(buildInvoicePayload(), openingDetail, 1, couponCode || undefined).then((data) => {
       setSubmitting(false);
-      if (data?.name) {
-        if (receiptTab) {
-          const formatParam = printFormat ? `&format=${encodeURIComponent(printFormat)}` : "";
-          // trigger_print=1 tells Frappe's own printview page to call window.print()
-          // (and auto-close afterwards) as soon as it renders — no separate
-          // window.print() call needed on our side, and it works even though
-          // this tab is a different origin/page than the POS app itself.
-          receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(data.name)}${formatParam}&trigger_print=1`;
-        }
-        resetCart();
-        onClose();
-      } else {
-        receiptTab?.close();
-        setError("Failed to complete payment");
-      }
+      finishCheckout(data?.name, receiptTab);
     });
+  };
+
+  const payWithGateway = () => {
+    setError("");
+    setSubmitting(true);
+    const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
+
+    getPaymentGateway(gatewayName)
+      .pay({
+        invoicePayload: buildInvoicePayload(),
+        openingDetail,
+        amount: gatewayAmount,
+        couponCode: couponCode || undefined,
+      })
+      .then((data) => {
+        setSubmitting(false);
+        finishCheckout(data?.name, receiptTab);
+      })
+      .catch((err) => {
+        setSubmitting(false);
+        receiptTab?.close();
+        // A dismissed checkout modal isn't an error — the invoice is left as a
+        // Draft, retrievable the same way any other held sale is.
+        if (!err?.cancelled) {
+          setError(err?.message || "Failed to complete payment");
+        }
+      });
+  };
+
+  const createPaymentInvoice = () => {
+    if (!validatePayment()) return;
+    if (payingViaGateway) {
+      payWithGateway();
+    } else {
+      submitManualPayment();
+    }
   };
 
   return (
@@ -165,8 +231,10 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
             {submitting ? (
               <>
                 <span className="spinner-border spinner-border-sm" role="status" />
-                Submitting…
+                {payingViaGateway ? `Waiting for ${gatewayName}…` : "Submitting…"}
               </>
+            ) : payingViaGateway ? (
+              `Pay with ${gatewayName}`
             ) : (
               "Complete Payment"
             )}
@@ -226,12 +294,28 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         <div className="invoice-pay-rows mb-3">
           {paymentModes.map((row) => (
             <div className="invoice-pay-row" key={row.mode_of_payment}>
-              <div className="invoice-pay-row-label">{row.mode_of_payment}</div>
+              <div className="invoice-pay-row-label">
+                {row.mode_of_payment}
+                {row.ep_payment_gateway && (
+                  <span
+                    className="badge bg-primary-subtle text-primary ms-2"
+                    style={{ fontSize: 10, fontWeight: 500 }}
+                    title={
+                      gatewayConfig?.enabled
+                        ? `Cashier enters the amount to charge; a ${row.ep_payment_gateway} checkout opens on Complete Payment.`
+                        : `${row.ep_payment_gateway} is not configured yet.`
+                    }
+                  >
+                    {row.ep_payment_gateway}
+                  </span>
+                )}
+              </div>
               <div className="invoice-pay-row-field">
                 <CurrencyField
                   className="mb-0"
                   placeholder="0"
                   min={0}
+                  disabled={row.ep_payment_gateway && !gatewayConfig?.enabled}
                   value={getPaymentAmount(row.mode_of_payment)}
                   onChange={(value) => updatePayment(row.mode_of_payment, value === "" ? 0 : value)}
                 />
