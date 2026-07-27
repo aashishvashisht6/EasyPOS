@@ -9,7 +9,7 @@ import useCartStore from "../../store/cartStore";
 import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
 import { roundCurrency } from "../../utils/number";
 
-const InvoicePay = ({ onClose, grandTotal, taxes }) => {
+const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [paymentModes, setPaymentModes] = useState([]);
@@ -139,6 +139,12 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         // this tab is a different origin/page than the POS app itself.
         receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(invoiceName)}${formatParam}&trigger_print=1`;
       }
+      onComplete?.({
+        invoiceName,
+        grandTotal,
+        amountPaid: paidAmount,
+        changeDue: balanceDue < 0 ? roundCurrency(-balanceDue, currencyPrecision) : 0,
+      });
       resetCart();
       onClose();
     } else {
@@ -181,21 +187,21 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
     setError("");
     setSubmitting(true);
 
-    // Unlike the manual flow, the receipt tab is NOT pre-opened here — the
-    // Razorpay checkout modal opens in this same tab, so popping a tab the
-    // instant "Pay with Razorpay" is clicked just yanks focus away from the
-    // modal the cashier still needs to interact with. It's opened instead from
-    // onPaymentConfirmed below, which fires inside Razorpay's own success
-    // callback — still close enough to the payment gesture to dodge popup
-    // blockers, but only once there's actually a receipt to show.
-    let receiptTab = null;
-    const onPaymentConfirmed = () => {
-      if (!printReceiptOnOrderComplete) return;
-      receiptTab = window.open("", "_blank");
-      receiptTab?.document.write(
+    // Opened synchronously, inside the actual "Pay with Razorpay" click, same
+    // as submitManualPayment's receiptTab — a window.open() called later from
+    // inside Razorpay's own `handler` callback (fired via postMessage from its
+    // checkout iframe, not a direct continuation of the click) isn't treated
+    // as user-gesture-initiated by the browser and gets silently popup-blocked.
+    // That's why this used to only work for the manual/cash flow. Refocusing
+    // immediately after keeps the Razorpay modal in front instead of the
+    // cashier getting yanked to the new (mostly blank, "finishing up") tab.
+    const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
+    if (receiptTab) {
+      receiptTab.document.write(
         "<title>Receipt</title><body style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px\">Finishing up — your receipt will print here once it's confirmed.</body>",
       );
-    };
+      window.focus();
+    }
 
     getPaymentGateway(gatewayName)
       .pay({
@@ -207,7 +213,6 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
         // invoice instead of create_payment_gateway_order minting a new one —
         // see buildInvoicePayload's sales_invoice field.
         onOrderCreated: setSalesInvoiceName,
-        onPaymentConfirmed,
         // A failed attempt doesn't end the checkout — Razorpay's modal lets the
         // cashier/customer immediately retry with another method — so just
         // surface a non-blocking notice rather than tearing down the flow.

@@ -10,3 +10,4 @@ easy_pos.patches.add_sales_invoice_opening_entry
 easy_pos.patches.rename_ep_opening_entry_closing_field
 easy_pos.patches.add_pos_profile_receipt_notifications
 easy_pos.patches.add_payment_gateway_fields
+easy_pos.patches.add_pos_profile_customer_display

@@ -23,6 +23,7 @@ import DiscountDetailPage from "./pages/DiscountDetailPage";
 import LoyaltyProgramListPage from "./pages/LoyaltyProgramListPage";
 import LoyaltyProgramDetailPage from "./pages/LoyaltyProgramDetailPage";
 import ReportsPage from "./pages/ReportsPage";
+import CustomerDisplayPage from "./pages/CustomerDisplayPage";
 
 export function Spinner() {
   return (
@@ -120,6 +121,16 @@ function AppRoutes() {
         <Route path="/posapp/sync" element={<SyncPage />} />
         <Route path="/posapp/reports" element={<ReportsPage />} />
       </Route>
+      <Route
+        path="/posapp/customer-display"
+        element={
+          <RequireAuth>
+            <LoadOpeningEntry>
+              <CustomerDisplayPage />
+            </LoadOpeningEntry>
+          </RequireAuth>
+        }
+      />
       <Route path="/posapp" element={<Navigate to="/posapp/terminal" replace />} />
       <Route path="*" element={<Navigate to="/posapp/terminal" replace />} />
     </Routes>

@@ -13,6 +13,7 @@ import DraftPickerModal from "./DraftPickerModal";
 import { LinkField, TextField, SelectField, NumberField, CurrencyField, AlertModal } from "../common";
 import { roundCurrency } from "../../utils/number";
 import { computeCartTotals } from "../../utils/tax";
+import useCustomerDisplayBroadcaster from "../../hooks/useCustomerDisplayBroadcaster";
 
 const PRICING_DEBOUNCE_MS = 400;
 
@@ -29,6 +30,11 @@ const Cart = () => {
   const allowRateChange = usePOSSessionStore((s) => s.allowRateChange);
   const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
   const customerGroups = usePOSSessionStore((s) => s.customerGroups);
+
+  const { sendPaymentStatus, sendInvoiceComplete, customerDisplayEnabled } = useCustomerDisplayBroadcaster();
+  const openCustomerDisplay = () => {
+    window.open("/posapp/customer-display", "easy_pos_customer_display", "width=900,height=650");
+  };
 
   const customer = useCartStore((s) => s.customer);
   const customerName = useCartStore((s) => s.customerName);
@@ -272,7 +278,19 @@ const Cart = () => {
               Shopping Cart
             </h5>
           </div>
-          <span className="pos-badge pos-badge-success">{cartItems.length} item{cartItems.length === 1 ? "" : "s"}</span>
+          <div className="d-flex align-items-center gap-2">
+            {customerDisplayEnabled && (
+              <button
+                type="button"
+                className="btn btn-link btn-sm p-0"
+                title="Open Customer Display"
+                onClick={openCustomerDisplay}
+              >
+                <i className="bi bi-easel2" style={{ fontSize: 15 }} />
+              </button>
+            )}
+            <span className="pos-badge pos-badge-success">{cartItems.length} item{cartItems.length === 1 ? "" : "s"}</span>
+          </div>
         </div>
 
         <div className="card-body p-0 d-flex flex-column" style={{ minHeight: 0, flex: 1 }}>
@@ -715,6 +733,7 @@ const Cart = () => {
                   openOpeningModal();
                   return;
                 }
+                sendPaymentStatus({ status: "processing", grandTotal });
                 setPayInvoice(true);
               }}
               disabled={cartItems.length === 0 || !customer}
@@ -732,6 +751,7 @@ const Cart = () => {
           onClose={() => setPayInvoice(false)}
           grandTotal={grandTotal}
           taxes={taxRows}
+          onComplete={sendInvoiceComplete}
         />
       )}
 

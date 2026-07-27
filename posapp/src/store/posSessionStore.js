@@ -46,6 +46,9 @@ const usePOSSessionStore = create((set, get) => ({
   // preview right after checkout completes.
   printReceiptOnOrderComplete: false,
   printFormat: "",
+  // Gates the "Open Customer Display" button on the Terminal — see
+  // easy_pos.patches.add_pos_profile_customer_display.
+  customerDisplayEnabled: false,
 
   loadProfileDetails: async (pos_profile) => {
     if (!pos_profile) return;
@@ -76,6 +79,7 @@ const usePOSSessionStore = create((set, get) => ({
       customerGroups: (profile.customer_groups ?? []).map((row) => row.customer_group),
       printReceiptOnOrderComplete: !!profile.print_receipt_on_order_complete,
       printFormat: profile.print_format || "",
+      customerDisplayEnabled: !!profile.ep_customer_display_enabled,
     });
   },
 
@@ -116,6 +120,7 @@ const usePOSSessionStore = create((set, get) => ({
       customerGroups: [],
       printReceiptOnOrderComplete: false,
       printFormat: "",
+      customerDisplayEnabled: false,
     });
   },
 

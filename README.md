@@ -33,6 +33,7 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 - **Barcode scanning** — scan with a USB/Bluetooth hardware scanner (keyboard-wedge input, works anywhere on the Terminal without clicking into the search box first) or the device camera; both resolve against item barcode/serial/batch/item code and auto-add a unique match straight to the cart
 - **Held / draft sales** — park an in-progress cart as a Draft invoice and pull it back into the terminal later via the draft picker, so a cashier can serve another customer without losing a sale
 - **Product Bundles** — add an ERPNext Product Bundle straight from the item grid like any other item; the terminal flags it with a bundle badge and previews its components in the cart, while ERPNext itself explodes it into the invoice's packed items and deducts component stock on checkout
+- **Customer-facing second screen** — open a live, read-only mirror of the cart (items, running total, payment-due, thank-you) in a second window for a dual-monitor till setup, toggled per POS Profile
 
 ### 💳 Payments
 - **Payment gateways (Razorpay)** — route any POS Payment Method through a live gateway checkout (UPI QR / card, via Razorpay's Checkout modal) instead of the cashier typing a received amount; the invoice only finalizes once the payment is verified server-side, and a dismissed or failed payment safely leaves the sale as a retrievable draft rather than a hard error
@@ -78,7 +79,7 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, a live Razorpay payment gateway checkout, a per-cashier/per-shift reports dashboard, and installable-PWA app shell caching. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, a live Razorpay payment gateway checkout, a per-cashier/per-shift reports dashboard, a customer-facing second-screen display, and installable-PWA app shell caching. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype

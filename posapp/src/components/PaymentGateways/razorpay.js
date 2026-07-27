@@ -32,7 +32,6 @@ const pay = ({
   amount,
   couponCode,
   onOrderCreated,
-  onPaymentConfirmed,
   onAttemptFailed,
 }) =>
   Promise.all([
@@ -54,11 +53,6 @@ const pay = ({
         name: "POS Payment",
         description: `Invoice ${order.sales_invoice}`,
         handler: (response) => {
-          // Still inside the callback Razorpay invokes right as the customer
-          // finishes paying, so the caller can pop the receipt tab here instead
-          // of the moment "Pay with Razorpay" was clicked — no more yanking the
-          // cashier out of the POS tab before they've even seen the checkout modal.
-          onPaymentConfirmed?.();
           verifyPaymentGatewayOrder(
             "Razorpay",
             order.sales_invoice,
