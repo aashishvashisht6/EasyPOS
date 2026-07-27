@@ -3,6 +3,7 @@ import { fetchItems, searchItem } from "../../api/Items";
 import useVirtualScroll from "../../hooks/VirtualScroll";
 import useCartStore from "../../store/cartStore";
 import usePOSSessionStore from "../../store/posSessionStore";
+import ItemVariantModal from "./ItemVariantModal";
 
 const CARD_HEIGHT = 150; // actual card content is ~138.5px tall — must exceed that or virtualized rows overlap
 const CARD_MIN_WIDTH = 150; // px, includes gap — drives responsive column count
@@ -30,9 +31,15 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
         </div>
       )}
 
-      {item.is_product_bundle && (
+      {!!item.is_product_bundle && (
         <div className="pos-item-bundle-badge" title="Product Bundle">
           <i className="bi bi-boxes" />
+        </div>
+      )}
+
+      {!!item.has_variants && (
+        <div className="pos-item-bundle-badge" title="Has variants">
+          <i className="bi bi-sliders" />
         </div>
       )}
 
@@ -44,34 +51,44 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
         {item.item_name || item.item_code}
       </div>
 
-      <div className="pos-item-price-row">
-        <span className="pos-item-price">
-          {item.rate === null || item.rate === undefined ? "—" : `${currencySymbol}${item.rate}`}
-        </span>
-        {hasStock && (
-          <span className={`pos-item-stock ${outOfStock ? "out" : ""}`}>
-            {outOfStock ? "Out of stock" : `${item.stock} left`}
+      {item.has_variants ? (
+        <div className="pos-item-price-row">
+          <span className="pos-item-price text-muted" style={{ color: "var(--color-text-faint)" }}>
+            Select options
           </span>
-        )}
-      </div>
+        </div>
+      ) : (
+        <>
+          <div className="pos-item-price-row">
+            <span className="pos-item-price">
+              {item.rate === null || item.rate === undefined ? "—" : `${currencySymbol}${item.rate}`}
+            </span>
+            {hasStock && (
+              <span className={`pos-item-stock ${outOfStock ? "out" : ""}`}>
+                {outOfStock ? "Out of stock" : `${item.stock} left`}
+              </span>
+            )}
+          </div>
 
-      <div className="pos-item-stepper">
-        <button
-          type="button"
-          disabled={qty <= 1 || outOfStock}
-          onClick={(e) => { e.stopPropagation(); onDecrement(item.item_code); }}
-        >
-          −
-        </button>
-        <span>{qty}</span>
-        <button
-          type="button"
-          disabled={outOfStock}
-          onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}
-        >
-          +
-        </button>
-      </div>
+          <div className="pos-item-stepper">
+            <button
+              type="button"
+              disabled={qty <= 1 || outOfStock}
+              onClick={(e) => { e.stopPropagation(); onDecrement(item.item_code); }}
+            >
+              −
+            </button>
+            <span>{qty}</span>
+            <button
+              type="button"
+              disabled={outOfStock}
+              onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}
+            >
+              +
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 });
@@ -85,6 +102,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
   // search results (scanned barcode/serial/batch/item_code, or a name search).
   const [searchResults, setSearchResults] = useState(null);
   const [searching, setSearching] = useState(false);
+  const [variantTemplate, setVariantTemplate] = useState(null);
   const containerRef = useRef(null);
   const addItem = useCartStore((s) => s.addItem);
   const cartItems = useCartStore((s) => s.items);
@@ -130,6 +148,21 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         result.items[0].stock !== null &&
         result.items[0].stock !== undefined &&
         result.items[0].stock <= 0;
+
+      // A resolved template (e.g. an exact item_code match on a variant
+      // parent) can't be added directly — it has no rate/stock of its own —
+      // so it opens the attribute picker instead of the usual auto-add.
+      if (AUTO_ADD_MATCH_TYPES.has(result.match_type) && result.items.length === 1 && result.items[0].has_variants) {
+        if (!hasOpeningEntry) {
+          openOpeningModal();
+        } else {
+          setVariantTemplate(result.items[0]);
+        }
+        setSearchResults(null);
+        setSearching(false);
+        onSearchResolved?.();
+        return;
+      }
 
       if (AUTO_ADD_MATCH_TYPES.has(result.match_type) && result.items.length === 1 && !scannedOutOfStock) {
         const item = result.items[0];
@@ -193,6 +226,10 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         openOpeningModal();
         return;
       }
+      if (item.has_variants) {
+        setVariantTemplate(item);
+        return;
+      }
       const qty = itemQty[item.item_code] ?? 1;
       addItem(item.item_code, item.rate, qty, {
         has_serial_no: item.has_serial_no,
@@ -203,6 +240,23 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
       }, currencyPrecision);
     },
     [itemQty, addItem, hasOpeningEntry, openOpeningModal, currencyPrecision],
+  );
+
+  // Resolved-variant Add to Cart from the attribute picker — mirrors
+  // addItemToCart's meta shape but the qty comes from the modal's own
+  // stepper, not the grid card's (a template card never gets one, see
+  // ItemCard above).
+  const addVariantToCart = useCallback(
+    (variant, qty) => {
+      addItem(variant.item_code, variant.rate, qty, {
+        has_serial_no: variant.has_serial_no,
+        has_batch_no: variant.has_batch_no,
+        item_tax_template: variant.item_tax_template,
+        item_tax_rate: variant.item_tax_rate,
+        is_product_bundle: variant.is_product_bundle,
+      }, currencyPrecision);
+    },
+    [addItem, currencyPrecision],
   );
 
   const handleDecrement = useCallback((item_code) => {
@@ -301,6 +355,14 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         </div>
         )}
       </div>
+
+      {variantTemplate && (
+        <ItemVariantModal
+          templateItem={variantTemplate}
+          onClose={() => setVariantTemplate(null)}
+          onAdd={addVariantToCart}
+        />
+      )}
     </div>
   );
 };

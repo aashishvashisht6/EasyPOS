@@ -36,6 +36,8 @@ const emptyProfile = {
   item_groups: [],
   customer_groups: [],
   print_format: "",
+  ep_email_notification: "",
+  ep_sms_notification: "",
   letter_head: "",
   tc_name: "",
   select_print_heading: "",
@@ -536,6 +538,32 @@ const POSProfileDetailPage = () => {
               filters={[["Print Heading", "docstatus", "!=", 2]]}
               value={form.select_print_heading}
               onChange={update("select_print_heading")}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="pos-card mb-3 p-3 p-md-4">
+        <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
+          Receipt Delivery
+        </h6>
+        <div className="row g-3">
+          <div className="col-6 col-md-4">
+            <LinkField
+              label="Email Notification"
+              doctype="Notification"
+              filters={[["Notification", "channel", "=", "Email"]]}
+              value={form.ep_email_notification}
+              onChange={update("ep_email_notification")}
+            />
+          </div>
+          <div className="col-6 col-md-4">
+            <LinkField
+              label="SMS Notification"
+              doctype="Notification"
+              filters={[["Notification", "channel", "=", "SMS"]]}
+              value={form.ep_sms_notification}
+              onChange={update("ep_sms_notification")}
             />
           </div>
         </div>

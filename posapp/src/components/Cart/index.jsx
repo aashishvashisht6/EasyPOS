@@ -31,6 +31,7 @@ const Cart = () => {
   const customerGroups = usePOSSessionStore((s) => s.customerGroups);
 
   const customer = useCartStore((s) => s.customer);
+  const customerName = useCartStore((s) => s.customerName);
   const cartItems = useCartStore((s) => s.items);
   const freeItems = useCartStore((s) => s.freeItems);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
@@ -52,7 +53,6 @@ const Cart = () => {
   const loyaltyPointsBalance = useCartStore((s) => s.loyaltyPointsBalance);
   const setLoyaltySummary = useCartStore((s) => s.setLoyaltySummary);
 
-  const [customerLabel, setCustomerLabel] = useState("");
   const [saveDraft, setSaveDraft] = useState(false);
   const [payInvoice, setPayInvoice] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -235,6 +235,7 @@ const Cart = () => {
       loadDraft({
         name: doc.name,
         customer: doc.customer,
+        customer_name: doc.customer_name,
         items: (doc.items ?? []).map((item) => ({
           item_code: item.item_code,
           qty: item.qty,
@@ -255,7 +256,6 @@ const Cart = () => {
         discountOn: doc.apply_discount_on || "",
         discountPercentage: doc.additional_discount_percentage || "",
       });
-      setCustomerLabel(doc.customer_name || doc.customer || "");
       setShowDraftPicker(false);
     });
   };
@@ -283,15 +283,14 @@ const Cart = () => {
               label="Customer"
               doctype="Customer"
               value={customer}
-              displayValue={customer ? customerLabel : ""}
+              displayValue={customer ? customerName : ""}
               filters={customerFilters}
               placeholder="Search customer..."
               actionIcon="bi-person-plus"
               actionTitle="New customer"
               onAction={() => setShowNewCustomer(true)}
               onChange={(value, option) => {
-                setCustomer(value ?? "");
-                setCustomerLabel(option?.description || option?.value || "");
+                setCustomer(value ?? "", option?.description || option?.value || "");
               }}
               renderOption={(option) => (
                 <div className="d-flex align-items-center gap-2">
@@ -320,7 +319,7 @@ const Cart = () => {
                 style={{ fontSize: 11, textDecoration: "none", color: "var(--color-primary)" }}
                 onClick={() =>
                   navigate(
-                    `/posapp/invoices?customer=${encodeURIComponent(customer)}&customerName=${encodeURIComponent(customerLabel || customer)}`,
+                    `/posapp/invoices?customer=${encodeURIComponent(customer)}&customerName=${encodeURIComponent(customerName || customer)}`,
                   )
                 }
               >
@@ -744,8 +743,7 @@ const Cart = () => {
         <NewCustomerModal
           onClose={() => setShowNewCustomer(false)}
           onCreated={(doc) => {
-            setCustomer(doc.name);
-            setCustomerLabel(doc.customer_name || doc.name);
+            setCustomer(doc.name, doc.customer_name || doc.name);
             setShowNewCustomer(false);
           }}
         />

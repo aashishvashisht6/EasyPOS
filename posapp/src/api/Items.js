@@ -28,6 +28,21 @@ export const searchItem = async (search_text, warehouse, price_list, customer, p
 	}
 };
 
+// Attribute-picker data for a variant template (item.has_variants) — the
+// template's attributes with the values that actually appear across its
+// existing variants, plus each variant's own resolved stock/rate and
+// attribute values. See easy_pos.api.item.get_item_variants.
+export const fetchItemVariants = async (item_code, warehouse, price_list, customer) => {
+	try {
+		const response = await engineGet("/api/method/easy_pos.api.item.get_item_variants", {
+			params: { template_item_code: item_code, warehouse, price_list, customer },
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 // Read-only component list (item_code/item_name/qty/uom) of a Product Bundle
 // parent item — display-only preview for the cart line detail panel; ERPNext
 // itself explodes the bundle into Sales Invoice packed_items on save.

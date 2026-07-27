@@ -3,6 +3,7 @@ import { flt } from "../utils/number";
 
 const initialState = {
   customer: "",
+  customerName: "",
   items: [],
   payments: [],
   salesInvoiceName: "",
@@ -140,9 +141,10 @@ const useCartStore = create((set, get) => ({
     }));
   },
 
-  setCustomer: (customer) =>
+  setCustomer: (customer, customerName = "") =>
     set({
       customer,
+      customerName,
       loyaltyProgram: "",
       loyaltyPointsBalance: 0,
       loyaltyConversionFactor: 0,
@@ -151,6 +153,7 @@ const useCartStore = create((set, get) => ({
   clearCustomer: () =>
     set({
       customer: "",
+      customerName: "",
       loyaltyProgram: "",
       loyaltyPointsBalance: 0,
       loyaltyConversionFactor: 0,
@@ -185,6 +188,7 @@ const useCartStore = create((set, get) => ({
   loadDraft: (draft) => {
     set({
       customer: draft.customer ?? "",
+      customerName: draft.customer_name ?? draft.customer ?? "",
       items: draft.items ?? [],
       payments: draft.payments ?? [],
       salesInvoiceName: draft.name ?? "",

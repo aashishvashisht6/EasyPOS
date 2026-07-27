@@ -42,6 +42,10 @@ const usePOSSessionStore = create((set, get) => ({
   allowDiscountChange: false,
   itemGroups: [],
   customerGroups: [],
+  // Print Settings — consumed by InvoicePay to auto-open a receipt print
+  // preview right after checkout completes.
+  printReceiptOnOrderComplete: false,
+  printFormat: "",
 
   loadProfileDetails: async (pos_profile) => {
     if (!pos_profile) return;
@@ -70,6 +74,8 @@ const usePOSSessionStore = create((set, get) => ({
       allowDiscountChange: !!profile.allow_discount_change,
       itemGroups: (profile.item_groups ?? []).map((row) => row.item_group),
       customerGroups: (profile.customer_groups ?? []).map((row) => row.customer_group),
+      printReceiptOnOrderComplete: !!profile.print_receipt_on_order_complete,
+      printFormat: profile.print_format || "",
     });
   },
 
@@ -108,6 +114,8 @@ const usePOSSessionStore = create((set, get) => ({
       allowDiscountChange: false,
       itemGroups: [],
       customerGroups: [],
+      printReceiptOnOrderComplete: false,
+      printFormat: "",
     });
   },
 

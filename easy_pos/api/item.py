@@ -1,4 +1,5 @@
 import frappe
+from frappe.query_builder.functions import IfNull
 from frappe.utils import flt, getdate, nowdate
 from easy_pos.api.pos import get_currency_precision
 
@@ -11,6 +12,7 @@ ITEM_FIELDS = [
 	"has_serial_no",
 	"has_batch_no",
 	"is_stock_item",
+	"has_variants",
 ]
 
 
@@ -282,6 +284,16 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
     tax_map = _get_item_tax_map(items, warehouse)
     bundle_codes = _get_bundle_item_codes(item_codes)
     for item in items:
+        # A variant template (has_variants=1) isn't sellable itself — its own
+        # stock/rate are meaningless until a specific variant is picked via
+        # get_item_variants, so both stay None the way they do before a
+        # warehouse/price list is known.
+        if item.get("has_variants"):
+            item.stock = None
+            item.rate = None
+            item.item_tax_template, item.item_tax_rate = "", {}
+            item.is_product_bundle = False
+            continue
         if warehouse and item.get("is_stock_item"):
             item.stock = stock_map.get(item.item_code, 0)
         else:
@@ -334,6 +346,67 @@ def get_product_bundle_contents(item_code):
 
 
 @frappe.whitelist()
+def get_item_variants(template_item_code, warehouse=None, price_list=None, customer=None):
+    """Attribute-picker data for a variant template (has_variants=1): the
+    template's attributes in their configured order, the set of values that
+    actually appear across its existing variants (not every value the Item
+    Attribute master defines — only combinations that exist as real variant
+    Items are selectable), and each variant's own resolved stock/rate plus its
+    attribute_value per attribute for the frontend to match a selection
+    against. Mirrors ERPNext desk's own variant-selector intent, scoped to
+    what the POS terminal needs.
+    """
+    variants = frappe.get_all(
+        "Item",
+        filters={"variant_of": template_item_code, "disabled": 0},
+        fields=ITEM_FIELDS,
+        order_by="name asc",
+    )
+    if not variants:
+        return {"attributes": [], "variants": []}
+
+    _attach_stock_and_rate(variants, warehouse, price_list, customer)
+
+    template_attr_order = frappe.get_all(
+        "Item Variant Attribute",
+        filters={"parent": template_item_code, "parenttype": "Item"},
+        fields=["attribute"],
+        order_by="idx asc",
+        pluck="attribute",
+    )
+
+    variant_attrs = frappe.get_all(
+        "Item Variant Attribute",
+        filters={"parent": ["in", [v.item_code for v in variants]], "parenttype": "Item"},
+        fields=["parent", "attribute", "attribute_value"],
+        order_by="idx asc",
+    )
+    attrs_by_variant = {}
+    values_by_attr = {}
+    for row in variant_attrs:
+        attrs_by_variant.setdefault(row.parent, {})[row.attribute] = row.attribute_value
+        if row.attribute_value:
+            values_by_attr.setdefault(row.attribute, [])
+            if row.attribute_value not in values_by_attr[row.attribute]:
+                values_by_attr[row.attribute].append(row.attribute_value)
+
+    for variant in variants:
+        variant.attributes = attrs_by_variant.get(variant.item_code, {})
+
+    # Attributes not present on the template's own child table (edge case —
+    # shouldn't normally happen) are appended after the configured ones so no
+    # variant attribute is silently dropped from the picker.
+    attribute_names = list(template_attr_order) + [
+        a for a in values_by_attr if a not in template_attr_order
+    ]
+    attributes = [
+        {"attribute": attr, "values": values_by_attr.get(attr, [])} for attr in attribute_names
+    ]
+
+    return {"attributes": attributes, "variants": variants}
+
+
+@frappe.whitelist()
 def get_item_groups():
     """Getting All Item groups as needs for offline functionality"""
     item_groups = frappe.get_all("Item Group", filters={}, fields=["name as item_group", "image"], order_by="lft asc")
@@ -348,7 +421,14 @@ def get_items(item_group=None, warehouse=None, price_list=None, customer=None, p
     `pos_profile`, when given, restricts results to its configured `item_groups`
     (empty on the profile = no restriction, matching ERPNext's own convention).
     """
-    filters = {"disabled":0, "has_variants":0}
+    # variant_of="" excludes individual variant Items (e.g. "T-Shirt-Red-M")
+    # from the browse grid — a variant's own template (has_variants=1,
+    # variant_of="") is shown instead, and the cashier picks the specific
+    # variant via get_item_variants's attribute picker rather than needing to
+    # find/know the exact variant item_code. Exact-match lookups (barcode,
+    # serial no, item code) in search_item bypass this filter entirely, so a
+    # scanned variant barcode still resolves straight to that variant.
+    filters = {"disabled": 0, "variant_of": ["is", "not set"]}
     if item_group:
 
         # Checking if parent group then fetching all child groups otherwise we check only selected group
@@ -447,11 +527,12 @@ def search_item(search_text, warehouse=None, price_list=None, customer=None, pos
             Item.has_serial_no,
             Item.has_batch_no,
             Item.is_stock_item,
+            Item.has_variants,
         )
         .distinct()
         .where(
             (Item.disabled == 0)
-            & (Item.has_variants == 0)
+            & (IfNull(Item.variant_of, "") == "")
             & (
                 Item.name.like(like)
                 | Item.item_name.like(like)

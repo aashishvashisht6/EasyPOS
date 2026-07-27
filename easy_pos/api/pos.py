@@ -257,7 +257,27 @@ def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_co
 			if coupon_name:
 				update_coupon_code_count(coupon_name, "used")
 
+		send_receipt_notifications(sales_invoice, pos_profile)
+
 	return sales_invoice.as_dict()
+
+
+def send_receipt_notifications(sales_invoice, pos_profile) -> None:
+	# Notification.send() resolves recipients from its own `recipients` child
+	# table and already logs/swallows per-channel failures internally.
+	for fieldname in ("ep_email_notification", "ep_sms_notification"):
+		notification_name = pos_profile.get(fieldname)
+		if not notification_name:
+			continue
+		try:
+			notification = frappe.get_cached_doc("Notification", notification_name)
+			if notification.enabled:
+				notification.send(sales_invoice)
+		except Exception:
+			frappe.log_error(
+				title="POS receipt notification failed",
+				message=frappe.get_traceback(),
+			)
 
 
 @frappe.whitelist()

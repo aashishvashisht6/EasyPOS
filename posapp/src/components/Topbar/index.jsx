@@ -33,7 +33,7 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
         <div className="d-flex align-items-center gap-3">
           <span className="pos-topbar-title">{title}</span>
           {onSearchChange && (
-            <div className="pos-search">
+            <div className={onScanClick ? "pos-search has-scan" : "pos-search"}>
               <i className="bi bi-search" />
               <input
                 type="text"

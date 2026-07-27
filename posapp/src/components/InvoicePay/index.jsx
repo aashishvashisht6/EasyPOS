@@ -16,6 +16,8 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
+  const printReceiptOnOrderComplete = usePOSSessionStore((s) => s.printReceiptOnOrderComplete);
+  const printFormat = usePOSSessionStore((s) => s.printFormat);
 
   useEffect(() => {
     fetchProfile(openingDetail.pos_profile).then((data) => {
@@ -85,6 +87,11 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
     }
     setError("");
     setSubmitting(true);
+    // Opened synchronously, in the same click, so browsers still attribute it
+    // to a user gesture — a window.open() called later inside the postPaymentInvoice
+    // .then() (after the network round-trip) loses that gesture and gets
+    // silently popup-blocked instead of actually opening a tab.
+    const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
     const cleanItems = [
       ...items.map(
         ({
@@ -122,9 +129,18 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
     ).then((data) => {
       setSubmitting(false);
       if (data?.name) {
+        if (receiptTab) {
+          const formatParam = printFormat ? `&format=${encodeURIComponent(printFormat)}` : "";
+          // trigger_print=1 tells Frappe's own printview page to call window.print()
+          // (and auto-close afterwards) as soon as it renders — no separate
+          // window.print() call needed on our side, and it works even though
+          // this tab is a different origin/page than the POS app itself.
+          receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(data.name)}${formatParam}&trigger_print=1`;
+        }
         resetCart();
         onClose();
       } else {
+        receiptTab?.close();
         setError("Failed to complete payment");
       }
     });

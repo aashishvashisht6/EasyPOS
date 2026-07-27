@@ -62,6 +62,8 @@ const InvoiceRegisterPage = () => {
   const [status, setStatus] = useState("");
   const [customer, setCustomer] = useState(() => searchParams.get("customer") || "");
   const [customerName, setCustomerName] = useState(() => searchParams.get("customerName") || "");
+  const [posProfile, setPosProfile] = useState(() => openingDetail?.pos_profile ?? "");
+  const [posProfileTouched, setPosProfileTouched] = useState(false);
   const [mobileNo, setMobileNo] = useState("");
   const [email, setEmail] = useState("");
   const [search, setSearch] = useState("");
@@ -73,7 +75,7 @@ const InvoiceRegisterPage = () => {
   const loadInvoices = () => {
     setLoading(true);
     const filters = {
-      pos_profile: openingDetail?.pos_profile ?? "",
+      pos_profile: posProfile,
       status,
       customer,
       mobile_no: mobileNo,
@@ -91,7 +93,17 @@ const InvoiceRegisterPage = () => {
     const t = setTimeout(loadInvoices, 300);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, status, customer, mobileNo, email]);
+  }, [page, status, customer, posProfile, mobileNo, email]);
+
+  // openingDetail hydrates asynchronously after mount (see posSessionStore) —
+  // default the filter to the open shift's profile once it becomes available,
+  // but don't clobber a value the user has already picked/cleared themselves.
+  useEffect(() => {
+    if (!posProfileTouched && openingDetail?.pos_profile) {
+      setPosProfile(openingDetail.pos_profile);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openingDetail?.pos_profile]);
 
   const resetToFirstPage = (setter) => (value) => {
     setPage(0);
@@ -102,11 +114,13 @@ const InvoiceRegisterPage = () => {
     setPage(0);
     setCustomer("");
     setCustomerName("");
+    setPosProfile("");
+    setPosProfileTouched(true);
     setMobileNo("");
     setEmail("");
   };
 
-  const hasActiveFilters = customer || mobileNo || email;
+  const hasActiveFilters = customer || posProfile || mobileNo || email;
 
   useEffect(() => {
     setTopbar({
@@ -163,6 +177,20 @@ const InvoiceRegisterPage = () => {
                   setCustomerName(docname ? option?.label || option?.description || docname : "");
                 }}
                 placeholder="Filter by customer"
+                size="sm"
+              />
+            </div>
+            <div style={{ width: 200 }}>
+              <LinkField
+                label="POS Profile"
+                doctype="POS Profile"
+                value={posProfile}
+                onChange={(docname) => {
+                  setPage(0);
+                  setPosProfile(docname ?? "");
+                  setPosProfileTouched(true);
+                }}
+                placeholder="Filter by POS Profile"
                 size="sm"
               />
             </div>
