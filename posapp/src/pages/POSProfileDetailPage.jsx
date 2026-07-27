@@ -381,6 +381,26 @@ const POSProfileDetailPage = () => {
               ),
             },
             {
+              key: "ep_payment_gateway",
+              label: "Payment Gateway",
+              width: "1fr",
+              render: (row, idx) => (
+                <div>
+                  <SelectField
+                    placeholder="Manual (none)"
+                    value={row.ep_payment_gateway || ""}
+                    options={["Razorpay"]}
+                    onChange={(v) => updateRow("payments", idx, { ep_payment_gateway: v })}
+                  />
+                  <div className="pos-field-description" style={{ fontSize: 11, color: "var(--color-text-faint)", marginTop: 2 }}>
+                    When set, Complete Payment opens this gateway's checkout for the amount
+                    entered instead of treating it as manually received. Configure the
+                    gateway's own credentials (e.g. Razorpay Settings) separately.
+                  </div>
+                </div>
+              ),
+            },
+            {
               key: "actions",
               label: "",
               width: "40px",

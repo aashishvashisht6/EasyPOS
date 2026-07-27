@@ -179,7 +179,17 @@ const InvoicePay = ({ onClose, grandTotal, taxes }) => {
   const payWithGateway = () => {
     setError("");
     setSubmitting(true);
+    // Pre-opened for the same popup-blocker reason as the manual flow (see
+    // finishCheckout), but the gateway round trip takes noticeably longer than
+    // a direct submit, so it's given visible content immediately — otherwise it
+    // looks like a stray blank tab rather than "your receipt will appear here"
+    // while the actual checkout is happening in this tab.
     const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
+    if (receiptTab) {
+      receiptTab.document.write(
+        "<title>Receipt</title><body style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px\">Complete the payment in the other tab — your receipt will print here once it's confirmed.</body>",
+      );
+    }
 
     getPaymentGateway(gatewayName)
       .pay({

@@ -35,9 +35,10 @@ const SelectField = ({
         {...rest}
       >
         {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
+          // Not disabled — a disabled option can be shown while empty but can
+          // never be re-selected from the browser's native dropdown, so a field
+          // with a value could never be cleared back to "no selection" again.
+          <option value="">{placeholder}</option>
         )}
         {normalized.map((opt) => (
           <option key={opt.value} value={opt.value}>
