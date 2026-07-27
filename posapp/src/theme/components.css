@@ -76,6 +76,25 @@
 }
 
 /* User menu (topbar avatar dropdown) */
+.pos-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.pos-icon-btn:hover {
+  background: var(--color-surface-alt);
+}
+
 .pos-user-trigger {
   display: flex;
   align-items: center;
@@ -343,9 +362,9 @@
 }
 
 .pos-chip.active {
-  background: var(--color-dark-surface);
-  border-color: var(--color-dark-surface);
-  color: var(--color-dark-text);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .pos-chip.danger {

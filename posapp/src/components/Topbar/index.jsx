@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import usePOSSessionStore from "../../store/posSessionStore";
+import useThemeStore from "../../store/themeStore";
 import ClosingModal from "../Closing";
 
 const getInitials = (name) => {
@@ -21,6 +22,8 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
   const fullName = useAuthStore((s) => s.user?.full_name);
   const email = useAuthStore((s) => s.user?.email);
   const logout = useAuthStore((s) => s.logout);
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const [showClosingModal, setShowClosingModal] = useState(false);
 
   const handleLogout = () => {
@@ -80,6 +83,16 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
               Close shift
             </button>
           )}
+
+          <button
+            type="button"
+            className="pos-icon-btn"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label="Toggle dark mode"
+            onClick={toggleTheme}
+          >
+            <i className={`bi ${theme === "dark" ? "bi-sun" : "bi-moon-stars"}`} />
+          </button>
 
           <div className="position-relative">
             <button

@@ -70,3 +70,45 @@
   --sidebar-width: 64px;
   --topbar-height: 56px;
 }
+
+/* Dark mode — mirrors every app-surface/text/status/border token above.
+   --color-dark-* tokens are intentionally left unset here: they already
+   back permanently-dark surfaces (sidebar, login panel, active chips) and
+   stay identical in both themes so those surfaces don't double-darken. */
+:root[data-theme="dark"] {
+  --color-primary-tint: rgba(245, 158, 11, 0.18);
+  --color-primary-tint-soft: rgba(245, 158, 11, 0.12);
+
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-alt: #1c2128;
+
+  --color-border: #30363d;
+  --color-border-soft: #2a2f38;
+  --color-border-faint: #22262e;
+  --color-border-input: #3a4048;
+
+  --color-text-primary: #e6e8ec;
+  --color-text-secondary: #c3c7d1;
+  --color-text-muted: #9099a8;
+  --color-text-faint: #6b7280;
+
+  --color-success-bg: rgba(22, 163, 74, 0.16);
+  --color-success-text: #4ade80;
+  --color-success-icon: #22c55e;
+
+  --color-warning-bg: rgba(217, 158, 11, 0.16);
+  --color-warning-bg-soft: rgba(217, 158, 11, 0.1);
+  --color-warning-text: #fbbf24;
+  --color-warning-text-strong: #f59e0b;
+
+  --color-danger-bg: rgba(220, 38, 38, 0.18);
+  --color-danger-bg-soft: rgba(220, 38, 38, 0.1);
+  --color-danger-text: #f87171;
+  --color-danger-icon: #ef4444;
+
+  --color-avatar-bg: #2a2f38;
+  --color-avatar-text: #d1d5db;
+
+  --shadow-hairline: 0 0 0 0.5px rgba(255, 255, 255, 0.08);
+}

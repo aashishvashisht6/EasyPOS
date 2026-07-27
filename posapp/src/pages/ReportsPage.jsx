@@ -23,8 +23,13 @@ const SCOPE_OPTIONS = [
 
 // Theme-consistent palette (primary/success/warning/danger + two neutrals)
 // so the payment-breakdown chart reads as an extension of the app's own
-// badge/chip colors instead of frappe-charts' default random hues.
-const CHART_COLOR_SEQUENCE = ["#f59e0b", "#16a34a", "#10141c", "#dc2626", "#374151", "#9aa1b2"];
+// badge/chip colors instead of frappe-charts' default random hues. frappe-charts
+// paints these as literal SVG fills (no CSS var() resolution), and this array
+// also backs the legend dots' inline `background`, so every entry must stay
+// legible against both a white (light mode) and near-black (dark mode) card —
+// avoid near-black/near-white neutrals here, they vanish in one theme or the
+// other.
+const CHART_COLOR_SEQUENCE = ["#f59e0b", "#16a34a", "#8b5cf6", "#dc2626", "#64748b", "#9aa1b2"];
 
 const today = () => new Date().toISOString().slice(0, 10);
 

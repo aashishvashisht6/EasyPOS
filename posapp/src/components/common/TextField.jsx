@@ -60,7 +60,7 @@ const TextField = ({
       {hasGroup ? (
         <div className={`input-group input-group-${size}`}>
           {icon && (
-            <span className="input-group-text bg-white">
+            <span className="input-group-text">
               <i className={`bi ${icon}`} />
             </span>
           )}

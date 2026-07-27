@@ -77,9 +77,14 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 - The app shell (JS/CSS/icons) is precached by a service worker for instant repeat loads, with a prompt-to-reload banner when a new version is deployed — never a silent mid-transaction reload
 - Transactional data and API calls are always fetched live (cookie-based auth, shared-terminal safe) — this covers installability and static-asset caching only, not full offline operation (see [Roadmap](#roadmap))
 
+### 🌗 Dark Mode
+- A sun/moon toggle in the topbar switches the whole app between light and dark themes, backed by CSS custom properties (no per-component overrides needed)
+- Defaults to the device's OS-level `prefers-color-scheme`, then remembers the cashier's explicit choice per device
+- Bootstrap-native chrome (modals, dropdowns, form controls) themes automatically alongside the app's own components
+
 ## Roadmap
 
-Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, a live Razorpay payment gateway checkout, a per-cashier/per-shift reports dashboard, a customer-facing second-screen display, and installable-PWA app shell caching. Still ahead:
+Easy POS is being delivered in stages toward a fully offline-capable PWA. Shipped so far covers login, shift open/close, the sales terminal with split payments and barcode scanning (hardware + camera), Pricing Rule discounts, Price Lists, a Loyalty Program with in-cart points redemption, invoice register, returns, a live Razorpay payment gateway checkout, a per-cashier/per-shift reports dashboard, a customer-facing second-screen display, installable-PWA app shell caching, and a light/dark theme toggle. Still ahead:
 
 - **Offline core** — RxDB (IndexedDB) local storage, offline PIN login, and an offline invoice mutation queue so the terminal keeps working through a dropped connection
 - **Sync visibility** — a background sync engine with a dedicated screen (scaffolded today as a UI preview on the Sync page) showing pending changes, conflicts, and cache freshness per doctype

@@ -149,7 +149,7 @@ const LinkField = ({
     <FieldShell label={label} htmlFor={id} required={required} error={error} help={help}>
       <div className={`pos-link-field ${className}`} ref={containerRef}>
         <div className={`input-group input-group-${size}`}>
-          <span className="input-group-text bg-white">
+          <span className="input-group-text">
             <i className="bi bi-search" />
           </span>
           <input
