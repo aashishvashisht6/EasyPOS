@@ -38,6 +38,7 @@ const LinkField = ({
   actionIcon,
   actionTitle,
   onAction,
+  onClick,
 }) => {
   const id = useId();
   const containerRef = useRef(null);
@@ -147,7 +148,7 @@ const LinkField = ({
 
   return (
     <FieldShell label={label} htmlFor={id} required={required} error={error} help={help}>
-      <div className={`pos-link-field ${className}`} ref={containerRef}>
+      <div className={`pos-link-field ${className}`} ref={containerRef} onClick={onClick}>
         <div className={`input-group input-group-${size}`}>
           <span className="input-group-text">
             <i className="bi bi-search" />

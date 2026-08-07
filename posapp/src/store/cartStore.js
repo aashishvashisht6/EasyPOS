@@ -35,20 +35,31 @@ const useCartStore = create((set, get) => ({
   // what the backend will round to on save.
   addItem: (item_code, rate, qty = 1, meta = {}, precision = 2) => {
     const items = get().items;
-    const existingItem = items.find((item) => item.item_code === item_code);
+    // Serial/Batch-tracked items are one physical unit per cart row — each
+    // scan/add picks its own serial/batch no, so unlike a plain item, a
+    // repeat add can never merge qty into an existing row. It always appends
+    // a fresh row (qty forced to 1, ignoring whatever qty was passed) so the
+    // cashier scans/selects the serial or batch no for that new row next.
+    const isSerialOrBatchTracked = !!meta.has_serial_no || !!meta.has_batch_no;
+    const existingItem =
+      !isSerialOrBatchTracked &&
+      items.find(
+        (item) => item.item_code === item_code && !item.has_serial_no && !item.has_batch_no,
+      );
+    const addedQty = isSerialOrBatchTracked ? 1 : qty;
     const updatedItems = existingItem
       ? items.map((item) =>
-          item.item_code === item_code
-            ? { ...item, qty: item.qty + qty, rate, amount: flt((item.qty + qty) * rate, precision) }
+          item.item_code === item_code && !item.has_serial_no && !item.has_batch_no
+            ? { ...item, qty: item.qty + addedQty, rate, amount: flt((item.qty + addedQty) * rate, precision) }
             : item,
         )
       : [
           ...items,
           {
             item_code,
-            qty,
+            qty: addedQty,
             rate,
-            amount: flt(qty * rate, precision),
+            amount: flt(addedQty * rate, precision),
             has_serial_no: !!meta.has_serial_no,
             has_batch_no: !!meta.has_batch_no,
             serial_no: meta.serial_no ?? "",
@@ -89,12 +100,20 @@ const useCartStore = create((set, get) => ({
     });
   },
 
+  // Serial-tracked rows are pinned at qty 1 — a row is one scanned unit
+  // (one serial no can't cover more than one), so adding another unit means
+  // adding another row (see addItem above), never bumping this one.
+  // Batch-tracked rows are NOT pinned — a single batch no can cover any
+  // quantity (e.g. 5 litres of milk from one batch), so this is exactly how
+  // a cashier sets that quantity without having to re-scan/re-add the item
+  // once per litre; only which row a scan/add lands in is decided by addItem.
   updateItemQty: (index, qty, precision = 2) => {
-    const nextQty = Math.max(qty, 1);
     set({
-      items: get().items.map((item, i) =>
-        i === index ? { ...item, qty: nextQty, amount: flt(nextQty * item.rate, precision) } : item,
-      ),
+      items: get().items.map((item, i) => {
+        if (i !== index) return item;
+        const nextQty = item.has_serial_no ? 1 : Math.max(qty, 1);
+        return { ...item, qty: nextQty, amount: flt(nextQty * item.rate, precision) };
+      }),
     });
   },
 
@@ -102,11 +121,22 @@ const useCartStore = create((set, get) => ({
     const nextQty = Math.max(qty, 1);
     set({
       items: get().items.map((item) =>
-        item.item_code === item_code
+        item.item_code === item_code && !item.has_serial_no && !item.has_batch_no
           ? { ...item, qty: nextQty, amount: flt(nextQty * item.rate, precision) }
           : item,
       ),
     });
+  },
+
+  // Counterpart to addItem's "always a new row" behavior for serial/batch
+  // items — the Items grid's per-card "−" step removes the most recently
+  // added row for that item_code instead of decrementing a qty that's
+  // always 1.
+  removeLastItemByCode: (item_code) => {
+    const items = get().items;
+    const lastIndex = items.reduce((acc, item, i) => (item.item_code === item_code ? i : acc), -1);
+    if (lastIndex === -1) return;
+    set({ items: items.filter((_, i) => i !== lastIndex) });
   },
 
   clearItems: () => set({ items: [], freeItems: [], couponCode: "" }),

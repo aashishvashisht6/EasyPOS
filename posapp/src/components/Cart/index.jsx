@@ -27,6 +27,7 @@ const Cart = () => {
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
   const posProfile = usePOSSessionStore((s) => s.posProfile);
+  const warehouse = usePOSSessionStore((s) => s.warehouse);
   const allowRateChange = usePOSSessionStore((s) => s.allowRateChange);
   const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
   const customerGroups = usePOSSessionStore((s) => s.customerGroups);
@@ -414,7 +415,18 @@ const Cart = () => {
                               −
                             </button>
                             <span>{item.qty}</span>
-                            <button type="button" onClick={() => updateItemQty(index, item.qty + 1, currencyPrecision)}>
+                            <button
+                              type="button"
+                              // One row per scanned serial unit — bumping qty in place
+                              // would mean shipping more units under a single serial
+                              // no, so adding another means scanning/adding again for a
+                              // new row. Batch rows stay editable here — one batch no
+                              // can cover any quantity (e.g. 5 litres of milk from the
+                              // same batch), so this is how that qty is set.
+                              disabled={item.has_serial_no}
+                              title={item.has_serial_no ? "Scan/add the item again to add another unit" : undefined}
+                              onClick={() => updateItemQty(index, item.qty + 1, currencyPrecision)}
+                            >
                               +
                             </button>
                           </div>
@@ -475,13 +487,19 @@ const Cart = () => {
                             {item.has_serial_no && (
                               <div style={{ minWidth: 130, flex: 1 }}>
                                 <div className="cart-detail-label">Serial No</div>
-                                <TextField
+                                <LinkField
+                                  doctype="Serial No"
                                   size="sm"
                                   className="cart-detail-input"
-                                  placeholder="Enter serial no"
+                                  placeholder="Search serial no"
                                   value={item.serial_no ?? ""}
+                                  filters={{
+                                    item_code: item.item_code,
+                                    status: "Active",
+                                    ...(warehouse ? { warehouse: ["=", warehouse] } : {}),
+                                  }}
                                   onClick={(e) => e.stopPropagation()}
-                                  onChange={(value) => updateItemField(index, "serial_no", value)}
+                                  onChange={(value) => updateItemField(index, "serial_no", value ?? "")}
                                 />
                               </div>
                             )}
@@ -489,13 +507,18 @@ const Cart = () => {
                             {item.has_batch_no && (
                               <div style={{ minWidth: 130, flex: 1 }}>
                                 <div className="cart-detail-label">Batch No</div>
-                                <TextField
+                                <LinkField
+                                  doctype="Batch"
                                   size="sm"
                                   className="cart-detail-input"
-                                  placeholder="Enter batch no"
+                                  placeholder="Search batch no"
                                   value={item.batch_no ?? ""}
+                                  filters={{
+                                    item: item.item_code,
+                                    disabled: 0,
+                                  }}
                                   onClick={(e) => e.stopPropagation()}
-                                  onChange={(value) => updateItemField(index, "batch_no", value)}
+                                  onChange={(value) => updateItemField(index, "batch_no", value ?? "")}
                                 />
                               </div>
                             )}

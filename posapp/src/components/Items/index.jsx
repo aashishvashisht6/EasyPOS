@@ -19,6 +19,10 @@ const AUTO_ADD_MATCH_TYPES = new Set(["barcode", "serial_no", "batch_no", "item_
 const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, currencySymbol }) => {
   const hasStock = item.stock !== null && item.stock !== undefined;
   const outOfStock = hasStock && item.stock <= 0;
+  // One row per unit — "+" would imply bumping an existing row's qty, which
+  // addItem/updateItemQty(ByCode) no longer allow for these. Add another unit
+  // by clicking/scanning the item again, which appends its own new row.
+  const isTracked = !!item.has_serial_no || !!item.has_batch_no;
   return (
     <div
       className={`pos-item-card ${inCart ? "in-cart" : ""} ${outOfStock ? "out-of-stock" : ""}`}
@@ -81,7 +85,8 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
             <span>{qty}</span>
             <button
               type="button"
-              disabled={outOfStock}
+              disabled={outOfStock || isTracked}
+              title={isTracked ? "Click/scan the item again to add another unit" : undefined}
               onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}
             >
               +
@@ -107,6 +112,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
   const addItem = useCartStore((s) => s.addItem);
   const cartItems = useCartStore((s) => s.items);
   const updateItemQtyByCode = useCartStore((s) => s.updateItemQtyByCode);
+  const removeLastItemByCode = useCartStore((s) => s.removeLastItemByCode);
   const hasOpeningEntry = usePOSSessionStore((s) => s.hasOpeningEntry);
   const openOpeningModal = usePOSSessionStore((s) => s.openOpeningModal);
   const warehouse = usePOSSessionStore((s) => s.warehouse);
@@ -212,11 +218,19 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
     return Math.max(2, Math.min(8, Math.floor((containerWidth + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP))));
   }, [containerWidth]);
 
-  const cartQtyByCode = useMemo(
-    () => new Map(cartItems.map((item) => [item.item_code, item.qty])),
-    [cartItems],
-  );
+  // Summed rather than a straight item_code → qty map — a serial/batch
+  // tracked item can have several rows for the same item_code (one per
+  // scanned unit, see addItem in cartStore), so the card's "N in cart"
+  // badge/stepper needs the total across all of them, not just one row's qty.
+  const cartQtyByCode = useMemo(() => {
+    const map = new Map();
+    cartItems.forEach((item) => {
+      map.set(item.item_code, (map.get(item.item_code) ?? 0) + item.qty);
+    });
+    return map;
+  }, [cartItems]);
   const cartCodes = useMemo(() => new Set(cartQtyByCode.keys()), [cartQtyByCode]);
+  const itemsByCode = useMemo(() => new Map(items.map((it) => [it.item_code, it])), [items]);
 
   const filteredItems = searchResults !== null ? searchResults : items;
 
@@ -259,7 +273,16 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
     [addItem, currencyPrecision],
   );
 
+  // Serial/Batch-tracked items step by whole rows, not qty — "−" drops the
+  // most recently added row (its scanned serial/batch no along with it),
+  // "+" is disabled on the card itself (see ItemCard) since adding another
+  // unit means clicking/scanning the item again to pick its own serial/batch no.
   const handleDecrement = useCallback((item_code) => {
+    const meta = itemsByCode.get(item_code);
+    if ((meta?.has_serial_no || meta?.has_batch_no) && cartQtyByCode.has(item_code)) {
+      removeLastItemByCode(item_code);
+      return;
+    }
     if (cartQtyByCode.has(item_code)) {
       updateItemQtyByCode(item_code, cartQtyByCode.get(item_code) - 1, currencyPrecision);
       return;
@@ -268,7 +291,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
       ...prev,
       [item_code]: Math.max((prev[item_code] ?? 1) - 1, 1),
     }));
-  }, [cartQtyByCode, updateItemQtyByCode, currencyPrecision]);
+  }, [itemsByCode, cartQtyByCode, removeLastItemByCode, updateItemQtyByCode, currencyPrecision]);
 
   const handleIncrement = useCallback((item_code) => {
     if (cartQtyByCode.has(item_code)) {
