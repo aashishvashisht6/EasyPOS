@@ -1,56 +1,38 @@
 import axios from "../api/config";
 import db from "./db";
 import useEngineSettingsStore from "./settingsStore";
+import useConnectivityStore, { initConnectivity } from "./connectivity";
+import { canServeLocally, readFromLocalDB } from "./localReads";
 
 // Middleware every api/*.js call routes through instead of calling axios
-// directly. Decides server vs. local DB per call; for now the local-DB
-// branch is a real code path but unreachable in practice, since offline
-// reads/writes aren't implemented yet (see CLAUDE.md/plan) — offlineModeEnabled
-// being true just means every capable call throws instead of silently
-// pretending to work, rather than actually falling back to the server.
-const OFFLINE_CAPABLE_DOCTYPES = [
-	"Item",
-	"Item Group",
-	"Customer",
-	"Price List",
-	"Pricing Rule",
-	"Sales Taxes and Charges Template",
-	"POS Profile",
-	"Mode of Payment",
+// directly. Decides server vs. local DB per call: only reads (never a write —
+// queuing/replaying writes made offline is Phase 2, not this one) whose exact
+// call shape has a `localReads.js` adapter are eligible, and only while the
+// offline-mode feature is on (EasyPOS Settings) *and* connectivity is
+// actually down (useConnectivityStore, not just a static flag) — going
+// offline mid-shift falls back automatically, same as coming back online.
+const WRITE_METHOD_MARKERS = [
+	"client.insert",
+	"client.save",
+	"client.delete",
+	"client.submit",
+	"client.cancel",
+	"pos.create_",
+	"pos.cancel_",
 ];
-
-const isOfflineCapable = (doctype) => !!doctype && OFFLINE_CAPABLE_DOCTYPES.includes(doctype);
-
-// Best-effort doctype extraction from a call's params/data, used only to
-// decide offline-capability — call sites don't need to pass it explicitly.
-const extractDoctype = ({ params, data } = {}) => {
-	if (params?.doctype) return params.doctype;
-	if (data?.doctype) return data.doctype;
-	if (typeof data?.doc === "string") {
-		try {
-			return JSON.parse(data.doc).doctype;
-		} catch {
-			return undefined;
-		}
-	}
-	return undefined;
-};
-
-const readFromLocalDB = async () => {
-	throw new Error("Offline reads are not implemented yet");
-};
+const isWriteCall = (url) => WRITE_METHOD_MARKERS.some((marker) => url.includes(marker));
 
 // Returns the same shape as axios.get/axios.post (a response object with
 // `.data`), so callers keep using `response.data.message` unchanged.
 const callServer = ({ url, method = "get", params, data }) =>
 	axios.request({ url, method, params, data });
 
-export const engineCall = ({ url, method = "get", params, data, doctype }) => {
+export const engineCall = ({ url, method = "get", params, data }) => {
 	const { offlineModeEnabled } = useEngineSettingsStore.getState();
-	const resolvedDoctype = doctype ?? extractDoctype({ params, data });
+	const { isOnline } = useConnectivityStore.getState();
 
-	if (offlineModeEnabled && isOfflineCapable(resolvedDoctype)) {
-		return readFromLocalDB();
+	if (offlineModeEnabled && !isOnline && !isWriteCall(url) && canServeLocally(url, { params, data })) {
+		return readFromLocalDB({ url, params, data });
 	}
 
 	return callServer({ url, method, params, data });
@@ -61,9 +43,11 @@ export const engineGet = (url, config = {}) =>
 
 export const enginePost = (url, data = {}) => engineCall({ url, method: "post", data });
 
-// Opens the local Dexie database and loads the offline-mode flag from the
-// backend. Safe to call once at app boot; does not affect any existing page.
+// Opens the local Dexie database, loads the offline-mode flag from the
+// backend, and starts connectivity tracking. Safe to call once at app boot;
+// does not affect any existing page until the settings flag is actually on.
 export const initEngine = async () => {
 	await db.open();
 	await useEngineSettingsStore.getState().loadSettings();
+	initConnectivity();
 };

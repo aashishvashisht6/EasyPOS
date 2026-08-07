@@ -4,6 +4,9 @@ import { fetchProfile } from "../api/POSProfile";
 import { fetchCurrencySymbol } from "../api/Currency";
 import { fetchPrecisionSettings } from "../api/Invoice";
 import { fetchTaxesAndChargesTemplate } from "../api/Tax";
+import { runFullSync } from "../engine/sync";
+import useEngineSettingsStore from "../engine/settingsStore";
+import useConnectivityStore from "../engine/connectivity";
 
 const DEFAULT_CURRENCY = "INR";
 const DEFAULT_SYMBOL = "₹";
@@ -81,6 +84,15 @@ const usePOSSessionStore = create((set, get) => ({
       printFormat: profile.print_format || "",
       customerDisplayEnabled: !!profile.ep_customer_display_enabled,
     });
+
+    // Fire-and-forget: refreshes the offline cache once per shift-open so a
+    // later unexpected connectivity drop has recent master data to fall back
+    // to. Never blocks the terminal on this — a failed/slow sync here must
+    // not delay showing the terminal (see engine/sync.js's runFullSync).
+    const { offlineModeEnabled } = useEngineSettingsStore.getState();
+    if (offlineModeEnabled && useConnectivityStore.getState().isOnline) {
+      runFullSync(profile.name || pos_profile).catch((error) => console.error(error));
+    }
   },
 
   checkOpeningEntry: async (userEmail) => {
