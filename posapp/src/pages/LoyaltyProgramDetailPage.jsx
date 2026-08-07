@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchLoyaltyProgram, createLoyaltyProgram, saveLoyaltyProgram } from "../api/LoyaltyProgram";
+import { toastSuccess, toastError } from "../store/toastStore";
 import {
   TextField,
   NumberField,
@@ -104,9 +105,12 @@ const LoyaltyProgramDetailPage = () => {
         ? await saveLoyaltyProgram({ ...fullDoc, ...payload, name: form.name, modified: form.modified })
         : await createLoyaltyProgram(payload);
 
+      toastSuccess("Loyalty Program saved successfully");
       navigate(`/posapp/loyalty-program/${encodeURIComponent(saved.name)}`, { replace: true });
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to save Loyalty Program");
+      const message = err?.response?.data?.exc_type || "Failed to save Loyalty Program";
+      setError(message);
+      toastError(message);
     } finally {
       setSaving(false);
     }

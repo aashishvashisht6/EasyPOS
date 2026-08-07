@@ -11,6 +11,7 @@ import "./api/config.js";
 import { fetchCsrfToken } from "./api/Auth.js";
 import { initEngine } from "./engine/index.js";
 import PwaUpdateBanner from "./pwa/PwaUpdateBanner.jsx";
+import ToastContainer from "./components/common/ToastContainer.jsx";
 
 // Production gets window.csrf_token from the Jinja template; the Vite dev
 // server serves a plain index.html, so fetch it explicitly here too.
@@ -27,6 +28,7 @@ fetchCsrfToken()
         <BrowserRouter>
           <AppRoutes />
         </BrowserRouter>
+        <ToastContainer />
         <PwaUpdateBanner />
       </StrictMode>,
     )

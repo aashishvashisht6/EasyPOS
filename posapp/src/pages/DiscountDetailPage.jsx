@@ -8,6 +8,7 @@ import {
   fetchPriceListCurrency,
   fetchItemsValidationData,
 } from "../api/PricingRule";
+import { toastSuccess, toastError } from "../store/toastStore";
 import {
   TextField,
   NumberField,
@@ -352,8 +353,11 @@ const DiscountDetailPage = () => {
       if (!isEdit) {
         navigate(`/posapp/discounts/${encodeURIComponent(saved.name)}`, { replace: true });
       }
+      toastSuccess("Discount saved successfully");
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to save Discount");
+      const message = err?.response?.data?.exc_type || "Failed to save Discount";
+      setError(message);
+      toastError(message);
     } finally {
       setSaving(false);
     }

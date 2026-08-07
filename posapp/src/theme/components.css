@@ -802,6 +802,204 @@
   font-family: var(--font-mono);
 }
 
+/* ChildTable enhancements — scroll-fade edge, footer accent, skeleton
+   loading, empty state, expand/reorder affordances. Scoped under .pos-ct-*
+   so they only ever apply inside ChildTable, never ListTable. */
+.pos-ct-scroll {
+  scrollbar-width: thin;
+}
+
+.pos-ct-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: linear-gradient(to left, var(--color-surface), transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.pos-ct-fade-right.show {
+  opacity: 1;
+}
+
+/* Footer totals get real visual weight instead of blending into a regular
+   row — an accent top border + tinted background so "Grand Total" (or any
+   footer row) reads as a summary, not just another line. */
+.pos-table-footer.pos-ct-footer {
+  background: var(--color-primary-tint-soft);
+  border-top: 1.5px solid var(--color-primary);
+}
+
+.pos-ct-expand-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-faint);
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.16s ease, background-color 0.12s ease, color 0.12s ease;
+}
+
+.pos-ct-expand-btn:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
+}
+
+.pos-ct-expand-btn.open {
+  transform: rotate(90deg);
+  color: var(--color-primary-hover);
+}
+
+.pos-ct-expand-panel {
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border-faint);
+  padding: 8px 14px 12px 44px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.pos-ct-row-error {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px 8px 16px;
+  font-size: 11px;
+  color: var(--color-danger-text);
+  background: var(--color-danger-bg-soft);
+  border-bottom: 1px solid var(--color-border-faint);
+}
+
+.pos-ct-move {
+  display: inline-flex;
+  gap: 2px;
+  justify-content: flex-end;
+}
+
+/* Skeleton shimmer rows shown while `loading` is true, replacing the plain
+   spinner/blank state so a slow-loading child table doesn't read as broken. */
+@keyframes pos-ct-shimmer {
+  0% { background-position: -120px 0; }
+  100% { background-position: calc(120px + 100%) 0; }
+}
+
+.pos-ct-skel {
+  display: inline-block;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--color-border-faint) 25%, var(--color-border-soft) 37%, var(--color-border-faint) 63%);
+  background-size: 120px 100%;
+  animation: pos-ct-shimmer 1.4s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pos-ct-skel {
+    animation: none;
+  }
+}
+
+/* Empty state — an icon + message instead of a bare line of muted text. */
+.pos-ct-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 30px 16px;
+  text-align: center;
+}
+
+.pos-ct-empty-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary-tint-soft);
+  color: var(--color-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.pos-ct-empty-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.pos-ct-empty-desc {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  max-width: 34ch;
+}
+
+/* "+ Add row" as a dashed strip living inside/below the table itself
+   (addRowPosition="bottom"), an alternative to the header button for
+   longer editable tables where the button can scroll out of view. */
+.pos-ct-add-strip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 14px;
+  border: 1px dashed var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-faint);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.pos-ct-add-strip:hover {
+  color: var(--color-primary-hover);
+  background: var(--color-primary-tint-soft);
+  border-color: var(--color-primary);
+}
+
+/* Small icon-only button — row-hover actions (view/edit/remove), reorder
+   arrows, etc. Reusable anywhere a bare icon needs a hit target + hover
+   state without the weight of a full .pos-btn. */
+.pos-btn-icon {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.pos-btn-icon:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
+}
+
+.pos-btn-icon:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pos-btn-icon.danger:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
 .pos-checkbox:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
@@ -1236,4 +1434,122 @@
   font-size: 14px;
   color: var(--color-text-primary);
   box-sizing: border-box;
+}
+
+/* Toasts (common/ToastContainer.jsx, store/toastStore.js) — a fixed stack
+   in the top-right corner, independent of AppLayout so it also works on
+   routes that don't use it (e.g. CustomerDisplayPage, LoginPage). Each
+   toast slides/fades in on mount; dismissal (auto-timer or the close
+   button) is handled by the store removing it from the array, so there's
+   no exit-animation state to track here. */
+.pos-toast-viewport {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+}
+
+@keyframes pos-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pos-toast {
+    animation: none !important;
+  }
+}
+
+.pos-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 12px 12px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-left: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 20px rgba(16, 20, 28, 0.12);
+  animation: pos-toast-in 0.2s ease;
+}
+
+.pos-toast-icon {
+  font-size: 16px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  color: var(--color-text-faint);
+}
+
+.pos-toast-message {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+
+.pos-toast-close {
+  border: none;
+  background: transparent;
+  color: var(--color-text-faint);
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.pos-toast-close:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
+}
+
+.pos-toast-success {
+  border-left-color: var(--color-success-icon);
+}
+
+.pos-toast-success .pos-toast-icon {
+  color: var(--color-success-icon);
+}
+
+.pos-toast-danger {
+  border-left-color: var(--color-danger-icon);
+}
+
+.pos-toast-danger .pos-toast-icon {
+  color: var(--color-danger-icon);
+}
+
+.pos-toast-warning {
+  border-left-color: var(--color-warning-text-strong);
+}
+
+.pos-toast-warning .pos-toast-icon {
+  color: var(--color-warning-text-strong);
+}
+
+.pos-toast-info {
+  border-left-color: var(--color-primary);
+}
+
+.pos-toast-info .pos-toast-icon {
+  color: var(--color-primary-hover);
 }

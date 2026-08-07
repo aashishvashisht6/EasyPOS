@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchProfile, createProfile, saveProfile, fetchCompanyDefaults } from "../api/POSProfile";
+import { toastSuccess, toastError } from "../store/toastStore";
 import {
   LinkField,
   CheckboxField,
@@ -134,6 +135,16 @@ const POSProfileDetailPage = () => {
     setForm((f) => ({ ...f, [field]: f[field].filter((_, i) => i !== index) }));
   };
 
+  const moveRow = (field, index, direction) => {
+    setForm((f) => {
+      const arr = [...f[field]];
+      const target = direction === "up" ? index - 1 : index + 1;
+      if (target < 0 || target >= arr.length) return f;
+      [arr[index], arr[target]] = [arr[target], arr[index]];
+      return { ...f, [field]: arr };
+    });
+  };
+
   const handleSubmit = async () => {
     if (!form.company || !form.warehouse) {
       setError("Company and Warehouse are required");
@@ -189,9 +200,12 @@ const POSProfileDetailPage = () => {
         ? await saveProfile({ ...fullDoc, ...payload, name: form.name, modified: form.modified })
         : await createProfile(payload);
 
+      toastSuccess("POS Profile saved successfully");
       navigate(`/posapp/pos-profile/${encodeURIComponent(saved.name)}`, { replace: true });
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to save POS Profile");
+      const message = err?.response?.data?.exc_type || "Failed to save POS Profile";
+      setError(message);
+      toastError(message);
     } finally {
       setSaving(false);
     }
@@ -319,8 +333,19 @@ const POSProfileDetailPage = () => {
           onAddRow={() =>
             addRow("payments", { mode_of_payment: "", default: 0, allow_in_returns: 0, ep_automatically_calculated: 1 })
           }
+          addRowPosition="bottom"
           rows={form.payments}
           emptyMessage="No payment modes added"
+          emptyDescription="Add the Modes of Payment cashiers can use to settle a sale on this profile."
+          rowError={(row, idx) =>
+            row.mode_of_payment &&
+            form.payments.some((other, i) => i !== idx && other.mode_of_payment === row.mode_of_payment && i < idx)
+              ? `${row.mode_of_payment} is already added in row ${
+                  form.payments.findIndex((other) => other.mode_of_payment === row.mode_of_payment) + 1
+                }`
+              : null
+          }
+          onMoveRow={(idx, direction) => moveRow("payments", idx, direction)}
           columns={[
             {
               key: "mode_of_payment",
@@ -409,7 +434,8 @@ const POSProfileDetailPage = () => {
               render: (row, idx) => (
                 <button
                   type="button"
-                  className="btn btn-link btn-sm text-danger"
+                  className="pos-btn-icon danger"
+                  title="Remove row"
                   onClick={() => removeRow("payments", idx)}
                 >
                   <i className="bi bi-trash" />

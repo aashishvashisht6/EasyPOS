@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { fetchCustomer, saveCustomer, fetchAddressDisplay } from "../api/Customer";
+import { toastSuccess, toastError } from "../store/toastStore";
 import {
   TextField,
   CurrencyField,
@@ -129,8 +130,11 @@ const CustomerDetailPage = () => {
       const saved = await saveCustomer({ ...fullDoc, ...payload, name: form.name, modified: form.modified });
       setFullDoc(saved);
       setForm({ ...emptyCustomer, ...saved, modified: saved.modified });
+      toastSuccess("Customer saved successfully");
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to save Customer");
+      const message = err?.response?.data?.exc_type || "Failed to save Customer";
+      setError(message);
+      toastError(message);
     } finally {
       setSaving(false);
     }

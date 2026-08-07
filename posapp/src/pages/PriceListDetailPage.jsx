@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchPriceList, createPriceList, savePriceList } from "../api/PriceList";
+import { toastSuccess, toastError } from "../store/toastStore";
 import {
   TextField,
   LinkField,
@@ -131,8 +132,11 @@ const PriceListDetailPage = () => {
       if (!isEdit) {
         navigate(`/posapp/price-list/${encodeURIComponent(saved.name)}`, { replace: true });
       }
+      toastSuccess("Price List saved successfully");
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to save Price List");
+      const message = err?.response?.data?.exc_type || "Failed to save Price List";
+      setError(message);
+      toastError(message);
     } finally {
       setSaving(false);
     }
