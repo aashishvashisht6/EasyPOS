@@ -100,7 +100,9 @@ def execute(company=None):
 		):
 			created.append(profile_name)
 
-	frappe.db.commit()
+	# This is a one-off setup script invoked via `bench execute` outside the normal
+	# request/response cycle, so there's no request-teardown commit to rely on.
+	frappe.db.commit()  # nosemgrep: frappe-manual-commit
 
 	summary = {
 		"company": company,
