@@ -74,6 +74,12 @@ repos:
         files: "\\.py$"
         exclude: ".*node_modules.*"
         pass_filenames: true
+        # Forces a single invocation instead of pre-commit's default parallel
+        # file-batching — the script clones/updates a shared rules cache dir
+        # on first run, and two parallel invocations both seeing it missing
+        # race each other's `git clone` into the same path ("destination
+        # path ... already exists and is not an empty directory").
+        require_serial: true
 
 ci:
     autoupdate_schedule: weekly

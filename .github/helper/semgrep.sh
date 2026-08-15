@@ -24,6 +24,15 @@ if [ -d "$RULES_DIR/.git" ]; then
 	git -C "$RULES_DIR" fetch --depth 1 --quiet origin >/dev/null 2>&1 &&
 		git -C "$RULES_DIR" reset --hard --quiet FETCH_HEAD >/dev/null 2>&1 || true
 else
+	# A directory that exists but isn't a valid clone (no .git) means a
+	# previous clone attempt here was interrupted (network hiccup, killed
+	# job, ...) — `git clone` refuses to reuse a non-empty target, so clear
+	# it first rather than permanently blocking every future run. This
+	# hook also has require_serial: true in .pre-commit-config.yaml so two
+	# invocations never race each other's clone into this same path.
+	if [ -e "$RULES_DIR" ]; then
+		rm -rf "$RULES_DIR"
+	fi
 	git clone --depth 1 --quiet https://github.com/frappe/semgrep-rules.git "$RULES_DIR"
 fi
 
