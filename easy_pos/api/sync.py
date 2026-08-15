@@ -4,7 +4,15 @@ from frappe.utils import now_datetime
 from easy_pos.api.item import get_item_groups, get_items
 from easy_pos.api.pos import _finalize_invoice, _save_sales_invoice, get_taxes_and_charges_template
 
-CUSTOMER_FIELDS = ["name", "customer_name", "customer_group", "territory", "mobile_no", "email_id", "disabled"]
+CUSTOMER_FIELDS = [
+	"name",
+	"customer_name",
+	"customer_group",
+	"territory",
+	"mobile_no",
+	"email_id",
+	"disabled",
+]
 PRICE_LIST_FIELDS = ["name", "price_list_name", "currency", "buying", "selling", "enabled"]
 PRICING_RULE_FIELDS = [
 	"name",
@@ -92,7 +100,9 @@ def get_offline_snapshot(pos_profile: str) -> dict:
 	"""
 	profile = frappe.get_doc("POS Profile", pos_profile)
 
-	items = get_items(warehouse=profile.warehouse, price_list=profile.selling_price_list, pos_profile=pos_profile)
+	items = get_items(
+		warehouse=profile.warehouse, price_list=profile.selling_price_list, pos_profile=pos_profile
+	)
 	item_groups = get_item_groups()
 	tax_rows = get_taxes_and_charges_template(profile.taxes_and_charges)
 
@@ -116,7 +126,9 @@ def get_offline_snapshot(pos_profile: str) -> dict:
 		order_by="modified desc",
 		limit_page_length=MAX_CACHED_ITEM_PRICES,
 	)
-	loyalty_programs = frappe.get_all("Loyalty Program", fields=LOYALTY_PROGRAM_FIELDS, order_by="loyalty_program_name asc")
+	loyalty_programs = frappe.get_all(
+		"Loyalty Program", fields=LOYALTY_PROGRAM_FIELDS, order_by="loyalty_program_name asc"
+	)
 	invoices = frappe.get_all(
 		"Sales Invoice",
 		filters={"is_pos": 1, "pos_profile": pos_profile},
@@ -143,7 +155,9 @@ def get_offline_snapshot(pos_profile: str) -> dict:
 
 
 @frappe.whitelist()
-def push_offline_invoice(offline_id: str, invoice: dict, opening_details: dict, submit, coupon_code: str = None) -> dict:
+def push_offline_invoice(
+	offline_id: str, invoice: dict, opening_details: dict, submit: bool, coupon_code: str | None = None
+) -> dict:
 	"""Replays a single Sales Invoice queued by the POS Terminal's offline write
 	queue (posapp/src/engine/outbox.js's pushPendingInvoices) against ERPNext,
 	once connectivity is back — same invoice/opening_details/submit/coupon_code

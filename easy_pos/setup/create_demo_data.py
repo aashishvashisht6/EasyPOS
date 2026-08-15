@@ -40,6 +40,7 @@ components below are plain stock items for that reason.
 """
 
 import frappe
+from frappe import _
 from frappe.utils import flt, nowdate
 
 ITEM_GROUP = "Demo Items"
@@ -81,7 +82,7 @@ COMBOS = [
 def execute(company=None):
 	company = company or frappe.defaults.get_global_default("company")
 	if not company:
-		frappe.throw("Cannot create demo data: no company was given and no default Company is set.")
+		frappe.throw(_("Cannot create demo data: no company was given and no default Company is set."))
 
 	warehouse = _ensure_warehouse(company)
 	price_list = _get_default_selling_price_list()
@@ -161,7 +162,11 @@ def execute(company=None):
 	print(
 		f"Demo data ready — {summary['items']} items priced against '{price_list}' "
 		f"for '{company}' (warehouse: '{warehouse}'). "
-		+ (f"Opening stock posted via {stock_entry_name}." if stock_entry_name else "Stock already topped up.")
+		+ (
+			f"Opening stock posted via {stock_entry_name}."
+			if stock_entry_name
+			else "Stock already topped up."
+		)
 	)
 	return summary
 
@@ -203,9 +208,7 @@ def _ensure_warehouse(company):
 	if frappe.db.exists("Warehouse", full_name):
 		return full_name
 
-	doc = frappe.get_doc(
-		{"doctype": "Warehouse", "warehouse_name": warehouse_name, "company": company}
-	)
+	doc = frappe.get_doc({"doctype": "Warehouse", "warehouse_name": warehouse_name, "company": company})
 	doc.insert(ignore_permissions=True)
 	return doc.name
 
@@ -218,9 +221,7 @@ def _ensure_opening_stock(stock_targets, rates, company, warehouse):
 	rows = []
 	for item_code, needs_serial_or_batch in stock_targets:
 		current_qty = flt(
-			frappe.db.get_value(
-				"Bin", {"item_code": item_code, "warehouse": warehouse}, "actual_qty"
-			)
+			frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": warehouse}, "actual_qty")
 		)
 		shortfall = DEMO_STOCK_QTY - current_qty
 		if shortfall <= 0:
@@ -308,18 +309,13 @@ def _ensure_product_bundle(bundle_item_code, components):
 		{
 			"doctype": "Product Bundle",
 			"new_item_code": bundle_item_code,
-			"items": [
-				{"item_code": item_code, "qty": qty, "uom": UOM}
-				for item_code, qty in components
-			],
+			"items": [{"item_code": item_code, "qty": qty, "uom": UOM} for item_code, qty in components],
 		}
 	).insert(ignore_permissions=True)
 
 
 def _ensure_item_price(item_code, price_list, rate):
-	existing = frappe.db.get_value(
-		"Item Price", {"item_code": item_code, "price_list": price_list}, "name"
-	)
+	existing = frappe.db.get_value("Item Price", {"item_code": item_code, "price_list": price_list}, "name")
 	if existing:
 		frappe.db.set_value("Item Price", existing, "price_list_rate", rate)
 		return

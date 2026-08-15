@@ -1,7 +1,9 @@
-import frappe
 import json
+
+import frappe
+from frappe import _
 from frappe.query_builder.functions import Sum
-from frappe.utils import now, today, flt, cint, get_number_format_info
+from frappe.utils import cint, flt, get_number_format_info, now, today
 
 
 def get_currency_precision() -> int:
@@ -33,10 +35,11 @@ def check_opening_entry(user: str) -> dict:
 		filters={"user": user, "ep_closing_entry": ["in", ["", None]], "docstatus": 1},
 		fields=["name"],
 		order_by="period_start_date desc",
-		limit=1
+		limit=1,
 	)
 
-	return frappe.get_doc("EP Opening Entry", open_vouchers[0].get('name')).as_dict() if open_vouchers else {}
+	return frappe.get_doc("EP Opening Entry", open_vouchers[0].get("name")).as_dict() if open_vouchers else {}
+
 
 @frappe.whitelist()
 def get_closing_entry(opening_details: dict) -> dict:
@@ -47,16 +50,19 @@ def get_closing_entry(opening_details: dict) -> dict:
 	SalesInvoicePayment = frappe.qb.DocType("Sales Invoice Payment")
 
 	query = (
-			frappe.qb.from_(SalesInvoice)
-			.join(SalesInvoicePayment).on(SalesInvoicePayment.parent == SalesInvoice.name)
-			.select(SalesInvoicePayment.mode_of_payment, Sum(SalesInvoicePayment.amount).as_("amount")).where(
+		frappe.qb.from_(SalesInvoice)
+		.join(SalesInvoicePayment)
+		.on(SalesInvoicePayment.parent == SalesInvoice.name)
+		.select(SalesInvoicePayment.mode_of_payment, Sum(SalesInvoicePayment.amount).as_("amount"))
+		.where(
 			(SalesInvoice.custom_ep_opening_entry == opening_details.get("name"))
 			& (SalesInvoice.docstatus == 1)
-			).groupby(SalesInvoicePayment.mode_of_payment)
-			)
+		)
+		.groupby(SalesInvoicePayment.mode_of_payment)
+	)
 	payments = query.run(as_dict=True)
 
-	closing_amount_dict = { payment.get("mode_of_payment"): payment.get("amount") for payment in payments }
+	closing_amount_dict = {payment.get("mode_of_payment"): payment.get("amount") for payment in payments}
 	opening_amount_dict = {
 		balance.get("mode_of_payment"): balance.get("opening_amount")
 		for balance in open_voucher.get("balance_details")
@@ -70,42 +76,58 @@ def get_closing_entry(opening_details: dict) -> dict:
 		mode_of_payment = payment_row.get("mode_of_payment")
 		opening_amount = opening_amount_dict.get(mode_of_payment, 0)
 		closing_amount = closing_amount_dict.get(mode_of_payment, 0)
-		closing_balance.append({
-			"mode_of_payment": mode_of_payment,
-			"opening_amount": opening_amount,
-			"closing_amount": closing_amount,
-			"automatically_calculated": cint(payment_row.get("ep_automatically_calculated", 1)),
-		})
+		closing_balance.append(
+			{
+				"mode_of_payment": mode_of_payment,
+				"opening_amount": opening_amount,
+				"closing_amount": closing_amount,
+				"automatically_calculated": cint(payment_row.get("ep_automatically_calculated", 1)),
+			}
+		)
 
 	return {"details": closing_balance}
 
+
 @frappe.whitelist()
 def create_opening_entry(opening_details: dict) -> dict:
-	opening_entry = frappe.get_doc({
-                    "doctype": "EP Opening Entry",
-                    "company": opening_details.get('company'),
-                    "pos_profile": opening_details.get("pos_profile"),
-                    "balance_details": opening_details.get('balance_details'),
-                    "period_start_date": now(),
-                    "posting_date": today(),
-                    "user": frappe.session.user
-                }).insert().submit()
-	
+	opening_entry = (
+		frappe.get_doc(
+			{
+				"doctype": "EP Opening Entry",
+				"company": opening_details.get("company"),
+				"pos_profile": opening_details.get("pos_profile"),
+				"balance_details": opening_details.get("balance_details"),
+				"period_start_date": now(),
+				"posting_date": today(),
+				"user": frappe.session.user,
+			}
+		)
+		.insert()
+		.submit()
+	)
+
 	return opening_entry.as_dict()
+
 
 @frappe.whitelist()
 def create_closing_entry(closing_details: dict) -> dict:
-	closing_entry = frappe.get_doc({
-                    "doctype": "EP Closing Entry",
-                    "company": closing_details.get('company'),
-                    "pos_profile": closing_details.get("pos_profile"),
-                    "payment_reconciliation": closing_details.get('closing_details'),
-                    "period_start_date": closing_details.get("period_start_date"),
-                    "posting_date": today(),
-					"posting_time": now(),
-					"pos_opening_entry": closing_details.get("pos_opening_entry"),
-                    "user": frappe.session.user
-                }).insert().submit()
+	closing_entry = (
+		frappe.get_doc(
+			{
+				"doctype": "EP Closing Entry",
+				"company": closing_details.get("company"),
+				"pos_profile": closing_details.get("pos_profile"),
+				"payment_reconciliation": closing_details.get("closing_details"),
+				"period_start_date": closing_details.get("period_start_date"),
+				"posting_date": today(),
+				"posting_time": now(),
+				"pos_opening_entry": closing_details.get("pos_opening_entry"),
+				"user": frappe.session.user,
+			}
+		)
+		.insert()
+		.submit()
+	)
 
 	if closing_details.get("pos_opening_entry"):
 		frappe.db.set_value(
@@ -119,7 +141,7 @@ def create_closing_entry(closing_details: dict) -> dict:
 
 
 @frappe.whitelist()
-def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
+def get_taxes_and_charges_template(taxes_and_charges: str | None = None) -> list:
 	"""Resolved order-level tax rows for a Sales Taxes and Charges Template —
 	the same shape the terminal needs to preview taxes before the invoice is
 	saved. POS invoices (is_pos=1) skip ERPNext's own auto-population of the
@@ -145,7 +167,7 @@ def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
 	]
 
 
-def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str = None):
+def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str | None = None):
 	"""Builds/updates the Sales Invoice doc from cart payload + opening details and
 	inserts/saves it (Draft, since callers decide separately whether to submit).
 	Shared by create_invoice and the Razorpay order flow so a gateway-backed
@@ -167,14 +189,20 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 	# calculate_taxes_and_totals recalculation instead of being lost. Rounded
 	# to the same precision the frontend used, so the stored value matches what
 	# the cashier saw rather than drifting when Frappe re-rounds on save.
-	additional_discount_percentage = flt(invoice.get("additional_discount_percentage"), precision=get_float_precision())
-	discount_fields = {
-		"additional_discount_percentage": additional_discount_percentage,
-		"apply_discount_on": invoice.get("apply_discount_on") or "Grand Total",
-	} if additional_discount_percentage else {
-		"additional_discount_percentage": 0,
-		"discount_amount": 0,
-	}
+	additional_discount_percentage = flt(
+		invoice.get("additional_discount_percentage"), precision=get_float_precision()
+	)
+	discount_fields = (
+		{
+			"additional_discount_percentage": additional_discount_percentage,
+			"apply_discount_on": invoice.get("apply_discount_on") or "Grand Total",
+		}
+		if additional_discount_percentage
+		else {
+			"additional_discount_percentage": 0,
+			"discount_amount": 0,
+		}
+	)
 
 	items = invoice.get("items") or []
 	for item in items:
@@ -202,16 +230,18 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 	# recomputes it for real from rate + item_tax_rate on save.
 	taxes = []
 	for tax in invoice.get("taxes") or []:
-		taxes.append({
-			"charge_type": tax.get("charge_type"),
-			"row_id": tax.get("row_id"),
-			"account_head": tax.get("account_head"),
-			"description": tax.get("description"),
-			"cost_center": tax.get("cost_center"),
-			"rate": flt(tax.get("rate")),
-			"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
-			"included_in_print_rate": tax.get("included_in_print_rate"),
-		})
+		taxes.append(
+			{
+				"charge_type": tax.get("charge_type"),
+				"row_id": tax.get("row_id"),
+				"account_head": tax.get("account_head"),
+				"description": tax.get("description"),
+				"cost_center": tax.get("cost_center"),
+				"rate": flt(tax.get("rate")),
+				"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
+				"included_in_print_rate": tax.get("included_in_print_rate"),
+			}
+		)
 	tax_fields = {"taxes": taxes, "taxes_and_charges": pos_profile.taxes_and_charges}
 
 	# Loyalty Program earn/redeem — ERPNext's own Sales Invoice.on_submit /
@@ -230,43 +260,52 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 
 	if invoice.get("sales_invoice"):
 		sales_invoice = frappe.get_doc("Sales Invoice", invoice.get("sales_invoice"))
-		sales_invoice.update({
-			"items": invoice.get("items"),
-			"payments": invoice.get("payments"),
-			"update_stock": 1,
-			"set_warehouse": pos_profile.warehouse,
-			"selling_price_list": pos_profile.selling_price_list,
-			**discount_fields,
-			**tax_fields,
-			**loyalty_fields,
-		})
+		sales_invoice.update(
+			{
+				"items": invoice.get("items"),
+				"payments": invoice.get("payments"),
+				"update_stock": 1,
+				"set_warehouse": pos_profile.warehouse,
+				"selling_price_list": pos_profile.selling_price_list,
+				**discount_fields,
+				**tax_fields,
+				**loyalty_fields,
+			}
+		)
 		sales_invoice.save()
 	else:
-		sales_invoice = frappe.get_doc({"doctype": "Sales Invoice", "customer": invoice.get("customer"),
-								 "items": invoice.get("items"), "pos_profile": opening_details.get("pos_profile"),
-								 "custom_ep_opening_entry": opening_details.get("name"), "is_pos": 1,
-								 "payments": invoice.get("payments"),
-								 "update_stock": 1,
-								 "set_warehouse": pos_profile.warehouse,
-								 "selling_price_list": pos_profile.selling_price_list,
-								 "ep_offline_id": ep_offline_id,
-								 **discount_fields,
-								 **tax_fields,
-								 **loyalty_fields,
-								 })
+		sales_invoice = frappe.get_doc(
+			{
+				"doctype": "Sales Invoice",
+				"customer": invoice.get("customer"),
+				"items": invoice.get("items"),
+				"pos_profile": opening_details.get("pos_profile"),
+				"custom_ep_opening_entry": opening_details.get("name"),
+				"is_pos": 1,
+				"payments": invoice.get("payments"),
+				"update_stock": 1,
+				"set_warehouse": pos_profile.warehouse,
+				"selling_price_list": pos_profile.selling_price_list,
+				"ep_offline_id": ep_offline_id,
+				**discount_fields,
+				**tax_fields,
+				**loyalty_fields,
+			}
+		)
 		sales_invoice.insert()
 
 	return sales_invoice, pos_profile
 
 
-def _finalize_invoice(sales_invoice, pos_profile, coupon_code: str = None) -> None:
+def _finalize_invoice(sales_invoice, pos_profile, coupon_code: str | None = None) -> None:
 	"""Submit + coupon redemption + receipt notifications — the tail end shared by
 	a normal create_invoice(submit=True) and a payment gateway order being confirmed
 	(see easy_pos.api.payment.verify_payment_gateway_order)."""
 	sales_invoice.submit()
 	if coupon_code:
-		from easy_pos.api.pricing import _coupon_code_name
 		from erpnext.accounts.doctype.pricing_rule.utils import update_coupon_code_count
+
+		from easy_pos.api.pricing import _coupon_code_name
 
 		coupon_name = _coupon_code_name(coupon_code)
 		if coupon_name:
@@ -276,7 +315,9 @@ def _finalize_invoice(sales_invoice, pos_profile, coupon_code: str = None) -> No
 
 
 @frappe.whitelist()
-def create_invoice(invoice: dict, opening_details: dict, submit: bool, coupon_code: str = None) -> dict:
+def create_invoice(
+	invoice: dict, opening_details: dict, submit: bool, coupon_code: str | None = None
+) -> dict:
 	sales_invoice, pos_profile = _save_sales_invoice(invoice, opening_details)
 
 	if submit:
@@ -311,13 +352,13 @@ def cancel_sales_invoice(name: str) -> dict:
 
 
 @frappe.whitelist()
-def create_credit_note(name: str, items: list, taxes: list = None) -> dict:
+def create_credit_note(name: str, items: list, taxes: list | None = None) -> dict:
 	original = frappe.get_doc("Sales Invoice", name)
 
 	if original.docstatus != 1:
-		frappe.throw("Only a submitted invoice can be returned")
+		frappe.throw(_("Only a submitted invoice can be returned"))
 	if original.is_return:
-		frappe.throw("Cannot create a credit note against a credit note")
+		frappe.throw(_("Cannot create a credit note against a credit note"))
 
 	currency_precision = get_currency_precision()
 
@@ -326,19 +367,21 @@ def create_credit_note(name: str, items: list, taxes: list = None) -> dict:
 		qty = flt(item.get("qty"))
 		if not qty:
 			continue
-		return_items.append({
-			"item_code": item.get("item_code"),
-			"item_name": item.get("item_name"),
-			"uom": item.get("uom"),
-			"rate": flt(item.get("rate"), precision=currency_precision),
-			"qty": -abs(qty),
-			"warehouse": item.get("warehouse") or original.set_warehouse,
-			"income_account": item.get("income_account"),
-			"cost_center": item.get("cost_center"),
-		})
+		return_items.append(
+			{
+				"item_code": item.get("item_code"),
+				"item_name": item.get("item_name"),
+				"uom": item.get("uom"),
+				"rate": flt(item.get("rate"), precision=currency_precision),
+				"qty": -abs(qty),
+				"warehouse": item.get("warehouse") or original.set_warehouse,
+				"income_account": item.get("income_account"),
+				"cost_center": item.get("cost_center"),
+			}
+		)
 
 	if not return_items:
-		frappe.throw("Select at least one item to return")
+		frappe.throw(_("Select at least one item to return"))
 
 	# charge_type "Actual" uses tax_amount directly; percentage-based charge
 	# types (On Net Total, On Previous Row Amount, ...) recompute tax_amount
@@ -346,36 +389,40 @@ def create_credit_note(name: str, items: list, taxes: list = None) -> dict:
 	# are passed through so either editable column takes effect correctly.
 	return_taxes = []
 	for tax in taxes or []:
-		return_taxes.append({
-			"charge_type": tax.get("charge_type"),
-			"account_head": tax.get("account_head"),
-			"description": tax.get("description"),
-			"cost_center": tax.get("cost_center"),
-			"rate": flt(tax.get("rate")),
-			"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
-		})
+		return_taxes.append(
+			{
+				"charge_type": tax.get("charge_type"),
+				"account_head": tax.get("account_head"),
+				"description": tax.get("description"),
+				"cost_center": tax.get("cost_center"),
+				"rate": flt(tax.get("rate")),
+				"tax_amount": flt(tax.get("tax_amount"), precision=currency_precision),
+			}
+		)
 
-	credit_note = frappe.get_doc({
-		"doctype": "Sales Invoice",
-		"customer": original.customer,
-		"company": original.company,
-		"is_return": 1,
-		"return_against": name,
-		"selling_price_list": original.selling_price_list,
-		"currency": original.currency,
-		"set_warehouse": original.set_warehouse,
-		"update_stock": 1,
-		"items": return_items,
-		"taxes": return_taxes,
-		"taxes_and_charges": original.taxes_and_charges,
-		# Mirrors the original invoice's POS context so the credit note shows
-		# up in the Invoices list view (fetchInvoices filters on is_pos=1) and
-		# stays scoped to the same shift for closing calculations — a return
-		# with is_pos unset silently disappeared from the list page.
-		"is_pos": original.is_pos,
-		"pos_profile": original.pos_profile,
-		"custom_ep_opening_entry": original.custom_ep_opening_entry,
-	})
+	credit_note = frappe.get_doc(
+		{
+			"doctype": "Sales Invoice",
+			"customer": original.customer,
+			"company": original.company,
+			"is_return": 1,
+			"return_against": name,
+			"selling_price_list": original.selling_price_list,
+			"currency": original.currency,
+			"set_warehouse": original.set_warehouse,
+			"update_stock": 1,
+			"items": return_items,
+			"taxes": return_taxes,
+			"taxes_and_charges": original.taxes_and_charges,
+			# Mirrors the original invoice's POS context so the credit note shows
+			# up in the Invoices list view (fetchInvoices filters on is_pos=1) and
+			# stays scoped to the same shift for closing calculations — a return
+			# with is_pos unset silently disappeared from the list page.
+			"is_pos": original.is_pos,
+			"pos_profile": original.pos_profile,
+			"custom_ep_opening_entry": original.custom_ep_opening_entry,
+		}
+	)
 	credit_note.insert()
 	credit_note.submit()
 
@@ -412,7 +459,13 @@ def get_past_shifts(limit: int = 30) -> list:
 
 
 @frappe.whitelist()
-def get_sales_report(scope: str, opening_entry: str = None, pos_profile: str = None, from_date: str = None, to_date: str = None) -> dict:
+def get_sales_report(
+	scope: str,
+	opening_entry: str | None = None,
+	pos_profile: str | None = None,
+	from_date: str | None = None,
+	to_date: str | None = None,
+) -> dict:
 	"""Cashier-scoped reports/dashboard data. `scope` is 'shift' (all invoices under
 	the given opening entry), or 'today'/'range' (the logged-in cashier's own invoices,
 	optionally narrowed to a POS Profile, over from_date..to_date)."""
@@ -424,7 +477,7 @@ def get_sales_report(scope: str, opening_entry: str = None, pos_profile: str = N
 
 	if scope == "shift":
 		if not opening_entry:
-			frappe.throw("opening_entry is required for shift scope")
+			frappe.throw(_("opening_entry is required for shift scope"))
 		condition &= SalesInvoice.custom_ep_opening_entry == opening_entry
 	else:
 		condition &= SalesInvoice.owner == frappe.session.user

@@ -17,6 +17,7 @@ name) is left untouched.
 """
 
 import frappe
+from frappe import _
 
 from easy_pos.setup.create_demo_data import _ensure_warehouse, _get_default_selling_price_list
 
@@ -74,7 +75,9 @@ PROFILES = [
 def execute(company=None):
 	company = company or frappe.defaults.get_global_default("company")
 	if not company:
-		frappe.throw("Cannot create demo POS Profiles: no company was given and no default Company is set.")
+		frappe.throw(
+			_("Cannot create demo POS Profiles: no company was given and no default Company is set.")
+		)
 
 	warehouse = _ensure_warehouse(company)
 	price_list = _get_default_selling_price_list()

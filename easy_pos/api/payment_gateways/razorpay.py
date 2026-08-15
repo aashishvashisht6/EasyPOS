@@ -7,6 +7,7 @@ from RazorpaySettings.verify_signature, which is for the async webhook payload)
 is done here directly via the official `razorpay` SDK."""
 
 import frappe
+from frappe import _
 
 
 def _settings():
@@ -22,7 +23,7 @@ def get_config() -> dict:
 def create_order(sales_invoice, amount: float) -> dict:
 	settings = _settings()
 	if not (settings.api_key and settings.api_secret):
-		frappe.throw("Razorpay is not configured. Set it up under Razorpay Settings first.")
+		frappe.throw(_("Razorpay is not configured. Set it up under Razorpay Settings first."))
 
 	order = settings.create_order(
 		amount=amount,
@@ -49,13 +50,15 @@ def verify(sales_invoice, payload: dict) -> str:
 	razorpay_signature = payload.get("razorpay_signature")
 
 	try:
-		client.utility.verify_payment_signature({
-			"razorpay_order_id": razorpay_order_id,
-			"razorpay_payment_id": razorpay_payment_id,
-			"razorpay_signature": razorpay_signature,
-		})
+		client.utility.verify_payment_signature(
+			{
+				"razorpay_order_id": razorpay_order_id,
+				"razorpay_payment_id": razorpay_payment_id,
+				"razorpay_signature": razorpay_signature,
+			}
+		)
 	except razorpay.errors.SignatureVerificationError:
-		frappe.throw("Razorpay payment signature verification failed")
+		frappe.throw(_("Razorpay payment signature verification failed"))
 
 	payment = client.payment.fetch(razorpay_payment_id)
 	if payment.get("status") == "authorized":
