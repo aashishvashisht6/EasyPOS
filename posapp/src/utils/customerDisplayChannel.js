@@ -8,14 +8,14 @@
 const CHANNEL_PREFIX = "easy-pos-customer-display";
 
 export const getCustomerDisplayChannel = (posProfile) =>
-  new BroadcastChannel(`${CHANNEL_PREFIX}-${posProfile || "default"}`);
+	new BroadcastChannel(`${CHANNEL_PREFIX}-${posProfile || "default"}`);
 
 export const sendCustomerDisplayMessage = (channel, type, payload) => {
-  channel.postMessage({ type, payload, ts: Date.now() });
+	channel.postMessage({ type, payload, ts: Date.now() });
 };
 
 export const subscribeCustomerDisplayChannel = (channel, handler) => {
-  const listener = (event) => handler(event.data);
-  channel.addEventListener("message", listener);
-  return () => channel.removeEventListener("message", listener);
+	const listener = (event) => handler(event.data);
+	channel.addEventListener("message", listener);
+	return () => channel.removeEventListener("message", listener);
 };

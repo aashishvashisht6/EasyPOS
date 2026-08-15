@@ -69,7 +69,9 @@ export const runFullSync = async (posProfile) => {
 		await TABLES.loyalty_programs.bulkPut(snapshot.loyalty_programs ?? []);
 		await TABLES.invoices.clear();
 		await TABLES.invoices.bulkPut(snapshot.invoices ?? []);
-		await db.meta.bulkPut(SYNC_DOMAINS.map((domain) => ({ key: domain.key, lastSyncedAt: syncedAt })));
+		await db.meta.bulkPut(
+			SYNC_DOMAINS.map((domain) => ({ key: domain.key, lastSyncedAt: syncedAt }))
+		);
 	});
 
 	return { syncedAt };

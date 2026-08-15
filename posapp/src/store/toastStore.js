@@ -9,25 +9,29 @@ import { create } from "zustand";
 let idCounter = 0;
 
 const useToastStore = create((set, get) => ({
-  toasts: [],
+	toasts: [],
 
-  show: (message, { type = "info", duration = 4000 } = {}) => {
-    const id = ++idCounter;
-    set((s) => ({ toasts: [...s.toasts, { id, type, message }] }));
-    if (duration > 0) {
-      setTimeout(() => get().dismiss(id), duration);
-    }
-    return id;
-  },
+	show: (message, { type = "info", duration = 4000 } = {}) => {
+		const id = ++idCounter;
+		set((s) => ({ toasts: [...s.toasts, { id, type, message }] }));
+		if (duration > 0) {
+			setTimeout(() => get().dismiss(id), duration);
+		}
+		return id;
+	},
 
-  dismiss: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
+	dismiss: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 }));
 
 // duration is in ms; pass { duration: 0 } to keep a toast up until the user
 // dismisses it (e.g. for a longer error message worth reading in full).
-export const toastSuccess = (message, opts) => useToastStore.getState().show(message, { ...opts, type: "success" });
-export const toastError = (message, opts) => useToastStore.getState().show(message, { ...opts, type: "danger" });
-export const toastWarning = (message, opts) => useToastStore.getState().show(message, { ...opts, type: "warning" });
-export const toastInfo = (message, opts) => useToastStore.getState().show(message, { ...opts, type: "info" });
+export const toastSuccess = (message, opts) =>
+	useToastStore.getState().show(message, { ...opts, type: "success" });
+export const toastError = (message, opts) =>
+	useToastStore.getState().show(message, { ...opts, type: "danger" });
+export const toastWarning = (message, opts) =>
+	useToastStore.getState().show(message, { ...opts, type: "warning" });
+export const toastInfo = (message, opts) =>
+	useToastStore.getState().show(message, { ...opts, type: "info" });
 
 export default useToastStore;

@@ -3,8 +3,8 @@ import { enginePost } from "../engine";
 export const fetchClosingEntry = async (opening_details) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.get_closing_entry", {
-            opening_details
-        });
+			opening_details,
+		});
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
@@ -14,8 +14,8 @@ export const fetchClosingEntry = async (opening_details) => {
 export const postClosingEntry = async (closing_details) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.create_closing_entry", {
-            closing_details
-        });
+			closing_details,
+		});
 		return response.data.message;
 	} catch (error) {
 		console.error(error);

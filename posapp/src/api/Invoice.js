@@ -12,8 +12,11 @@ export const fetchPrecisionSettings = async () => {
 export const postDraftInvoice = async (invoice, opening_details, submit, coupon_code) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.create_invoice", {
-            invoice, opening_details, submit, coupon_code
-        });
+			invoice,
+			opening_details,
+			submit,
+			coupon_code,
+		});
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
@@ -23,8 +26,11 @@ export const postDraftInvoice = async (invoice, opening_details, submit, coupon_
 export const postPaymentInvoice = async (invoice, opening_details, submit, coupon_code) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.create_invoice", {
-            invoice, opening_details, submit, coupon_code
-        });
+			invoice,
+			opening_details,
+			submit,
+			coupon_code,
+		});
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
@@ -66,7 +72,9 @@ export const fetchInvoice = async (name) => {
 // surface the backend's frappe.throw message (e.g. validation errors) in the
 // UI instead of it being swallowed here.
 export const cancelInvoice = async (name) => {
-	const response = await enginePost("/api/method/easy_pos.api.pos.cancel_sales_invoice", { name });
+	const response = await enginePost("/api/method/easy_pos.api.pos.cancel_sales_invoice", {
+		name,
+	});
 	return response.data.message;
 };
 

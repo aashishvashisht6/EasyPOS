@@ -10,7 +10,7 @@ export const fetchTaxesAndChargesTemplate = async (taxes_and_charges) => {
 	try {
 		const response = await engineGet(
 			"/api/method/easy_pos.api.pos.get_taxes_and_charges_template",
-			{ params: { taxes_and_charges } },
+			{ params: { taxes_and_charges } }
 		);
 		return response.data.message ?? [];
 	} catch (error) {

@@ -1,7 +1,7 @@
 import frappe
 
 
-def _get_customer_loyalty_summary(customer: str, company: str = None) -> dict:
+def _get_customer_loyalty_summary(customer: str, company: str | None = None) -> dict:
 	"""Points balance + program terms for a customer. ERPNext's own
 	get_loyalty_program_details_with_points unconditionally does
 	frappe.get_doc("Loyalty Program", loyalty_program) even when silent=True and
@@ -37,7 +37,7 @@ def _get_customer_loyalty_summary(customer: str, company: str = None) -> dict:
 
 
 @frappe.whitelist()
-def get_customer_loyalty_summary(customer: str, company: str = None) -> dict:
+def get_customer_loyalty_summary(customer: str, company: str | None = None) -> dict:
 	"""Standalone endpoint kept for callers that only need the loyalty summary
 	on its own (e.g. InvoicePay's redeem UI, which already has the customer
 	loaded via Cart). The POS Terminal's own customer-select flow no longer

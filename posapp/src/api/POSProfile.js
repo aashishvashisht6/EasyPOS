@@ -50,11 +50,11 @@ export const fetchProfilesForCompany = async (company) => {
 export const fetchProfile = async (pos_profile) => {
 	try {
 		const response = await engineGet("/api/method/frappe.client.get", {
-            params: {
-                doctype: "POS Profile",
-                name: pos_profile
-            }
-        });
+			params: {
+				doctype: "POS Profile",
+				name: pos_profile,
+			},
+		});
 		return response.data.message;
 	} catch (error) {
 		console.error(error);

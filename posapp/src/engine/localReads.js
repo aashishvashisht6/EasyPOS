@@ -8,8 +8,12 @@ const ok = (message) => ({ data: { message } });
 const opMatch = (value, op, target) => {
 	switch (op) {
 		case "like": {
-			const needle = String(target ?? "").replace(/%/g, "").toLowerCase();
-			return String(value ?? "").toLowerCase().includes(needle);
+			const needle = String(target ?? "")
+				.replace(/%/g, "")
+				.toLowerCase();
+			return String(value ?? "")
+				.toLowerCase()
+				.includes(needle);
 		}
 		case "in":
 			return (target ?? []).includes(value);
@@ -50,12 +54,16 @@ const listFilter = (rows, filters, orFilters) =>
 // Shared shape behind every `easy_pos.api.list_view.get_list` adapter: filter
 // the cached table's rows and paginate, returning the same
 // { data, total_count } shape ListView.js's fetchList already expects.
-const listReader = (table) => async ({ filters, or_filters, limit_start = 0, limit_page_length = 20 } = {}) => {
-	const all = await table.toArray();
-	const matched = listFilter(all, filters, or_filters);
-	const page = limit_page_length ? matched.slice(limit_start, limit_start + limit_page_length) : matched;
-	return ok({ data: page, total_count: matched.length });
-};
+const listReader =
+	(table) =>
+	async ({ filters, or_filters, limit_start = 0, limit_page_length = 20 } = {}) => {
+		const all = await table.toArray();
+		const matched = listFilter(all, filters, or_filters);
+		const page = limit_page_length
+			? matched.slice(limit_start, limit_start + limit_page_length)
+			: matched;
+		return ok({ data: page, total_count: matched.length });
+	};
 
 // --- Item catalog ------------------------------------------------------------
 
@@ -83,7 +91,7 @@ const readSearchItem = async ({ search_text } = {}) => {
 		.filter(
 			(item) =>
 				item.item_code.toLowerCase().includes(needle) ||
-				(item.item_name ?? "").toLowerCase().includes(needle),
+				(item.item_name ?? "").toLowerCase().includes(needle)
 		)
 		.slice(0, 50);
 	return ok({ match_type: "search", items: matches });
@@ -129,7 +137,8 @@ const readPricingRuleList = listReader(db.pricing_rules);
 const readItemPriceGet = async ({ name } = {}) => ok((await db.item_prices.get(name)) ?? null);
 const readItemPriceList = listReader(db.item_prices);
 
-const readLoyaltyProgramGet = async ({ name } = {}) => ok((await db.loyalty_programs.get(name)) ?? null);
+const readLoyaltyProgramGet = async ({ name } = {}) =>
+	ok((await db.loyalty_programs.get(name)) ?? null);
 const readLoyaltyProgramList = listReader(db.loyalty_programs);
 
 // No Get adapter for Sales Invoice — the cached rows only carry the list
@@ -150,12 +159,20 @@ const readInvoiceList = listReader(db.invoices);
 // Customer Group, Territory, Warehouse, ...) aren't cached at all yet, so
 // their LinkFields still require the server — same as before this adapter.
 const SEARCH_LINK_SOURCES = {
-	Customer: { table: db.customers, fields: ["name", "customer_name"], description: (r) => r.customer_name },
+	Customer: {
+		table: db.customers,
+		fields: ["name", "customer_name"],
+		description: (r) => r.customer_name,
+	},
 	Item: { table: db.items, fields: ["item_code", "item_name"], description: (r) => r.item_name },
 	"POS Profile": { table: db.pos_profiles, fields: ["name"], description: (r) => r.company },
 	"Price List": { table: db.price_lists, fields: ["name"], description: () => undefined },
 	"Pricing Rule": { table: db.pricing_rules, fields: ["name"], description: () => undefined },
-	"Item Price": { table: db.item_prices, fields: ["name", "item_code", "item_name"], description: (r) => r.item_name },
+	"Item Price": {
+		table: db.item_prices,
+		fields: ["name", "item_code", "item_name"],
+		description: (r) => r.item_name,
+	},
 	"Loyalty Program": {
 		table: db.loyalty_programs,
 		fields: ["name", "loyalty_program_name"],
@@ -168,13 +185,19 @@ const readSearchLink = async ({ doctype, txt = "", filters, page_length = 20 } =
 	if (!source) return ok([]);
 
 	const parsedFilters = typeof filters === "string" && filters ? JSON.parse(filters) : filters;
-	const needle = String(txt ?? "").trim().toLowerCase();
+	const needle = String(txt ?? "")
+		.trim()
+		.toLowerCase();
 
 	const all = await source.table.toArray();
 	const matched = all.filter((row) => {
 		if (!rowMatches(row, parsedFilters, "and")) return false;
 		if (!needle) return true;
-		return source.fields.some((field) => String(row[field] ?? "").toLowerCase().includes(needle));
+		return source.fields.some((field) =>
+			String(row[field] ?? "")
+				.toLowerCase()
+				.includes(needle)
+		);
 	});
 
 	const results = matched.slice(0, page_length).map((row) => ({
@@ -192,16 +215,27 @@ const readSearchLink = async ({ doctype, txt = "", filters, page_length = 20 } =
 // POS Terminal / shift-load hot path are covered — anything else has no
 // adapter, so `readFromLocalDB` throws instead of silently returning nothing.
 const ADAPTERS = [
-	{ test: (url) => url.endsWith("easy_pos.api.item.get_items"), read: (ctx) => readItems(ctx.params) },
-	{ test: (url) => url.endsWith("easy_pos.api.item.search_item"), read: (ctx) => readSearchItem(ctx.params) },
-	{ test: (url) => url.endsWith("easy_pos.api.item.get_item_groups"), read: () => readItemGroups() },
+	{
+		test: (url) => url.endsWith("easy_pos.api.item.get_items"),
+		read: (ctx) => readItems(ctx.params),
+	},
+	{
+		test: (url) => url.endsWith("easy_pos.api.item.search_item"),
+		read: (ctx) => readSearchItem(ctx.params),
+	},
+	{
+		test: (url) => url.endsWith("easy_pos.api.item.get_item_groups"),
+		read: () => readItemGroups(),
+	},
 	{
 		test: (url) => url.endsWith("easy_pos.api.pos.get_taxes_and_charges_template"),
 		read: () => readTaxTemplate(),
 	},
 	{ test: (url) => url.endsWith("frappe.auth.get_logged_user"), read: () => readLoggedInUser() },
 	{
-		test: (url, ctx) => url.endsWith("frappe.desk.search.search_link") && !!SEARCH_LINK_SOURCES[ctx.params?.doctype],
+		test: (url, ctx) =>
+			url.endsWith("frappe.desk.search.search_link") &&
+			!!SEARCH_LINK_SOURCES[ctx.params?.doctype],
 		read: (ctx) => readSearchLink(ctx.params),
 	},
 	{
@@ -209,55 +243,71 @@ const ADAPTERS = [
 		read: (ctx) => readCheckOpeningEntry(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Customer",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "Customer",
 		read: (ctx) => readCustomerGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "POS Profile",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "POS Profile",
 		read: (ctx) => readPOSProfileGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Price List",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "Price List",
 		read: (ctx) => readPriceListGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Pricing Rule",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "Pricing Rule",
 		read: (ctx) => readPricingRuleGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Item Price",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "Item Price",
 		read: (ctx) => readItemPriceGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Loyalty Program",
+		test: (url, ctx) =>
+			url.endsWith("frappe.client.get") && ctx.params?.doctype === "Loyalty Program",
 		read: (ctx) => readLoyaltyProgramGet(ctx.params),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Customer",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Customer",
 		read: (ctx) => readCustomerList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "POS Profile",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "POS Profile",
 		read: (ctx) => readPOSProfileList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Price List",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Price List",
 		read: (ctx) => readPriceListList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Pricing Rule",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") &&
+			ctx.data?.doctype === "Pricing Rule",
 		read: (ctx) => readPricingRuleList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Item Price",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Item Price",
 		read: (ctx) => readItemPriceList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Loyalty Program",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") &&
+			ctx.data?.doctype === "Loyalty Program",
 		read: (ctx) => readLoyaltyProgramList(ctx.data),
 	},
 	{
-		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Sales Invoice",
+		test: (url, ctx) =>
+			url.endsWith("easy_pos.api.list_view.get_list") &&
+			ctx.data?.doctype === "Sales Invoice",
 		read: (ctx) => readInvoiceList(ctx.data),
 	},
 ];

@@ -10,7 +10,7 @@ import razorpay from "./razorpay";
 // (easy_pos/patches/add_payment_gateway_fields.py) and to the backend registry
 // (easy_pos/api/payment_gateways/__init__.py). InvoicePay itself never changes.
 const GATEWAYS = {
-  Razorpay: razorpay,
+	Razorpay: razorpay,
 };
 
 export const getPaymentGateway = (name) => GATEWAYS[name];

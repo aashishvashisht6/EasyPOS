@@ -12,11 +12,12 @@ def get_context(context):
 	boot = frappe._dict()
 	boot["csrf_token"] = csrf_token  # Also set at root level
 
-
-	context.update({
-		"build_version": frappe.utils.get_build_version(),
-		"csrf_token": csrf_token,
-	})
+	context.update(
+		{
+			"build_version": frappe.utils.get_build_version(),
+			"csrf_token": csrf_token,
+		}
+	)
 
 	context["app_name"] = "Easy POS"
 	context["boot"] = get_boot()
@@ -24,11 +25,8 @@ def get_context(context):
 	return context
 
 
-
-
-
 def get_boot():
 	return {
-			"site_name": frappe.local.site,
-			"system_timezone": get_system_timezone(),
-		}
+		"site_name": frappe.local.site,
+		"system_timezone": get_system_timezone(),
+	}

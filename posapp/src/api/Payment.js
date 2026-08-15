@@ -6,9 +6,12 @@ import { engineGet, enginePost } from "../engine";
 
 export const fetchPaymentGatewayConfig = async (gateway) => {
 	try {
-		const response = await engineGet("/api/method/easy_pos.api.payment.get_payment_gateway_config", {
-			params: { gateway },
-		});
+		const response = await engineGet(
+			"/api/method/easy_pos.api.payment.get_payment_gateway_config",
+			{
+				params: { gateway },
+			}
+		);
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
@@ -16,15 +19,27 @@ export const fetchPaymentGatewayConfig = async (gateway) => {
 };
 
 export const createPaymentGatewayOrder = async (gateway, invoice, opening_details, amount) => {
-	const response = await enginePost("/api/method/easy_pos.api.payment.create_payment_gateway_order", {
-		gateway, invoice, opening_details, amount,
-	});
+	const response = await enginePost(
+		"/api/method/easy_pos.api.payment.create_payment_gateway_order",
+		{
+			gateway,
+			invoice,
+			opening_details,
+			amount,
+		}
+	);
 	return response.data.message;
 };
 
 export const verifyPaymentGatewayOrder = async (gateway, sales_invoice, payload, coupon_code) => {
-	const response = await enginePost("/api/method/easy_pos.api.payment.verify_payment_gateway_order", {
-		gateway, sales_invoice, payload, coupon_code,
-	});
+	const response = await enginePost(
+		"/api/method/easy_pos.api.payment.verify_payment_gateway_order",
+		{
+			gateway,
+			sales_invoice,
+			payload,
+			coupon_code,
+		}
+	);
 	return response.data.message;
 };

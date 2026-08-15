@@ -48,9 +48,12 @@ export const fetchItemVariants = async (item_code, warehouse, price_list, custom
 // itself explodes the bundle into Sales Invoice packed_items on save.
 export const fetchProductBundleContents = async (item_code) => {
 	try {
-		const response = await engineGet("/api/method/easy_pos.api.item.get_product_bundle_contents", {
-			params: { item_code },
-		});
+		const response = await engineGet(
+			"/api/method/easy_pos.api.item.get_product_bundle_contents",
+			{
+				params: { item_code },
+			}
+		);
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
