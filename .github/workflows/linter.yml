@@ -24,15 +24,31 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
+
+      # Needed by the local `frappe-semgrep-rules` pre-commit hook (installed
+      # early since the "Run Semgrep rules" step below needs it too either way).
+      - name: Install semgrep
+        run: pip install semgrep
+
+      # Needed by the local `eslint` pre-commit hook (runs posapp's own
+      # installed ESLint rather than pre-commit's isolated mirrors-eslint,
+      # since posapp uses ESLint 9's flat config + eslint-plugin-react-hooks@^7,
+      # which pre-commit's older pinned mirror can't resolve rules from).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: posapp/yarn.lock
+      - name: Install posapp dependencies
+        run: cd posapp && yarn install --frozen-lockfile
+
       - uses: pre-commit/action@v3.0.0
 
       - name: Download Semgrep rules
         run: git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules
 
       - name: Run Semgrep rules
-        run: |
-          pip install semgrep
-          semgrep ci --config ./frappe-semgrep-rules/rules --config r/python.lang.correctness
+        run: semgrep ci --config ./frappe-semgrep-rules/rules --config r/python.lang.correctness
 
   deps-vulnerable-check:
     name: 'Vulnerable Dependency Check'
