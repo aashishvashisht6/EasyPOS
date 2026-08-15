@@ -1,16 +1,16 @@
-import path from 'path';
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa';
-import proxyOptions from './proxyOptions';
+import path from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
+import proxyOptions from "./proxyOptions";
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		react(),
 		VitePWA({
-			strategies: 'generateSW',
-			registerType: 'prompt',
+			strategies: "generateSW",
+			registerType: "prompt",
 			injectRegister: false,
 			devOptions: {
 				enabled: false,
@@ -43,15 +43,15 @@ export default defineConfig({
 				// regardless of where the SW script itself is fetched from.
 				inlineWorkboxRuntime: true,
 				modifyURLPrefix: {
-					'': '/assets/easy_pos/posapp/',
+					"": "/assets/easy_pos/posapp/",
 				},
-				navigateFallback: '/assets/easy_pos/posapp/index.html',
+				navigateFallback: "/assets/easy_pos/posapp/index.html",
 				runtimeCaching: [
 					{
 						// Never cache Frappe API calls - auth is cookie-based and
 						// responses must always be fetched fresh (see CLAUDE.md).
 						urlPattern: /\/api\//,
-						handler: 'NetworkOnly',
+						handler: "NetworkOnly",
 					},
 				],
 			},
@@ -59,17 +59,17 @@ export default defineConfig({
 	],
 	server: {
 		port: 8080,
-		host: '0.0.0.0',
-		proxy: proxyOptions
+		host: "0.0.0.0",
+		proxy: proxyOptions,
 	},
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, 'src')
-		}
+			"@": path.resolve(__dirname, "src"),
+		},
 	},
 	build: {
-		outDir: '../easy_pos/public/posapp',
+		outDir: "../easy_pos/public/posapp",
 		emptyOutDir: true,
-		target: 'es2015',
+		target: "es2015",
 	},
 });

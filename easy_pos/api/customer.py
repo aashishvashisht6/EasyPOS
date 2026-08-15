@@ -4,7 +4,7 @@ from easy_pos.api.loyalty import _get_customer_loyalty_summary
 
 
 @frappe.whitelist()
-def get_customer_with_loyalty(name: str, company: str = None) -> dict:
+def get_customer_with_loyalty(name: str, company: str | None = None) -> dict:
 	"""Customer doc + its live Loyalty Program summary in a single round trip.
 
 	Cart/index.jsx used to fire two separate calls when a cashier picked a

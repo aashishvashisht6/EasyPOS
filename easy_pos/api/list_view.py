@@ -4,10 +4,10 @@ import frappe
 @frappe.whitelist()
 def get_list(
 	doctype: str,
-	fields: list = None,
-	filters=None,
-	or_filters=None,
-	order_by: str = None,
+	fields: list | None = None,
+	filters: dict | list | None = None,
+	or_filters: dict | list | None = None,
+	order_by: str | None = None,
 	limit_start: int = 0,
 	limit_page_length: int = 20,
 ) -> dict:

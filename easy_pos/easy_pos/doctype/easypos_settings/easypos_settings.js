@@ -23,8 +23,7 @@ frappe.ui.form.on("EASYPOS Settings", {
 				primary_action(values) {
 					dialog.hide();
 					frappe.call({
-						method:
-							"easy_pos.easy_pos.doctype.easypos_settings.easypos_settings.create_demo_data",
+						method: "easy_pos.easy_pos.doctype.easypos_settings.easypos_settings.create_demo_data",
 						args: { company: values.company },
 						freeze: true,
 						freeze_message: __("Creating demo items..."),

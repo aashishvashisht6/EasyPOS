@@ -48,7 +48,9 @@ def execute():
 		if _ensure_customer(customer_name, customer_type, group, territory, mobile_no, email_id):
 			created.append(customer_name)
 
-	frappe.db.commit()
+	# This is a one-off setup script invoked via `bench execute` outside the normal
+	# request/response cycle, so there's no request-teardown commit to rely on.
+	frappe.db.commit()  # nosemgrep: frappe-manual-commit
 
 	summary = {"customers": [c[0] for c in CUSTOMERS], "customers_created": created}
 	print(f"Demo customers ready: {', '.join(summary['customers'])} ({len(created)} newly created).")

@@ -252,4 +252,3 @@ before_tests = "erpnext.setup.utils.before_tests"
 website_route_rules = [
 	{"from_route": "/posapp/<path:app_path>", "to_route": "posapp"},
 ]
-

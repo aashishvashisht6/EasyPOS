@@ -16,12 +16,16 @@ const genOfflineId = () =>
 // yet — shown on the receipt, in the Invoices list, and in InvoiceDetailPage
 // until the queue entry syncs and erpnext_name is filled in.
 const genDisplayId = () => {
-	const stamp = new Date().toISOString().replace(/[-:TZ.]/g, "").slice(0, 14); // YYYYMMDDHHMMSS
+	const stamp = new Date()
+		.toISOString()
+		.replace(/[-:TZ.]/g, "")
+		.slice(0, 14); // YYYYMMDDHHMMSS
 	const suffix = Math.floor(100 + Math.random() * 900);
 	return `OFFLINE-${stamp}-${suffix}`;
 };
 
-export const isOfflineDisplayId = (value) => typeof value === "string" && value.startsWith("OFFLINE-");
+export const isOfflineDisplayId = (value) =>
+	typeof value === "string" && value.startsWith("OFFLINE-");
 
 // A cart's salesInvoiceName can itself be an offline display_id (set from a
 // prior queueOfflineInvoice/updateQueuedInvoice response — see Cart/index.jsx
@@ -105,7 +109,10 @@ export const queueOfflineInvoice = async ({ invoice, opening_details, submit, co
 // to the normal online resume path (fetch the real doc, update it with
 // sales_invoice set to that real name) instead of silently re-queuing an
 // invoice that already exists.
-export const updateQueuedInvoice = async (offline_id, { invoice, opening_details, submit, coupon_code }) => {
+export const updateQueuedInvoice = async (
+	offline_id,
+	{ invoice, opening_details, submit, coupon_code }
+) => {
 	const row = await db.pending_invoices.get(offline_id);
 	if (!row) return null;
 	if (row.status === "synced") {
@@ -158,7 +165,10 @@ const upsertInvoiceCache = async (doc) => {
 // because this must always go to the server, never be routed back to the
 // local DB — same reasoning as connectivity.js's heartbeat bypassing the engine.
 const pushOne = async (row) => {
-	await db.pending_invoices.update(row.offline_id, { status: "syncing", updated_at: new Date().toISOString() });
+	await db.pending_invoices.update(row.offline_id, {
+		status: "syncing",
+		updated_at: new Date().toISOString(),
+	});
 	try {
 		const { invoice, opening_details, coupon_code } = row.payload;
 		// Self-heals any row that was queued before sanitizeInvoicePayload
@@ -207,7 +217,10 @@ export const pushPendingInvoices = async () => {
 	if (pushInFlight) return pushInFlight;
 
 	pushInFlight = (async () => {
-		const queued = await db.pending_invoices.where("status").equals("queued").sortBy("created_at");
+		const queued = await db.pending_invoices
+			.where("status")
+			.equals("queued")
+			.sortBy("created_at");
 		const results = [];
 		for (const row of queued) {
 			results.push(await pushOne(row));
@@ -229,7 +242,8 @@ export const retryOfflineInvoice = async (offline_id) => {
 	return pushOne(row);
 };
 
-export const getPendingInvoices = () => db.pending_invoices.orderBy("created_at").reverse().toArray();
+export const getPendingInvoices = () =>
+	db.pending_invoices.orderBy("created_at").reverse().toArray();
 
 export const getPendingInvoiceCount = () =>
 	db.pending_invoices.where("status").anyOf(["queued", "syncing", "failed"]).count();

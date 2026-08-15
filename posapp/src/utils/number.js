@@ -2,9 +2,9 @@
 // avoids the classic (0.1 + 0.2).toFixed(2) style float artifacts that plain
 // multiply/Math.round/divide can introduce.
 export const flt = (value, precision = 2) => {
-  const num = typeof value === "number" ? value : parseFloat(value);
-  if (Number.isNaN(num)) return 0;
-  return Number(`${Math.round(Number(`${num}e${precision}`))}e-${precision}`);
+	const num = typeof value === "number" ? value : parseFloat(value);
+	if (Number.isNaN(num)) return 0;
+	return Number(`${Math.round(Number(`${num}e${precision}`))}e-${precision}`);
 };
 
 // Currency amounts (rate, amount, discount, totals) — round to the site's

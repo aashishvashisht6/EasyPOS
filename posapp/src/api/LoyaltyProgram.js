@@ -13,7 +13,11 @@ const LOYALTY_PROGRAM_FIELDS = [
 	"company",
 ];
 
-export const fetchLoyaltyPrograms = async (filters = {}, limit_start = 0, limit_page_length = 20) => {
+export const fetchLoyaltyPrograms = async (
+	filters = {},
+	limit_start = 0,
+	limit_page_length = 20
+) => {
 	const conditions = {};
 	const orConditions = {};
 
@@ -63,9 +67,12 @@ export const saveLoyaltyProgram = async (program) => {
 export const fetchCustomerLoyaltySummary = async (customer, company) => {
 	if (!customer) return null;
 	try {
-		const response = await engineGet("/api/method/easy_pos.api.loyalty.get_customer_loyalty_summary", {
-			params: { customer, company },
-		});
+		const response = await engineGet(
+			"/api/method/easy_pos.api.loyalty.get_customer_loyalty_summary",
+			{
+				params: { customer, company },
+			}
+		);
 		return response.data.message;
 	} catch (error) {
 		console.error(error);

@@ -10,7 +10,7 @@ class EASYPOSSettings(Document):
 
 
 @frappe.whitelist()
-def create_demo_data(company):
+def create_demo_data(company: str) -> dict:
 	"""Called from the "Create Demo Data" button on this Single doctype's
 	Desk form. Thin wrapper around easy_pos.setup.create_demo_data.execute
 	(items, prices, opening stock), easy_pos.setup.create_demo_pos_profiles

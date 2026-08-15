@@ -46,22 +46,40 @@ repos:
             )$
 
 
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.44.0
+  - repo: local
     hooks:
       - id: eslint
-        types_or: [javascript]
-        args: ['--quiet']
-        # Ignore any files that might contain jinja / bundles
+        name: "Run eslint (posapp, via its own local ESLint 9 install)"
+        description: "Runs posapp's own installed ESLint (flat config + eslint-plugin-react-hooks@^7) instead of pre-commit mirrors-eslint's pinned ESLint 8, which can't resolve rules from an ESLint-9-targeted plugin. Requires `cd posapp && yarn install`."
+        entry: ./.github/helper/eslint.sh
+        language: script
+        types_or: [javascript, jsx]
+        files: "^posapp/"
+        # Ignore built/bundled output, never hand-authored source.
         exclude: |
             (?x)^(
-                easy_pos/public/dist/.*|
-                cypress/.*|
+                posapp/public/dist/.*|
                 .*node_modules.*|
-                .*boilerplate.*|
-                easy_pos/templates/includes/.*|
-                easy_pos/public/js/lib/.*
+                easy_pos/public/posapp/.*
             )$
+        pass_filenames: true
+
+  - repo: local
+    hooks:
+      - id: frappe-semgrep-rules
+        name: "Run Frappe Semgrep rules (correctness)"
+        description: "Mirrors .github/workflows/linter.yml's Semgrep step (frappe/semgrep-rules + r/python.lang.correctness) locally. Requires `pip install semgrep`."
+        entry: ./.github/helper/semgrep.sh
+        language: script
+        files: "\\.py$"
+        exclude: ".*node_modules.*"
+        pass_filenames: true
+        # Forces a single invocation instead of pre-commit's default parallel
+        # file-batching — the script clones/updates a shared rules cache dir
+        # on first run, and two parallel invocations both seeing it missing
+        # race each other's `git clone` into the same path ("destination
+        # path ... already exists and is not an empty directory").
+        require_serial: true
 
 ci:
     autoupdate_schedule: weekly

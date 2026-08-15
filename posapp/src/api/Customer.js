@@ -95,9 +95,12 @@ export const fetchCustomer = async (name) => {
 export const fetchCustomerWithLoyalty = async (name, company) => {
 	if (!name) return null;
 	try {
-		const response = await engineGet("/api/method/easy_pos.api.customer.get_customer_with_loyalty", {
-			params: { name, company },
-		});
+		const response = await engineGet(
+			"/api/method/easy_pos.api.customer.get_customer_with_loyalty",
+			{
+				params: { name, company },
+			}
+		);
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
@@ -237,7 +240,7 @@ export const fetchAddressDisplay = async (addressName) => {
 	try {
 		const response = await engineGet(
 			"/api/method/frappe.contacts.doctype.address.address.get_address_display",
-			{ params: { address_dict: addressName } },
+			{ params: { address_dict: addressName } }
 		);
 		return response.data.message;
 	} catch (error) {

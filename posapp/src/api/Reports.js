@@ -3,7 +3,13 @@ import { engineGet, enginePost } from "../engine";
 // scope: "shift" | "today" | "range". opening_entry required for "shift";
 // pos_profile/from_date/to_date apply to "today"/"range" (scoped server-side
 // to the logged-in cashier's own invoices — see easy_pos.api.pos.get_sales_report).
-export const fetchSalesReport = async ({ scope, opening_entry, pos_profile, from_date, to_date }) => {
+export const fetchSalesReport = async ({
+	scope,
+	opening_entry,
+	pos_profile,
+	from_date,
+	to_date,
+}) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.get_sales_report", {
 			scope,

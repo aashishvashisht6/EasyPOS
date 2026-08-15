@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.utils import flt
 
 from easy_pos.api.payment_gateways import get_gateway
@@ -33,12 +34,14 @@ def create_payment_gateway_order(gateway: str, invoice: dict, opening_details: d
 
 
 @frappe.whitelist()
-def verify_payment_gateway_order(gateway: str, sales_invoice: str, payload: dict, coupon_code: str = None) -> dict:
+def verify_payment_gateway_order(
+	gateway: str, sales_invoice: str, payload: dict, coupon_code: str | None = None
+) -> dict:
 	module = get_gateway(gateway)
 
 	sales_invoice = frappe.get_doc("Sales Invoice", sales_invoice)
 	if sales_invoice.docstatus != 0:
-		frappe.throw("This invoice has already been finalized")
+		frappe.throw(_("This invoice has already been finalized"))
 
 	reference = module.verify(sales_invoice, payload)
 	sales_invoice.ep_payment_gateway_reference = reference

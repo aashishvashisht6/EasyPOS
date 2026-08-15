@@ -21,11 +21,14 @@ const dateInRange = (validFrom, validUpto, today) => {
 // today: "YYYY-MM-DD" string, so plain string comparison against Frappe's
 // own Date field format works without a date-parsing dependency.
 const ruleMatchesLine = (rule, line, ctx) => {
-	if (rule.apply_on === "Item Code" && !(rule.item_codes || []).includes(line.item_code)) return false;
-	if (rule.apply_on === "Item Group" && !(rule.item_groups || []).includes(line.item_group)) return false;
+	if (rule.apply_on === "Item Code" && !(rule.item_codes || []).includes(line.item_code))
+		return false;
+	if (rule.apply_on === "Item Group" && !(rule.item_groups || []).includes(line.item_group))
+		return false;
 
 	if (rule.applicable_for === "Customer" && rule.customer !== ctx.customer) return false;
-	if (rule.applicable_for === "Customer Group" && rule.customer_group !== ctx.customerGroup) return false;
+	if (rule.applicable_for === "Customer Group" && rule.customer_group !== ctx.customerGroup)
+		return false;
 	if (rule.applicable_for === "Territory" && rule.territory !== ctx.territory) return false;
 
 	const qty = flt(line.qty);
@@ -71,7 +74,9 @@ export const computeCartPricingLocally = (items, pricingRules, ctx, precision = 
 	const results = [];
 
 	for (const line of items) {
-		const matches = (pricingRules || []).filter((rule) => ruleMatchesLine(rule, line, { ...ctx, today }));
+		const matches = (pricingRules || []).filter((rule) =>
+			ruleMatchesLine(rule, line, { ...ctx, today })
+		);
 		if (matches.some((rule) => rule.price_or_product_discount === "Product")) return null;
 
 		const priceListRate = flt(line.price_list_rate, precision);
@@ -88,7 +93,7 @@ export const computeCartPricingLocally = (items, pricingRules, ctx, precision = 
 			// matching rule stacks in priority order — mirrors get_item_details'
 			// own apply_multiple_pricing_rules stacking behaviour.
 			const sorted = [...priceRules].sort(
-				(a, b) => (parseInt(b.priority, 10) || 0) - (parseInt(a.priority, 10) || 0),
+				(a, b) => (parseInt(b.priority, 10) || 0) - (parseInt(a.priority, 10) || 0)
 			);
 			const applyMultiple = sorted.some((rule) => rule.apply_multiple_pricing_rules);
 			const chosen = applyMultiple ? sorted : sorted.slice(0, 1);
@@ -108,7 +113,9 @@ export const computeCartPricingLocally = (items, pricingRules, ctx, precision = 
 			qty: line.qty,
 			price_list_rate: priceListRate,
 			rate,
-			discount_percentage: priceListRate ? flt((discountAmount / priceListRate) * 100, 2) : 0,
+			discount_percentage: priceListRate
+				? flt((discountAmount / priceListRate) * 100, 2)
+				: 0,
 			discount_amount: discountAmount,
 			pricing_rules: appliedRuleNames,
 			has_pricing_rule: appliedRuleNames.length > 0,

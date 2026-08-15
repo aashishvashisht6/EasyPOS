@@ -16,7 +16,7 @@ export const fetchLoggedInUser = async () => {
 		return email;
 	} catch (error) {
 		console.error(error);
-        return null;
+		return null;
 	}
 };
 
@@ -26,7 +26,7 @@ export const logOutUser = async () => {
 		return response.data.message;
 	} catch (error) {
 		console.error(error);
-        return null;
+		return null;
 	} finally {
 		// Always clear the local identity on a logout attempt, even if the
 		// network call itself failed (offline) — otherwise a later offline
