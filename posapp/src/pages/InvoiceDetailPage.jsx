@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchInvoice, cancelInvoice } from "../api/Invoice";
+import { getPendingInvoices, retryOfflineInvoice } from "../engine/outbox";
 import usePOSSessionStore from "../store/posSessionStore";
-import { FormView, ConfirmModal } from "../components/common";
+import { FormView, ConfirmModal, ErrorAlert } from "../components/common";
 import CreditNoteModal from "../components/Invoice/CreditNoteModal";
 import { formatDate, invoiceStatusBadgeClass } from "../utils/format";
+import useEngineSettingsStore from "../engine/settingsStore";
+import useConnectivityStore from "../engine/connectivity";
+
+// Cashier-facing IDs minted by engine/outbox.js for an invoice queued offline
+// (see queueOfflineInvoice's genDisplayId) — never a real ERPNext Sales
+// Invoice name, so this route param needs a different (local-only) lookup.
+const isOfflineDisplayId = (value) => typeof value === "string" && value.startsWith("OFFLINE-");
 
 // item_tax_rate is stored as a JSON string, e.g. {"VAT - C": 18.0} — render it
 // as a compact "name @ rate%" list instead of the raw blob.
@@ -36,7 +44,31 @@ const InvoiceDetailPage = () => {
 
   const [creditNoteOpen, setCreditNoteOpen] = useState(false);
 
+  const offlineModeEnabled = useEngineSettingsStore((s) => s.offlineModeEnabled);
+  const isOnline = useConnectivityStore((s) => s.isOnline);
+
+  const [pendingRow, setPendingRow] = useState(null);
+  const [retrying, setRetrying] = useState(false);
+  const [retryError, setRetryError] = useState("");
+
   const loadInvoice = () => {
+    if (isOfflineDisplayId(name)) {
+      getPendingInvoices().then((rows) => {
+        const row = rows.find((r) => r.display_id === name) ?? null;
+        // Already synced by the time it's opened (e.g. a background push
+        // finished right before navigation) — jump straight to the real
+        // invoice instead of showing a stale "pending" view for it.
+        if (row?.status === "synced" && row.erpnext_name) {
+          navigate(`/posapp/invoices/${encodeURIComponent(row.erpnext_name)}`, { replace: true });
+          return;
+        }
+        setPendingRow(row);
+        setInvoice(null);
+        setLoadedName(name);
+      });
+      return;
+    }
+    setPendingRow(null);
     fetchInvoice(name).then((data) => {
       setInvoice(data ?? null);
       setLoadedName(name);
@@ -48,9 +80,23 @@ const InvoiceDetailPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
+  const handleRetrySync = async () => {
+    if (!pendingRow) return;
+    setRetrying(true);
+    setRetryError("");
+    const result = await retryOfflineInvoice(pendingRow.offline_id);
+    setRetrying(false);
+    if (result?.ok) {
+      navigate(`/posapp/invoices/${encodeURIComponent(result.name)}`, { replace: true });
+    } else {
+      setRetryError(result?.error || "Sync failed — check the Sync page for details.");
+      loadInvoice();
+    }
+  };
+
   useEffect(() => {
-    setTopbar({ title: invoice?.name || "Invoice" });
-  }, [invoice, setTopbar]);
+    setTopbar({ title: invoice?.name || pendingRow?.display_id || "Invoice" });
+  }, [invoice, pendingRow, setTopbar]);
 
   const money = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
 
@@ -76,10 +122,74 @@ const InvoiceDetailPage = () => {
     navigate(`/posapp/invoices/${encodeURIComponent(creditNote.name)}`);
   };
 
+  if (isOfflineDisplayId(name)) {
+    if (loading) {
+      return <div className="px-4 py-5 text-center text-muted" style={{ fontSize: 13 }}>Loading…</div>;
+    }
+    if (!pendingRow) {
+      return (
+        <div className="px-4 py-5 text-center text-muted" style={{ fontSize: 13 }}>
+          This offline sale isn't in the local queue on this device anymore.
+        </div>
+      );
+    }
+    const rows = pendingRow.payload?.invoice?.items ?? [];
+    const total = rows.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+    return (
+      <div className="px-4 py-4" style={{ maxWidth: 640 }}>
+        <div className="d-flex align-items-center gap-2 mb-3">
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{pendingRow.display_id}</span>
+          <span
+            className={`badge ${pendingRow.status === "failed" ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning-emphasis"}`}
+          >
+            {pendingRow.status === "failed" ? "Sync failed" : pendingRow.status === "syncing" ? "Syncing…" : "Pending sync"}
+          </span>
+        </div>
+        <div className="pos-card mb-3" style={{ padding: "12px 16px", fontSize: 12.5, color: "var(--color-text-muted)" }}>
+          <i className="bi bi-cloud-slash me-2" />
+          This sale was completed offline and hasn't reached ERPNext yet. It will get a real invoice number once it
+          syncs — reconnect and it should sync automatically, or retry below.
+        </div>
+        <ErrorAlert message={retryError} />
+        <div className="pos-card mb-3" style={{ padding: "16px" }}>
+          <div style={{ fontSize: 12, color: "var(--color-text-faint)", marginBottom: 8 }}>ITEMS</div>
+          {rows.map((r, i) => (
+            <div key={i} className="d-flex justify-content-between" style={{ fontSize: 13, padding: "4px 0" }}>
+              <span>{r.item_code} × {r.qty}</span>
+              <span style={{ fontFamily: "var(--font-mono)" }}>{money(r.amount)}</span>
+            </div>
+          ))}
+          <div className="d-flex justify-content-between" style={{ fontSize: 13, fontWeight: 600, borderTop: "1px solid var(--color-border-soft)", marginTop: 8, paddingTop: 8 }}>
+            <span>Total</span>
+            <span style={{ fontFamily: "var(--font-mono)" }}>{money(total)}</span>
+          </div>
+        </div>
+        <div className="d-flex gap-2">
+          <button type="button" className="pos-btn pos-btn-secondary" onClick={() => navigate("/posapp/invoices")}>
+            Back to Invoices
+          </button>
+          <button type="button" className="pos-btn pos-btn-primary" onClick={handleRetrySync} disabled={retrying || !isOnline}>
+            {retrying ? (
+              <><span className="spinner-border spinner-border-sm" role="status" /> Syncing…</>
+            ) : (
+              <><i className="bi bi-arrow-repeat" style={{ fontSize: 14 }} /> Retry sync</>
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!loading && !invoice) {
+    // The Invoices list is browsable offline (its summary columns are
+    // cached), but the full doc a detail view needs (items, taxes, payments)
+    // isn't — see engine/localReads.js's readInvoiceList comment. Without this
+    // check, a cashier tapping into a real invoice while offline sees "not
+    // found", which reads as data loss rather than a connectivity limit.
+    const offlineUnavailable = offlineModeEnabled && !isOnline;
     return (
       <div className="px-4 py-5 text-center text-muted" style={{ fontSize: 13 }}>
-        Invoice not found.
+        {offlineUnavailable ? "Invoice details aren't available offline. Reconnect and try again." : "Invoice not found."}
       </div>
     );
   }

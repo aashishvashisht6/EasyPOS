@@ -4,6 +4,7 @@ import { fetchProfile } from "../api/POSProfile";
 import { fetchCurrencySymbol } from "../api/Currency";
 import { fetchPrecisionSettings } from "../api/Invoice";
 import { fetchTaxesAndChargesTemplate } from "../api/Tax";
+import { fetchPricingRules } from "../api/Pricing";
 import { runFullSync } from "../engine/sync";
 import useEngineSettingsStore from "../engine/settingsStore";
 import useConnectivityStore from "../engine/connectivity";
@@ -36,6 +37,13 @@ const usePOSSessionStore = create((set, get) => ({
   // own `taxes` table (easy_pos.api.pos.create_invoice).
   taxesAndCharges: "",
   taxTemplateRows: [],
+  // Item Code/Item Group-scoped Selling Pricing Rules (api/Pricing.js's
+  // fetchPricingRules), fetched once per shift same as taxTemplateRows above —
+  // Cart/index.jsx's client-side pricing engine (utils/pricingEngine.js)
+  // matches the cart against this instead of calling get_cart_pricing on
+  // every add-to-cart. See easy_pos.api.pricing.get_pricing_rules for what's
+  // (and isn't) covered.
+  pricingRules: [],
   // Pricing-related POS Profile flags/restrictions — fetched once per shift,
   // same as warehouse/priceList above, and unused until the Terminal wires
   // them in (see docs/POS_PRICING_USE_CASES.md, category D).
@@ -61,9 +69,10 @@ const usePOSSessionStore = create((set, get) => ({
     ]);
     if (!profile) return;
     const currency = profile.currency || DEFAULT_CURRENCY;
-    const [symbol, taxTemplateRows] = await Promise.all([
+    const [symbol, taxTemplateRows, pricingRules] = await Promise.all([
       currency === get().currencyCode ? get().currencySymbol : fetchCurrencySymbol(currency),
       fetchTaxesAndChargesTemplate(profile.taxes_and_charges),
+      fetchPricingRules(profile.name || pos_profile),
     ]);
     set({
       currencyCode: currency,
@@ -74,6 +83,7 @@ const usePOSSessionStore = create((set, get) => ({
       priceList: profile.selling_price_list || "",
       taxesAndCharges: profile.taxes_and_charges || "",
       taxTemplateRows,
+      pricingRules,
       posProfile: profile.name || pos_profile,
       ignorePricingRule: !!profile.ignore_pricing_rule,
       allowRateChange: !!profile.allow_rate_change,
@@ -124,6 +134,7 @@ const usePOSSessionStore = create((set, get) => ({
       priceList: "",
       taxesAndCharges: "",
       taxTemplateRows: [],
+      pricingRules: [],
       posProfile: "",
       ignorePricingRule: false,
       allowRateChange: false,

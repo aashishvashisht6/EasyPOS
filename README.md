@@ -94,15 +94,16 @@ See [`docs/UPCOMING_FEATURES.md`](docs/UPCOMING_FEATURES.md) for the full, itemi
 
 ## Screenshots
 
-<!-- Add real screenshots to the screenshots/ folder using the filenames below — see screenshots/README.md -->
+More screens are documented in the [Wiki docs](https://your-site/docs) — see
+[`easy_pos/public/screenshots/README.md`](easy_pos/public/screenshots/README.md) for the full set.
 
 | Login | Terminal |
 | --- | --- |
-| ![Login screen](screenshots/login.png) | ![POS Terminal](screenshots/terminal.png) |
+| ![Login screen](easy_pos/public/screenshots/login.png) | ![POS Terminal](easy_pos/public/screenshots/terminal.png) |
 
-| Invoices | Closing |
+| Invoice detail | Reports & Dashboard |
 | --- | --- |
-| ![Invoice register](screenshots/invoices.png) | ![Shift closing](screenshots/closing.png) |
+| ![Invoice detail](easy_pos/public/screenshots/invoice-detail.png) | ![Reports & Cashier Dashboard](easy_pos/public/screenshots/reports.png) |
 
 ## Setup
 

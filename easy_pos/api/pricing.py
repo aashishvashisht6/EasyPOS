@@ -1,9 +1,35 @@
 import json
 
 import frappe
-from frappe.utils import cint, flt, nowdate
+from frappe.utils import cint, flt, getdate, nowdate
 
 from easy_pos.api.pos import get_currency_precision
+
+# Fields client-side matching (posapp/src/utils/pricingEngine.js) actually
+# needs — a subset of Pricing Rule's own field list, see get_pricing_rules.
+PRICING_RULE_ENGINE_FIELDS = [
+	"name",
+	"title",
+	"apply_on",
+	"price_or_product_discount",
+	"rate_or_discount",
+	"rate",
+	"discount_percentage",
+	"discount_amount",
+	"applicable_for",
+	"customer",
+	"customer_group",
+	"territory",
+	"min_qty",
+	"max_qty",
+	"min_amt",
+	"max_amt",
+	"valid_from",
+	"valid_upto",
+	"priority",
+	"apply_multiple_pricing_rules",
+	"for_price_list",
+]
 
 
 def _coupon_code_name(coupon_code):
@@ -45,6 +71,63 @@ def _effective_rate(price_list_rate, discount_percentage, discount_amount, preci
         rate = flt(price_list_rate - discount_amount, precision)
         return rate, flt(discount_amount, precision)
     return price_list_rate, 0.0
+
+
+@frappe.whitelist()
+def get_pricing_rules(pos_profile):
+    """Snapshot of this profile's directly-resolvable Selling Pricing Rules,
+    fetched once at shift-open (posSessionStore.loadProfileDetails, same
+    pattern as get_taxes_and_charges_template) so the Cart's client-side
+    pricing engine (posapp/src/utils/pricingEngine.js) can match/discount
+    every add-to-cart locally instead of round-tripping to get_cart_pricing.
+
+    Only Item Code / Item Group scoped, non-coupon rules are returned — Brand
+    scoping, Transaction-level rules, and coupon-code-based rules are the same
+    documented gap get_cart_pricing itself carries (see its own docstring);
+    the Cart still calls get_cart_pricing directly whenever a coupon code is
+    typed, or whenever the local engine matches a Product Discount (free
+    item) rule it isn't equipped to resolve.
+    """
+    profile = frappe.get_cached_doc("POS Profile", pos_profile)
+    today = getdate(nowdate())
+
+    rules = frappe.get_all(
+        "Pricing Rule",
+        filters={
+            "selling": 1,
+            "disable": 0,
+            "apply_on": ["in", ["Item Code", "Item Group"]],
+            "coupon_code_based": 0,
+            "company": profile.company,
+        },
+        fields=PRICING_RULE_ENGINE_FIELDS,
+    )
+    rules = [
+        r
+        for r in rules
+        if (not r.valid_from or getdate(r.valid_from) <= today)
+        and (not r.valid_upto or getdate(r.valid_upto) >= today)
+        and (not r.for_price_list or r.for_price_list == profile.selling_price_list)
+    ]
+    rule_names = [r.name for r in rules]
+
+    items_by_rule = {}
+    for row in frappe.get_all(
+        "Pricing Rule Item Code", filters={"parent": ["in", rule_names]}, fields=["parent", "item_code"]
+    ):
+        items_by_rule.setdefault(row.parent, []).append(row.item_code)
+
+    groups_by_rule = {}
+    for row in frappe.get_all(
+        "Pricing Rule Item Group", filters={"parent": ["in", rule_names]}, fields=["parent", "item_group"]
+    ):
+        groups_by_rule.setdefault(row.parent, []).append(row.item_group)
+
+    for r in rules:
+        r["item_codes"] = items_by_rule.get(r.name, [])
+        r["item_groups"] = groups_by_rule.get(r.name, [])
+
+    return rules
 
 
 @frappe.whitelist()

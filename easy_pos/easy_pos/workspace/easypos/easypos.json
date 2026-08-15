@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"LZ8aYVtogl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">EASYPOS</span>\",\"col\":12}},{\"id\":\"G_QzSTosGZ\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Setup\",\"col\":4}},{\"id\":\"HRhDo453KC\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}}]",
+ "content": "[{\"id\":\"LZ8aYVtogl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">EASYPOS</span>\",\"col\":12}},{\"id\":\"o00Kw_p8VR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"EASY POS\",\"col\":3}},{\"id\":\"ybBrJiWzKJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"G_QzSTosGZ\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Setup\",\"col\":4}},{\"id\":\"HRhDo453KC\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"2UhoXLN3dm\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}}]",
  "creation": "2026-07-25 00:38:25.361205",
  "custom_blocks": [],
  "docstatus": 0,
@@ -140,9 +140,28 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "EASYPOS Settings",
+   "link_count": 0,
+   "link_to": "EASYPOS Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-08-08 01:29:17.645740",
+ "modified": "2026-08-15 12:57:54.950466",
  "modified_by": "Administrator",
  "module": "Easy Pos",
  "name": "EASYPOS",
@@ -153,6 +172,14 @@
  "quick_lists": [],
  "roles": [],
  "sequence_id": 28.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "EASY POS",
+   "type": "URL",
+   "url": "/posapp"
+  }
+ ],
  "title": "EASYPOS"
 }

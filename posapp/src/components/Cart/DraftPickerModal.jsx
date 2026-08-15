@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchInvoices } from "../../api/InvoiceRegister";
+import { getPendingInvoices } from "../../engine/outbox";
 import { Modal, ListTable, Pagination, LinkField, TextField } from "../common";
 import usePOSSessionStore from "../../store/posSessionStore";
 
@@ -15,7 +16,20 @@ const DRAFT_COLUMNS = [
     key: "name",
     label: "Invoice",
     width: "1fr",
-    render: (inv) => <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>{inv.name}</span>,
+    render: (inv) => (
+      <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>
+        {inv.name}
+        {inv.__offline && (
+          <span
+            className="badge bg-warning-subtle text-warning-emphasis ms-2"
+            style={{ fontSize: 9.5, fontWeight: 500 }}
+            title={inv.__pending?.status === "failed" ? inv.__pending?.error : "Held offline — not yet synced"}
+          >
+            {inv.__pending?.status === "failed" ? "Sync failed" : "Offline"}
+          </span>
+        )}
+      </span>
+    ),
   },
   {
     key: "customer",
@@ -49,7 +63,27 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const loadDrafts = () => {
+  // Sales Invoices queued locally (submit=0, i.e. "Save Draft" made while
+  // offline — see engine/outbox.js) that haven't synced to ERPNext yet. Only
+  // shown on page 0 with no search filters active, ahead of the server list,
+  // since they're not part of the server's own pagination/total_count.
+  const loadPendingDrafts = async () => {
+    const rows = await getPendingInvoices();
+    return rows
+      .filter((row) => !row.submit && row.status !== "synced")
+      .filter((row) => !customer || row.payload?.invoice?.customer === customer)
+      .map((row) => ({
+        name: row.display_id,
+        customer: row.payload?.invoice?.customer,
+        customer_name: row.payload?.invoice?.customer,
+        posting_date: row.created_at,
+        grand_total: (row.payload?.invoice?.items ?? []).reduce((sum, i) => sum + (parseFloat(i.amount) || 0), 0),
+        __offline: true,
+        __pending: row,
+      }));
+  };
+
+  const loadDrafts = async () => {
     const filters = {
       pos_profile: openingDetail?.pos_profile ?? "",
       status: "Draft",
@@ -57,11 +91,13 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
       mobile_no: mobileNo,
       email,
     };
-    fetchInvoices(filters, page * PAGE_SIZE, PAGE_SIZE).then((data) => {
-      setDrafts(data?.invoices ?? []);
-      setTotalCount(data?.total_count ?? 0);
-      setLoading(false);
-    });
+    const [serverResult, pendingDrafts] = await Promise.all([
+      fetchInvoices(filters, page * PAGE_SIZE, PAGE_SIZE).catch(() => null),
+      page === 0 && !mobileNo && !email ? loadPendingDrafts() : Promise.resolve([]),
+    ]);
+    setDrafts([...pendingDrafts, ...(serverResult?.invoices ?? [])]);
+    setTotalCount((serverResult?.total_count ?? 0) + pendingDrafts.length);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -146,7 +182,7 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
               rows={drafts}
               loading={loading}
               emptyMessage="No draft invoices found"
-              onRowClick={(inv) => onSelect(inv.name)}
+              onRowClick={(inv) => onSelect(inv.__offline ? inv : inv.name)}
             />
           </div>
 

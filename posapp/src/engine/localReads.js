@@ -17,6 +17,10 @@ const opMatch = (value, op, target) => {
 			return !(target ?? []).includes(value);
 		case "!=":
 			return value !== target;
+		case "between": {
+			const [start, end] = target ?? [];
+			return (!start || value >= start) && (!end || value <= end);
+		}
 		default:
 			return value === target;
 	}
@@ -24,7 +28,12 @@ const opMatch = (value, op, target) => {
 
 const rowMatches = (row, conditions, mode) => {
 	const entries = Object.entries(conditions || {});
-	if (!entries.length) return mode === "and";
+	// An empty condition group (no filters, or no search term typed into
+	// or_filters) applies no restriction at all — it must never exclude rows,
+	// in either the AND or the OR group. Returning `mode === "and"` here used
+	// to make an empty or_filters group evaluate to false, which excluded
+	// every row whenever there was no active search term (i.e. almost always).
+	if (!entries.length) return true;
 	const results = entries.map(([field, cond]) => {
 		const [op, target] = Array.isArray(cond) ? cond : ["=", cond];
 		return opMatch(row[field], op, target);
@@ -37,6 +46,16 @@ const rowMatches = (row, conditions, mode) => {
 // own frappe.get_list(filters=..., or_filters=...) semantics.
 const listFilter = (rows, filters, orFilters) =>
 	rows.filter((row) => rowMatches(row, filters, "and") && rowMatches(row, orFilters, "or"));
+
+// Shared shape behind every `easy_pos.api.list_view.get_list` adapter: filter
+// the cached table's rows and paginate, returning the same
+// { data, total_count } shape ListView.js's fetchList already expects.
+const listReader = (table) => async ({ filters, or_filters, limit_start = 0, limit_page_length = 20 } = {}) => {
+	const all = await table.toArray();
+	const matched = listFilter(all, filters, or_filters);
+	const page = limit_page_length ? matched.slice(limit_start, limit_start + limit_page_length) : matched;
+	return ok({ data: page, total_count: matched.length });
+};
 
 // --- Item catalog ------------------------------------------------------------
 
@@ -72,20 +91,27 @@ const readSearchItem = async ({ search_text } = {}) => {
 
 const readItemGroups = async () => ok(await db.item_groups.toArray());
 
+// --- Auth / shift status ---------------------------------------------------------
+
+// Keys must match api/User.js and api/OpeningEntry.js's own cache writes.
+const readLoggedInUser = async () => ok((await db.meta.get("loggedInUser"))?.email ?? null);
+
+const readCheckOpeningEntry = async ({ user } = {}) => {
+	const cached = await db.meta.get(`openingEntry:${user}`);
+	return ok(cached?.data ?? {});
+};
+
 // --- Customer ------------------------------------------------------------------
 
 const readCustomerGet = async ({ name } = {}) => ok((await db.customers.get(name)) ?? null);
-
-const readCustomerList = async ({ filters, or_filters, limit_start = 0, limit_page_length = 20 } = {}) => {
-	const all = await db.customers.toArray();
-	const matched = listFilter(all, filters, or_filters);
-	const page = limit_page_length ? matched.slice(limit_start, limit_start + limit_page_length) : matched;
-	return ok({ data: page, total_count: matched.length });
-};
+const readCustomerList = listReader(db.customers);
 
 // --- POS Profile / Tax template / Price List / Pricing Rule --------------------
 
 const readPOSProfileGet = async ({ name } = {}) => ok((await db.pos_profiles.get(name)) ?? null);
+// The POS Profile list page's own summary rows — see engine/sync.js's runFullSync
+// for why this can safely share a table with the fuller single-profile doc above.
+const readPOSProfileList = listReader(db.pos_profiles);
 
 const readTaxTemplate = async () => {
 	const rows = await db.taxes.toArray();
@@ -93,8 +119,70 @@ const readTaxTemplate = async () => {
 };
 
 const readPriceListGet = async ({ name } = {}) => ok((await db.price_lists.get(name)) ?? null);
+const readPriceListList = listReader(db.price_lists);
 
 const readPricingRuleGet = async ({ name } = {}) => ok((await db.pricing_rules.get(name)) ?? null);
+const readPricingRuleList = listReader(db.pricing_rules);
+
+// --- Item Price / Loyalty Program / Sales Invoice -------------------------------
+
+const readItemPriceGet = async ({ name } = {}) => ok((await db.item_prices.get(name)) ?? null);
+const readItemPriceList = listReader(db.item_prices);
+
+const readLoyaltyProgramGet = async ({ name } = {}) => ok((await db.loyalty_programs.get(name)) ?? null);
+const readLoyaltyProgramList = listReader(db.loyalty_programs);
+
+// No Get adapter for Sales Invoice — the cached rows only carry the list
+// page's summary columns (INVOICE_FIELDS), not the full doc (items, taxes,
+// payments) InvoiceDetailPage needs, so a detail view still requires the
+// server even when the list itself can be browsed offline.
+const readInvoiceList = listReader(db.invoices);
+
+// --- Link field autocomplete (frappe.desk.search.search_link) ------------------
+
+// Every doctype common/LinkField.jsx can be pointed at that also has a cached
+// table — most notably Cart/DraftPickerModal's Customer picker, the one
+// LinkField on the actual checkout path. `fields` are matched against `txt`
+// (case-insensitive substring, OR'd together); `description` mirrors what the
+// real search_link puts in each result's `description` key, since callers
+// across the app (Cart's renderOption, onChange handlers) read that key as
+// the human-readable label. Doctypes with no entry here (Address, Contact,
+// Customer Group, Territory, Warehouse, ...) aren't cached at all yet, so
+// their LinkFields still require the server — same as before this adapter.
+const SEARCH_LINK_SOURCES = {
+	Customer: { table: db.customers, fields: ["name", "customer_name"], description: (r) => r.customer_name },
+	Item: { table: db.items, fields: ["item_code", "item_name"], description: (r) => r.item_name },
+	"POS Profile": { table: db.pos_profiles, fields: ["name"], description: (r) => r.company },
+	"Price List": { table: db.price_lists, fields: ["name"], description: () => undefined },
+	"Pricing Rule": { table: db.pricing_rules, fields: ["name"], description: () => undefined },
+	"Item Price": { table: db.item_prices, fields: ["name", "item_code", "item_name"], description: (r) => r.item_name },
+	"Loyalty Program": {
+		table: db.loyalty_programs,
+		fields: ["name", "loyalty_program_name"],
+		description: (r) => r.loyalty_program_name,
+	},
+};
+
+const readSearchLink = async ({ doctype, txt = "", filters, page_length = 20 } = {}) => {
+	const source = SEARCH_LINK_SOURCES[doctype];
+	if (!source) return ok([]);
+
+	const parsedFilters = typeof filters === "string" && filters ? JSON.parse(filters) : filters;
+	const needle = String(txt ?? "").trim().toLowerCase();
+
+	const all = await source.table.toArray();
+	const matched = all.filter((row) => {
+		if (!rowMatches(row, parsedFilters, "and")) return false;
+		if (!needle) return true;
+		return source.fields.some((field) => String(row[field] ?? "").toLowerCase().includes(needle));
+	});
+
+	const results = matched.slice(0, page_length).map((row) => ({
+		value: row.name,
+		description: source.description(row) || undefined,
+	}));
+	return ok(results);
+};
 
 // --- Dispatch --------------------------------------------------------------------
 
@@ -110,6 +198,15 @@ const ADAPTERS = [
 	{
 		test: (url) => url.endsWith("easy_pos.api.pos.get_taxes_and_charges_template"),
 		read: () => readTaxTemplate(),
+	},
+	{ test: (url) => url.endsWith("frappe.auth.get_logged_user"), read: () => readLoggedInUser() },
+	{
+		test: (url, ctx) => url.endsWith("frappe.desk.search.search_link") && !!SEARCH_LINK_SOURCES[ctx.params?.doctype],
+		read: (ctx) => readSearchLink(ctx.params),
+	},
+	{
+		test: (url) => url.endsWith("easy_pos.api.pos.check_opening_entry"),
+		read: (ctx) => readCheckOpeningEntry(ctx.params),
 	},
 	{
 		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Customer",
@@ -128,8 +225,40 @@ const ADAPTERS = [
 		read: (ctx) => readPricingRuleGet(ctx.params),
 	},
 	{
+		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Item Price",
+		read: (ctx) => readItemPriceGet(ctx.params),
+	},
+	{
+		test: (url, ctx) => url.endsWith("frappe.client.get") && ctx.params?.doctype === "Loyalty Program",
+		read: (ctx) => readLoyaltyProgramGet(ctx.params),
+	},
+	{
 		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Customer",
 		read: (ctx) => readCustomerList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "POS Profile",
+		read: (ctx) => readPOSProfileList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Price List",
+		read: (ctx) => readPriceListList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Pricing Rule",
+		read: (ctx) => readPricingRuleList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Item Price",
+		read: (ctx) => readItemPriceList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Loyalty Program",
+		read: (ctx) => readLoyaltyProgramList(ctx.data),
+	},
+	{
+		test: (url, ctx) => url.endsWith("easy_pos.api.list_view.get_list") && ctx.data?.doctype === "Sales Invoice",
+		read: (ctx) => readInvoiceList(ctx.data),
 	},
 ];
 

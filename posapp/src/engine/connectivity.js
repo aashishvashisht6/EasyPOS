@@ -11,7 +11,20 @@ const HEARTBEAT_TIMEOUT_MS = 5000;
 // decide server vs. local-DB per request.
 const useConnectivityStore = create((set) => ({
 	isOnline: typeof navigator === "undefined" || navigator.onLine,
-	setOnline: (isOnline) => set((state) => (state.isOnline === isOnline ? state : { isOnline })),
+	setOnline: (isOnline) =>
+		set((state) => {
+			if (state.isOnline === isOnline) return state;
+			// Offline → online transition: drain the offline invoice queue (see
+			// engine/outbox.js). Fire-and-forget, same pattern posSessionStore's
+			// loadProfileDetails uses for runFullSync — a slow/failed push must
+			// never block the connectivity flip itself.
+			if (isOnline) {
+				import("./outbox").then(({ pushPendingInvoices }) =>
+					pushPendingInvoices().catch((error) => console.error(error))
+				);
+			}
+			return { isOnline };
+		}),
 }));
 
 const heartbeat = async () => {

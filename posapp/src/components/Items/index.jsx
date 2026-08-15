@@ -183,6 +183,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
             item_tax_template: item.item_tax_template,
             item_tax_rate: item.item_tax_rate,
             is_product_bundle: item.is_product_bundle,
+            item_group: item.item_group,
           }, currencyPrecision);
         }
         setSearchResults(null);
@@ -251,6 +252,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         item_tax_template: item.item_tax_template,
         item_tax_rate: item.item_tax_rate,
         is_product_bundle: item.is_product_bundle,
+        item_group: item.item_group,
       }, currencyPrecision);
     },
     [itemQty, addItem, hasOpeningEntry, openOpeningModal, currencyPrecision],
@@ -268,9 +270,13 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         item_tax_template: variant.item_tax_template,
         item_tax_rate: variant.item_tax_rate,
         is_product_bundle: variant.is_product_bundle,
+        // A variant's own row doesn't carry item_group — it belongs to the
+        // same group as its template (variantTemplate, still in scope from
+        // the picker this Add came from).
+        item_group: variantTemplate?.item_group,
       }, currencyPrecision);
     },
-    [addItem, currencyPrecision],
+    [addItem, currencyPrecision, variantTemplate],
   );
 
   // Serial/Batch-tracked items step by whole rows, not qty — "−" drops the

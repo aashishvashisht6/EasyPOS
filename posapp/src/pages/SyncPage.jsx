@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { ErrorAlert } from "../components/common";
 import usePOSSessionStore from "../store/posSessionStore";
 import useEngineSettingsStore from "../engine/settingsStore";
 import useConnectivityStore from "../engine/connectivity";
 import { SYNC_DOMAINS, getDomainCounts, getLastSyncedTimes, runFullSync } from "../engine/sync";
+import { getPendingInvoices, pushPendingInvoices, retryOfflineInvoice } from "../engine/outbox";
 
 const formatSyncedAt = (iso) => {
   if (!iso) return "Never";
@@ -19,8 +20,22 @@ const formatSyncedAt = (iso) => {
   return date.toLocaleDateString();
 };
 
+const formatCreatedAt = (iso) => {
+  if (!iso) return "";
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime()) ? "" : date.toLocaleString();
+};
+
+const PENDING_STATUS_META = {
+  queued: { label: "Queued", cls: "bg-warning-subtle text-warning-emphasis" },
+  syncing: { label: "Syncing…", cls: "bg-primary-subtle text-primary" },
+  failed: { label: "Failed", cls: "bg-danger-subtle text-danger" },
+  synced: { label: "Synced", cls: "bg-success-subtle text-success" },
+};
+
 const SyncPage = () => {
   const { setTopbar } = useOutletContext();
+  const navigate = useNavigate();
   const posProfile = usePOSSessionStore((s) => s.posProfile);
   const offlineModeEnabled = useEngineSettingsStore((s) => s.offlineModeEnabled);
   const isOnline = useConnectivityStore((s) => s.isOnline);
@@ -31,9 +46,44 @@ const SyncPage = () => {
   const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState("");
 
+  const [pendingInvoices, setPendingInvoices] = useState([]);
+  const [pushingInvoices, setPushingInvoices] = useState(false);
+  const [retryingId, setRetryingId] = useState("");
+  const [invoiceError, setInvoiceError] = useState("");
+
   useEffect(() => {
     setTopbar({ title: "Sync" });
   }, [setTopbar]);
+
+  const refreshPendingInvoices = useCallback(() => {
+    getPendingInvoices().then((rows) => setPendingInvoices(rows.filter((r) => r.status !== "synced")));
+  }, []);
+
+  useEffect(() => {
+    refreshPendingInvoices();
+  }, [refreshPendingInvoices]);
+
+  const runPushInvoices = async () => {
+    setPushingInvoices(true);
+    setInvoiceError("");
+    try {
+      await pushPendingInvoices();
+    } catch (err) {
+      setInvoiceError(err?.message || "Push failed. Check your connection and try again.");
+    } finally {
+      setPushingInvoices(false);
+      refreshPendingInvoices();
+    }
+  };
+
+  const retryOne = async (offlineId) => {
+    setRetryingId(offlineId);
+    setInvoiceError("");
+    const result = await retryOfflineInvoice(offlineId);
+    setRetryingId("");
+    if (!result?.ok) setInvoiceError(result?.error || "Retry failed.");
+    refreshPendingInvoices();
+  };
 
   const refreshCacheState = useCallback(async () => {
     const [domainCounts, syncedTimes] = await Promise.all([getDomainCounts(), getLastSyncedTimes()]);
@@ -86,6 +136,84 @@ const SyncPage = () => {
       )}
 
       <ErrorAlert message={error} />
+
+      <div className="pos-card mb-3" style={{ padding: "14px 16px", flexShrink: 0 }}>
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <div>
+            <div style={{ fontFamily: "var(--font-heading)", fontWeight: 600, fontSize: 13.5, color: "var(--color-text-primary)" }}>
+              Pending Invoices
+            </div>
+            <div style={{ fontSize: 11.5, color: "var(--color-text-muted)", marginTop: 2 }}>
+              Sales completed offline, queued locally until they reach ERPNext.
+            </div>
+          </div>
+          <button
+            type="button"
+            className="pos-btn pos-btn-primary"
+            disabled={pushingInvoices || !isOnline || pendingInvoices.every((r) => r.status !== "queued")}
+            onClick={runPushInvoices}
+            title={!isOnline ? "Reconnect to push queued invoices" : undefined}
+          >
+            <i
+              className={`bi ${pushingInvoices ? "bi-arrow-repeat" : "bi-upload"}`}
+              style={pushingInvoices ? { animation: "pos-spin 0.8s linear infinite" } : undefined}
+            />
+            {pushingInvoices ? "Pushing…" : "Push now"}
+          </button>
+        </div>
+
+        <ErrorAlert message={invoiceError} />
+
+        {pendingInvoices.length === 0 ? (
+          <div className="text-muted" style={{ fontSize: 12, padding: "8px 0" }}>
+            Nothing queued — every offline sale on this device has synced.
+          </div>
+        ) : (
+          <div>
+            {pendingInvoices.map((row) => {
+              const meta = PENDING_STATUS_META[row.status] || PENDING_STATUS_META.queued;
+              return (
+                <div
+                  key={row.offline_id}
+                  className="d-flex align-items-center"
+                  style={{ gap: 10, padding: "8px 0", borderTop: "1px solid var(--color-border-faint)" }}
+                >
+                  <button
+                    type="button"
+                    className="border-0 bg-transparent p-0 text-start"
+                    style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--color-primary)", cursor: "pointer" }}
+                    onClick={() => navigate(`/posapp/invoices/${encodeURIComponent(row.display_id)}`)}
+                  >
+                    {row.display_id}
+                  </button>
+                  <span className={`badge ${meta.cls}`} style={{ fontSize: 10 }}>
+                    {meta.label}
+                  </span>
+                  {row.submit === false && (
+                    <span className="badge bg-secondary-subtle text-secondary" style={{ fontSize: 10 }}>
+                      Draft
+                    </span>
+                  )}
+                  <span style={{ fontSize: 11, color: "var(--color-text-faint)", flex: 1 }} title={row.error || undefined}>
+                    {row.status === "failed" ? row.error : formatCreatedAt(row.created_at)}
+                  </span>
+                  {row.status === "failed" && (
+                    <button
+                      type="button"
+                      className="pos-btn pos-btn-secondary"
+                      style={{ height: 26, fontSize: 11, padding: "0 10px" }}
+                      disabled={retryingId === row.offline_id}
+                      onClick={() => retryOne(row.offline_id)}
+                    >
+                      {retryingId === row.offline_id ? "Retrying…" : "Retry"}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <div style={{ flex: 1, display: "flex", gap: 16, minHeight: 0 }}>
         {/* Domain list */}

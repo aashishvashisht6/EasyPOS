@@ -86,6 +86,24 @@ export const fetchCustomer = async (name) => {
 	}
 };
 
+// Customer doc + its live Loyalty Program summary in one round trip
+// (easy_pos.api.customer.get_customer_with_loyalty) — used by the POS
+// Terminal's Cart when a cashier picks a customer, instead of a plain
+// fetchCustomer() followed by a separate api/LoyaltyProgram.js loyalty-summary
+// call. Also returns customer_group/territory, which utils/pricingEngine.js
+// needs for a Pricing Rule's applicable_for matching.
+export const fetchCustomerWithLoyalty = async (name, company) => {
+	if (!name) return null;
+	try {
+		const response = await engineGet("/api/method/easy_pos.api.customer.get_customer_with_loyalty", {
+			params: { name, company },
+		});
+		return response.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const createCustomer = async (customer) => {
 	const response = await enginePost("/api/method/frappe.client.insert", {
 		doc: JSON.stringify({ doctype: "Customer", ...customer }),

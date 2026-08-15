@@ -12,6 +12,9 @@ export const SYNC_DOMAINS = [
 	{ key: "taxes", label: "Sales Taxes and Charges Template" },
 	{ key: "pos_profiles", label: "POS Profile" },
 	{ key: "payment_modes", label: "Mode of Payment" },
+	{ key: "item_prices", label: "Item Price" },
+	{ key: "loyalty_programs", label: "Loyalty Program" },
+	{ key: "invoices", label: "Sales Invoice" },
 ];
 
 const TABLES = {
@@ -23,6 +26,9 @@ const TABLES = {
 	taxes: db.taxes,
 	pos_profiles: db.pos_profiles,
 	payment_modes: db.payment_modes,
+	item_prices: db.item_prices,
+	loyalty_programs: db.loyalty_programs,
+	invoices: db.invoices,
 };
 
 // Pulls one full master-data snapshot for `posProfile` from the server and
@@ -48,9 +54,21 @@ export const runFullSync = async (posProfile) => {
 		await TABLES.pricing_rules.bulkPut(snapshot.pricing_rules ?? []);
 		await TABLES.taxes.clear();
 		if (snapshot.taxes?.template) await TABLES.taxes.put(snapshot.taxes);
+		// Company-wide profile summaries first (for the POS Profile list page),
+		// then overwrite this shift's own profile with its full doc (same "name"
+		// primary key) — the terminal needs the fuller record, the list page only
+		// needs the summary fields.
+		await TABLES.pos_profiles.clear();
+		await TABLES.pos_profiles.bulkPut(snapshot.pos_profiles ?? []);
 		if (snapshot.pos_profile) await TABLES.pos_profiles.put(snapshot.pos_profile);
 		await TABLES.payment_modes.clear();
 		await TABLES.payment_modes.bulkPut(snapshot.modes_of_payment ?? []);
+		await TABLES.item_prices.clear();
+		await TABLES.item_prices.bulkPut(snapshot.item_prices ?? []);
+		await TABLES.loyalty_programs.clear();
+		await TABLES.loyalty_programs.bulkPut(snapshot.loyalty_programs ?? []);
+		await TABLES.invoices.clear();
+		await TABLES.invoices.bulkPut(snapshot.invoices ?? []);
 		await db.meta.bulkPut(SYNC_DOMAINS.map((domain) => ({ key: domain.key, lastSyncedAt: syncedAt })));
 	});
 

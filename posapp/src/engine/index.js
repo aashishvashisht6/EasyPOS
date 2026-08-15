@@ -3,14 +3,16 @@ import db from "./db";
 import useEngineSettingsStore from "./settingsStore";
 import useConnectivityStore, { initConnectivity } from "./connectivity";
 import { canServeLocally, readFromLocalDB } from "./localReads";
+import { queueOfflineInvoice } from "./outbox";
 
 // Middleware every api/*.js call routes through instead of calling axios
-// directly. Decides server vs. local DB per call: only reads (never a write —
-// queuing/replaying writes made offline is Phase 2, not this one) whose exact
-// call shape has a `localReads.js` adapter are eligible, and only while the
-// offline-mode feature is on (EasyPOS Settings) *and* connectivity is
-// actually down (useConnectivityStore, not just a static flag) — going
-// offline mid-shift falls back automatically, same as coming back online.
+// directly. Decides server vs. local DB per call: reads whose exact call
+// shape has a `localReads.js` adapter are eligible, and easy_pos.api.pos.
+// create_invoice is queued locally instead (see outbox.js) — both only while
+// the offline-mode feature is on (EasyPOS Settings) *and* connectivity is
+// actually down (useConnectivityStore, not just a static flag). Every other
+// write still fails hard offline, same as before. Going offline mid-shift
+// falls back automatically, same as coming back online.
 const WRITE_METHOD_MARKERS = [
 	"client.insert",
 	"client.save",
@@ -22,6 +24,8 @@ const WRITE_METHOD_MARKERS = [
 ];
 const isWriteCall = (url) => WRITE_METHOD_MARKERS.some((marker) => url.includes(marker));
 
+const isCreateInvoiceCall = (url) => url.includes("pos.create_invoice");
+
 // Returns the same shape as axios.get/axios.post (a response object with
 // `.data`), so callers keep using `response.data.message` unchanged.
 const callServer = ({ url, method = "get", params, data }) =>
@@ -31,8 +35,13 @@ export const engineCall = ({ url, method = "get", params, data }) => {
 	const { offlineModeEnabled } = useEngineSettingsStore.getState();
 	const { isOnline } = useConnectivityStore.getState();
 
-	if (offlineModeEnabled && !isOnline && !isWriteCall(url) && canServeLocally(url, { params, data })) {
-		return readFromLocalDB({ url, params, data });
+	if (offlineModeEnabled && !isOnline) {
+		if (isCreateInvoiceCall(url)) {
+			return queueOfflineInvoice(data || {});
+		}
+		if (!isWriteCall(url) && canServeLocally(url, { params, data })) {
+			return readFromLocalDB({ url, params, data });
+		}
 	}
 
 	return callServer({ url, method, params, data });

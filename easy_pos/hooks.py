@@ -1,5 +1,5 @@
 app_name = "easy_pos"
-app_title = "Easy Pos"
+app_title = "Easy POS"
 app_publisher = "Aashish"
 app_description = "Simplified POS Solution"
 app_email = "aashishvashisht6@gmail.com"
@@ -57,7 +57,7 @@ required_apps = ["erpnext", "payments"]
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+home_page = "posapp"
 
 # website user home page (by Role)
 # role_home_page = {

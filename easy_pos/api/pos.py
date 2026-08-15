@@ -145,11 +145,16 @@ def get_taxes_and_charges_template(taxes_and_charges: str = None) -> list:
 	]
 
 
-def _save_sales_invoice(invoice: dict, opening_details: dict):
+def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str = None):
 	"""Builds/updates the Sales Invoice doc from cart payload + opening details and
 	inserts/saves it (Draft, since callers decide separately whether to submit).
 	Shared by create_invoice and the Razorpay order flow so a gateway-backed
-	checkout constructs the exact same Draft a manual-cash checkout would."""
+	checkout constructs the exact same Draft a manual-cash checkout would.
+
+	ep_offline_id is only meaningful on the insert path (a new invoice being
+	created from the POS Terminal's offline write queue, see
+	easy_pos.api.sync.push_offline_invoice) — it stamps the client-generated
+	UUID onto the doc so a retried push can find it instead of duplicating it."""
 	# Same warehouse + price list the terminal fetched stock/rate from (see
 	# easy_pos.api.item.get_items) so the invoice deducts stock from where it
 	# was actually shown as available, completing the POS Profile-driven flow.
@@ -244,6 +249,7 @@ def _save_sales_invoice(invoice: dict, opening_details: dict):
 								 "update_stock": 1,
 								 "set_warehouse": pos_profile.warehouse,
 								 "selling_price_list": pos_profile.selling_price_list,
+								 "ep_offline_id": ep_offline_id,
 								 **discount_fields,
 								 **tax_fields,
 								 **loyalty_fields,

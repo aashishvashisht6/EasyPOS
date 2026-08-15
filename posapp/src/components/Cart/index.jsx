@@ -2,11 +2,13 @@ import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { postDraftInvoice, fetchInvoice } from "../../api/Invoice";
+import { updateQueuedInvoice } from "../../engine/outbox";
 import { fetchProductBundleContents } from "../../api/Items";
 import { fetchCartPricing } from "../../api/Pricing";
-import { fetchCustomerLoyaltySummary } from "../../api/LoyaltyProgram";
+import { fetchCustomerWithLoyalty } from "../../api/Customer";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
+import { computeCartPricingLocally } from "../../utils/pricingEngine";
 import InvoicePay from "../InvoicePay";
 import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
@@ -27,6 +29,7 @@ const Cart = () => {
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
   const posProfile = usePOSSessionStore((s) => s.posProfile);
+  const pricingRules = usePOSSessionStore((s) => s.pricingRules);
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const allowRateChange = usePOSSessionStore((s) => s.allowRateChange);
   const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
@@ -42,10 +45,12 @@ const Cart = () => {
   const cartItems = useCartStore((s) => s.items);
   const freeItems = useCartStore((s) => s.freeItems);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
+  const pendingOfflineId = useCartStore((s) => s.pendingOfflineId);
   const setCustomer = useCartStore((s) => s.setCustomer);
   const removeItem = useCartStore((s) => s.removeItem);
   const clearItems = useCartStore((s) => s.clearItems);
   const setSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
+  const setPendingOfflineId = useCartStore((s) => s.setPendingOfflineId);
   const loadDraft = useCartStore((s) => s.loadDraft);
   const updateItemField = useCartStore((s) => s.updateItemField);
   const updateItemQty = useCartStore((s) => s.updateItemQty);
@@ -58,7 +63,9 @@ const Cart = () => {
   const applyPricing = useCartStore((s) => s.applyPricing);
   const loyaltyProgram = useCartStore((s) => s.loyaltyProgram);
   const loyaltyPointsBalance = useCartStore((s) => s.loyaltyPointsBalance);
-  const setLoyaltySummary = useCartStore((s) => s.setLoyaltySummary);
+  const customerGroup = useCartStore((s) => s.customerGroup);
+  const territory = useCartStore((s) => s.territory);
+  const setCustomerWithLoyalty = useCartStore((s) => s.setCustomerWithLoyalty);
 
   const [saveDraft, setSaveDraft] = useState(false);
   const [payInvoice, setPayInvoice] = useState(false);
@@ -79,13 +86,17 @@ const Cart = () => {
     ? { customer_group: ["in", customerGroups] }
     : undefined;
 
-  // Re-resolve Pricing Rule discounts (rate/discount_amount/free items) through
-  // easy_pos.api.pricing.get_cart_pricing whenever cart contents, the selected
-  // customer, or the coupon code change — covers live threshold re-evaluation
-  // (PR-06/07/22) and coupon codes (PR-11). Skipped while ignore_pricing_rule
-  // is set on the profile — the backend still returns 0 discount in that case,
-  // this just avoids the redundant round trip when the cart itself is empty.
-  const cartKey = cartItems.map((item) => `${item.item_code}:${item.qty}`).join("|");
+  // Re-resolve Pricing Rule discounts (rate/discount_amount/free items)
+  // whenever cart contents, the selected customer, or the coupon code change —
+  // covers live threshold re-evaluation (PR-06/07/22) and coupon codes
+  // (PR-11). The common case (no coupon typed) is resolved entirely on the
+  // client via utils/pricingEngine.js, matching against posSessionStore's
+  // once-per-shift pricing-rule snapshot — no round trip, no debounce needed.
+  // easy_pos.api.pricing.get_cart_pricing is still called whenever a coupon
+  // code is present (coupon usage-count validation has to be server-side), or
+  // whenever the local engine flags a Product Discount rule it can't resolve
+  // (computeCartPricingLocally returns null in that case).
+  const cartKey = cartItems.map((item) => `${item.item_code}:${item.qty}:${item.item_group}`).join("|");
   useEffect(() => {
     if (cartItems.length === 0) {
       // Removing the last line one-by-one (rather than "Clear all") doesn't go
@@ -95,6 +106,28 @@ const Cart = () => {
     }
     if (!posProfile) return;
     setCouponError("");
+
+    const lineItems = cartItems.map(({ item_code, qty, item_group, price_list_rate }) => ({
+      item_code,
+      qty,
+      item_group,
+      price_list_rate,
+    }));
+
+    if (!couponCode) {
+      const localResult = computeCartPricingLocally(
+        lineItems,
+        pricingRules,
+        { customer, customerGroup, territory },
+        currencyPrecision,
+      );
+      if (localResult) {
+        applyPricing(localResult, currencyPrecision);
+        return;
+      }
+      // Fall through to the server for the Product Discount case below.
+    }
+
     const handle = setTimeout(() => {
       setPricingLoading(true);
       fetchCartPricing(
@@ -115,15 +148,19 @@ const Cart = () => {
     }, PRICING_DEBOUNCE_MS);
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartKey, customer, posProfile, couponCode, currencyPrecision]);
+  }, [cartKey, customer, customerGroup, territory, pricingRules, posProfile, couponCode, currencyPrecision]);
 
-  // Loyalty Program enrollment + live points balance for the selected
-  // customer — fetched once here so both this badge and InvoicePay's redeem
-  // UI read from the same cartStore fields instead of double-fetching.
+  // Customer doc (customer_group/territory, for the pricing engine above) +
+  // live Loyalty Program summary — one combined fetch
+  // (easy_pos.api.customer.get_customer_with_loyalty) whenever the selected
+  // customer changes, whether from picking one in the field above, creating
+  // one via NewCustomerModal, or loading a Draft. Both this badge and
+  // InvoicePay's redeem UI read the result off the same cartStore fields
+  // instead of fetching independently.
   useEffect(() => {
     if (!customer) return;
-    fetchCustomerLoyaltySummary(customer, openingDetail.company).then((summary) => {
-      setLoyaltySummary(summary);
+    fetchCustomerWithLoyalty(customer, openingDetail.company).then((doc) => {
+      if (doc) setCustomerWithLoyalty(doc);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer, openingDetail.company]);
@@ -212,23 +249,49 @@ const Cart = () => {
         pricing_rules: pricing_rules || undefined,
       })),
     ];
-    postDraftInvoice(
-      {
-        customer,
-        items,
-        payments: [],
-        sales_invoice: salesInvoiceName,
-        apply_discount_on: discountOn || undefined,
-        additional_discount_percentage: roundCurrency(parseFloat(discount) || 0, floatPrecision),
-        taxes: taxRows,
-      },
-      openingDetail,
-      0,
-      couponCode || undefined,
-    ).then((data) => {
+    const invoicePayload = {
+      customer,
+      items,
+      payments: [],
+      sales_invoice: salesInvoiceName,
+      apply_discount_on: discountOn || undefined,
+      additional_discount_percentage: roundCurrency(parseFloat(discount) || 0, floatPrecision),
+      taxes: taxRows,
+    };
+    // Resuming a not-yet-synced offline draft (see selectDraft) updates that
+    // same queued row instead of going through create_invoice again, so
+    // re-saving never queues a second, duplicate offline invoice.
+    const savePromise = pendingOfflineId
+      ? updateQueuedInvoice(pendingOfflineId, {
+          invoice: invoicePayload,
+          opening_details: openingDetail,
+          submit: 0,
+          coupon_code: couponCode || undefined,
+        }).then((result) => {
+          if (result?.synced) {
+            setPendingOfflineId("");
+            return postDraftInvoice(
+              { ...invoicePayload, sales_invoice: result.name },
+              openingDetail,
+              0,
+              couponCode || undefined,
+            );
+          }
+          return result?.data?.message;
+        })
+      : postDraftInvoice(invoicePayload, openingDetail, 0, couponCode || undefined);
+
+    savePromise.then((data) => {
       if (data?.name) {
         setSaveDraft(false);
         setSalesInvoiceName(data.name);
+        // A fresh save while offline (not resumed via the draft picker) still
+        // needs pendingOfflineId set from here on — otherwise a second Save
+        // Draft/checkout on this same cart would queue a brand new offline
+        // invoice instead of updating this one (and would resend the just-
+        // assigned display_id back as `sales_invoice`, which the backend
+        // can't resolve once pushed — see outbox.js's sanitizeInvoicePayload).
+        if (data.__offline) setPendingOfflineId(data.offline_id);
       } else {
         setValidationError("Failed to save draft");
         setSaveDraft(false);
@@ -236,10 +299,13 @@ const Cart = () => {
     });
   };
 
-  const selectDraft = (draftName) => {
-    fetchInvoice(draftName).then((doc) => {
-      if (!doc) return;
-      loadDraft({
+  // A pending (not-yet-synced) offline draft has no real ERPNext doc to fetch —
+  // DraftPickerModal passes the full pending_invoices row object for those
+  // instead of a name string, so it can be loaded straight from its locally
+  // queued payload (see engine/outbox.js).
+  const loadDraftFromDoc = (doc, pendingOfflineId = "") => {
+    loadDraft(
+      {
         name: doc.name,
         customer: doc.customer,
         customer_name: doc.customer_name,
@@ -262,8 +328,38 @@ const Cart = () => {
         })),
         discountOn: doc.apply_discount_on || "",
         discountPercentage: doc.additional_discount_percentage || "",
-      });
-      setShowDraftPicker(false);
+      },
+      pendingOfflineId,
+    );
+    setShowDraftPicker(false);
+  };
+
+  // A pending (not-yet-synced) offline draft has no real ERPNext doc to fetch —
+  // DraftPickerModal passes the full pending_invoices row for those instead of
+  // a name string, and it's loaded straight from its locally queued payload
+  // (see engine/outbox.js), tagging the cart with pendingOfflineId so the next
+  // Save Draft/checkout updates that same row instead of queuing a duplicate.
+  const selectDraft = (draft) => {
+    if (draft && typeof draft === "object" && draft.__offline) {
+      const pending = draft.__pending;
+      const invoicePayload = pending.payload?.invoice ?? {};
+      loadDraftFromDoc(
+        {
+          name: draft.name,
+          customer: invoicePayload.customer,
+          customer_name: invoicePayload.customer,
+          items: invoicePayload.items ?? [],
+          payments: invoicePayload.payments ?? [],
+          apply_discount_on: invoicePayload.apply_discount_on,
+          additional_discount_percentage: invoicePayload.additional_discount_percentage,
+        },
+        pending.offline_id,
+      );
+      return;
+    }
+    fetchInvoice(draft).then((doc) => {
+      if (!doc) return;
+      loadDraftFromDoc(doc);
     });
   };
 

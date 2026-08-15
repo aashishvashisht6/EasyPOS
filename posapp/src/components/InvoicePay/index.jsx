@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import "./style.css";
 import { postPaymentInvoice } from "../../api/Invoice";
+import { updateQueuedInvoice } from "../../engine/outbox";
 import { fetchProfile } from "../../api/POSProfile";
 import { fetchPaymentGatewayConfig } from "../../api/Payment";
 import { getPaymentGateway } from "../PaymentGateways";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useCartStore from "../../store/cartStore";
+import useConnectivityStore from "../../engine/connectivity";
 import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
 import { roundCurrency } from "../../utils/number";
 
@@ -21,6 +23,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const printReceiptOnOrderComplete = usePOSSessionStore((s) => s.printReceiptOnOrderComplete);
   const printFormat = usePOSSessionStore((s) => s.printFormat);
+  const isOnline = useConnectivityStore((s) => s.isOnline);
 
   useEffect(() => {
     fetchProfile(openingDetail.pos_profile).then((data) => {
@@ -36,11 +39,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   }, [openingDetail.pos_profile]);
 
   const customer = useCartStore((s) => s.customer);
+  const customerName = useCartStore((s) => s.customerName);
   const items = useCartStore((s) => s.items);
   const freeItems = useCartStore((s) => s.freeItems);
   const payments = useCartStore((s) => s.payments);
   const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
   const setSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
+  const pendingOfflineId = useCartStore((s) => s.pendingOfflineId);
+  const setPendingOfflineId = useCartStore((s) => s.setPendingOfflineId);
   const discountOn = useCartStore((s) => s.discountOn);
   const discountPercentage = useCartStore((s) => s.discountPercentage);
   const couponCode = useCartStore((s) => s.couponCode);
@@ -90,7 +96,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   const gatewayRow = paymentModes.find((row) => row.ep_payment_gateway);
   const gatewayName = gatewayRow?.ep_payment_gateway;
   const gatewayAmount = gatewayRow ? parseFloat(getPaymentAmount(gatewayRow.mode_of_payment)) || 0 : 0;
-  const payingViaGateway = !!(gatewayConfig?.enabled && gatewayAmount > 0);
+  // A gateway checkout needs a live round trip to the payment provider — with
+  // no connection, the row stays visible (so a cashier can see why) but is
+  // disabled and never selectable, so createPaymentInvoice always falls
+  // through to the manual/offline-queue path instead. Also excluded while
+  // resuming a still-queued offline draft (pendingOfflineId) — that sale was
+  // rung up offline in the first place, so it stays on the manual/local-queue
+  // path even if connectivity happens to be back by the time it's finished.
+  const payingViaGateway = !!(gatewayConfig?.enabled && isOnline && !pendingOfflineId && gatewayAmount > 0);
 
   const buildCleanItems = () => [
     ...items.map(
@@ -126,18 +139,65 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     };
   };
 
+  // Bare-bones client-rendered receipt for an invoice that only exists in the
+  // local offline queue (engine/outbox.js) — there's no real Sales Invoice on
+  // the server yet, so /printview (which needs one) isn't reachable. Reprints
+  // with the real print format automatically once the queue entry syncs and
+  // the cashier reopens it from Invoices/Sync.
+  const buildOfflineReceiptHtml = (displayId) => {
+    const rows = [
+      ...items.map((row) => ({ label: row.item_code, qty: row.qty, amount: row.amount })),
+      ...freeItems.map((row) => ({ label: `${row.item_code} (Free)`, qty: row.qty, amount: 0 })),
+    ];
+    const itemRows = rows
+      .map(
+        (row) =>
+          `<tr><td>${row.label}</td><td style="text-align:center">${row.qty}</td><td style="text-align:right">${formatAmount(row.amount)}</td></tr>`,
+      )
+      .join("");
+    const paymentRows = payments
+      .filter((row) => parseFloat(row.amount) > 0)
+      .map((row) => `<tr><td colspan="2">${row.mode_of_payment}</td><td style="text-align:right">${formatAmount(row.amount)}</td></tr>`)
+      .join("");
+    return `<!doctype html><html><head><title>Receipt — ${displayId}</title><style>
+      body{font-family:monospace;max-width:360px;margin:24px auto;color:#222}
+      h3{margin:0 0 2px}
+      .muted{color:#777;font-size:12px}
+      table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+      td{padding:3px 0}
+      .banner{background:#fff3cd;color:#7a5b00;padding:6px 10px;font-size:12px;border-radius:4px;margin:10px 0}
+      .total{border-top:1px solid #333;margin-top:8px;padding-top:6px;font-weight:bold;display:flex;justify-content:space-between}
+    </style></head><body>
+      <h3>Receipt</h3>
+      <div class="muted">${displayId}</div>
+      <div class="banner">Offline — pending sync. Reprint from Invoices once synced.</div>
+      <div class="muted">Customer: ${customerName || customer || "Walk-in"}</div>
+      <table>${itemRows}</table>
+      <table>${paymentRows}</table>
+      <div class="total"><span>Grand Total</span><span>${formatAmount(grandTotal)}</span></div>
+      <script>window.print();</script>
+    </body></html>`;
+  };
+
   // Shared by both the manual and the gateway-confirmed completion paths —
   // prints the receipt (if enabled) and closes out the cart the same way
   // regardless of how the invoice got submitted.
-  const finishCheckout = (invoiceName, receiptTab) => {
+  const finishCheckout = (data, receiptTab) => {
+    const invoiceName = data?.name;
     if (invoiceName) {
       if (receiptTab) {
-        const formatParam = printFormat ? `&format=${encodeURIComponent(printFormat)}` : "";
-        // trigger_print=1 tells Frappe's own printview page to call window.print()
-        // (and auto-close afterwards) as soon as it renders — no separate
-        // window.print() call needed on our side, and it works even though
-        // this tab is a different origin/page than the POS app itself.
-        receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(invoiceName)}${formatParam}&trigger_print=1`;
+        if (data?.__offline) {
+          receiptTab.document.open();
+          receiptTab.document.write(buildOfflineReceiptHtml(invoiceName));
+          receiptTab.document.close();
+        } else {
+          const formatParam = printFormat ? `&format=${encodeURIComponent(printFormat)}` : "";
+          // trigger_print=1 tells Frappe's own printview page to call window.print()
+          // (and auto-close afterwards) as soon as it renders — no separate
+          // window.print() call needed on our side, and it works even though
+          // this tab is a different origin/page than the POS app itself.
+          receiptTab.location.href = `/printview?doctype=Sales%20Invoice&name=${encodeURIComponent(invoiceName)}${formatParam}&trigger_print=1`;
+        }
       }
       onComplete?.({
         invoiceName,
@@ -177,9 +237,33 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     // .then() (after the network round-trip) loses that gesture and gets
     // silently popup-blocked instead of actually opening a tab.
     const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
-    postPaymentInvoice(buildInvoicePayload(), openingDetail, 1, couponCode || undefined).then((data) => {
+    const invoicePayload = buildInvoicePayload();
+    // Resuming a still-queued offline draft (see Cart/index.jsx's selectDraft)
+    // updates that same queue row instead of going through create_invoice
+    // again, so completing it never queues a second, duplicate offline invoice.
+    const paymentPromise = pendingOfflineId
+      ? updateQueuedInvoice(pendingOfflineId, {
+          invoice: invoicePayload,
+          opening_details: openingDetail,
+          submit: 1,
+          coupon_code: couponCode || undefined,
+        }).then((result) => {
+          if (result?.synced) {
+            setPendingOfflineId("");
+            return postPaymentInvoice(
+              { ...invoicePayload, sales_invoice: result.name },
+              openingDetail,
+              1,
+              couponCode || undefined,
+            );
+          }
+          return result?.data?.message;
+        })
+      : postPaymentInvoice(invoicePayload, openingDetail, 1, couponCode || undefined);
+
+    paymentPromise.then((data) => {
       setSubmitting(false);
-      finishCheckout(data?.name, receiptTab);
+      finishCheckout(data, receiptTab);
     });
   };
 
@@ -221,7 +305,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
       .then((data) => {
         setSubmitting(false);
         setError("");
-        finishCheckout(data?.name, receiptTab);
+        finishCheckout(data, receiptTab);
       })
       .catch((err) => {
         setSubmitting(false);
@@ -329,15 +413,17 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
                 {row.mode_of_payment}
                 {row.ep_payment_gateway && (
                   <span
-                    className="badge bg-primary-subtle text-primary ms-2"
+                    className={`badge ms-2 ${!isOnline ? "bg-secondary-subtle text-secondary" : "bg-primary-subtle text-primary"}`}
                     style={{ fontSize: 10, fontWeight: 500 }}
                     title={
-                      gatewayConfig?.enabled
+                      !isOnline
+                        ? `${row.ep_payment_gateway} needs a connection — unavailable while offline.`
+                        : gatewayConfig?.enabled
                         ? `Cashier enters the amount to charge; a ${row.ep_payment_gateway} checkout opens on Complete Payment.`
                         : `${row.ep_payment_gateway} is not configured yet.`
                     }
                   >
-                    {row.ep_payment_gateway}
+                    {!isOnline ? `${row.ep_payment_gateway} — offline` : row.ep_payment_gateway}
                   </span>
                 )}
               </div>
@@ -346,7 +432,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
                   className="mb-0"
                   placeholder="0"
                   min={0}
-                  disabled={row.ep_payment_gateway && !gatewayConfig?.enabled}
+                  disabled={row.ep_payment_gateway && (!gatewayConfig?.enabled || !isOnline)}
                   value={getPaymentAmount(row.mode_of_payment)}
                   onChange={(value) => updatePayment(row.mode_of_payment, value === "" ? 0 : value)}
                 />

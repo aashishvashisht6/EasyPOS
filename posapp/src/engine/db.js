@@ -44,4 +44,24 @@ db.version(3).stores({
 	meta: "key",
 });
 
+// v4 adds the three remaining list-page domains: Item Price, Loyalty Program,
+// and Sales Invoice (the last one scoped to the current POS Profile's own
+// recent invoices, not every invoice ever raised — see easy_pos.api.sync's
+// MAX_CACHED_INVOICES).
+db.version(4).stores({
+	item_prices: "name",
+	loyalty_programs: "name",
+	invoices: "name",
+});
+
+// v5 adds the offline write queue (engine/outbox.js) — Sales Invoices created
+// while offline, waiting to be pushed to ERPNext once connectivity is back.
+// Deliberately a separate table from `invoices` (a read-only server-snapshot
+// cache, wholesale-replaced on every runFullSync): this one is written to
+// locally and drained/updated row-by-row as each entry syncs, so mixing the
+// two would make the cache-replace logic clobber unsynced queue state.
+db.version(5).stores({
+	pending_invoices: "offline_id, status, created_at",
+});
+
 export default db;

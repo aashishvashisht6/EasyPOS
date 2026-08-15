@@ -7,6 +7,13 @@ const initialState = {
   items: [],
   payments: [],
   salesInvoiceName: "",
+  // Set when the loaded cart is a not-yet-synced offline draft (see
+  // engine/outbox.js's pending_invoices) — this is the row's offline_id, NOT
+  // its cashier-facing display_id (salesInvoiceName). When set, the next
+  // Save Draft/checkout must update that same queued row in place
+  // (engine/outbox.js's updateQueuedInvoice) instead of queuing a brand new
+  // one, so resuming a held offline sale doesn't duplicate it in the queue.
+  pendingOfflineId: "",
   // Order-level ("additional") discount — maps to Sales Invoice's
   // apply_discount_on / additional_discount_percentage fields.
   discountOn: "",
@@ -25,6 +32,13 @@ const initialState = {
   loyaltyPointsBalance: 0,
   loyaltyConversionFactor: 0,
   loyaltyTierName: "",
+  // Selected customer's customer_group/territory — needed by
+  // utils/pricingEngine.js to match a Pricing Rule's applicable_for scoping
+  // locally. Populated from api/Customer.js's fetchCustomerWithLoyalty
+  // response alongside the loyalty fields above, so this never needs its own
+  // fetch either.
+  customerGroup: "",
+  territory: "",
 };
 
 const useCartStore = create((set, get) => ({
@@ -69,6 +83,10 @@ const useCartStore = create((set, get) => ({
             // itself on save; this only drives the cart line's bundle badge
             // and read-only component preview.
             is_product_bundle: !!meta.is_product_bundle,
+            // Item Group — carried on the row (display-only otherwise) purely
+            // so utils/pricingEngine.js can match Item Group-scoped Pricing
+            // Rules against this line without a second lookup.
+            item_group: meta.item_group ?? "",
             // Item-level discount, independent of the cart/order-level discount —
             // populated by applyPricing() from the Pricing Rule engine, or left
             // at 0 until the next pricing fetch resolves (see PP-01/PP-02 for
@@ -179,6 +197,8 @@ const useCartStore = create((set, get) => ({
       loyaltyPointsBalance: 0,
       loyaltyConversionFactor: 0,
       loyaltyTierName: "",
+      customerGroup: "",
+      territory: "",
     }),
   clearCustomer: () =>
     set({
@@ -188,6 +208,25 @@ const useCartStore = create((set, get) => ({
       loyaltyPointsBalance: 0,
       loyaltyConversionFactor: 0,
       loyaltyTierName: "",
+      customerGroup: "",
+      territory: "",
+    }),
+
+  // `customer` is easy_pos.api.customer.get_customer_with_loyalty's response
+  // (the full Customer doc + loyalty_points/loyalty_conversion_factor/
+  // loyalty_tier_name folded on) — sets the selected customer, its loyalty
+  // summary, and its customer_group/territory (for the local pricing engine)
+  // from one fetch, in one go.
+  setCustomerWithLoyalty: (customer) =>
+    set({
+      customer: customer?.name || "",
+      customerName: customer?.customer_name || customer?.name || "",
+      loyaltyProgram: customer?.loyalty_program || "",
+      loyaltyPointsBalance: customer?.loyalty_points || 0,
+      loyaltyConversionFactor: customer?.loyalty_conversion_factor || 0,
+      loyaltyTierName: customer?.loyalty_tier_name || "",
+      customerGroup: customer?.customer_group || "",
+      territory: customer?.territory || "",
     }),
 
   setLoyaltySummary: (summary) =>
@@ -211,17 +250,19 @@ const useCartStore = create((set, get) => ({
   },
 
   setSalesInvoiceName: (salesInvoiceName) => set({ salesInvoiceName }),
+  setPendingOfflineId: (pendingOfflineId) => set({ pendingOfflineId }),
 
   setDiscountOn: (discountOn) => set({ discountOn }),
   setDiscountPercentage: (discountPercentage) => set({ discountPercentage }),
 
-  loadDraft: (draft) => {
+  loadDraft: (draft, pendingOfflineId = "") => {
     set({
       customer: draft.customer ?? "",
       customerName: draft.customer_name ?? draft.customer ?? "",
       items: draft.items ?? [],
       payments: draft.payments ?? [],
       salesInvoiceName: draft.name ?? "",
+      pendingOfflineId,
       discountOn: draft.discountOn ?? "",
       discountPercentage: draft.discountPercentage ?? "",
       couponCode: "",
@@ -230,6 +271,8 @@ const useCartStore = create((set, get) => ({
       loyaltyPointsBalance: 0,
       loyaltyConversionFactor: 0,
       loyaltyTierName: "",
+      customerGroup: "",
+      territory: "",
     });
   },
 
