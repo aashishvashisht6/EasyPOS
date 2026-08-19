@@ -37,7 +37,7 @@ The project targets small and mid-size retail counters — shops, cafés, and mu
 
 ### 💳 Payments
 - **Payment gateways (Razorpay)** — route any POS Payment Method through a live gateway checkout (UPI QR / card, via Razorpay's Checkout modal) instead of the cashier typing a received amount; the invoice only finalizes once the payment is verified server-side, and a dismissed or failed payment safely leaves the sale as a retrievable draft rather than a hard error
-- **Pluggable gateway architecture** — gateways are self-contained modules on both the backend (`easy_pos/api/payment_gateways/`) and frontend (`posapp/src/components/PaymentGateways/`) behind a small registry, so adding another provider later doesn't require touching the checkout screen itself
+- **Multiple payment gateways** — swap in another payment provider (beyond Razorpay) without any changes to the checkout screen your cashiers use
 
 ### 🏷️ Pricing & Discounts
 - **Discounts (Pricing Rules)** — a dedicated admin screen (list + editor) for ERPNext Pricing Rules: percentage discounts, flat-amount discounts, and free-item ("Buy X Get Y") rules, scoped by item/item group/brand, customer/customer group, min/max qty or amount, priority, and validity dates — applied automatically to the cart, on top of manual per-cart overrides

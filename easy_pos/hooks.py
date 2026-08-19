@@ -57,7 +57,7 @@ required_apps = ["erpnext", "payments"]
 # ----------
 
 # application home page (will override Website Settings)
-home_page = "posapp"
+# home_page = "posapp"
 
 # website user home page (by Role)
 # role_home_page = {
