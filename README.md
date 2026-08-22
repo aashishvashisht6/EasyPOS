@@ -94,7 +94,7 @@ See [`docs/UPCOMING_FEATURES.md`](docs/UPCOMING_FEATURES.md) for the full, itemi
 
 ## Screenshots
 
-More screens are documented in the [Wiki docs](https://your-site/docs) — see
+More screens are documented in the [Wiki docs](https://easyproducts.co.in/docs) — see
 [`easy_pos/public/screenshots/README.md`](easy_pos/public/screenshots/README.md) for the full set.
 
 | Login | Terminal |
@@ -188,6 +188,10 @@ This app uses GitHub Actions for CI:
 
 - **CI** — installs this app and runs unit tests on every push to `develop`.
 - **Linters** — runs [Frappe Semgrep Rules](https://github.com/frappe/semgrep-rules) and [pip-audit](https://pypi.org/project/pip-audit/) on every pull request.
+
+## Community
+
+Discussing Easy POS on the [Frappe Forum](https://discuss.frappe.io/t/easy-pos-an-open-source-react-based-point-of-sale-app-for-erpnext/164325) — questions, feedback, and feature ideas are all welcome there too.
 
 ## Bugs and Feature Requests
 
