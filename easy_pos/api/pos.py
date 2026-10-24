@@ -2,6 +2,7 @@ import json
 
 import frappe
 from frappe import _
+from frappe.query_builder import Case
 from frappe.query_builder.functions import Sum
 from frappe.utils import cint, flt, get_number_format_info, now, today
 
@@ -63,6 +64,28 @@ def get_closing_entry(opening_details: dict) -> dict:
 	payments = query.run(as_dict=True)
 
 	closing_amount_dict = {payment.get("mode_of_payment"): payment.get("amount") for payment in payments}
+
+	# Mid-shift Cash In / Cash Out (EP Cash Movement) moves money in or out of
+	# the drawer outside of any sale, so it's netted into the same per-mode
+	# expected amount — otherwise a drop or a change top-up would show up as a
+	# shortage/overage at close-out.
+	CashMovement = frappe.qb.DocType("EP Cash Movement")
+	movements = (
+		frappe.qb.from_(CashMovement)
+		.select(
+			CashMovement.mode_of_payment,
+			Sum(
+				Case()
+				.when(CashMovement.movement_type == "Cash Out", -CashMovement.amount)
+				.else_(CashMovement.amount)
+			).as_("amount"),
+		)
+		.where((CashMovement.opening_entry == opening_details.get("name")) & (CashMovement.docstatus == 1))
+		.groupby(CashMovement.mode_of_payment)
+	).run(as_dict=True)
+	movement_amount_dict = {row.get("mode_of_payment"): flt(row.get("amount")) for row in movements}
+	for mode_of_payment, amount in movement_amount_dict.items():
+		closing_amount_dict[mode_of_payment] = flt(closing_amount_dict.get(mode_of_payment)) + amount
 	opening_amount_dict = {
 		balance.get("mode_of_payment"): balance.get("opening_amount")
 		for balance in open_voucher.get("balance_details")
@@ -81,6 +104,9 @@ def get_closing_entry(opening_details: dict) -> dict:
 				"mode_of_payment": mode_of_payment,
 				"opening_amount": opening_amount,
 				"closing_amount": closing_amount,
+				# Already included in closing_amount — returned separately so
+				# the closing modal can show how much of it was cash movements.
+				"cash_movement_amount": movement_amount_dict.get(mode_of_payment, 0),
 				"automatically_calculated": cint(payment_row.get("ep_automatically_calculated", 1)),
 			}
 		)

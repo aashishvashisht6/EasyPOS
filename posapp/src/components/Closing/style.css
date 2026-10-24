@@ -91,3 +91,9 @@
   display: flex;
   align-items: center;
 }
+
+.closing-figure-note {
+  margin-top: 2px;
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+}

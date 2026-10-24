@@ -6,6 +6,7 @@ import useThemeStore from "../../store/themeStore";
 import useConnectivityStore from "../../engine/connectivity";
 import useEngineSettingsStore from "../../engine/settingsStore";
 import ClosingModal from "../Closing";
+import CashMovementModal from "../CashMovement/CashMovementModal";
 
 const getInitials = (name) => {
   if (!name) return "U";
@@ -29,6 +30,7 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
   const offlineModeEnabled = useEngineSettingsStore((s) => s.offlineModeEnabled);
   const isOnline = useConnectivityStore((s) => s.isOnline);
   const [showClosingModal, setShowClosingModal] = useState(false);
+  const [showCashMovement, setShowCashMovement] = useState(false);
 
   const handleLogout = () => {
     logout().then(() => navigate("/posapp/login", { replace: true }));
@@ -100,6 +102,22 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
               type="button"
               className="pos-btn pos-btn-secondary"
               style={{ height: 30, fontSize: 12, padding: "0 12px" }}
+              onClick={() => setShowCashMovement(true)}
+              // Recorded straight against the server (and the manager approval
+              // is checked there), so — like closing — it needs a connection.
+              disabled={!isOnline}
+              title={isOnline ? "Record cash added to or taken from the drawer" : "Reconnect to record cash in/out"}
+            >
+              <i className="bi bi-cash-coin me-1" />
+              Cash In/Out
+            </button>
+          )}
+
+          {hasOpeningEntry && (
+            <button
+              type="button"
+              className="pos-btn pos-btn-secondary"
+              style={{ height: 30, fontSize: 12, padding: "0 12px" }}
               onClick={() => setShowClosingModal(true)}
               disabled={offlineModeEnabled && !isOnline}
               title={offlineModeEnabled && !isOnline ? "Reconnect to close your shift" : undefined}
@@ -149,6 +167,8 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
           </div>
         </div>
       </div>
+
+      {showCashMovement && <CashMovementModal onClose={() => setShowCashMovement(false)} />}
 
       {showClosingModal && (
         <ClosingModal onClose={() => setShowClosingModal(false)} onConfirm={() => setShowClosingModal(false)} />

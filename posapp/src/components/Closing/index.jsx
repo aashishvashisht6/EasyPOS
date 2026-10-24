@@ -114,6 +114,12 @@ const ClosingModal = ({ onConfirm, onClose }) => {
                       {editable ? "Expected" : "Closing"}
                     </div>
                     <div className="closing-figure-value">{formatAmount(row.closing_amount)}</div>
+                    {!!row.cash_movement_amount && (
+                      <div className="closing-figure-note" title="Cash In / Out recorded during this shift">
+                        incl. {row.cash_movement_amount > 0 ? "+" : "−"}
+                        {formatAmount(Math.abs(row.cash_movement_amount))} cash in/out
+                      </div>
+                    )}
                   </div>
 
                   {editable ? (
