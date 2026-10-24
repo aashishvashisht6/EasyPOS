@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { flt } from "../utils/number";
+import { SPLIT_MODES, mergePayments } from "../utils/splitBill";
 
 const initialState = {
 	customer: "",
@@ -39,6 +40,22 @@ const initialState = {
 	// fetch either.
 	customerGroup: "",
 	territory: "",
+	// Split Bill in progress (components/Cart/SplitBillModal.jsx) — null when
+	// not splitting. While set, the cart is frozen: every mutator below that
+	// would change lines, prices, customer, discount or coupon is a no-op, so
+	// the per-bill totals quoted to each payer can't shift under them (the
+	// pricing effect in Cart/index.jsx would otherwise re-run as bills got
+	// paid). Shape:
+	//   mode: "item" | "even" | "custom"
+	//   group: id shared by every invoice of a by-item split (ep_split_group)
+	//   snapshot: cart lines/discount/coupon/draft link frozen at split start
+	//   bills: [{ id, customer, customerName, status: "open"|"paid", invoiceName }]
+	//   assignments: { [lineIndex]: { [billId]: qty } }, freeAssignments: { [freeIndex]: billId }
+	//   payerCount, turns: [{ amount, payments, invoiceName }] (paid turns, in order)
+	//   draftName / draftOfflineId: the single invoice an even/custom split pays down
+	//   draftConsumed: the cart's own Draft was taken over by the first paid bill
+	//   couponUsed: a submitted invoice already counted the coupon redemption
+	split: null,
 };
 
 const useCartStore = create((set, get) => ({
@@ -48,6 +65,7 @@ const useCartStore = create((set, get) => ({
 	// defaults to 2) — passed by the caller so amount math stays consistent with
 	// what the backend will round to on save.
 	addItem: (item_code, rate, qty = 1, meta = {}, precision = 2) => {
+		if (get().split) return;
 		const items = get().items;
 		// Serial/Batch-tracked items are one physical unit per cart row — each
 		// scan/add picks its own serial/batch no, so unlike a plain item, a
@@ -112,10 +130,12 @@ const useCartStore = create((set, get) => ({
 	},
 
 	removeItem: (index) => {
+		if (get().split) return;
 		set({ items: get().items.filter((_, i) => i !== index) });
 	},
 
 	updateItemField: (index, field, value) => {
+		if (get().split) return;
 		set({
 			items: get().items.map((item, i) =>
 				i === index ? { ...item, [field]: value } : item
@@ -131,6 +151,7 @@ const useCartStore = create((set, get) => ({
 	// a cashier sets that quantity without having to re-scan/re-add the item
 	// once per litre; only which row a scan/add lands in is decided by addItem.
 	updateItemQty: (index, qty, precision = 2) => {
+		if (get().split) return;
 		set({
 			items: get().items.map((item, i) => {
 				if (i !== index) return item;
@@ -141,6 +162,7 @@ const useCartStore = create((set, get) => ({
 	},
 
 	updateItemQtyByCode: (item_code, qty, precision = 2) => {
+		if (get().split) return;
 		const nextQty = Math.max(qty, 1);
 		set({
 			items: get().items.map((item) =>
@@ -156,6 +178,7 @@ const useCartStore = create((set, get) => ({
 	// added row for that item_code instead of decrementing a qty that's
 	// always 1.
 	removeLastItemByCode: (item_code) => {
+		if (get().split) return;
 		const items = get().items;
 		const lastIndex = items.reduce(
 			(acc, item, i) => (item.item_code === item_code ? i : acc),
@@ -165,9 +188,15 @@ const useCartStore = create((set, get) => ({
 		set({ items: items.filter((_, i) => i !== lastIndex) });
 	},
 
-	clearItems: () => set({ items: [], freeItems: [], couponCode: "" }),
+	clearItems: () => {
+		if (get().split) return;
+		set({ items: [], freeItems: [], couponCode: "" });
+	},
 
-	setCouponCode: (couponCode) => set({ couponCode }),
+	setCouponCode: (couponCode) => {
+		if (get().split) return;
+		set({ couponCode });
+	},
 
 	// Merges easy_pos.api.pricing.get_cart_pricing's response onto the cart —
 	// per-item rate/discount from whatever Pricing Rules matched, plus the
@@ -176,6 +205,7 @@ const useCartStore = create((set, get) => ({
 	// below a rule's min_qty — disappears on the next fetch instead of
 	// staying stuck applied).
 	applyPricing: (pricingResult, precision = 2) => {
+		if (get().split) return;
 		if (!pricingResult) return;
 		const priced = new Map((pricingResult.items ?? []).map((p) => [p.item_code, p]));
 		set((state) => ({
@@ -198,6 +228,7 @@ const useCartStore = create((set, get) => ({
 	},
 
 	setCustomer: (customer, customerName = "") =>
+		!get().split &&
 		set({
 			customer,
 			customerName,
@@ -209,6 +240,7 @@ const useCartStore = create((set, get) => ({
 			territory: "",
 		}),
 	clearCustomer: () =>
+		!get().split &&
 		set({
 			customer: "",
 			customerName: "",
@@ -260,10 +292,11 @@ const useCartStore = create((set, get) => ({
 	setSalesInvoiceName: (salesInvoiceName) => set({ salesInvoiceName }),
 	setPendingOfflineId: (pendingOfflineId) => set({ pendingOfflineId }),
 
-	setDiscountOn: (discountOn) => set({ discountOn }),
-	setDiscountPercentage: (discountPercentage) => set({ discountPercentage }),
+	setDiscountOn: (discountOn) => !get().split && set({ discountOn }),
+	setDiscountPercentage: (discountPercentage) => !get().split && set({ discountPercentage }),
 
 	loadDraft: (draft, pendingOfflineId = "") => {
+		if (get().split) return;
 		set({
 			customer: draft.customer ?? "",
 			customerName: draft.customer_name ?? draft.customer ?? "",
@@ -281,6 +314,85 @@ const useCartStore = create((set, get) => ({
 			loyaltyTierName: "",
 			customerGroup: "",
 			territory: "",
+		});
+	},
+
+	// Freezes the cart into a new split. `snapshot` is the cart as quoted
+	// (lines, free lines, discount, coupon, draft link, grand total, taxes).
+	startSplit: (snapshot) => {
+		const state = get();
+		if (state.split || !state.items.length) return;
+		const bills = [1, 2].map((id) => ({
+			id,
+			customer: state.customer,
+			customerName: state.customerName,
+			status: "open",
+			invoiceName: "",
+		}));
+		set({
+			split: {
+				mode: SPLIT_MODES.ITEM,
+				group: snapshot.group,
+				snapshot,
+				bills,
+				assignments: Object.fromEntries(state.items.map((item, index) => [index, { 1: item.qty }])),
+				freeAssignments: Object.fromEntries(state.freeItems.map((_, index) => [index, 1])),
+				payerCount: 2,
+				turns: [],
+				draftName: "",
+				draftOfflineId: "",
+				draftConsumed: false,
+				couponUsed: false,
+			},
+		});
+	},
+
+	updateSplit: (patch) =>
+		set((state) => (state.split ? { split: { ...state.split, ...(typeof patch === "function" ? patch(state.split) : patch) } } : {})),
+
+	// Leaves the split. Nothing paid yet → the cart is exactly as before. A
+	// by-item split with some bills already paid puts only the unpaid bills'
+	// lines back into the cart (pricing then re-runs on them). An even/custom
+	// split with some payers already paid keeps the cart pointed at the Draft
+	// those payments were saved to, with the payments prefilled, so a normal
+	// Pay just collects the balance.
+	cancelSplit: (precision = 2) => {
+		const { split } = get();
+		if (!split) return;
+		if (split.mode === SPLIT_MODES.ITEM) {
+			const paidIds = new Set(split.bills.filter((bill) => bill.status === "paid").map((bill) => bill.id));
+			if (!paidIds.size) {
+				set({ split: null });
+				return;
+			}
+			const items = split.snapshot.items
+				.map((item, index) => {
+					const qty = Object.entries(split.assignments[index] ?? {})
+						.filter(([billId]) => !paidIds.has(Number(billId)))
+						.reduce((sum, [, billQty]) => sum + (billQty || 0), 0);
+					return qty ? { ...item, qty, amount: flt(qty * item.rate, precision) } : null;
+				})
+				.filter(Boolean);
+			set({
+				split: null,
+				items,
+				freeItems: [],
+				payments: [],
+				...(split.draftConsumed ? { salesInvoiceName: "", pendingOfflineId: "" } : {}),
+				// Already redeemed by a paid bill — leaving it on would count it again.
+				...(split.couponUsed ? { couponCode: "" } : {}),
+			});
+			return;
+		}
+		if (!split.turns.length) {
+			set({ split: null });
+			return;
+		}
+		set({
+			split: null,
+			payments: mergePayments(split.turns.map((turn) => turn.payments)),
+			salesInvoiceName: split.draftName,
+			pendingOfflineId: split.draftOfflineId,
 		});
 	},
 

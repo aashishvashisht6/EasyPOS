@@ -97,3 +97,11 @@
   color: var(--color-primary);
   margin-top: 8px;
 }
+
+.customer-display-split-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}

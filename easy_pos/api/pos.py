@@ -258,6 +258,17 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 		"loyalty_points": cint(invoice.get("loyalty_points")) if redeeming else 0,
 	}
 
+	# Split Bill (posapp/src/components/Cart/SplitBillModal.jsx) — a by-item split
+	# tags each of its invoices with a shared group id + "n/N" position, and an
+	# even/custom-amount split records its per-payer breakdown in remarks. Only
+	# set when sent, so a normal checkout never blanks them on a Draft update
+	# (the first bill of a split can take over a previously saved Draft).
+	split_fields = {
+		fieldname: invoice.get(fieldname)
+		for fieldname in ("ep_split_group", "ep_split_index", "remarks")
+		if invoice.get(fieldname)
+	}
+
 	if invoice.get("sales_invoice"):
 		sales_invoice = frappe.get_doc("Sales Invoice", invoice.get("sales_invoice"))
 		sales_invoice.update(
@@ -270,6 +281,7 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
+				**split_fields,
 			}
 		)
 		sales_invoice.save()
@@ -290,6 +302,7 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
+				**split_fields,
 			}
 		)
 		sales_invoice.insert()

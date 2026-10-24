@@ -55,6 +55,13 @@ const CustomerDisplayPage = () => {
           setPayment(message.payload);
           setView("payment");
           break;
+        // Split Bill: one bill/payer done, more to come — stays on the
+        // payment screen (the cart is frozen mid-split, so no CART_UPDATE
+        // follows) until the next PAYMENT_STATUS or the final INVOICE_COMPLETE.
+        case "SPLIT_PART_COMPLETE":
+          setPayment({ ...message.payload, partPaid: true });
+          setView("payment");
+          break;
         case "INVOICE_COMPLETE":
           setComplete(message.payload);
           setView("complete");
@@ -83,7 +90,9 @@ const CustomerDisplayPage = () => {
   } else if (view === "payment" && payment) {
     content = (
       <PaymentView
-        grandTotal={payment.grandTotal}
+        grandTotal={payment.partPaid ? payment.amountPaid : payment.grandTotal}
+        splitLabel={payment.splitLabel}
+        partPaid={payment.partPaid}
         currencySymbol={cartSnapshot?.currencySymbol}
         precision={cartSnapshot?.precision}
       />

@@ -297,3 +297,210 @@
   font-family: var(--font-mono);
   font-size: 20px;
 }
+
+/* ── Split Bill (SplitBillModal.jsx) ── */
+
+.cart-split-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-tint);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.split-lines {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.split-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border-faint);
+}
+
+.split-line:last-child {
+  border-bottom: none;
+}
+
+.split-line-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.split-line-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.split-line-tag {
+  margin-inline-start: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+}
+
+.split-line-meta {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+.split-line-assign {
+  flex-shrink: 0;
+  max-width: 60%;
+}
+
+.split-line-warning {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--color-danger-text);
+}
+
+.split-bill-chip {
+  min-width: 30px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.split-bill-chip.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.split-bill-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.split-bill-chip-qty {
+  margin-inline-start: 2px;
+  font-size: 10.5px;
+}
+
+.split-qty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 6px;
+}
+
+.split-qty-label {
+  display: block;
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+}
+
+.split-bills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.split-bill-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  background: var(--color-surface);
+}
+
+.split-bill-card.paid {
+  background: var(--color-success-bg);
+  border-color: transparent;
+}
+
+.split-bill-card .pos-field {
+  margin-bottom: 8px;
+}
+
+.split-bill-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.split-bill-meta {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.split-bill-figures {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.split-bill-figures span:last-child {
+  font-family: var(--font-mono);
+}
+
+.split-bill-total {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--color-border);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.split-note {
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  font-size: 12px;
+}
+
+.split-turns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.split-turn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.split-turn > span:last-child {
+  font-family: var(--font-mono);
+}
+
+.split-turn.paid {
+  background: var(--color-success-bg);
+  border-color: transparent;
+}
+
+.split-turn-modes {
+  margin-inline-start: 8px;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}

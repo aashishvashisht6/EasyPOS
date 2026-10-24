@@ -12,3 +12,4 @@ easy_pos.patches.add_pos_profile_receipt_notifications
 easy_pos.patches.add_payment_gateway_fields
 easy_pos.patches.add_pos_profile_customer_display
 easy_pos.patches.add_sales_invoice_offline_id
+easy_pos.patches.add_sales_invoice_split_fields

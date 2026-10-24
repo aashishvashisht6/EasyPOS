@@ -10,8 +10,17 @@ import useCartStore from "../../store/cartStore";
 import useConnectivityStore from "../../engine/connectivity";
 import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
 import { roundCurrency } from "../../utils/number";
+import { mergePayments, netTurnPayments } from "../../utils/splitBill";
 
-const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
+// `bill` (optional) pays one part of a Split Bill (components/Cart/SplitBillModal.jsx)
+// instead of the whole cart: { label, customer, customerName, items, freeItems,
+// discountOn, discountPercentage, couponCode, salesInvoiceName, pendingOfflineId,
+// splitGroup, splitIndex, allowLoyalty, keepLoyaltyProgram } — and, for one
+// payer's turn of an even/custom split, also { turn: true, amountDue,
+// priorPayments, finalTurn, buildRemarks(turnPayments) }. Without it, this pays
+// the cart exactly as it always has. With it, the cart is never reset here —
+// the split decides when the whole sale is done.
+const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [paymentModes, setPaymentModes] = useState([]);
@@ -38,20 +47,55 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     });
   }, [openingDetail.pos_profile]);
 
-  const customer = useCartStore((s) => s.customer);
-  const customerName = useCartStore((s) => s.customerName);
-  const items = useCartStore((s) => s.items);
-  const freeItems = useCartStore((s) => s.freeItems);
-  const payments = useCartStore((s) => s.payments);
-  const salesInvoiceName = useCartStore((s) => s.salesInvoiceName);
-  const setSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
-  const pendingOfflineId = useCartStore((s) => s.pendingOfflineId);
-  const setPendingOfflineId = useCartStore((s) => s.setPendingOfflineId);
-  const discountOn = useCartStore((s) => s.discountOn);
-  const discountPercentage = useCartStore((s) => s.discountPercentage);
-  const couponCode = useCartStore((s) => s.couponCode);
-  const updatePayment = useCartStore((s) => s.updatePayment);
+  const cartCustomer = useCartStore((s) => s.customer);
+  const cartCustomerName = useCartStore((s) => s.customerName);
+  const cartItems = useCartStore((s) => s.items);
+  const cartFreeItems = useCartStore((s) => s.freeItems);
+  const cartPayments = useCartStore((s) => s.payments);
+  const cartSalesInvoiceName = useCartStore((s) => s.salesInvoiceName);
+  const setCartSalesInvoiceName = useCartStore((s) => s.setSalesInvoiceName);
+  const cartPendingOfflineId = useCartStore((s) => s.pendingOfflineId);
+  const setCartPendingOfflineId = useCartStore((s) => s.setPendingOfflineId);
+  const cartDiscountOn = useCartStore((s) => s.discountOn);
+  const cartDiscountPercentage = useCartStore((s) => s.discountPercentage);
+  const cartCouponCode = useCartStore((s) => s.couponCode);
+  const updateCartPayment = useCartStore((s) => s.updatePayment);
   const resetCart = useCartStore((s) => s.resetCart);
+
+  // A split bill carries its own lines/customer/draft link and keeps its
+  // payments local, so paying one bill never touches the frozen cart.
+  const [billPayments, setBillPayments] = useState([]);
+  const [billInvoiceName, setBillInvoiceName] = useState(bill?.salesInvoiceName ?? "");
+  const [billPendingOfflineId, setBillPendingOfflineId] = useState(bill?.pendingOfflineId ?? "");
+  const [printSlip, setPrintSlip] = useState(false);
+  const customer = bill ? bill.customer : cartCustomer;
+  const customerName = bill ? bill.customerName : cartCustomerName;
+  const items = bill ? bill.items : cartItems;
+  const freeItems = bill ? bill.freeItems : cartFreeItems;
+  const payments = bill ? billPayments : cartPayments;
+  const salesInvoiceName = bill ? billInvoiceName : cartSalesInvoiceName;
+  const setSalesInvoiceName = bill ? setBillInvoiceName : setCartSalesInvoiceName;
+  const pendingOfflineId = bill ? billPendingOfflineId : cartPendingOfflineId;
+  const setPendingOfflineId = bill ? setBillPendingOfflineId : setCartPendingOfflineId;
+  const discountOn = bill ? bill.discountOn : cartDiscountOn;
+  const discountPercentage = bill ? bill.discountPercentage : cartDiscountPercentage;
+  const couponCode = bill ? bill.couponCode : cartCouponCode;
+  const updatePayment = bill
+    ? (mode_of_payment, amount) =>
+        setBillPayments((rows) =>
+          rows.some((row) => row.mode_of_payment === mode_of_payment)
+            ? rows.map((row) => (row.mode_of_payment === mode_of_payment ? { ...row, amount } : row))
+            : [...rows, { mode_of_payment, amount }],
+        )
+    : updateCartPayment;
+
+  // One payer's turn of an even/custom split: they owe their share, not the
+  // invoice total, and only the last turn submits the invoice — earlier turns
+  // save it as a Draft with the payments collected so far.
+  const isTurn = !!bill?.turn;
+  const isInterimTurn = isTurn && !bill.finalTurn;
+  const amountDue = isTurn ? bill.amountDue : grandTotal;
+  const loyaltyAllowed = !bill || (bill.allowLoyalty && !isInterimTurn);
   const loyaltyProgram = useCartStore((s) => s.loyaltyProgram);
   const loyaltyPointsBalance = useCartStore((s) => s.loyaltyPointsBalance);
   const loyaltyConversionFactor = useCartStore((s) => s.loyaltyConversionFactor);
@@ -70,14 +114,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   // client-side here just avoids a round trip to hit that error.
   const maxRedeemablePoints =
     loyaltyConversionFactor > 0
-      ? Math.max(0, Math.min(loyaltyPointsBalance, Math.floor(grandTotal / loyaltyConversionFactor)))
+      ? Math.max(0, Math.min(loyaltyPointsBalance, Math.floor(amountDue / loyaltyConversionFactor)))
       : 0;
   const loyaltyAmount =
     redeemLoyaltyPoints && loyaltyConversionFactor > 0
       ? roundCurrency((parseFloat(pointsToRedeem) || 0) * loyaltyConversionFactor, currencyPrecision)
       : 0;
 
-  const balanceDue = roundCurrency(grandTotal - paidAmount - loyaltyAmount, currencyPrecision);
+  const balanceDue = roundCurrency(amountDue - paidAmount - loyaltyAmount, currencyPrecision);
 
   const formatAmount = (value) =>
     `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
@@ -103,7 +147,25 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   // resuming a still-queued offline draft (pendingOfflineId) — that sale was
   // rung up offline in the first place, so it stays on the manual/local-queue
   // path even if connectivity happens to be back by the time it's finished.
-  const payingViaGateway = !!(gatewayConfig?.enabled && isOnline && !pendingOfflineId && gatewayAmount > 0);
+  // Also excluded on an interim split turn: verify_payment_gateway_order
+  // submits the invoice as soon as the charge verifies, which would finalize it
+  // while later payers still owe their share — a gateway can only take the last turn.
+  const gatewayBlockedForTurn = isInterimTurn;
+  const payingViaGateway = !!(
+    gatewayConfig?.enabled && isOnline && !pendingOfflineId && !gatewayBlockedForTurn && gatewayAmount > 0
+  );
+
+  // What this payer actually owes, by mode — change handed back comes off
+  // their cash row so the invoice's payments add up to its total.
+  const turnPayments = isTurn
+    ? netTurnPayments(
+        payments,
+        roundCurrency(amountDue - loyaltyAmount, currencyPrecision),
+        paymentModes.filter((row) => row.ep_payment_gateway).map((row) => row.mode_of_payment),
+        currencyPrecision,
+      )
+    : null;
+  const submitFlag = isInterimTurn ? 0 : 1;
 
   const buildCleanItems = () => [
     ...items.map(
@@ -128,12 +190,17 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     return {
       customer,
       items: buildCleanItems(),
-      payments,
+      payments: isTurn ? mergePayments([bill.priorPayments ?? [], turnPayments]) : payments,
       sales_invoice: salesInvoiceName,
+      ep_split_group: bill?.splitGroup || undefined,
+      ep_split_index: bill?.splitIndex || undefined,
+      remarks: isTurn ? bill.buildRemarks?.(turnPayments) : undefined,
       apply_discount_on: discountOn || undefined,
       additional_discount_percentage: roundCurrency(parseFloat(discountPercentage) || 0, floatPrecision),
       taxes,
-      loyalty_program: loyaltyProgram || undefined,
+      // A split bill for a different customer than the cart's isn't enrolled
+      // in the cart customer's program — ERPNext resolves that customer's own.
+      loyalty_program: (!bill || bill.keepLoyaltyProgram ? loyaltyProgram : "") || undefined,
       redeem_loyalty_points: redeemedPoints > 0 ? 1 : 0,
       loyalty_points: redeemedPoints,
     };
@@ -179,13 +246,41 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     </body></html>`;
   };
 
+  // A paid-so-far slip for an interim payer of an even/custom split — the real
+  // receipt only prints once the last payer completes the invoice.
+  const buildPaymentSlipHtml = (invoiceName) => {
+    const rows = (turnPayments ?? [])
+      .map((row) => `<tr><td>${row.mode_of_payment}</td><td style="text-align:right">${formatAmount(row.amount)}</td></tr>`)
+      .join("");
+    return `<!doctype html><html><head><title>Payment slip — ${invoiceName}</title><style>
+      body{font-family:monospace;max-width:360px;margin:24px auto;color:#222}
+      h3{margin:0 0 2px}
+      .muted{color:#777;font-size:12px}
+      table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+      td{padding:3px 0}
+      .total{border-top:1px solid #333;margin-top:8px;padding-top:6px;font-weight:bold;display:flex;justify-content:space-between}
+    </style></head><body>
+      <h3>Payment slip</h3>
+      <div class="muted">${invoiceName} · ${bill?.label ?? ""}</div>
+      <div class="muted">Customer: ${customerName || customer || "Walk-in"}</div>
+      <table>${rows}</table>
+      <div class="total"><span>Paid</span><span>${formatAmount(amountDue)}</span></div>
+      <div class="muted" style="margin-top:8px">Invoice total ${formatAmount(grandTotal)} — receipt issued once fully paid.</div>
+      <script>window.print();</script>
+    </body></html>`;
+  };
+
   // Shared by both the manual and the gateway-confirmed completion paths —
   // prints the receipt (if enabled) and closes out the cart the same way
   // regardless of how the invoice got submitted.
   const finishCheckout = (data, receiptTab) => {
     const invoiceName = data?.name;
     if (invoiceName) {
-      if (receiptTab) {
+      if (receiptTab && isInterimTurn) {
+        receiptTab.document.open();
+        receiptTab.document.write(buildPaymentSlipHtml(invoiceName));
+        receiptTab.document.close();
+      } else if (receiptTab) {
         if (data?.__offline) {
           receiptTab.document.open();
           receiptTab.document.write(buildOfflineReceiptHtml(invoiceName));
@@ -201,11 +296,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
       }
       onComplete?.({
         invoiceName,
+        offlineId: data?.__offline ? data.offline_id : "",
         grandTotal,
         amountPaid: paidAmount,
         changeDue: balanceDue < 0 ? roundCurrency(-balanceDue, currencyPrecision) : 0,
+        turnPayments,
       });
-      resetCart();
+      if (!bill) resetCart();
       onClose();
     } else {
       receiptTab?.close();
@@ -226,6 +323,12 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
       setError("Please enter an amount for at least one payment mode");
       return false;
     }
+    // A split payer must cover their whole share — anything short would be
+    // silently left unpaid once the next payer's turn starts.
+    if (isTurn && balanceDue > 0) {
+      setError(`This payer still owes ${formatAmount(balanceDue)}`);
+      return false;
+    }
     return true;
   };
 
@@ -236,7 +339,8 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
     // to a user gesture — a window.open() called later inside the postPaymentInvoice
     // .then() (after the network round-trip) loses that gesture and gets
     // silently popup-blocked instead of actually opening a tab.
-    const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
+    const wantsPrint = isInterimTurn ? printSlip : printReceiptOnOrderComplete;
+    const receiptTab = wantsPrint ? window.open("", "_blank") : null;
     const invoicePayload = buildInvoicePayload();
     // Resuming a still-queued offline draft (see Cart/index.jsx's selectDraft)
     // updates that same queue row instead of going through create_invoice
@@ -245,7 +349,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
       ? updateQueuedInvoice(pendingOfflineId, {
           invoice: invoicePayload,
           opening_details: openingDetail,
-          submit: 1,
+          submit: submitFlag,
           coupon_code: couponCode || undefined,
         }).then((result) => {
           if (result?.synced) {
@@ -253,13 +357,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
             return postPaymentInvoice(
               { ...invoicePayload, sales_invoice: result.name },
               openingDetail,
-              1,
+              submitFlag,
               couponCode || undefined,
             );
           }
           return result?.data?.message;
         })
-      : postPaymentInvoice(invoicePayload, openingDetail, 1, couponCode || undefined);
+      : postPaymentInvoice(invoicePayload, openingDetail, submitFlag, couponCode || undefined);
 
     paymentPromise.then((data) => {
       setSubmitting(false);
@@ -329,8 +433,12 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
 
   return (
     <Modal
-      title="Take Payment"
-      subtitle="Enter the amount received for each payment mode."
+      title={bill ? `Take Payment — ${bill.label}` : "Take Payment"}
+      subtitle={
+        isTurn
+          ? "Enter what this payer is handing over; change is worked out against their share."
+          : "Enter the amount received for each payment mode."
+      }
       onClose={onClose}
       footer={
         <>
@@ -351,7 +459,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
             ) : payingViaGateway ? (
               `Pay with ${gatewayName}`
             ) : (
-              "Complete Payment"
+              isInterimTurn ? "Record Payment" : "Complete Payment"
             )}
           </button>
         </>
@@ -360,11 +468,18 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
       <ErrorAlert message={error} />
 
       <div className="invoice-pay-pill mb-3">
-        <span className="invoice-pay-pill-label">Grand Total</span>
-        <span className="invoice-pay-pill-value">{formatAmount(grandTotal)}</span>
+        <span className="invoice-pay-pill-label">{isTurn ? "Amount Due" : "Grand Total"}</span>
+        <span className="invoice-pay-pill-value">{formatAmount(amountDue)}</span>
       </div>
+      {isTurn && (
+        <div className="mb-3" style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: -8 }}>
+          Invoice total {formatAmount(grandTotal)}
+          {bill.priorPayments?.length > 0 &&
+            ` · ${formatAmount(bill.priorPayments.reduce((sum, row) => sum + (row.amount || 0), 0))} already paid`}
+        </div>
+      )}
 
-      {loyaltyProgram && loyaltyPointsBalance > 0 && (
+      {loyaltyAllowed && loyaltyProgram && loyaltyPointsBalance > 0 && (
         <div className="mb-3">
           <CheckboxField
             label={`Redeem Loyalty Points (${loyaltyPointsBalance} available)`}
@@ -418,6 +533,8 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
                     title={
                       !isOnline
                         ? `${row.ep_payment_gateway} needs a connection — unavailable while offline.`
+                        : gatewayBlockedForTurn
+                        ? `${row.ep_payment_gateway} can only take the last payer's turn of a split bill.`
                         : gatewayConfig?.enabled
                         ? `Cashier enters the amount to charge; a ${row.ep_payment_gateway} checkout opens on Complete Payment.`
                         : `${row.ep_payment_gateway} is not configured yet.`
@@ -432,7 +549,9 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
                   className="mb-0"
                   placeholder="0"
                   min={0}
-                  disabled={row.ep_payment_gateway && (!gatewayConfig?.enabled || !isOnline)}
+                  disabled={
+                    row.ep_payment_gateway && (!gatewayConfig?.enabled || !isOnline || gatewayBlockedForTurn)
+                  }
                   value={getPaymentAmount(row.mode_of_payment)}
                   onChange={(value) => updatePayment(row.mode_of_payment, value === "" ? 0 : value)}
                 />
@@ -440,6 +559,10 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
             </div>
           ))}
         </div>
+      )}
+
+      {isInterimTurn && (
+        <CheckboxField label="Print a payment slip for this payer" checked={printSlip} onChange={setPrintSlip} />
       )}
 
       <div className="invoice-pay-summary">
