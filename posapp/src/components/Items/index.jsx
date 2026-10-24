@@ -6,7 +6,6 @@ import useVirtualScroll from "../../hooks/VirtualScroll";
 import useCartStore from "../../store/cartStore";
 import usePOSSessionStore from "../../store/posSessionStore";
 import ItemVariantModal from "./ItemVariantModal";
-import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 
 const CARD_HEIGHT = 150; // actual card content is ~138.5px tall — must exceed that or virtualized rows overlap
 const CARD_MIN_WIDTH = 150; // px, includes gap — drives responsive column count
@@ -19,7 +18,7 @@ const AUTO_ADD_MATCH_TYPES = new Set(["barcode", "serial_no", "batch_no", "item_
 // ── Memoized card ───────────────────────────────────────────────────────────
 // item.stock/item.rate are null until an Opening Entry resolves a warehouse and
 // price list (see easy_pos.api.item.get_items) — shown as "—" / no stock badge.
-const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, money }) => {
+const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, currencySymbol }) => {
   const { t } = useTranslation();
   const hasStock = item.stock !== null && item.stock !== undefined;
   const outOfStock = hasStock && item.stock <= 0;
@@ -69,7 +68,7 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, mon
         <>
           <div className="pos-item-price-row">
             <span className="pos-item-price">
-              {item.rate === null || item.rate === undefined ? "—" : money(item.rate)}
+              {item.rate === null || item.rate === undefined ? "—" : `${currencySymbol}${item.rate}`}
             </span>
             {hasStock && (
               <span className={`pos-item-stock ${outOfStock ? "out" : ""}`}>
@@ -123,7 +122,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const priceList = usePOSSessionStore((s) => s.priceList);
   const posProfile = usePOSSessionStore((s) => s.posProfile);
-  const money = useCurrencyFormatter();
+  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const customer = useCartStore((s) => s.customer);
 
@@ -380,7 +379,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
                     onAdd={addItemToCart}
                     onIncrement={handleIncrement}
                     onDecrement={handleDecrement}
-                    money={money}
+                    currencySymbol={currencySymbol}
                   />
                 ))}
               </div>

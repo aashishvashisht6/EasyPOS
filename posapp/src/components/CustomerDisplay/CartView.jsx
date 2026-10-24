@@ -1,16 +1,17 @@
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../../utils/format";
 
-// currencyFormat ({ symbol, number_format, symbol_on_right }) comes from the
-// Terminal's broadcast snapshot (hooks/useCustomerDisplayBroadcaster.js).
-const formatAmount = (value, currencyFormat, precision) => formatCurrency(value ?? 0, currencyFormat, precision);
+const formatAmount = (value, currencySymbol, precision) =>
+  `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  })}`;
 
 // Mirrors the numbers Cart itself computes/shows (see
 // hooks/useCustomerDisplayBroadcaster.js) — this component only renders the
 // snapshot it's handed, at kiosk-readable font sizes.
 const CartView = ({ snapshot }) => {
   const { t } = useTranslation();
-  const { items, netTotal, taxRows, discountAmount, grandTotal, currencyFormat, precision } = snapshot;
+  const { items, netTotal, taxRows, discountAmount, grandTotal, currencySymbol, precision } = snapshot;
 
   return (
     <div className="customer-display-screen customer-display-cart">
@@ -19,7 +20,7 @@ const CartView = ({ snapshot }) => {
           <div className="customer-display-item-row" key={`${item.item_code}-${idx}`}>
             <div className="customer-display-item-name">{item.item_code}</div>
             <div className="customer-display-item-qty">× {item.qty}</div>
-            <div className="customer-display-item-amount">{formatAmount(item.amount, currencyFormat, precision)}</div>
+            <div className="customer-display-item-amount">{formatAmount(item.amount, currencySymbol, precision)}</div>
           </div>
         ))}
       </div>
@@ -27,23 +28,23 @@ const CartView = ({ snapshot }) => {
       <div className="customer-display-totals">
         <div className="customer-display-total-row">
           <span>{t("Subtotal")}</span>
-          <span>{formatAmount(netTotal, currencyFormat, precision)}</span>
+          <span>{formatAmount(netTotal, currencySymbol, precision)}</span>
         </div>
         {discountAmount > 0 && (
           <div className="customer-display-total-row">
             <span>{t("Discount")}</span>
-            <span>-{formatAmount(discountAmount, currencyFormat, precision)}</span>
+            <span>-{formatAmount(discountAmount, currencySymbol, precision)}</span>
           </div>
         )}
         {taxRows?.map((row) => (
           <div className="customer-display-total-row" key={row.account_head}>
             <span>{row.description || row.account_head}</span>
-            <span>{formatAmount(row.tax_amount, currencyFormat, precision)}</span>
+            <span>{formatAmount(row.tax_amount, currencySymbol, precision)}</span>
           </div>
         ))}
         <div className="customer-display-grand-total">
           <span>{t("Total")}</span>
-          <span>{formatAmount(grandTotal, currencyFormat, precision)}</span>
+          <span>{formatAmount(grandTotal, currencySymbol, precision)}</span>
         </div>
       </div>
     </div>

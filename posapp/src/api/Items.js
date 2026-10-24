@@ -32,10 +32,10 @@ export const searchItem = async (search_text, warehouse, price_list, customer, p
 // template's attributes with the values that actually appear across its
 // existing variants, plus each variant's own resolved stock/rate and
 // attribute values. See easy_pos.api.item.get_item_variants.
-export const fetchItemVariants = async (item_code, warehouse, price_list, customer, pos_profile) => {
+export const fetchItemVariants = async (item_code, warehouse, price_list, customer) => {
 	try {
 		const response = await engineGet("/api/method/easy_pos.api.item.get_item_variants", {
-			params: { template_item_code: item_code, warehouse, price_list, customer, pos_profile },
+			params: { template_item_code: item_code, warehouse, price_list, customer },
 		});
 		return response.data.message;
 	} catch (error) {

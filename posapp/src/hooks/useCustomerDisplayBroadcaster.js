@@ -17,8 +17,6 @@ const useCustomerDisplayBroadcaster = () => {
 	const posProfile = usePOSSessionStore((s) => s.posProfile);
 	const customerDisplayEnabled = usePOSSessionStore((s) => s.customerDisplayEnabled);
 	const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
-	const numberFormat = usePOSSessionStore((s) => s.numberFormat);
-	const symbolOnRight = usePOSSessionStore((s) => s.symbolOnRight);
 	const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
 	const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
 
@@ -52,7 +50,7 @@ const useCustomerDisplayBroadcaster = () => {
 			totalTax,
 			discountAmount,
 			grandTotal,
-			currencyFormat: { symbol: currencySymbol, number_format: numberFormat, symbol_on_right: symbolOnRight },
+			currencySymbol,
 			precision: currencyPrecision,
 		};
 	};
@@ -101,8 +99,6 @@ const useCustomerDisplayBroadcaster = () => {
 		discountPercentage,
 		taxTemplateRows,
 		currencySymbol,
-		numberFormat,
-		symbolOnRight,
 		currencyPrecision,
 	]);
 

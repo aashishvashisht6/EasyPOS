@@ -84,7 +84,7 @@ const CustomerDisplayPage = () => {
     content = (
       <PaymentView
         grandTotal={payment.grandTotal}
-        currencyFormat={cartSnapshot?.currencyFormat}
+        currencySymbol={cartSnapshot?.currencySymbol}
         precision={cartSnapshot?.precision}
       />
     );
@@ -92,7 +92,7 @@ const CustomerDisplayPage = () => {
     content = (
       <ThankYouScreen
         complete={complete}
-        currencyFormat={cartSnapshot?.currencyFormat}
+        currencySymbol={cartSnapshot?.currencySymbol}
         precision={cartSnapshot?.precision}
       />
     );

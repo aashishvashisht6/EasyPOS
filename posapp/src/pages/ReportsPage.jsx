@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { fetchSalesReport, fetchPastShifts } from "../api/Reports";
 import usePOSSessionStore from "../store/posSessionStore";
-import useCurrencyFormatter from "../hooks/useCurrencyFormatter";
 import {
   PageHeader,
   PageLoader,
@@ -39,7 +38,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 const ReportsPage = () => {
   const { t } = useTranslation();
-  const { openingDetail, hasOpeningEntry, posProfile } = usePOSSessionStore();
+  const { openingDetail, hasOpeningEntry, posProfile, currencySymbol } = usePOSSessionStore();
   const { setTopbar } = useOutletContext();
 
   const [scope, setScope] = useState(hasOpeningEntry ? "shift" : "today");
@@ -86,10 +85,11 @@ const ReportsPage = () => {
     })),
   ];
 
-  // The report's own currency (a past shift may belong to a profile in another
-  // currency than the open one) — see easy_pos.api.pos.get_sales_report.
-  const formatCurrency = useCurrencyFormatter([report?.currency]);
-  const money = (value) => formatCurrency(value, report?.currency);
+  const money = (value) =>
+    `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
 
   // Without this, the Topbar keeps showing whatever the previously visited
   // page set (title/search box) since this page never touched it.

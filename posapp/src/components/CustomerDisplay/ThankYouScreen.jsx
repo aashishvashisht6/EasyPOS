@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../../utils/format";
 
-// currencyFormat ({ symbol, number_format, symbol_on_right }) comes from the
-// Terminal's broadcast snapshot (hooks/useCustomerDisplayBroadcaster.js).
-const formatAmount = (value, currencyFormat, precision) => formatCurrency(value ?? 0, currencyFormat, precision);
+const formatAmount = (value, currencySymbol, precision) =>
+  `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  })}`;
 
-const ThankYouScreen = ({ complete, currencyFormat, precision }) => {
+const ThankYouScreen = ({ complete, currencySymbol, precision }) => {
   const { t } = useTranslation();
   return (
     <div className="customer-display-screen customer-display-thank-you">
@@ -14,17 +15,17 @@ const ThankYouScreen = ({ complete, currencyFormat, precision }) => {
       <div className="customer-display-totals customer-display-totals-narrow">
         <div className="customer-display-total-row">
           <span>{t("Amount Paid")}</span>
-          <span>{formatAmount(complete.amountPaid, currencyFormat, precision)}</span>
+          <span>{formatAmount(complete.amountPaid, currencySymbol, precision)}</span>
         </div>
         {complete.changeDue > 0 && (
           <div className="customer-display-total-row">
             <span>{t("Change Due")}</span>
-            <span>{formatAmount(complete.changeDue, currencyFormat, precision)}</span>
+            <span>{formatAmount(complete.changeDue, currencySymbol, precision)}</span>
           </div>
         )}
         <div className="customer-display-grand-total">
           <span>{t("Total")}</span>
-          <span>{formatAmount(complete.grandTotal, currencyFormat, precision)}</span>
+          <span>{formatAmount(complete.grandTotal, currencySymbol, precision)}</span>
         </div>
       </div>
     </div>

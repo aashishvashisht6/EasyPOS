@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchCompanies } from "../../api/Company";
 import { fetchProfile, fetchProfilesForCompany } from "../../api/POSProfile";
 import { postOpeningEntry } from "../../api/OpeningEntry";
-import { fetchCurrencyContext } from "../../api/Currency";
+import { fetchCurrencySymbol } from "../../api/Currency";
 import { getServerMessage } from "../../utils/serverError";
 import usePOSSessionStore from "../../store/posSessionStore";
 import useConnectivityStore from "../../engine/connectivity";
@@ -52,16 +52,7 @@ const OpeningEntryModal = () => {
     setOpeningForm((prev) => ({ ...prev, pos_profile: value, balance_details: [] }));
     fetchProfile(value).then((data) => {
       setProfile(data);
-      // Also resolves the profile's exchange rate to the Company's currency, so
-      // a multi-currency profile with no Currency Exchange record is flagged
-      // here, before the shift opens, rather than on the first checkout.
-      setError("");
-      fetchCurrencyContext(value)
-        .then((ctx) => setCurrencySymbol(ctx?.symbol || data?.currency || ""))
-        .catch((err) => {
-          setCurrencySymbol(data?.currency || "");
-          setError(getServerMessage(err) || t("Could not resolve this profile's currency."));
-        });
+      if (data?.currency) fetchCurrencySymbol(data.currency).then(setCurrencySymbol);
       // Every payment mode on the profile is mandatory on submit — default
       // each to 0 so the cashier isn't forced to touch fields they don't use.
       setOpeningForm((prev) => ({

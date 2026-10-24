@@ -4,7 +4,6 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt, getdate, nowdate
 
-from easy_pos.api.currency import get_profile_currency_context
 from easy_pos.api.pos import get_currency_precision
 
 # Fields client-side matching (posapp/src/utils/pricingEngine.js) actually
@@ -157,7 +156,6 @@ def get_cart_pricing(
 
 	profile = frappe.get_cached_doc("POS Profile", pos_profile)
 	precision = get_currency_precision()
-	currency_ctx = get_profile_currency_context(pos_profile)
 
 	coupon_name = None
 	if coupon_code:
@@ -182,12 +180,9 @@ def get_cart_pricing(
 			"customer": customer or None,
 			"qty": qty,
 			"company": profile.company,
-			# get_item_details returns price_list_rate already converted into
-			# the invoice currency from these, same as desk's Sales Invoice form.
-			"currency": currency_ctx.currency,
-			"conversion_rate": currency_ctx.conversion_rate,
-			"price_list_currency": currency_ctx.price_list_currency,
-			"plc_conversion_rate": currency_ctx.plc_conversion_rate,
+			"currency": profile.currency,
+			"conversion_rate": 1,
+			"plc_conversion_rate": 1,
 			"price_list": profile.selling_price_list,
 			"selling_price_list": profile.selling_price_list,
 			"doctype": "Sales Invoice",
@@ -212,10 +207,7 @@ def get_cart_pricing(
 			# get_item_details doesn't fall back to Item.standard_rate on its
 			# own (only to a different Selling Settings price list) — same
 			# fallback as easy_pos.api.item._get_rate_map for the item grid.
-			# standard_rate is in company currency.
-			price_list_rate = (
-				flt(frappe.get_cached_value("Item", item_code, "standard_rate")) / currency_ctx.conversion_rate
-			)
+			price_list_rate = flt(frappe.get_cached_value("Item", item_code, "standard_rate"))
 
 		rate, discount_amount = _effective_rate(
 			price_list_rate,

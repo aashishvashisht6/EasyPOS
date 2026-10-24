@@ -12,7 +12,6 @@ import useCartStore from "../../store/cartStore";
 import useConnectivityStore from "../../engine/connectivity";
 import { Modal, CurrencyField, NumberField, CheckboxField, ErrorAlert } from "../common";
 import { roundCurrency } from "../../utils/number";
-import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 
 const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   const { t } = useTranslation();
@@ -22,7 +21,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
   const [loadingModes, setLoadingModes] = useState(true);
   const [gatewayConfig, setGatewayConfig] = useState(null);
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
-  const money = useCurrencyFormatter();
+  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const printReceiptOnOrderComplete = usePOSSessionStore((s) => s.printReceiptOnOrderComplete);
@@ -83,7 +82,11 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
 
   const balanceDue = roundCurrency(grandTotal - paidAmount - loyaltyAmount, currencyPrecision);
 
-  const formatAmount = (value) => money(value);
+  const formatAmount = (value) =>
+    `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
+      minimumFractionDigits: currencyPrecision,
+      maximumFractionDigits: currencyPrecision,
+    })}`;
 
   const getPaymentAmount = (mode_of_payment) =>
     payments.find((row) => row.mode_of_payment === mode_of_payment)?.amount ?? "";

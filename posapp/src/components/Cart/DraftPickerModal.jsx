@@ -4,12 +4,11 @@ import { fetchInvoices } from "../../api/InvoiceRegister";
 import { getPendingInvoices } from "../../engine/outbox";
 import { Modal, ListTable, Pagination, LinkField, TextField } from "../common";
 import usePOSSessionStore from "../../store/posSessionStore";
-import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 import { formatDate } from "../../utils/format";
 
 const PAGE_SIZE = 10;
 
-const buildDraftColumns = (money, t) => [
+const buildDraftColumns = (t) => [
   {
     key: "name",
     label: t("Invoice"),
@@ -45,7 +44,7 @@ const buildDraftColumns = (money, t) => [
     key: "grand_total",
     label: t("Amount"),
     width: "0.8fr",
-    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>{money(inv.grand_total, inv.currency)}</span>,
+    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>₹{inv.grand_total}</span>,
   },
 ];
 
@@ -61,8 +60,7 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
-  const money = useCurrencyFormatter(drafts.map((inv) => inv.currency));
-  const columns = useMemo(() => buildDraftColumns(money, t), [money, t]);
+  const columns = useMemo(() => buildDraftColumns(t), [t]);
 
   // Sales Invoices queued locally (submit=0, i.e. "Save Draft" made while
   // offline — see engine/outbox.js) that haven't synced to ERPNext yet. Only

@@ -5,8 +5,6 @@ from frappe import _
 from frappe.query_builder.functions import Sum
 from frappe.utils import cint, flt, get_number_format_info, now, today
 
-from easy_pos.api.currency import get_profile_currency, get_profile_currency_context
-
 
 def get_currency_precision() -> int:
 	"""Same resolution ERPNext itself uses (erpnext.accounts.utils.get_currency_precision):
@@ -186,18 +184,6 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 
 	currency_precision = get_currency_precision()
 
-	# Set explicitly rather than left to ERPNext's own defaulting, so a profile
-	# whose currency (or Price List currency) differs from the Company's posts
-	# at the right exchange rate — the cart's rates are already in this
-	# currency (see easy_pos.api.currency.get_rate_factors).
-	currency_ctx = get_profile_currency_context(pos_profile.name)
-	currency_fields = {
-		"currency": currency_ctx.currency,
-		"conversion_rate": currency_ctx.conversion_rate,
-		"price_list_currency": currency_ctx.price_list_currency,
-		"plc_conversion_rate": currency_ctx.plc_conversion_rate,
-	}
-
 	# Order-level ("additional") discount from the cart, mapped onto the Sales
 	# Invoice's own discount fields so it flows through the standard
 	# calculate_taxes_and_totals recalculation instead of being lost. Rounded
@@ -281,7 +267,6 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				"update_stock": 1,
 				"set_warehouse": pos_profile.warehouse,
 				"selling_price_list": pos_profile.selling_price_list,
-				**currency_fields,
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
@@ -302,7 +287,6 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				"set_warehouse": pos_profile.warehouse,
 				"selling_price_list": pos_profile.selling_price_list,
 				"ep_offline_id": ep_offline_id,
-				**currency_fields,
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
@@ -425,10 +409,6 @@ def create_credit_note(name: str, items: list, taxes: list | None = None) -> dic
 			"return_against": name,
 			"selling_price_list": original.selling_price_list,
 			"currency": original.currency,
-			# A return must reverse at the original sale's rate, not today's.
-			"conversion_rate": original.conversion_rate,
-			"price_list_currency": original.price_list_currency,
-			"plc_conversion_rate": original.plc_conversion_rate,
 			"set_warehouse": original.set_warehouse,
 			"update_stock": 1,
 			"items": return_items,
@@ -568,10 +548,8 @@ def get_sales_report(
 	).run(as_dict=True)
 
 	shift_summary = None
-	report_profile = pos_profile
 	if scope == "shift":
 		open_voucher = frappe.get_doc("EP Opening Entry", opening_entry)
-		report_profile = open_voucher.pos_profile
 		shift_summary = get_closing_entry({"name": opening_entry, "pos_profile": open_voucher.pos_profile})
 
 	recent_invoices = sorted(
@@ -596,8 +574,4 @@ def get_sales_report(
 		},
 		"shift_summary": shift_summary,
 		"recent_invoices": recent_invoices,
-		# Every amount above is in the invoices' own (transaction) currency — a
-		# shift/profile is single-currency, so the page formats with this rather
-		# than the open shift's currency (a past shift may be another profile's).
-		"currency": get_profile_currency(report_profile) if report_profile else None,
 	}
