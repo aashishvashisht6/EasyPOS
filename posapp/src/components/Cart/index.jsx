@@ -184,22 +184,27 @@ const Cart = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer, openingDetail.company]);
 
-  const itemTotal = useMemo(
-    () => cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0),
-    [cartItems]
-  );
-
-  // Item-level discounts are independent of the order-level discount below —
-  // each item carries its own discount_amount (auto-applied, e.g. via pricing rules).
+  // Item-level discounts are independent of the order-level discount below.
+  // A line's discount_amount is per unit and its rate is already net of it
+  // (rate = price_list_rate - discount_amount, see utils/pricingEngine.js /
+  // easy_pos.api.pricing._effective_rate), so `amount` (qty × rate) is the
+  // line's net — exactly ERPNext's net_total. The discount is only added back
+  // to show a pre-discount "Item Total" with the "Item Discounts" line under it.
   const itemDiscountTotal = useMemo(
-    () => cartItems.reduce((sum, item) => sum + (item.discount_amount ?? 0), 0),
-    [cartItems]
+    () =>
+      roundCurrency(
+        cartItems.reduce((sum, item) => sum + (item.qty ?? 0) * (item.discount_amount ?? 0), 0),
+        currencyPrecision,
+      ),
+    [cartItems, currencyPrecision]
   );
 
   const netAfterItemDiscount = useMemo(
-    () => roundCurrency(itemTotal - itemDiscountTotal, currencyPrecision),
-    [itemTotal, itemDiscountTotal, currencyPrecision]
+    () => roundCurrency(cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0), currencyPrecision),
+    [cartItems, currencyPrecision]
   );
+
+  const itemTotal = roundCurrency(netAfterItemDiscount + itemDiscountTotal, currencyPrecision);
 
   // Order-level tax rows previewed from the POS Profile's taxes_and_charges
   // template, plus the additional order discount's effect on them — mirrors
@@ -588,7 +593,7 @@ const Cart = () => {
                             <div>
                               <div className="cart-detail-label">Discount</div>
                               <div className="cart-detail-value" style={{ fontFamily: "var(--font-mono)" }}>
-                                {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)}` : formatAmount(0)}
+                                {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)} each` : formatAmount(0)}
                                 {item.discount_percentage > 0 ? ` (${item.discount_percentage.toFixed(1)}%)` : ""}
                               </div>
                               {item.pricing_rules?.length > 0 && (
