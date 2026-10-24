@@ -46,6 +46,8 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
                 type="text"
                 className={onScanClick ? "has-scan-btn" : ""}
                 placeholder={searchPlaceholder}
+                // "/" / Ctrl+K on the POS Terminal (hooks/useKeyboardShortcuts.js)
+                data-shortcut-target="item-search"
                 value={searchValue}
                 onChange={(e) => onSearchChange(e.target.value)}
               />
