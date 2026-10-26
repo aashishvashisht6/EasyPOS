@@ -15,9 +15,11 @@ import { computeCartPricingLocally } from "../../utils/pricingEngine";
 import InvoicePay from "../InvoicePay";
 import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
+import SplitBillModal from "./SplitBillModal";
 import { LinkField, TextField, SelectField, NumberField, CurrencyField, AlertModal } from "../common";
 import { roundCurrency } from "../../utils/number";
 import useCustomerDisplayBroadcaster from "../../hooks/useCustomerDisplayBroadcaster";
+import { newSplitGroupId } from "../../utils/splitBill";
 import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 import useCartTotals from "../../hooks/useCartTotals";
 import { getServerMessage } from "../../utils/serverError";
@@ -40,7 +42,8 @@ const Cart = ({ onSaleComplete }) => {
   const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
   const customerGroups = usePOSSessionStore((s) => s.customerGroups);
 
-  const { sendPaymentStatus, sendInvoiceComplete, customerDisplayEnabled } = useCustomerDisplayBroadcaster();
+  const { sendPaymentStatus, sendInvoiceComplete, sendSplitPartComplete, customerDisplayEnabled } =
+    useCustomerDisplayBroadcaster();
   const openCustomerDisplay = () => {
     window.open("/posapp/customer-display", "easy_pos_customer_display", "width=900,height=650");
   };
@@ -71,12 +74,19 @@ const Cart = ({ onSaleComplete }) => {
   const customerGroup = useCartStore((s) => s.customerGroup);
   const territory = useCartStore((s) => s.territory);
   const setCustomerWithLoyalty = useCartStore((s) => s.setCustomerWithLoyalty);
+  const split = useCartStore((s) => s.split);
+  const startSplit = useCartStore((s) => s.startSplit);
+  const cancelSplit = useCartStore((s) => s.cancelSplit);
+  // A split in progress freezes the cart (cartStore ignores edits while it's
+  // set) — the controls below are disabled too so that's visible, not silent.
+  const frozen = !!split;
 
   const [saveDraft, setSaveDraft] = useState(false);
   const [payInvoice, setPayInvoice] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [showNewCustomer, setShowNewCustomer] = useState(false);
+  const [showSplit, setShowSplit] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
@@ -187,9 +197,81 @@ const Cart = ({ onSaleComplete }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer, openingDetail.company]);
 
+  // Item-level discounts are independent of the order-level discount below.
+  // A line's discount_amount is per unit and its rate is already net of it
+  // (rate = price_list_rate - discount_amount, see utils/pricingEngine.js /
+  // easy_pos.api.pricing._effective_rate), so `amount` (qty × rate) is the
+  // line's net — exactly ERPNext's net_total. The discount is only added back
+  // to show a pre-discount "Item Total" with the "Item Discounts" line under it.
+  const itemDiscountTotal = useMemo(
+    () =>
+      roundCurrency(
+        cartItems.reduce((sum, item) => sum + (item.qty ?? 0) * (item.discount_amount ?? 0), 0),
+        currencyPrecision,
+      ),
+    [cartItems, currencyPrecision]
+  );
+
+  const netAfterItemDiscount = useMemo(
+    () => roundCurrency(cartItems.reduce((sum, item) => sum + (item.amount ?? 0), 0), currencyPrecision),
+    [cartItems, currencyPrecision]
+  );
+
+  const itemTotal = roundCurrency(netAfterItemDiscount + itemDiscountTotal, currencyPrecision);
+
+  // Order-level tax rows previewed from the POS Profile's taxes_and_charges
+  // template, plus the additional order discount's effect on them — mirrors
+  // erpnext.controllers.taxes_and_totals (calculate_taxes + apply_discount_amount):
+  // the discount is distributed pro-rata across items and tax is recomputed
+  // on the reduced total, not just subtracted from the post-tax grand total.
+  // Item-wise rate overrides come from each cart item's item_tax_rate (see
+  // easy_pos.api.item._get_item_tax_map).
+  const { taxRows, totalTax: totalTaxAmount, discountAmount, grandTotal } = useMemo(
+    () =>
+      computeCartTotals({
+        items: cartItems,
+        taxTemplateRows,
+        netTotal: netAfterItemDiscount,
+        discountOn,
+        discountPercentage: discount,
+        precision: currencyPrecision,
+      }),
+    [cartItems, taxTemplateRows, netAfterItemDiscount, discountOn, discount, currencyPrecision]
+  );
   const { itemTotal, itemDiscountTotal, taxRows, totalTax: totalTaxAmount, discountAmount, grandTotal } = useCartTotals();
 
   const formatAmount = (value) => money(value);
+
+  const totalUnits = cartItems.reduce((sum, item) => sum + (item.qty || 0), 0);
+  const splitPaidLabel = split
+    ? split.mode === "item"
+      ? `${split.bills.filter((bill) => bill.status === "paid").length} of ${split.bills.length} bills paid`
+      : `${split.turns.length} payer${split.turns.length === 1 ? "" : "s"} paid`
+    : "";
+
+  const openSplit = () => {
+    if (!hasOpeningEntry) {
+      openOpeningModal();
+      return;
+    }
+    if (!split) {
+      startSplit({
+        group: newSplitGroupId(),
+        items: cartItems,
+        freeItems,
+        customer,
+        customerName,
+        discountOn,
+        discountPercentage: discount,
+        couponCode,
+        salesInvoiceName,
+        pendingOfflineId,
+        grandTotal,
+        taxes: taxRows,
+      });
+    }
+    setShowSplit(true);
+  };
 
   const clearCart = () => {
     clearItems();
@@ -383,6 +465,8 @@ const Cart = ({ onSaleComplete }) => {
               value={customer}
               displayValue={customer ? customerName : ""}
               filters={customerFilters}
+              disabled={frozen}
+              placeholder="Search customer..."
               placeholder={__("Search customer...")}
               actionIcon="bi-person-plus"
               actionTitle={__("New customer")}
@@ -434,6 +518,8 @@ const Cart = ({ onSaleComplete }) => {
 
             {/* Toolbar */}
             <div className="d-flex align-items-center justify-content-between px-3 pt-2 pb-1">
+              <p className="cart-section-label mb-0">Cart Items</p>
+              {cartItems.length > 0 && !frozen && (
               <p className="cart-section-label mb-0">{__("Cart Items")}</p>
               {cartItems.length > 0 && (
                 <button className="cart-clear-btn" onClick={clearCart}>
@@ -490,7 +576,7 @@ const Cart = ({ onSaleComplete }) => {
                           <div className="cart-line-qty" onClick={(e) => e.stopPropagation()}>
                             <button
                               type="button"
-                              disabled={item.qty <= 1}
+                              disabled={frozen || item.qty <= 1}
                               onClick={() => updateItemQty(index, item.qty - 1, currencyPrecision)}
                             >
                               −
@@ -504,6 +590,8 @@ const Cart = ({ onSaleComplete }) => {
                               // new row. Batch rows stay editable here — one batch no
                               // can cover any quantity (e.g. 5 litres of milk from the
                               // same batch), so this is how that qty is set.
+                              disabled={frozen || item.has_serial_no}
+                              title={item.has_serial_no ? "Scan/add the item again to add another unit" : undefined}
                               disabled={item.has_serial_no}
                               title={item.has_serial_no ? __("Scan/add the item again to add another unit") : undefined}
                               onClick={() => updateItemQty(index, item.qty + 1, currencyPrecision)}
@@ -517,6 +605,8 @@ const Cart = ({ onSaleComplete }) => {
                           <button
                             type="button"
                             className="cart-line-remove"
+                            title="Remove"
+                            disabled={frozen}
                             title={__("Remove")}
                             onClick={(e) => { e.stopPropagation(); handleRemoveItem(index); }}
                           >
@@ -527,6 +617,8 @@ const Cart = ({ onSaleComplete }) => {
                         {expanded && (
                           <div className="cart-line-detail">
                             <div style={{ minWidth: 110 }}>
+                              <div className="cart-detail-label">Rate</div>
+                              {allowRateChange && !frozen ? (
                               <div className="cart-detail-label">{__("Rate")}</div>
                               {allowRateChange ? (
                                 <CurrencyField
@@ -554,7 +646,7 @@ const Cart = ({ onSaleComplete }) => {
                             <div>
                               <div className="cart-detail-label">{__("Discount")}</div>
                               <div className="cart-detail-value" style={{ fontFamily: "var(--font-mono)" }}>
-                                {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)}` : formatAmount(0)}
+                                {item.discount_amount > 0 ? `– ${formatAmount(item.discount_amount)} each` : formatAmount(0)}
                                 {item.discount_percentage > 0 ? ` (${item.discount_percentage.toFixed(1)}%)` : ""}
                               </div>
                               {item.pricing_rules?.length > 0 && (
@@ -651,7 +743,7 @@ const Cart = ({ onSaleComplete }) => {
                   placeholder={__("Apply on…")}
                   value={discountOn}
                   onChange={setDiscountOn}
-                  disabled={!allowDiscountChange}
+                  disabled={frozen || !allowDiscountChange}
                   options={[
                     { label: __("Grand Total"), value: "Grand Total" },
                     { label: __("Net Total"), value: "Net Total" },
@@ -667,7 +759,7 @@ const Cart = ({ onSaleComplete }) => {
                   max={100}
                   suffix="%"
                   value={discount}
-                  disabled={!allowDiscountChange}
+                  disabled={frozen || !allowDiscountChange}
                   onChange={(value) => setDiscount(value === "" ? "" : Math.min(value, 100))}
                 />
               </div>
@@ -682,6 +774,8 @@ const Cart = ({ onSaleComplete }) => {
               <div style={{ flex: 1 }}>
                 <TextField
                   size="sm"
+                  placeholder="Coupon code"
+                  disabled={frozen}
                   placeholder={__("Coupon code")}
                   value={couponInput}
                   onChange={setCouponInput}
@@ -695,11 +789,11 @@ const Cart = ({ onSaleComplete }) => {
                 className="pos-btn pos-btn-secondary"
                 style={{ height: 30, fontSize: 11.5, padding: "0 10px" }}
                 onClick={() => setCouponCode(couponInput.trim())}
-                disabled={pricingLoading || !couponInput.trim()}
+                disabled={frozen || pricingLoading || !couponInput.trim()}
               >
                 {__("Apply")}
               </button>
-              {couponCode && (
+              {couponCode && !frozen && (
                 <button
                   type="button"
                   className="cart-clear-btn"
@@ -804,6 +898,25 @@ const Cart = ({ onSaleComplete }) => {
           </div>
 
           {/* ── Actions ── */}
+          <div className="px-3 pb-3 pt-1 position-relative">
+            {frozen && (
+              <div className="cart-split-banner">
+                <i className="bi bi-layout-split" style={{ fontSize: 14, color: "var(--color-primary)" }} />
+                <span style={{ flex: 1 }}>
+                  Split in progress — {splitPaidLabel}. Finish or cancel it to change the cart.
+                </span>
+                {!split.bills.some((bill) => bill.status === "paid") && !split.turns.length && (
+                  <button
+                    type="button"
+                    className="btn btn-link btn-sm p-0"
+                    style={{ fontSize: 11.5, textDecoration: "none" }}
+                    onClick={() => cancelSplit(currencyPrecision)}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            )}
           <div className="px-3 pb-3 pt-1 position-relative cart-actions">
             <div className="row g-2 mb-2">
               <div className="col-6">
@@ -811,7 +924,7 @@ const Cart = ({ onSaleComplete }) => {
                   className="pos-btn pos-btn-secondary w-100"
                   style={{ height: 36, fontSize: 12.5 }}
                   onClick={createDraftInvoice}
-                  disabled={saveDraft}
+                  disabled={frozen || saveDraft}
                 >
                   {saveDraft ? (
                     <>
@@ -831,6 +944,7 @@ const Cart = ({ onSaleComplete }) => {
                   className="pos-btn pos-btn-secondary w-100"
                   style={{ height: 36, fontSize: 12.5 }}
                   onClick={() => setShowDraftPicker(true)}
+                  disabled={frozen}
                 >
                   <i className="bi bi-folder2-open me-1" />
                   {__("Load Draft")}
@@ -838,6 +952,45 @@ const Cart = ({ onSaleComplete }) => {
               </div>
             </div>
 
+            {frozen ? (
+              <button
+                className="pos-btn pos-btn-primary w-100"
+                style={{ height: 44, fontSize: 14 }}
+                onClick={() => setShowSplit(true)}
+              >
+                <i className="bi bi-layout-split me-1" />
+                Resume Split Bill
+              </button>
+            ) : (
+              <div className="d-flex gap-2">
+                <button
+                  className="pos-btn pos-btn-secondary"
+                  style={{ height: 44, fontSize: 13 }}
+                  title="Split this cart into several bills or payers"
+                  onClick={openSplit}
+                  disabled={cartItems.length === 0 || !customer || totalUnits < 2 || pricingLoading}
+                >
+                  <i className="bi bi-layout-split me-1" />
+                  Split
+                </button>
+                <button
+                  className="pos-btn pos-btn-primary"
+                  style={{ height: 44, fontSize: 14, flex: 1 }}
+                  onClick={() => {
+                    if (!hasOpeningEntry) {
+                      openOpeningModal();
+                      return;
+                    }
+                    sendPaymentStatus({ status: "processing", grandTotal });
+                    setPayInvoice(true);
+                  }}
+                  disabled={cartItems.length === 0 || !customer}
+                >
+                  <i className="bi bi-credit-card me-1" />
+                  Pay {formatAmount(grandTotal)}
+                </button>
+              </div>
+            )}
             <button
               className="pos-btn pos-btn-primary w-100"
               style={{ height: 44, fontSize: 14 }}
@@ -868,6 +1021,13 @@ const Cart = ({ onSaleComplete }) => {
             sendInvoiceComplete(details);
             onSaleComplete?.();
           }}
+        />
+      )}
+
+      {showSplit && split && (
+        <SplitBillModal
+          onClose={() => setShowSplit(false)}
+          customerDisplay={{ sendPaymentStatus, sendInvoiceComplete, sendSplitPartComplete }}
         />
       )}
 

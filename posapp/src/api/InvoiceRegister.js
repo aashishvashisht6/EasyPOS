@@ -9,6 +9,7 @@ const INVOICE_FIELDS = [
 	"status",
 	"docstatus",
 	"pos_profile",
+	"ep_split_index",
 	"currency",
 ];
 
@@ -39,4 +40,16 @@ export const fetchInvoices = async (filters = {}, limit_start = 0, limit_page_le
 	});
 
 	return { invoices: data?.data ?? [], total_count: data?.total_count ?? 0 };
+};
+
+// Every invoice from one by-item Split Bill (sharing ep_split_group), in bill order.
+export const fetchSplitInvoices = async (splitGroup) => {
+	const data = await fetchList("Sales Invoice", {
+		fields: ["name", "customer", "customer_name", "grand_total", "status", "ep_split_index"],
+		filters: { ep_split_group: splitGroup },
+		order_by: "creation asc",
+		limit_start: 0,
+		limit_page_length: 100,
+	});
+	return data?.data ?? [];
 };

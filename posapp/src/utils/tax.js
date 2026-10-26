@@ -41,9 +41,13 @@ export const computeTaxes = (taxTemplateRows, cartItems, netTotal, precision) =>
 				break;
 			}
 
+			// The flat charge comes from the template row itself — `rows` above
+			// is a copy with tax_amount reset to 0 for accumulation, so reading
+			// row.tax_amount here always produced 0 and silently dropped every
+			// Actual charge from both the preview and the taxes sent to ERPNext.
 			case "Actual":
 			default:
-				taxAmount = row.tax_amount || 0;
+				taxAmount = taxTemplateRows[idx].tax_amount || 0;
 				break;
 		}
 

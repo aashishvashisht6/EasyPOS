@@ -14,9 +14,11 @@ Status: **approved for future implementation** (2026-07-25) — not yet built. T
 
 ~~A secondary, read-only view (e.g. a second browser tab/window driven by the same cart state) that shows the customer their running cart items and total during checkout — common on dual-screen POS hardware. Needs a way to broadcast `cartStore` state to a second window (e.g. `BroadcastChannel`/`localStorage` events) and a new minimal route/page for the customer-facing view.~~ Shipped for the standard hardware setup (a second monitor plugged into the same register PC, extended desktop): a new `ep_customer_display_enabled` POS Profile checkbox (`easy_pos/patches/add_pos_profile_customer_display.py`) gates a "Customer Display" button in the Cart header that `window.open`s a new `/posapp/customer-display` window. `posapp/src/utils/customerDisplayChannel.js` wraps `BroadcastChannel` (scoped per POS Profile) behind a small pub/sub interface, kept as its own module so a future "separate device" mode (Frappe realtime/socketio instead of same-browser `BroadcastChannel`) only needs to swap that one file. `posapp/src/hooks/useCustomerDisplayBroadcaster.js`, mounted once in `Cart/index.jsx`, mirrors live cart/totals (reusing the same `computeCartTotals` call Cart already makes — no duplicated tax logic) plus payment-start and invoice-complete events; `CustomerDisplayPage.jsx` is a presentational kiosk view with an idle/cart/payment/thank-you state machine. `InvoicePay/index.jsx` gained an `onComplete` callback so the broadcaster learns the finalized invoice's paid/change amounts. See the "Customer-Facing Second-Screen Display" entry in [`CLAUDE.md`](../CLAUDE.md) for the full mechanism and a race-condition gotcha around `resetCart()`.
 
-## 4. Split Bill
+## 4. Split Bill — ✅ Done (2026-10-24): by item, evenly, custom amount
 
-Let a single cart be divided into multiple separate invoices — split evenly, by item, or by person — at payment time, rather than one invoice per cart. Touches `Cart/index.jsx` and `InvoicePay/index.jsx`; likely needs a "split" step before `create_invoice` that partitions cart items/amounts across N sub-invoices.
+Implemented per `docs/SPLIT_BILL_PLAN.md`. By item makes one Sales Invoice per bill (`ep_split_group`/`ep_split_index`); evenly and custom amount make one invoice paid in payer turns.
+
+~~Let a single cart be divided into multiple separate invoices — split evenly, by item, or by person — at payment time, rather than one invoice per cart. Touches `Cart/index.jsx` and `InvoicePay/index.jsx`; likely needs a "split" step before `create_invoice` that partitions cart items/amounts across N sub-invoices.~~
 
 ## 5. Manager-Approval PIN for Discount / Price Override / Line Void
 

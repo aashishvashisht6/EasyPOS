@@ -21,7 +21,20 @@ const buildInvoiceColumns = (money) => [
     key: "name",
     label: _t("Invoice"),
     width: "1fr",
-    render: (inv) => <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>{inv.name}</span>,
+    render: (inv) => (
+      <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>
+        {inv.name}
+        {inv.ep_split_index && (
+          <span
+            className="badge bg-primary-subtle text-primary-emphasis ms-2"
+            style={{ fontSize: 9.5, fontWeight: 500 }}
+            title="Part of a split bill"
+          >
+            Split {inv.ep_split_index}
+          </span>
+        )}
+      </span>
+    ),
   },
   {
     key: "customer",

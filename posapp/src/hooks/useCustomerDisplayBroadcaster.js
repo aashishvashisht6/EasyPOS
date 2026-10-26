@@ -125,7 +125,15 @@ const useCustomerDisplayBroadcaster = () => {
 			sendCustomerDisplayMessage(channelRef.current, "INVOICE_COMPLETE", payload);
 	};
 
-	return { sendPaymentStatus, sendInvoiceComplete, customerDisplayEnabled };
+	// One bill (by-item split) or one payer's share (even/custom split) is
+	// paid but the sale isn't finished — deliberately not INVOICE_COMPLETE,
+	// whose thank-you screen times out to idle while the cart is still open.
+	const sendSplitPartComplete = (payload) => {
+		if (channelRef.current)
+			sendCustomerDisplayMessage(channelRef.current, "SPLIT_PART_COMPLETE", payload);
+	};
+
+	return { sendPaymentStatus, sendInvoiceComplete, sendSplitPartComplete, customerDisplayEnabled };
 };
 
 export default useCustomerDisplayBroadcaster;

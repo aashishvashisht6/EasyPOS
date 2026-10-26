@@ -3,6 +3,7 @@ import { _t, tData, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchInvoice, cancelInvoice } from "../api/Invoice";
+import { fetchSplitInvoices } from "../api/InvoiceRegister";
 import { getPendingInvoices, retryOfflineInvoice } from "../engine/outbox";
 import usePOSSessionStore from "../store/posSessionStore";
 import { FormView, ConfirmModal, ErrorAlert } from "../components/common";
@@ -106,6 +107,19 @@ const InvoiceDetailPage = () => {
     setTopbar({ title: invoice?.name || pendingRow?.display_id || _t("Invoice") });
   }, [invoice, pendingRow, setTopbar]);
 
+  // Sibling invoices of a by-item Split Bill, for the "Split Bill" block.
+  const [splitInvoices, setSplitInvoices] = useState([]);
+  useEffect(() => {
+    if (!invoice?.ep_split_group) {
+      setSplitInvoices([]);
+      return;
+    }
+    fetchSplitInvoices(invoice.ep_split_group)
+      .then(setSplitInvoices)
+      .catch(() => setSplitInvoices([]));
+  }, [invoice?.ep_split_group]);
+
+  const money = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
   const money = (value) => formatCurrency(value, invoice?.currency);
 
   const openPrintView = () => {
@@ -270,6 +284,44 @@ const InvoiceDetailPage = () => {
                 },
               ],
             },
+            ...(invoice.ep_split_group
+              ? [
+                  {
+                    type: "table",
+                    title: `Split Bill — this is bill ${invoice.ep_split_index || ""}`,
+                    columns: [
+                      { key: "ep_split_index", label: "Bill", width: "0.5fr" },
+                      {
+                        key: "name",
+                        label: "Invoice",
+                        width: "1.2fr",
+                        render: (r) =>
+                          r.name === invoice.name ? (
+                            <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600 }}>{r.name}</span>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-link btn-sm p-0"
+                              style={{ fontFamily: "var(--font-mono)", textDecoration: "none" }}
+                              onClick={() => navigate(`/posapp/invoices/${encodeURIComponent(r.name)}`)}
+                            >
+                              {r.name}
+                            </button>
+                          ),
+                      },
+                      { key: "customer", label: "Customer", width: "1.2fr", render: (r) => r.customer_name || r.customer },
+                      {
+                        key: "status",
+                        label: "Status",
+                        width: "0.8fr",
+                        render: (r) => <span className={invoiceStatusBadgeClass(r.status)}>{r.status}</span>,
+                      },
+                      { key: "grand_total", label: "Total", width: "0.8fr", align: "end", render: (r) => money(r.grand_total) },
+                    ],
+                    rows: splitInvoices,
+                  },
+                ]
+              : []),
             {
               type: "table",
               title: _t("Items"),
