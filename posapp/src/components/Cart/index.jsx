@@ -18,6 +18,8 @@ import DraftPickerModal from "./DraftPickerModal";
 import { LinkField, TextField, SelectField, NumberField, CurrencyField, AlertModal } from "../common";
 import { roundCurrency } from "../../utils/number";
 import useCustomerDisplayBroadcaster from "../../hooks/useCustomerDisplayBroadcaster";
+import useKeyboardShortcuts from "../../hooks/useKeyboardShortcuts";
+import { SHORTCUT_TARGETS, focusShortcutTarget } from "../../utils/keyboardShortcuts";
 import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 import useCartTotals from "../../hooks/useCartTotals";
 import { getServerMessage } from "../../utils/serverError";
@@ -190,6 +192,35 @@ const Cart = ({ onSaleComplete }) => {
   const { itemTotal, itemDiscountTotal, taxRows, totalTax: totalTaxAmount, discountAmount, grandTotal } = useCartTotals();
 
   const formatAmount = (value) => money(value);
+
+  const canPay = cartItems.length > 0 && !!customer;
+  const openPayment = () => {
+    if (!hasOpeningEntry) {
+      openOpeningModal();
+      return;
+    }
+    sendPaymentStatus({ status: "processing", grandTotal });
+    setPayInvoice(true);
+  };
+
+  // F2 / Ctrl+Enter, Ctrl+Backspace, Ctrl+D (utils/keyboardShortcuts.js).
+  // Returning false leaves the key's browser default alone when the action
+  // doesn't apply (empty cart, no customer yet).
+  useKeyboardShortcuts({
+    handlers: {
+      openPayment: () => {
+        if (!canPay) return false;
+        openPayment();
+        return true;
+      },
+      voidLastLine: () => {
+        if (!cartItems.length) return false;
+        handleRemoveItem(cartItems.length - 1);
+        return true;
+      },
+      focusDiscount: () => focusShortcutTarget(SHORTCUT_TARGETS.orderDiscount),
+    },
+  });
 
   const clearCart = () => {
     clearItems();
@@ -666,6 +697,7 @@ const Cart = ({ onSaleComplete }) => {
                   min={0}
                   max={100}
                   suffix="%"
+                  data-shortcut-target={SHORTCUT_TARGETS.orderDiscount}
                   value={discount}
                   disabled={!allowDiscountChange}
                   onChange={(value) => setDiscount(value === "" ? "" : Math.min(value, 100))}
@@ -841,15 +873,9 @@ const Cart = ({ onSaleComplete }) => {
             <button
               className="pos-btn pos-btn-primary w-100"
               style={{ height: 44, fontSize: 14 }}
-              onClick={() => {
-                if (!hasOpeningEntry) {
-                  openOpeningModal();
-                  return;
-                }
-                sendPaymentStatus({ status: "processing", grandTotal });
-                setPayInvoice(true);
-              }}
-              disabled={cartItems.length === 0 || !customer}
+              title="Take payment (F2)"
+              onClick={openPayment}
+              disabled={!canPay}
             >
               <i className="bi bi-credit-card me-1" />
               {__("Pay {amount}", { amount: formatAmount(grandTotal) })}

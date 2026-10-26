@@ -7,6 +7,9 @@ import CartBar from "../components/Cart/CartBar";
 import useIsMobile from "../hooks/useIsMobile";
 import OpeningEntryModal from "../components/Opening/OpeningEntryModal";
 import useBarcodeScanner from "../hooks/useBarcodeScanner";
+import useKeyboardShortcuts from "../hooks/useKeyboardShortcuts";
+import ShortcutsModal from "../components/Shortcuts/ShortcutsModal";
+import { SHORTCUT_TARGETS, focusShortcutTarget } from "../utils/keyboardShortcuts";
 import { BarcodeScannerModal } from "../components/common";
 import useConnectivityStore from "../engine/connectivity";
 import useEngineSettingsStore from "../engine/settingsStore";
@@ -18,6 +21,7 @@ const POSTerminalPage = () => {
   const [activeItemGroup, setActiveItemGroup] = useState("");
   const [searchText, setSearchText] = useState("");
   const [showCameraScanner, setShowCameraScanner] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
   const isMobile = useIsMobile();
   const [cartOpen, setCartOpen] = useState(false);
   const offlineModeEnabled = useEngineSettingsStore((s) => s.offlineModeEnabled);
@@ -45,6 +49,14 @@ const POSTerminalPage = () => {
   // flow (see AUTO_ADD_MATCH_TYPES in components/Items) with no duplicated logic.
   useBarcodeScanner({ onScan: setSearchText, enabled: !showCameraScanner });
 
+  // Page-level shortcuts; the cart's own (pay, void last line, discount) are
+  // registered in components/Cart, which owns that state.
+  useKeyboardShortcuts({
+    handlers: {
+      focusSearch: () => focusShortcutTarget(SHORTCUT_TARGETS.itemSearch),
+      showHelp: () => setShowShortcuts(true),
+    },
+  });
   // Derived so that leaving the phone layout (rotate/resize) can't leave the sheet "open".
   const sheetOpen = isMobile && cartOpen;
 
@@ -111,6 +123,8 @@ const POSTerminalPage = () => {
       {isMobile && <CartBar onOpen={() => setCartOpen(true)} />}
 
       <OpeningEntryModal />
+
+      <ShortcutsModal open={showShortcuts} onClose={() => setShowShortcuts(false)} />
 
       <BarcodeScannerModal
         open={showCameraScanner}
