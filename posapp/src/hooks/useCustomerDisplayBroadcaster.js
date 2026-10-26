@@ -17,6 +17,8 @@ const useCustomerDisplayBroadcaster = () => {
 	const posProfile = usePOSSessionStore((s) => s.posProfile);
 	const customerDisplayEnabled = usePOSSessionStore((s) => s.customerDisplayEnabled);
 	const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+	const numberFormat = usePOSSessionStore((s) => s.numberFormat);
+	const symbolOnRight = usePOSSessionStore((s) => s.symbolOnRight);
 	const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
 	const taxTemplateRows = usePOSSessionStore((s) => s.taxTemplateRows);
 
@@ -50,10 +52,23 @@ const useCustomerDisplayBroadcaster = () => {
 			totalTax,
 			discountAmount,
 			grandTotal,
-			currencySymbol,
+			currencyFormat: {
+				symbol: currencySymbol,
+				number_format: numberFormat,
+				symbol_on_right: symbolOnRight,
+			},
 			precision: currencyPrecision,
 		};
 	};
+
+	// The HELLO handler below is subscribed once per channel, so it reads the
+	// current cart through this ref instead of the cart it closed over (which
+	// was usually empty, leaving a display opened mid-sale stuck on idle).
+	const currentMessageRef = useRef(() => ["CART_IDLE"]);
+	useEffect(() => {
+		currentMessageRef.current = () =>
+			cartItems.length ? ["CART_UPDATE", buildCartSnapshot()] : ["CART_IDLE"];
+	});
 
 	useEffect(() => {
 		if (!customerDisplayEnabled || !posProfile) {
@@ -67,11 +82,8 @@ const useCustomerDisplayBroadcaster = () => {
 
 		const unsubscribe = subscribeCustomerDisplayChannel(channel, (message) => {
 			if (message?.type === "HELLO") {
-				sendCustomerDisplayMessage(
-					channel,
-					cartItems.length ? "CART_UPDATE" : "CART_IDLE",
-					cartItems.length ? buildCartSnapshot() : undefined
-				);
+				const [type, payload] = currentMessageRef.current();
+				sendCustomerDisplayMessage(channel, type, payload);
 			}
 		});
 
@@ -80,7 +92,6 @@ const useCustomerDisplayBroadcaster = () => {
 			channel.close();
 			channelRef.current = null;
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [customerDisplayEnabled, posProfile]);
 
 	useEffect(() => {
@@ -99,6 +110,8 @@ const useCustomerDisplayBroadcaster = () => {
 		discountPercentage,
 		taxTemplateRows,
 		currencySymbol,
+		numberFormat,
+		symbolOnRight,
 		currencyPrecision,
 	]);
 

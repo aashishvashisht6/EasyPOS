@@ -1,7 +1,9 @@
+import { tLabel, useTranslation } from "../../translation";
 import { useId } from "react";
 import FieldShell from "./FieldShell";
 
-/** options: Array<string | { label, value }> */
+/** options: Array<string | { label, value }> — option labels render through __(), so
+ * static options can pass English (marked with _t) and data values pass through as-is. */
 const SelectField = ({
   label,
   value,
@@ -16,6 +18,7 @@ const SelectField = ({
   className = "",
   ...rest
 }) => {
+  const { __ } = useTranslation();
   const id = useId();
   const invalidClass = error ? "is-invalid" : "";
 
@@ -42,7 +45,7 @@ const SelectField = ({
         )}
         {normalized.map((opt) => (
           <option key={opt.value} value={opt.value}>
-            {opt.label}
+            {tLabel(__, opt.label)}
           </option>
         ))}
       </select>

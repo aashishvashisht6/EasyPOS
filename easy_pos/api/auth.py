@@ -21,7 +21,13 @@ def pos_login(usr: str, pwd: str) -> dict:
 	login_manager.authenticate(user=usr, pwd=pwd)
 	login_manager.post_login()
 
+	from frappe.translate import get_user_lang
+
 	return {
 		"user": frappe.session.user,
 		"full_name": frappe.utils.get_fullname(frappe.session.user),
+		# The cashier's User.language (else the System Settings language) — the
+		# POS UI's default language until a cashier picks one on this device
+		# (posapp/src/store/languageStore.js).
+		"language": get_user_lang(frappe.session.user),
 	}

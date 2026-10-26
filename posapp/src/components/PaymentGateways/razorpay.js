@@ -1,4 +1,5 @@
 import { createPaymentGatewayOrder, verifyPaymentGatewayOrder } from "../../api/Payment";
+import { __ } from "../../translation";
 
 let scriptPromise = null;
 
@@ -16,7 +17,7 @@ const loadScript = () => {
 		script.onload = resolve;
 		script.onerror = () => {
 			scriptPromise = null;
-			reject(new Error("Failed to load Razorpay checkout"));
+			reject(new Error(__("Failed to load Razorpay checkout")));
 		};
 		document.body.appendChild(script);
 	});
@@ -38,7 +39,7 @@ const pay = ({
 		createPaymentGatewayOrder("Razorpay", invoicePayload, openingDetail, amount),
 		loadScript(),
 	]).then(([order]) => {
-		if (!order?.order_id) throw new Error("Failed to start Razorpay payment");
+		if (!order?.order_id) throw new Error(__("Failed to start Razorpay payment"));
 		// Report the Draft invoice this order was created against immediately, so a
 		// retry after a dismissed/failed payment reuses it (via invoicePayload.sales_invoice)
 		// instead of create_payment_gateway_order minting a second Draft for the same sale.

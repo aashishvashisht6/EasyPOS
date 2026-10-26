@@ -24,8 +24,16 @@ const Chart = ({ data, type = "bar", height = 200, colors, ...options }) => {
     if (!container || !data) return;
 
     if (chartRef.current && typeRef.current === type) {
-      chartRef.current.update(data);
-      return;
+      try {
+        chartRef.current.update(data);
+        return;
+      } catch {
+        // frappe-charts throws (replaceChild on a null parent) when its SVG
+        // was detached from under it — e.g. the whole page re-rendered on a
+        // language switch. Left uncaught, an effect error unmounts the entire
+        // app (white screen), so drop the stale instance and rebuild below.
+        chartRef.current = null;
+      }
     }
 
     chartRef.current?.destroy?.();

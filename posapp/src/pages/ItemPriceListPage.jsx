@@ -1,21 +1,22 @@
+import { __, _t, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchItemPrices, fetchPriceListOptions } from "../api/ItemPrice";
-import { ListTable, FilterChips, Pagination, SelectField } from "../components/common";
+import { ListTable, FilterChips, Pagination, SelectField, FilterBar } from "../components/common";
 import { formatDate } from "../utils/format";
 
 const PAGE_SIZE = 20;
 
 const TYPE_FILTERS = [
-  { label: "All", value: "" },
-  { label: "Selling", value: "Selling" },
-  { label: "Buying", value: "Buying" },
+  { label: _t("All"), value: "" },
+  { label: _t("Selling"), value: "Selling" },
+  { label: _t("Buying"), value: "Buying" },
 ];
 
 const ITEM_PRICE_COLUMNS = [
   {
     key: "item_code",
-    label: "Item",
+    label: _t("Item"),
     width: "1.4fr",
     render: (p) => (
       <div>
@@ -26,13 +27,13 @@ const ITEM_PRICE_COLUMNS = [
   },
   {
     key: "price_list",
-    label: "Price List",
+    label: _t("Price List"),
     width: "1fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.price_list || "—"}</span>,
   },
   {
     key: "price_list_rate",
-    label: "Rate",
+    label: _t("Rate"),
     width: "0.8fr",
     align: "end",
     render: (p) => (
@@ -43,29 +44,30 @@ const ITEM_PRICE_COLUMNS = [
   },
   {
     key: "uom",
-    label: "UOM",
+    label: _t("UOM"),
     width: "0.7fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.uom || "—"}</span>,
   },
   {
     key: "type",
-    label: "Type",
+    label: _t("Type"),
     width: "0.8fr",
     render: (p) => (
       <span className={p.selling ? "pos-badge pos-badge-paid" : "pos-badge"}>
-        {p.selling ? "Selling" : p.buying ? "Buying" : "—"}
+        {p.selling ? __("Selling") : p.buying ? __("Buying") : "—"}
       </span>
     ),
   },
   {
     key: "valid_upto",
-    label: "Valid Upto",
+    label: _t("Valid Upto"),
     width: "0.9fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.valid_upto ? formatDate(p.valid_upto) : "—"}</span>,
   },
 ];
 
 const ItemPriceListPage = () => {
+  const { __ } = useTranslation();
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
 
@@ -102,13 +104,13 @@ const ItemPriceListPage = () => {
 
   useEffect(() => {
     setTopbar({
-      title: "Item Prices",
+      title: _t("Item Prices"),
       searchValue: search,
       onSearchChange: (value) => {
         setPage(0);
         setSearch(value);
       },
-      searchPlaceholder: "Search item code or name",
+      searchPlaceholder: _t("Search item code or name"),
     });
   }, [setTopbar, search]);
 
@@ -127,7 +129,7 @@ const ItemPriceListPage = () => {
 
   return (
     <div className="d-flex flex-column flex-fill" style={{ minHeight: 0 }}>
-      <div className="d-flex align-items-center justify-content-between px-4 pt-3">
+      <div className="d-flex align-items-center justify-content-between px-4 pt-3 pos-list-toolbar">
         <FilterChips options={TYPE_FILTERS} value={type} onChange={resetToFirstPage(setType)} />
         <Link
           to="/posapp/item-price/new"
@@ -135,16 +137,15 @@ const ItemPriceListPage = () => {
           style={{ height: 32, fontSize: "12.5px", padding: "0 14px" }}
         >
           <i className="bi bi-plus-lg" style={{ fontSize: 14 }} />
-          New item price
+          {__("New item price")}
         </Link>
       </div>
 
-      <div className="px-4 pt-3">
-        <div className="d-flex align-items-end gap-2">
+      <FilterBar active={Boolean(hasActiveFilters)}>
           <div style={{ width: 220 }}>
             <SelectField
-              label="Price List"
-              placeholder="All price lists"
+              label={__("Price List")}
+              placeholder={__("All price lists")}
               value={priceList}
               onChange={resetToFirstPage(setPriceList)}
               options={priceListOptions.map((pl) => ({ label: pl.name, value: pl.name }))}
@@ -157,11 +158,11 @@ const ItemPriceListPage = () => {
               style={{ height: 30, fontSize: 12, padding: "0 12px", marginBottom: 14 }}
               onClick={clearFilters}
             >
-              Clear filters
+              {__("Clear filters")}
             </button>
           )}
-        </div>
-      </div>
+
+      </FilterBar>
 
       <div className="d-flex flex-column flex-fill px-4 pt-2 pb-4" style={{ minHeight: 0 }}>
         <div style={{ flex: 1, minHeight: 0 }}>
@@ -169,7 +170,7 @@ const ItemPriceListPage = () => {
             columns={ITEM_PRICE_COLUMNS}
             rows={itemPrices}
             loading={loading}
-            emptyMessage="No item prices found"
+            emptyMessage={__("No item prices found")}
             onRowClick={(p) => navigate(`/posapp/item-price/${encodeURIComponent(p.name)}`)}
           />
         </div>

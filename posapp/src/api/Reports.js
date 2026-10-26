@@ -1,14 +1,16 @@
 import { engineGet, enginePost } from "../engine";
 
 // scope: "shift" | "today" | "range". opening_entry required for "shift";
-// pos_profile/from_date/to_date apply to "today"/"range" (scoped server-side
-// to the logged-in cashier's own invoices — see easy_pos.api.pos.get_sales_report).
+// pos_profile/from_date/to_date/currency apply to "today"/"range" (scoped
+// server-side to the logged-in cashier's own invoices, one currency at a time —
+// see easy_pos.api.pos.get_sales_report).
 export const fetchSalesReport = async ({
 	scope,
 	opening_entry,
 	pos_profile,
 	from_date,
 	to_date,
+	currency,
 }) => {
 	try {
 		const response = await enginePost("/api/method/easy_pos.api.pos.get_sales_report", {
@@ -17,6 +19,7 @@ export const fetchSalesReport = async ({
 			pos_profile,
 			from_date,
 			to_date,
+			currency,
 		});
 		return response.data.message;
 	} catch (error) {

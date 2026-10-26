@@ -1,4 +1,7 @@
+
+import { useTranslation } from "../../translation";
 const Modal = ({ open = true, onClose, title, subtitle, size, children, footer }) => {
+  const { __ } = useTranslation();
   if (!open) return null;
 
   return (
@@ -21,7 +24,7 @@ const Modal = ({ open = true, onClose, title, subtitle, size, children, footer }
                   </p>
                 )}
               </div>
-              <button type="button" className="btn-close" aria-label="Close" onClick={onClose} />
+              <button type="button" className="btn-close" aria-label={__("Close")} onClick={onClose} />
             </div>
 
             <div className="modal-body">{children}</div>

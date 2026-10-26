@@ -1,7 +1,11 @@
+import { getServerMessage } from "../../utils/serverError";
+import { _t, useTranslation } from "../../translation";
 import { useEffect, useState } from "react";
 import { Modal, ChildTable, ErrorAlert } from "../common";
 import { createCreditNote } from "../../api/Invoice";
 import { flt } from "../../utils/number";
+import { chargeTypeLabel } from "../../utils/format";
+import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 
 // Item/tax rows are seeded from the original invoice on open and edited
 // locally — nothing is written back until "Create Credit Note" is pressed.
@@ -31,11 +35,14 @@ const seedTaxRows = (invoice) =>
     tax_amount: tax.tax_amount,
   }));
 
-const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) => {
+const CreditNoteModal = ({ open, onClose, invoice, onCreated }) => {
+  const { __ } = useTranslation();
   const [itemRows, setItemRows] = useState([]);
   const [taxRows, setTaxRows] = useState([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const formatCurrency = useCurrencyFormatter([invoice?.currency]);
+  const money = (value) => formatCurrency(value, invoice?.currency);
 
   useEffect(() => {
     if (open) {
@@ -47,7 +54,6 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
 
   if (!open) return null;
 
-  const money = (value) => `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
 
   const updateItem = (idx, patch) => {
     setItemRows((rows) => rows.map((r) => (r._idx === idx ? { ...r, ...patch } : r)));
@@ -62,7 +68,7 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
 
   const handleSubmit = async () => {
     if (selectedItems.length === 0) {
-      setError("Select at least one item to return");
+      setError(__("Select at least one item to return"));
       return;
     }
     setError("");
@@ -92,7 +98,7 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
       onCreated?.(creditNote);
       onClose();
     } catch (err) {
-      setError(err?.response?.data?.exc_type || "Failed to create credit note");
+      setError(getServerMessage(err) || __("Failed to create credit note"));
     } finally {
       setSaving(false);
     }
@@ -102,17 +108,17 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
     <Modal
       open={open}
       onClose={onClose}
-      title="Create Credit Note"
+      title={__("Create Credit Note")}
       subtitle={invoice?.name}
       size="xl"
       footer={
         <>
           <button type="button" className="pos-btn pos-btn-secondary" onClick={onClose} disabled={saving}>
-            Cancel
+            {__("Cancel")}
           </button>
           <button type="button" className="pos-btn pos-btn-primary" onClick={handleSubmit} disabled={saving}>
             {saving && <span className="spinner-border spinner-border-sm" role="status" />}
-            Create Credit Note
+            {__("Create Credit Note")}
           </button>
         </>
       }
@@ -120,13 +126,13 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
       <ErrorAlert message={error} />
 
       <h6 className="mb-2" style={{ fontSize: 13, fontWeight: 600 }}>
-        Items to Return
+        {__("Items to Return")}
       </h6>
       <div className="mb-4">
         <ChildTable
           rowKey="_idx"
           rows={itemRows}
-          emptyMessage="No items on this invoice"
+          emptyMessage={__("No items on this invoice")}
           columns={[
             {
               key: "selected",
@@ -141,11 +147,11 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
                 />
               ),
             },
-            { key: "item_code", label: "Item", width: "1.8fr", render: (r) => r.item_name || r.item_code },
-            { key: "origQty", label: "Invoiced Qty", width: "0.9fr", align: "center", render: (r) => r.origQty },
+            { key: "item_code", label: _t("Item"), width: "1.8fr", render: (r) => r.item_name || r.item_code },
+            { key: "origQty", label: _t("Invoiced Qty"), width: "0.9fr", align: "center", render: (r) => r.origQty },
             {
               key: "returnQty",
-              label: "Return Qty",
+              label: _t("Return Qty"),
               width: "1fr",
               align: "center",
               render: (r) => (
@@ -162,10 +168,10 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
                 />
               ),
             },
-            { key: "rate", label: "Rate", width: "1fr", align: "end", render: (r) => money(r.rate) },
+            { key: "rate", label: _t("Rate"), width: "1fr", align: "end", render: (r) => money(r.rate) },
             {
               key: "amount",
-              label: "Return Amount",
+              label: _t("Return Amount"),
               width: "1fr",
               align: "end",
               render: (r) => money(flt(r.returnQty) * flt(r.rate)),
@@ -176,25 +182,25 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
             null,
             null,
             null,
-            { value: "Return Total", align: "end" },
+            { value: __("Return Total"), align: "end" },
             { value: money(returnTotal), align: "end" },
           ]}
         />
       </div>
 
       <h6 className="mb-2" style={{ fontSize: 13, fontWeight: 600 }}>
-        Taxes and Charges
+        {__("Taxes and Charges")}
       </h6>
       <ChildTable
         rowKey="_idx"
         rows={taxRows}
-        emptyMessage="No taxes on this invoice"
+        emptyMessage={__("No taxes on this invoice")}
         columns={[
-          { key: "account_head", label: "Account Head", width: "1.8fr" },
-          { key: "charge_type", label: "Type", width: "1.4fr" },
+          { key: "account_head", label: _t("Account Head"), width: "1.8fr" },
+          { key: "charge_type", label: _t("Type"), width: "1.4fr", render: (r) => chargeTypeLabel(r.charge_type) },
           {
             key: "rate",
-            label: "Rate (%)",
+            label: _t("Rate (%)"),
             width: "1fr",
             align: "end",
             render: (r) => (
@@ -211,7 +217,7 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
           },
           {
             key: "tax_amount",
-            label: "Amount",
+            label: _t("Amount"),
             width: "1fr",
             align: "end",
             render: (r) => (
@@ -229,8 +235,9 @@ const CreditNoteModal = ({ open, onClose, invoice, currencySymbol, onCreated }) 
         ]}
       />
       <p className="text-muted mt-2 mb-0" style={{ fontSize: 11.5 }}>
-        Rate (%) applies to percentage-based charges; Amount applies to "Actual" charges. Totals are recalculated
-        against the returned items when the credit note is created.
+        {__(
+          'Rate (%) applies to percentage-based charges; Amount applies to "Actual" charges. Totals are recalculated against the returned items when the credit note is created.',
+        )}
       </p>
     </Modal>
   );

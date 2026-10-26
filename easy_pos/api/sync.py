@@ -69,6 +69,7 @@ INVOICE_FIELDS = [
 	"status",
 	"docstatus",
 	"pos_profile",
+	"currency",
 	"is_pos",
 ]
 
@@ -152,7 +153,9 @@ def get_offline_snapshot(pos_profile: str) -> dict:
 	# pre-filtered to this profile's own warehouse, so the offline Serial
 	# No/Batch LinkField (engine/localReads.js's readSearchLink) can apply the
 	# exact same filters client-side the live search_link call would.
-	serial_batch_item_codes = [i["item_code"] for i in items if i.get("has_serial_no") or i.get("has_batch_no")]
+	serial_batch_item_codes = [
+		i["item_code"] for i in items if i.get("has_serial_no") or i.get("has_batch_no")
+	]
 	serial_nos = (
 		frappe.get_all(
 			"Serial No",

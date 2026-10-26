@@ -1,7 +1,16 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import Topbar from "../Topbar";
+import useIsMobile from "../../hooks/useIsMobile";
+
+// <input> types that never raise the on-screen keyboard
+const NON_TEXT_INPUTS = new Set(["checkbox", "radio", "button", "submit", "reset", "file", "range", "color", "image"]);
+
+const raisesKeyboard = (el) =>
+  el instanceof HTMLTextAreaElement ||
+  (el instanceof HTMLInputElement && !NON_TEXT_INPUTS.has(el.type)) ||
+  el?.isContentEditable === true;
 
 const DEFAULT_TOPBAR = {
   title: "",
@@ -16,13 +25,30 @@ const DEFAULT_TOPBAR = {
 // customize the Topbar (title/search) through the outlet context's setTopbar.
 const AppLayout = () => {
   const [topbar, setTopbarState] = useState(DEFAULT_TOPBAR);
+  const isMobile = useIsMobile();
+
+  // Phones: flag the document while a text field is focused so CSS can drop the
+  // bottom bars and leave the keyboard's remaining space to the form.
+  useEffect(() => {
+    if (!isMobile) return undefined;
+    const root = document.documentElement;
+    const onFocusIn = (e) => root.classList.toggle("pos-kb-open", raisesKeyboard(e.target));
+    const onFocusOut = () => root.classList.remove("pos-kb-open");
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("focusout", onFocusOut);
+      root.classList.remove("pos-kb-open");
+    };
+  }, [isMobile]);
 
   const setTopbar = useCallback((next) => {
     setTopbarState({ ...DEFAULT_TOPBAR, ...next });
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <div className="pos-app-shell">
       <Sidebar />
 
       <div
@@ -44,7 +70,7 @@ const AppLayout = () => {
           onScanClick={topbar.onScanClick}
         />
 
-        <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>
+        <div className="pos-page-scroll" style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>
           <Outlet context={{ setTopbar }} />
         </div>
       </div>

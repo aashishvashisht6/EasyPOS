@@ -25,5 +25,18 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "orientation": "any",
+  "shortcuts": [
+    {
+      "name": "POS Terminal",
+      "short_name": "Terminal",
+      "url": "/posapp/terminal"
+    },
+    {
+      "name": "Invoices",
+      "short_name": "Invoices",
+      "url": "/posapp/invoices"
+    }
   ]
 }

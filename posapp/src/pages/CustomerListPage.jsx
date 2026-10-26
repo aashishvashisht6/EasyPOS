@@ -1,21 +1,22 @@
+import { __, _t, tData, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { fetchCustomers, fetchCustomerGroups, fetchTerritories } from "../api/Customer";
-import { ListTable, FilterChips, Pagination, SelectField, TextField } from "../components/common";
+import { ListTable, FilterChips, Pagination, SelectField, TextField, FilterBar } from "../components/common";
 import NewCustomerModal from "../components/Customer/NewCustomerModal";
 
 const PAGE_SIZE = 20;
 
 const STATUS_FILTERS = [
-  { label: "All", value: "" },
-  { label: "Active", value: "Active" },
-  { label: "Inactive", value: "Inactive" },
+  { label: _t("All"), value: "" },
+  { label: _t("Active"), value: "Active" },
+  { label: _t("Inactive"), value: "Inactive" },
 ];
 
 const CUSTOMER_COLUMNS = [
   {
     key: "customer_name",
-    label: "Customer",
+    label: _t("Customer"),
     width: "1.4fr",
     render: (c) => (
       <div>
@@ -26,41 +27,42 @@ const CUSTOMER_COLUMNS = [
   },
   {
     key: "mobile_no",
-    label: "Mobile No",
+    label: _t("Mobile No"),
     width: "1fr",
     render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.mobile_no || "—"}</span>,
   },
   {
     key: "email_id",
-    label: "Email",
+    label: _t("Email"),
     width: "1.3fr",
     render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.email_id || "—"}</span>,
   },
   {
     key: "customer_group",
-    label: "Group",
+    label: _t("Group"),
     width: "0.9fr",
-    render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.customer_group || "—"}</span>,
+    render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.customer_group ? tData(c.customer_group) : "—"}</span>,
   },
   {
     key: "territory",
-    label: "Territory",
+    label: _t("Territory"),
     width: "0.9fr",
-    render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.territory || "—"}</span>,
+    render: (c) => <span style={{ color: "var(--color-text-muted)" }}>{c.territory ? tData(c.territory) : "—"}</span>,
   },
   {
     key: "disabled",
-    label: "Status",
+    label: _t("Status"),
     width: "0.8fr",
     render: (c) => (
       <span className={c.disabled ? "pos-badge" : "pos-badge pos-badge-paid"}>
-        {c.disabled ? "Inactive" : "Active"}
+        {c.disabled ? __("Inactive") : __("Active")}
       </span>
     ),
   },
 ];
 
 const CustomerListPage = () => {
+  const { __ } = useTranslation();
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
 
@@ -107,13 +109,13 @@ const CustomerListPage = () => {
 
   useEffect(() => {
     setTopbar({
-      title: "Customers",
+      title: _t("Customers"),
       searchValue: search,
       onSearchChange: (value) => {
         setPage(0);
         setSearch(value);
       },
-      searchPlaceholder: "Search customer, mobile or email",
+      searchPlaceholder: _t("Search customer, mobile or email"),
     });
   }, [setTopbar, search]);
 
@@ -136,7 +138,7 @@ const CustomerListPage = () => {
   return (
     <>
       <div className="d-flex flex-column flex-fill" style={{ minHeight: 0 }}>
-        <div className="d-flex align-items-center justify-content-between px-4 pt-3">
+        <div className="d-flex align-items-center justify-content-between px-4 pt-3 pos-list-toolbar">
           <FilterChips options={STATUS_FILTERS} value={status} onChange={resetToFirstPage(setStatus)} />
           <button
             type="button"
@@ -145,45 +147,44 @@ const CustomerListPage = () => {
             onClick={() => setShowNewModal(true)}
           >
             <i className="bi bi-plus-lg" style={{ fontSize: 14 }} />
-            New customer
+            {__("New customer")}
           </button>
         </div>
 
-        <div className="px-4 pt-3">
-          <div className="d-flex align-items-end gap-2">
+        <FilterBar active={Boolean(hasActiveFilters)}>
             <div style={{ width: 180 }}>
               <SelectField
-                label="Customer Group"
-                placeholder="All groups"
+                label={__("Customer Group")}
+                placeholder={__("All groups")}
                 value={customerGroup}
                 onChange={resetToFirstPage(setCustomerGroup)}
-                options={customerGroups.map((g) => ({ label: g.name, value: g.name }))}
+                options={customerGroups.map((g) => ({ label: tData(g.name), value: g.name }))}
               />
             </div>
             <div style={{ width: 160 }}>
               <SelectField
-                label="Territory"
-                placeholder="All territories"
+                label={__("Territory")}
+                placeholder={__("All territories")}
                 value={territory}
                 onChange={resetToFirstPage(setTerritory)}
-                options={territories.map((t) => ({ label: t.name, value: t.name }))}
+                options={territories.map((t) => ({ label: tData(t.name), value: t.name }))}
               />
             </div>
             <div style={{ width: 160 }}>
               <TextField
-                label="Mobile No"
+                label={__("Mobile No")}
                 value={mobileNo}
                 onChange={resetToFirstPage(setMobileNo)}
-                placeholder="Filter by mobile"
+                placeholder={__("Filter by mobile")}
                 size="sm"
               />
             </div>
             <div style={{ width: 200 }}>
               <TextField
-                label="Email"
+                label={__("Email")}
                 value={emailId}
                 onChange={resetToFirstPage(setEmailId)}
-                placeholder="Filter by email"
+                placeholder={__("Filter by email")}
                 size="sm"
               />
             </div>
@@ -194,11 +195,11 @@ const CustomerListPage = () => {
                 style={{ height: 30, fontSize: 12, padding: "0 12px", marginBottom: 14 }}
                 onClick={clearFilters}
               >
-                Clear filters
+                {__("Clear filters")}
               </button>
             )}
-          </div>
-        </div>
+
+        </FilterBar>
 
         <div className="d-flex flex-column flex-fill px-4 pt-2 pb-4" style={{ minHeight: 0 }}>
           <div style={{ flex: 1, minHeight: 0 }}>
@@ -206,7 +207,7 @@ const CustomerListPage = () => {
               columns={CUSTOMER_COLUMNS}
               rows={customers}
               loading={loading}
-              emptyMessage="No customers found"
+              emptyMessage={__("No customers found")}
               onRowClick={(c) => navigate(`/posapp/customers/${encodeURIComponent(c.name)}`)}
             />
           </div>

@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { fetchLoggedInUser, logOutUser } from "../api/User";
 import { postPosLogin } from "../api/Auth";
+import useLanguageStore, { refreshTranslations } from "./languageStore";
+import { __ } from "../translation";
 
 const useAuthStore = create((set) => ({
 	user: null,
@@ -14,6 +16,7 @@ const useAuthStore = create((set) => ({
 				document.cookie.split("; ").map((c) => c.split("="))
 			);
 			set({ user: { email, full_name: cookies?.full_name }, loading: false });
+			refreshTranslations();
 		} else {
 			set({ user: null, loading: false });
 		}
@@ -24,12 +27,14 @@ const useAuthStore = create((set) => ({
 		try {
 			const data = await postPosLogin(usr, pwd);
 			set({ user: { email: data.user, full_name: data.full_name } });
+			useLanguageStore.getState().applyUserLanguage(data.language);
+			refreshTranslations();
 			return true;
 		} catch (error) {
 			const message =
 				error?.response?.data?.message ||
 				error?.response?.data?.exc_type ||
-				"Invalid username or password";
+				__("Invalid username or password");
 			set({ error: message });
 			return false;
 		}

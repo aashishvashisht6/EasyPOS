@@ -1,3 +1,5 @@
+import { getServerMessage } from "../utils/serverError";
+import { _t, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { fetchCustomer, saveCustomer, fetchAddressDisplay } from "../api/Customer";
@@ -45,6 +47,7 @@ const emptyCustomer = {
 };
 
 const CustomerDetailPage = () => {
+  const { __ } = useTranslation();
   const { name } = useParams();
   const { setTopbar } = useOutletContext();
 
@@ -66,7 +69,7 @@ const CustomerDetailPage = () => {
   }, [name]);
 
   useEffect(() => {
-    setTopbar({ title: form.customer_name || "Customer" });
+    setTopbar({ title: form.customer_name || _t("Customer") });
   }, [form.customer_name, setTopbar]);
 
   const update = (field) => (value) => setForm((f) => ({ ...f, [field]: value }));
@@ -109,12 +112,12 @@ const CustomerDetailPage = () => {
 
   const handleSubmit = async () => {
     if (!form.customer_name || !form.customer_group || !form.territory) {
-      setError("Customer Name, Customer Group and Territory are required");
+      setError(__("Customer Name, Customer Group and Territory are required"));
       return;
     }
     const creditLimitCompanies = form.credit_limits.map((r) => r.company).filter(Boolean);
     if (new Set(creditLimitCompanies).size !== creditLimitCompanies.length) {
-      setError("Credit limit is already defined for one of the selected Companies");
+      setError(__("Credit limit is already defined for one of the selected Companies"));
       return;
     }
     setError("");
@@ -130,9 +133,9 @@ const CustomerDetailPage = () => {
       const saved = await saveCustomer({ ...fullDoc, ...payload, name: form.name, modified: form.modified });
       setFullDoc(saved);
       setForm({ ...emptyCustomer, ...saved, modified: saved.modified });
-      toastSuccess("Customer saved successfully");
+      toastSuccess(__("Customer saved successfully"));
     } catch (err) {
-      const message = err?.response?.data?.exc_type || "Failed to save Customer";
+      const message = getServerMessage(err) || __("Failed to save Customer");
       setError(message);
       toastError(message);
     } finally {
@@ -149,11 +152,11 @@ const CustomerDetailPage = () => {
         subtitle={form.name}
         badge={
           <span className={form.disabled ? "pos-badge" : "pos-badge pos-badge-paid"}>
-            {form.disabled ? "Inactive" : "Active"}
+            {form.disabled ? __("Inactive") : __("Active")}
           </span>
         }
         backTo="/posapp/customers"
-        backLabel="Customers"
+        backLabel={__("Customers")}
         actions={<SaveButton saving={saving} onClick={handleSubmit} />}
       />
 
@@ -161,23 +164,23 @@ const CustomerDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Customer Details
+          {__("Customer Details")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <TextField label="Customer Name" required value={form.customer_name} onChange={update("customer_name")} />
+            <TextField label={__("Customer Name")} required value={form.customer_name} onChange={update("customer_name")} />
           </div>
           <div className="col-6 col-md-4">
             <SelectField
-              label="Customer Type"
+              label={__("Customer Type")}
               value={form.customer_type}
               onChange={update("customer_type")}
-              options={["Company", "Individual", "Partnership"]}
+              options={[_t("Company"), _t("Individual"), _t("Partnership")]}
             />
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Customer Group"
+              label={__("Customer Group")}
               required
               doctype="Customer Group"
               filters={{ is_group: 0 }}
@@ -187,7 +190,7 @@ const CustomerDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Territory"
+              label={__("Territory")}
               required
               doctype="Territory"
               filters={{ is_group: 0 }}
@@ -196,31 +199,31 @@ const CustomerDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <TextField label="Tax ID" value={form.tax_id} onChange={update("tax_id")} />
+            <TextField label={__("Tax ID")} value={form.tax_id} onChange={update("tax_id")} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Tax Category" doctype="Tax Category" value={form.tax_category} onChange={update("tax_category")} />
+            <LinkField label={__("Tax Category")} doctype="Tax Category" value={form.tax_category} onChange={update("tax_category")} />
           </div>
           <div className="col-6 col-md-4">
-            <TextField label="Mobile No" value={form.mobile_no} disabled readOnly />
+            <TextField label={__("Mobile No")} value={form.mobile_no} disabled readOnly />
           </div>
           <div className="col-6 col-md-4">
-            <TextField label="Email" value={form.email_id} disabled readOnly />
+            <TextField label={__("Email")} value={form.email_id} disabled readOnly />
           </div>
           <div className="col-6 col-md-4">
-            <CheckboxField label="Disabled" checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
+            <CheckboxField label={__("Disabled")} checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
           </div>
         </div>
       </div>
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Defaults
+          {__("Defaults")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
             <LinkField
-              label="Billing Currency"
+              label={__("Billing Currency")}
               doctype="Currency"
               value={form.default_currency}
               onChange={update("default_currency")}
@@ -228,7 +231,7 @@ const CustomerDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Default Price List"
+              label={__("Default Price List")}
               doctype="Price List"
               filters={{ selling: 1 }}
               value={form.default_price_list}
@@ -237,35 +240,35 @@ const CustomerDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Default Payment Terms Template"
+              label={__("Default Payment Terms Template")}
               doctype="Payment Terms Template"
               value={form.payment_terms}
               onChange={update("payment_terms")}
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Account Manager" doctype="User" value={form.account_manager} onChange={update("account_manager")} />
+            <LinkField label={__("Account Manager")} doctype="User" value={form.account_manager} onChange={update("account_manager")} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Market Segment" doctype="Market Segment" value={form.market_segment} onChange={update("market_segment")} />
+            <LinkField label={__("Market Segment")} doctype="Market Segment" value={form.market_segment} onChange={update("market_segment")} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Industry" doctype="Industry Type" value={form.industry} onChange={update("industry")} />
+            <LinkField label={__("Industry")} doctype="Industry Type" value={form.industry} onChange={update("industry")} />
           </div>
           <div className="col-6 col-md-4">
-            <TextField label="Website" value={form.website} onChange={update("website")} />
+            <TextField label={__("Website")} value={form.website} onChange={update("website")} />
           </div>
         </div>
       </div>
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Loyalty Program
+          {__("Loyalty Program")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
             <LinkField
-              label="Loyalty Program"
+              label={__("Loyalty Program")}
               doctype="Loyalty Program"
               value={form.loyalty_program}
               onChange={update("loyalty_program")}
@@ -273,7 +276,7 @@ const CustomerDetailPage = () => {
           </div>
           {form.loyalty_program && (
             <div className="col-6 col-md-4">
-              <TextField label="Tier" value={form.loyalty_program_tier} disabled readOnly />
+              <TextField label={__("Tier")} value={form.loyalty_program_tier} disabled readOnly />
             </div>
           )}
         </div>
@@ -290,18 +293,18 @@ const CustomerDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <ChildTable
-          title="Credit Limits"
+          title={__("Credit Limits")}
           onAddRow={() => addRow("credit_limits", { company: "", credit_limit: "", bypass_credit_limit_check: 0 })}
           rows={form.credit_limits}
-          emptyMessage="No credit limits configured"
+          emptyMessage={__("No credit limits configured")}
           columns={[
             {
               key: "company",
-              label: "Company",
+              label: _t("Company"),
               width: "1.4fr",
               render: (row, idx) => (
                 <LinkField
-                  placeholder="Select Company"
+                  placeholder={__("Select Company")}
                   doctype="Company"
                   value={row.company}
                   onChange={(v) => updateRow("credit_limits", idx, { company: v })}
@@ -310,7 +313,7 @@ const CustomerDetailPage = () => {
             },
             {
               key: "credit_limit",
-              label: "Credit Limit",
+              label: _t("Credit Limit"),
               width: "1fr",
               render: (row, idx) => (
                 <CurrencyField
@@ -322,12 +325,12 @@ const CustomerDetailPage = () => {
             },
             {
               key: "bypass_credit_limit_check",
-              label: "Bypass Check",
+              label: _t("Bypass Check"),
               width: "0.9fr",
               render: (row, idx) => (
                 <CheckboxField
                   dense
-                  label="Bypass Check"
+                  label={__("Bypass Check")}
                   checked={row.bypass_credit_limit_check}
                   onChange={(v) => updateRow("credit_limits", idx, { bypass_credit_limit_check: v ? 1 : 0 })}
                 />
@@ -354,12 +357,12 @@ const CustomerDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          More Information
+          {__("More Information")}
         </h6>
         <div className="row g-3">
           <div className="col-12">
             <TextField
-              label="Customer Details"
+              label={__("Customer Details")}
               value={form.customer_details}
               onChange={update("customer_details")}
               multiline
