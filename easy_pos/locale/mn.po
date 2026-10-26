@@ -1,0 +1,3566 @@
+# Mongolian translations for Easy POS.
+# Copyright (C) 2026 Aashish
+# This file is distributed under the same license as the Easy POS project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy POS VERSION\n"
+"Report-Msgid-Bugs-To: aashishvashisht6@gmail.com\n"
+"POT-Creation-Date: 2026-10-24 22:43+0553\n"
+"PO-Revision-Date: 2026-10-23 22:37+0553\n"
+"Last-Translator: aashishvashisht6@gmail.com\n"
+"Language: mn\n"
+"Language-Team: aashishvashisht6@gmail.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: posapp/src/components/common/ChildTable.jsx:122
+#: posapp/src/components/common/ChildTable.jsx:329
+msgid "+ Add row"
+msgstr "+ Мөр нэмэх"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "1 item"
+msgstr "1 бараа"
+
+#: posapp/src/components/Cart/index.jsx:411
+msgid "1 loyalty point available"
+msgstr "1 урамшууллын оноо байна"
+
+#. Header text in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "<span class=\"h4\">EASYPOS</span>"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:783
+msgid "A free-item offer in this cart needs a connection to resolve — pricing/discounts for this whole cart are on hold at list price until reconnected."
+msgstr "Энэ сагсан дахь үнэгүй барааны санал холболт шаарддаг — дахин холбогдох хүртэл сагсны бүх үнэ/хөнгөлөлт үнийн жагсаалтын үнээр түр үлдэнэ."
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:44
+msgid "A new version of Easy POS is available."
+msgstr "Easy POS-ийн шинэ хувилбар гарлаа."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:132
+msgid "A shift needs to be open before you can ring up sales."
+msgstr "Борлуулалт бүртгэхийн өмнө ээлж нээгдсэн байх ёстой."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:131
+msgid "ADDRESSES"
+msgstr "ХАЯГУУД"
+
+#: posapp/src/pages/SyncPage.jsx:322
+msgid "ALL DOMAINS"
+msgstr "БҮХ ХҮРЭЭ"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:199
+#: posapp/src/pages/InvoiceDetailPage.jsx:370
+msgid "Account Head"
+msgstr "Дансны толгой"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:250
+msgid "Account Manager"
+msgstr "Харилцагчийн менежер"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:675
+msgid "Account for Change Amount"
+msgstr "Хариулт мөнгөний данс"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:625
+msgid "Accounting"
+msgstr "Нягтлан бодох бүртгэл"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:755
+msgid "Accounting Dimensions"
+msgstr "Нягтлан бодох хэмжигдэхүүнүүд"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:12
+#: posapp/src/pages/CustomerListPage.jsx:58
+#: posapp/src/pages/DiscountListPage.jsx:12
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileListPage.jsx:12
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Active"
+msgstr "Идэвхтэй"
+
+#: posapp/src/utils/format.js:48
+msgid "Actual"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:133
+msgid "Add Address"
+msgstr "Хаяг нэмэх"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:186
+msgid "Add Contact"
+msgstr "Холбоо барих хүн нэмэх"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:54
+msgid "Add a new customer to bill this sale against."
+msgstr "Энэ борлуулалтыг бичих шинэ харилцагч нэмнэ үү."
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:97
+msgid "Add at least one Collection Rule (tier) — mandatory even for a Single Tier Program"
+msgstr "Дор хаяж нэг цуглуулах дүрэм (түвшин) нэмнэ үү — нэг түвшинтэй хөтөлбөрт ч заавал шаардлагатай"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:342
+msgid "Add the Modes of Payment cashiers can use to settle a sale on this profile."
+msgstr "Энэ профайл дээр кассчид борлуулалтыг төлөхөд ашиглаж болох төлбөрийн хэлбэрүүдийг нэмнэ үү."
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:95
+msgid "Add to Cart"
+msgstr "Сагсанд нэмэх"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:349
+msgid "Additional Discount"
+msgstr "Нэмэлт хөнгөлөлт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:359
+msgid "Additional Discount Amount"
+msgstr "Нэмэлт хөнгөлөлтийн дүн"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:353
+msgid "Additional Discount Percentage"
+msgstr "Нэмэлт хөнгөлөлтийн хувь"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:92
+#: posapp/src/components/Customer/AddressContactSection.jsx:104
+msgid "Address & Contact"
+msgstr "Хаяг ба холбоо барих"
+
+#: posapp/src/components/Customer/AddressModal.jsx:108
+msgid "Address Line 1"
+msgstr "Хаягийн мөр 1"
+
+#: posapp/src/components/Customer/AddressModal.jsx:111
+msgid "Address Line 2"
+msgstr "Хаягийн мөр 2"
+
+#: posapp/src/components/Customer/AddressModal.jsx:96
+msgid "Address Title"
+msgstr "Хаягийн гарчиг"
+
+#: posapp/src/components/Customer/AddressModal.jsx:100
+msgid "Address Type"
+msgstr "Хаягийн төрөл"
+
+#: posapp/src/components/Customer/AddressModal.jsx:52
+msgid "Address Type, Address Line 1, City/Town and Country are required"
+msgstr "Хаягийн төрөл, хаягийн мөр 1, хот болон улс заавал шаардлагатай"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Administrator"
+msgstr "Администратор"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:958
+msgid "Advanced Settings"
+msgstr "Нарийвчилсан тохиргоо"
+
+#: posapp/src/components/ItemGroup/index.jsx:41
+#: posapp/src/pages/CustomerListPage.jsx:11
+#: posapp/src/pages/DiscountDetailPage.jsx:655
+#: posapp/src/pages/DiscountListPage.jsx:11
+#: posapp/src/pages/InvoiceRegisterPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:11
+#: posapp/src/pages/POSProfileListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:10
+msgid "All"
+msgstr "Бүгд"
+
+#: posapp/src/pages/POSProfileListPage.jsx:127
+msgid "All companies"
+msgstr "Бүх компани"
+
+#: posapp/src/pages/CustomerListPage.jsx:158
+msgid "All groups"
+msgstr "Бүх бүлэг"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:148
+msgid "All price lists"
+msgstr "Бүх үнийн жагсаалт"
+
+#: posapp/src/pages/CustomerListPage.jsx:167
+msgid "All territories"
+msgstr "Бүх нутаг дэвсгэр"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:468
+msgid "Allow Partial Payment"
+msgstr "Хэсэгчилсэн төлбөр зөвшөөрөх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:466
+msgid "Allow User to Edit Discount"
+msgstr "Хэрэглэгчид хөнгөлөлт засахыг зөвшөөрөх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:465
+msgid "Allow User to Edit Rate"
+msgstr "Хэрэглэгчид үнэ засахыг зөвшөөрөх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:381
+#: posapp/src/pages/POSProfileDetailPage.jsx:386
+msgid "Allow in Returns"
+msgstr "Буцаалтад зөвшөөрөх"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:211
+msgid "Already added"
+msgstr "Аль хэдийн нэмэгдсэн"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Amended From"
+msgstr "Өөрчлөгдсөн эх баримт"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:46
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:220
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+#: posapp/src/pages/InvoiceDetailPage.jsx:309
+#: posapp/src/pages/InvoiceDetailPage.jsx:375
+#: posapp/src/pages/InvoiceDetailPage.jsx:411
+#: posapp/src/pages/InvoiceRegisterPage.jsx:40
+#: posapp/src/pages/ReportsPage.jsx:374
+msgid "Amount"
+msgstr "Дүн"
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:16
+msgid "Amount Paid"
+msgstr "Төлсөн дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:395
+msgid "Applicability"
+msgstr "Хэрэглэгдэх хүрээ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:654
+msgid "Applicable For"
+msgstr "Хамаарах"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:187
+msgid "Applicable for Countries"
+msgstr "Хамаарах улсууд"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:282
+msgid "Applicable for Users"
+msgstr "Хамаарах хэрэглэгчид"
+
+#: posapp/src/components/Cart/index.jsx:700
+msgid "Apply"
+msgstr "Хэрэглэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:812
+#: posapp/src/pages/InvoiceDetailPage.jsx:351
+#: posapp/src/pages/POSProfileDetailPage.jsx:737
+msgid "Apply Discount On"
+msgstr "Хөнгөлөлтийг хэрэглэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1001
+msgid "Apply Discount on Discounted Rate"
+msgstr "Хөнгөлөгдсөн үнэд хөнгөлөлт хэрэглэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:993
+msgid "Apply Multiple Pricing Rules"
+msgstr "Олон үнийн дүрэм хэрэглэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:403
+msgid "Apply On"
+msgstr "Хэрэглэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:925
+msgid "Apply Recursion Over (As Per Transaction UOM)"
+msgstr "Давталтыг хэрэглэх (гүйлгээний хэмжих нэгжээр)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:555
+msgid "Apply Rule On Brand *"
+msgstr "Дүрмийг брэндэд хэрэглэх *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:450
+msgid "Apply Rule On Item Code *"
+msgstr "Дүрмийг барааны кодод хэрэглэх *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:501
+msgid "Apply Rule On Item Group *"
+msgstr "Дүрмийг барааны бүлэгт хэрэглэх *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:610
+msgid "Apply Rule On Other"
+msgstr "Дүрмийг бусдад хэрэглэх"
+
+#: posapp/src/components/Cart/index.jsx:651
+msgid "Apply on…"
+msgstr "Хэрэглэх…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:430
+msgid "Are you sure you want to cancel {name}? This cannot be undone."
+msgstr "{name}-г цуцлахдаа итгэлтэй байна уу? Үүнийг буцаах боломжгүй."
+
+#: posapp/src/components/common/ConfirmModal.jsx:25
+msgid "Are you sure?"
+msgstr "Итгэлтэй байна уу?"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:234
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the field 'Priority' is mandatory."
+msgstr "\"Хөнгөлөгдсөн үнэд хөнгөлөлт хэрэглэх\" талбар идэвхтэй тул \"Тэргүүлэх эрэмбэ\" талбар заавал шаардлагатай."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:237
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the value of the field 'Priority' should be more than 1."
+msgstr "\"Хөнгөлөгдсөн үнэд хөнгөлөлт хэрэглэх\" талбар идэвхтэй тул \"Тэргүүлэх эрэмбэ\" талбарын утга 1-ээс их байх ёстой."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:272
+msgid "Atleast one of the Selling or Buying must be selected"
+msgstr "Борлуулалт эсвэл худалдан авалтын дор хаяж нэгийг сонгох ёстой"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:162
+msgid "Auto Opt-In"
+msgstr "Автоматаар нэгдэх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:460
+msgid "Automatically Add Filtered Item To Cart"
+msgstr "Шүүсэн барааг автоматаар сагсанд нэмэх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:394
+#: posapp/src/pages/POSProfileDetailPage.jsx:400
+msgid "Automatically Calculated"
+msgstr "Автоматаар тооцоолсон"
+
+#: posapp/src/pages/ReportsPage.jsx:217
+msgid "Avg ticket"
+msgstr "Дундаж баримт"
+
+#: posapp/src/components/common/PageHeader.jsx:19
+msgid "Back"
+msgstr "Буцах"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:178
+msgid "Back to Invoices"
+msgstr "Нэхэмжлэх рүү буцах"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Balance Due"
+msgstr "Төлөх үлдэгдэл"
+
+#: posapp/src/engine/sync.js:20
+msgid "Batch"
+msgstr "Багц"
+
+#: posapp/src/components/Cart/index.jsx:590
+msgid "Batch No"
+msgstr "Багцын дугаар"
+
+#: posapp/src/components/Customer/AddressModal.jsx:8
+msgid "Billing"
+msgstr "Нэхэмжлэл"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:226
+msgid "Billing Currency"
+msgstr "Нэхэмжлэлийн валют"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:562
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:635
+msgid "Brand"
+msgstr "Брэнд"
+
+#: posapp/src/pages/LoginPage.jsx:83
+msgid "Built for retail teams that never stop moving."
+msgstr "Хэзээ ч зогсдоггүй жижиглэнгийн багуудад зориулав."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:333
+msgid "Bundle Components"
+msgstr "Багцын бүрэлдэхүүн"
+
+#: posapp/src/components/Cart/index.jsx:611
+msgid "Bundle Contents"
+msgstr "Багцын агуулга"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:335
+msgid "Bundle Item"
+msgstr "Багц бараа"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:649
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:216
+#: posapp/src/pages/ItemPriceListPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:173
+#: posapp/src/pages/PriceListListPage.jsx:36
+msgid "Buying"
+msgstr "Худалдан авалт"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:277
+msgid "Buying must be checked, if Applicable For is selected as {field}"
+msgstr "\"Хамаарах\" нь {field} гэж сонгогдсон бол Худалдан авалтыг тэмдэглэх ёстой"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:328
+#: posapp/src/pages/CustomerDetailPage.jsx:333
+msgid "Bypass Check"
+msgstr "Шалгалтыг алгасах"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:184
+msgid "CONTACTS"
+msgstr "ХОЛБОО БАРИХ"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:44
+msgid "Camera access was denied. Allow camera permission and try again."
+msgstr "Камерын хандалтаас татгалзсан. Камерын зөвшөөрөл өгөөд дахин оролдоно уу."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:696
+#: posapp/src/pages/POSProfileDetailPage.jsx:255
+msgid "Campaign"
+msgstr "Кампанит ажил"
+
+#: posapp/src/components/Closing/index.jsx:65
+#: posapp/src/components/Customer/AddressModal.jsx:77
+#: posapp/src/components/Customer/ContactModal.jsx:74
+#: posapp/src/components/Customer/NewCustomerModal.jsx:59
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:117
+#: posapp/src/components/InvoicePay/index.jsx:353
+#: posapp/src/components/Items/ItemVariantModal.jsx:87
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:137
+msgid "Cancel"
+msgstr "Цуцлах"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:227
+#: posapp/src/pages/InvoiceDetailPage.jsx:429
+msgid "Cancel Invoice"
+msgstr "Нэхэмжлэх цуцлах"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/utils/format.js:38
+msgid "Cancelled"
+msgstr "Цуцлагдсан"
+
+#: easy_pos/api/pos.py:387
+msgid "Cannot create a credit note against a credit note"
+msgstr "Кредит нэхэмжлэх дээр кредит нэхэмжлэх үүсгэх боломжгүй"
+
+#: easy_pos/setup/create_demo_pos_profiles.py:79
+msgid "Cannot create demo POS Profiles: no company was given and no default Company is set."
+msgstr "Туршилтын POS профайл үүсгэх боломжгүй: компани өгөгдөөгүй, анхдагч компани тохируулаагүй байна."
+
+#: easy_pos/setup/create_demo_data.py:85
+msgid "Cannot create demo data: no company was given and no default Company is set."
+msgstr "Туршилтын өгөгдөл үүсгэх боломжгүй: компани өгөгдөөгүй, анхдагч компани тохируулаагүй байна."
+
+#: posapp/src/components/Cart/index.jsx:437
+msgid "Cart Items"
+msgstr "Сагсан дахь бараа"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Cashier"
+msgstr "Кассчин"
+
+#: posapp/src/components/InvoicePay/index.jsx:446
+msgid "Cashier enters the amount to charge; a {gateway} checkout opens on Complete Payment."
+msgstr "Кассчин авах дүнг оруулна; Төлбөр дуусгах үед {gateway} төлбөрийн цонх нээгдэнэ."
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:21
+msgid "Change Due"
+msgstr "Хариулт мөнгө"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Change to Return"
+msgstr "Буцаалт болгох"
+
+#: posapp/src/pages/LoginPage.jsx:69
+msgid "Checkout that keeps up during rush hour"
+msgstr "Ачаалалтай цагт ч саадгүй тооцоо"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:83
+msgid "Choose options to select a variant"
+msgstr "Хувилбар сонгохын тулд сонголтуудыг сонгоно уу"
+
+#: posapp/src/components/Customer/AddressModal.jsx:114
+msgid "City/Town"
+msgstr "Хот/Тосгон"
+
+#: posapp/src/components/Cart/index.jsx:441
+msgid "Clear all"
+msgstr "Бүгдийг арилгах"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:173
+#: posapp/src/pages/CustomerListPage.jsx:198
+#: posapp/src/pages/InvoiceRegisterPage.jsx:227
+#: posapp/src/pages/ItemPriceListPage.jsx:161
+#: posapp/src/pages/POSProfileListPage.jsx:140
+msgid "Clear filters"
+msgstr "Шүүлтүүрийг арилгах"
+
+#: posapp/src/components/Items/index.jsx:94
+msgid "Click/scan the item again to add another unit"
+msgstr "Дахин нэг ширхэг нэмэхийн тулд барааг дахин дарж/уншуулна уу"
+
+#: posapp/src/components/common/Modal.jsx:27
+msgid "Close"
+msgstr "Хаах"
+
+#: posapp/src/pages/POSTerminalPage.jsx:101
+msgid "Close cart"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:112
+#: posapp/src/components/Topbar/index.jsx:188
+msgid "Close shift"
+msgstr "Ээлж хаах"
+
+#: posapp/src/components/Closing/index.jsx:79
+msgid "Close till"
+msgstr "Касс хаах"
+
+#: posapp/src/components/Closing/index.jsx:55
+msgid "Close your till"
+msgstr "Кассаа хаана уу"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Closed"
+msgstr "Хаагдсан"
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Closing"
+msgstr "Хаалт"
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Closing Amount"
+msgstr "Хаалтын дүн"
+
+#: posapp/src/components/Closing/index.jsx:76
+msgid "Closing…"
+msgstr "Хааж байна…"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Collapse"
+msgstr "Хураах"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:221
+msgid "Collection Factor (=1 point)"
+msgstr "Цуглуулах коэффициент (=1 оноо)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:190
+msgid "Collection Rules (Tiers)"
+msgstr "Цуглуулах дүрэм (түвшин)"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:14
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:171
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+#: posapp/src/pages/CustomerDetailPage.jsx:303
+#: posapp/src/pages/DiscountDetailPage.jsx:760
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:152
+#: posapp/src/pages/POSProfileDetailPage.jsx:236
+#: posapp/src/pages/POSProfileListPage.jsx:126
+msgid "Company"
+msgstr "Компани"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:259
+msgid "Company Address"
+msgstr "Компанийн хаяг"
+
+#: posapp/src/components/Customer/ContactModal.jsx:114
+msgid "Company Name"
+msgstr "Компанийн нэр"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:153
+msgid "Company and Warehouse are required"
+msgstr "Компани болон агуулах заавал шаардлагатай"
+
+#: posapp/src/components/InvoicePay/index.jsx:369
+msgid "Complete Payment"
+msgstr "Төлбөр дуусгах"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:336
+msgid "Component"
+msgstr "Бүрэлдэхүүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:945
+msgid "Condition"
+msgstr "Нөхцөл"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:454
+msgid "Configuration"
+msgstr "Тохиргоо"
+
+#: posapp/src/pages/SettingsPage.jsx:9
+msgid "Configure tiers, points and redemption rules"
+msgstr "Түвшин, оноо, зарцуулах дүрмийг тохируулах"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "Connected to the server"
+msgstr "Сервертэй холбогдлоо"
+
+#: posapp/src/utils/format.js:43
+msgid "Consolidated"
+msgstr "Нэгтгэсэн"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:29
+msgid "Conversion Factor"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:256
+msgid "Conversion Factor (1 point = ? currency)"
+msgstr "Хөрвүүлэх коэффициент (1 оноо = ? валют)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:282
+#: posapp/src/pages/POSProfileDetailPage.jsx:760
+msgid "Cost Center"
+msgstr "Зардлын төв"
+
+#: posapp/src/pages/ReportsPage.jsx:122
+msgid "Could not load report data."
+msgstr "Тайлангийн өгөгдлийг ачаалж чадсангүй."
+
+#: posapp/src/engine/sync.js:45
+msgid "Could not reach the server to sync."
+msgstr "Синк хийхийн тулд сервертэй холбогдож чадсангүй."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:74
+msgid "Could not resolve this profile's currency."
+msgstr "Энэ профайлын валютыг тодорхойлж чадсангүй."
+
+#: posapp/src/components/Closing/index.jsx:58
+msgid "Count the drawer and enter the actual amount for manually entered payment modes."
+msgstr "Кассаа тоолж, гараар оруулдаг төлбөрийн хэлбэрийн бодит дүнг оруулна уу."
+
+#: posapp/src/components/Closing/index.jsx:124
+msgid "Counted"
+msgstr "Тоолсон"
+
+#: posapp/src/components/Customer/AddressModal.jsx:123
+#: posapp/src/pages/PriceListDetailPage.jsx:201
+msgid "Country"
+msgstr "Улс"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:106
+msgid "Country added more than once: {countries}"
+msgstr "Улс нэгээс олон удаа нэмэгдсэн: {countries}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:117
+msgid "County"
+msgstr "Аймаг/Дүүрэг"
+
+#: posapp/src/components/Cart/index.jsx:720
+msgid "Coupon \"{code}\" applied"
+msgstr "\"{code}\" купон хэрэглэгдлээ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:438
+msgid "Coupon Code Based"
+msgstr "Купон кодонд суурилсан"
+
+#: posapp/src/components/Cart/index.jsx:685
+msgid "Coupon code"
+msgstr "Купон код"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:22
+msgid "Create"
+msgstr "Үүсгэх"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:111
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:121
+#: posapp/src/pages/InvoiceDetailPage.jsx:222
+msgid "Create Credit Note"
+msgstr "Кредит нэхэмжлэх үүсгэх"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:73
+msgid "Create Customer"
+msgstr "Харилцагч үүсгэх"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:6
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:8
+msgid "Create Demo Data"
+msgstr "Туршилтын өгөгдөл үүсгэх"
+
+#: posapp/src/pages/LoginPage.jsx:172
+msgid "Create an account"
+msgstr "Бүртгэл үүсгэх"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:45
+msgid "Created/updated {0} demo items priced against {1} for {2} (warehouse: {3}), {4} POS Profiles: {5}, and {6} Customers: {7}."
+msgstr "{2}-д {1}-ийн үнээр {0} туршилтын бараа үүсгэж/шинэчиллээ (агуулах: {3}), {4} POS профайл: {5}, {6} харилцагч: {7}."
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:29
+msgid "Creating demo items..."
+msgstr "Туршилтын бараа үүсгэж байна..."
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:70
+msgid "Creating…"
+msgstr "Үүсгэж байна…"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:316
+msgid "Credit Limit"
+msgstr "Зээлийн хязгаар"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:296
+msgid "Credit Limits"
+msgstr "Зээлийн хязгаарууд"
+
+#: posapp/src/utils/format.js:37
+msgid "Credit Note Issued"
+msgstr "Кредит нэхэмжлэх гаргасан"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:120
+msgid "Credit limit is already defined for one of the selected Companies"
+msgstr "Сонгосон компаниудын аль нэгэнд зээлийн хязгаар аль хэдийн тогтоогдсон байна"
+
+#: posapp/src/pages/ReportsPage.jsx:343
+msgid "Credit notes"
+msgstr "Кредит нэхэмжлэхүүд"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:763
+#: posapp/src/pages/InvoiceDetailPage.jsx:246
+#: posapp/src/pages/ItemPriceDetailPage.jsx:228
+#: posapp/src/pages/POSProfileDetailPage.jsx:638
+#: posapp/src/pages/PriceListDetailPage.jsx:170
+#: posapp/src/pages/PriceListListPage.jsx:24
+msgid "Currency"
+msgstr "Валют"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:306
+msgid "Currency should be same as Price List Currency: {currency}"
+msgstr "Валют нь үнийн жагсаалтын валюттай ижил байх ёстой: {currency}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:17
+msgid "Current"
+msgstr "Одоогийн"
+
+#: posapp/src/pages/ReportsPage.jsx:80
+msgid "Current shift · {profile}"
+msgstr "Одоогийн ээлж · {profile}"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:34
+#: posapp/src/components/Cart/DraftPickerModal.jsx:135
+#: posapp/src/components/Cart/index.jsx:381
+#: posapp/src/components/InvoicePay/index.jsx:180 posapp/src/engine/sync.js:10
+#: posapp/src/pages/CustomerDetailPage.jsx:72
+#: posapp/src/pages/CustomerListPage.jsx:19
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:664
+#: posapp/src/pages/InvoiceDetailPage.jsx:241
+#: posapp/src/pages/InvoiceRegisterPage.jsx:28
+#: posapp/src/pages/InvoiceRegisterPage.jsx:175
+#: posapp/src/pages/ItemPriceDetailPage.jsx:210
+#: posapp/src/pages/POSProfileDetailPage.jsx:239
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Customer"
+msgstr "Харилцагч"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:167
+#: posapp/src/pages/CustomerDetailPage.jsx:365
+msgid "Customer Details"
+msgstr "Харилцагчийн дэлгэрэнгүй"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:98
+#: posapp/src/pages/CustomerDetailPage.jsx:183
+#: posapp/src/pages/CustomerListPage.jsx:157
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:670
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:169
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:36
+#: posapp/src/pages/POSProfileDetailPage.jsx:528
+msgid "Customer Group"
+msgstr "Харилцагчийн бүлэг"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:520
+msgid "Customer Groups"
+msgstr "Харилцагчийн бүлгүүд"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:82
+#: posapp/src/pages/CustomerDetailPage.jsx:171
+msgid "Customer Name"
+msgstr "Харилцагчийн нэр"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:115
+msgid "Customer Name, Customer Group and Territory are required"
+msgstr "Харилцагчийн нэр, харилцагчийн бүлэг болон нутаг дэвсгэр заавал шаардлагатай"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:110
+msgid "Customer Primary Address"
+msgstr "Харилцагчийн үндсэн хаяг"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:119
+msgid "Customer Primary Contact"
+msgstr "Харилцагчийн үндсэн холбоо барих"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:178
+msgid "Customer Territory"
+msgstr "Харилцагчийн нутаг дэвсгэр"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:90
+#: posapp/src/pages/CustomerDetailPage.jsx:175
+msgid "Customer Type"
+msgstr "Харилцагчийн төрөл"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:31
+msgid "Customer name is required"
+msgstr "Харилцагчийн нэр заавал шаардлагатай"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:136
+msgid "Customer saved successfully"
+msgstr "Харилцагч амжилттай хадгалагдлаа"
+
+#: posapp/src/components/Sidebar/index.jsx:13
+#: posapp/src/pages/CustomerDetailPage.jsx:159
+#: posapp/src/pages/CustomerListPage.jsx:112
+msgid "Customers"
+msgstr "Харилцагчид"
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Dark mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:40
+#: posapp/src/pages/InvoiceRegisterPage.jsx:34
+msgid "Date"
+msgstr "Огноо"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:303
+#: posapp/src/pages/POSProfileDetailPage.jsx:308
+#: posapp/src/pages/POSProfileDetailPage.jsx:368
+#: posapp/src/pages/POSProfileDetailPage.jsx:373
+msgid "Default"
+msgstr "Анхдагч"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:243
+msgid "Default Payment Terms Template"
+msgstr "Төлбөрийн нөхцөлийн анхдагч загвар"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:234
+msgid "Default Price List"
+msgstr "Анхдагч үнийн жагсаалт"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:221
+msgid "Defaults"
+msgstr "Анхдагч утгууд"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:268
+msgid "Delete"
+msgstr "Устгах"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Address?"
+msgstr "Хаягийг устгах уу?"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Contact?"
+msgstr "Холбоо барих хүнийг устгах уу?"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:33
+msgid "Demo Data Created"
+msgstr "Туршилтын өгөгдөл үүсгэгдлээ"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:17
+msgid "Demo items (normal, serialized, batch-tracked, and a combo) with selling prices and opening stock, 5 POS Profiles showing off different features, and 5 demo Customers will be created for this company (a default warehouse is created too if it doesn't already have one)."
+msgstr "Энэ компанид борлуулах үнэ, эхний үлдэгдэлтэй туршилтын бараа (энгийн, серийн дугаартай, багцаар хянагддаг болон комбо), өөр өөр боломжийг харуулах 5 POS профайл, 5 туршилтын харилцагч үүсгэнэ (анхдагч агуулах байхгүй бол түүнийг ч үүсгэнэ)."
+
+#: posapp/src/components/Customer/ContactModal.jsx:111
+msgid "Department"
+msgstr "Хэлтэс"
+
+#: posapp/src/components/Customer/ContactModal.jsx:108
+msgid "Designation"
+msgstr "Албан тушаал"
+
+#: posapp/src/components/Closing/index.jsx:143
+msgid "Difference"
+msgstr "Зөрүү"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:745
+msgid "Disable Rounded Total"
+msgstr "Бөөрөнхийлсөн нийлбэрийг идэвхгүй болгох"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:467
+msgid "Disable auto-setting Grand Total to default Mode of Payment"
+msgstr "Нийт дүнг анхдагч төлбөрийн хэлбэрт автоматаар оноохыг идэвхгүй болгох"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:157
+#: posapp/src/components/Customer/AddressModal.jsx:152
+#: posapp/src/pages/CustomerDetailPage.jsx:214
+#: posapp/src/pages/DiscountDetailPage.jsx:442
+#: posapp/src/pages/DiscountListPage.jsx:13
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileDetailPage.jsx:275
+#: posapp/src/pages/POSProfileListPage.jsx:13
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:12
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Disabled"
+msgstr "Идэвхгүй"
+
+#: posapp/src/components/Cart/index.jsx:555
+#: posapp/src/components/CustomerDisplay/CartView.jsx:34
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountListPage.jsx:37
+msgid "Discount"
+msgstr "Хөнгөлөлт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:289
+msgid "Discount %"
+msgstr "Хөнгөлөлт %"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:827
+msgid "Discount Amount"
+msgstr "Хөнгөлөлтийн дүн"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:296
+msgid "Discount Amt"
+msgstr "Хөнгөлөлтийн дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:837
+msgid "Discount Percentage"
+msgstr "Хөнгөлөлтийн хувь"
+
+#: posapp/src/pages/ReportsPage.jsx:334
+msgid "Discount given"
+msgstr "Олгосон хөнгөлөлт"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:605
+msgid "Discount on Other Item"
+msgstr "Өөр бараанд хөнгөлөлт"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:365
+msgid "Discount saved successfully"
+msgstr "Хөнгөлөлт амжилттай хадгалагдлаа"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:17
+#: posapp/src/pages/DiscountDetailPage.jsx:387
+#: posapp/src/pages/DiscountListPage.jsx:105
+msgid "Discounts"
+msgstr "Хөнгөлөлтүүд"
+
+#: posapp/src/pages/ReportsPage.jsx:330
+msgid "Discounts and returns"
+msgstr "Хөнгөлөлт ба буцаалт"
+
+#: posapp/src/components/common/ToastContainer.jsx:30
+#: posapp/src/pwa/PwaUpdateBanner.jsx:53
+msgid "Dismiss"
+msgstr "Хаах"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:902
+msgid "Don't Enforce Free Item Qty"
+msgstr "Үнэгүй барааны тоог албадахгүй"
+
+#: posapp/src/components/common/FilterBar.jsx:40
+msgid "Done"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/SyncPage.jsx:198 posapp/src/utils/format.js:31
+msgid "Draft"
+msgstr "Ноорог"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:268
+msgid "Duplicate Brand found in the table"
+msgstr "Хүснэгтэд давхардсан брэнд олдлоо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:244
+msgid "Duplicate Item Code found in the table"
+msgstr "Хүснэгтэд давхардсан барааны код олдлоо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:265
+msgid "Duplicate Item Group found in the table"
+msgstr "Хүснэгтэд давхардсан барааны бүлэг олдлоо"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:185
+msgid "Duplicate customer group found in the customer group table"
+msgstr "Харилцагчийн бүлгийн хүснэгтэд давхардсан бүлэг олдлоо"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:180
+msgid "Duplicate item group found in the item group table"
+msgstr "Барааны бүлгийн хүснэгтэд давхардсан бүлэг олдлоо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:940
+msgid "Dynamic Condition"
+msgstr "Динамик нөхцөл"
+
+#. Label of a shortcut in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASY POS"
+msgstr ""
+
+#. Name of a Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS Settings"
+msgstr "EASYPOS тохиргоо"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "EP Closing Entry"
+msgstr "EP хаалтын бичилт"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "EP Closing Entry Detail"
+msgstr "EP хаалтын бичилтийн дэлгэрэнгүй"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "EP Opening Entry"
+msgstr "EP нээлтийн бичилт"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "Edit Address"
+msgstr "Хаяг засах"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "Edit Contact"
+msgstr "Холбоо барих засах"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:159
+#: posapp/src/components/Customer/NewCustomerModal.jsx:121
+#: posapp/src/pages/CustomerDetailPage.jsx:211
+#: posapp/src/pages/CustomerListPage.jsx:36
+#: posapp/src/pages/CustomerListPage.jsx:184
+#: posapp/src/pages/InvoiceRegisterPage.jsx:213
+msgid "Email"
+msgstr "И-мэйл"
+
+#: posapp/src/components/Customer/AddressModal.jsx:132
+#: posapp/src/components/Customer/ContactModal.jsx:99
+msgid "Email Address"
+msgstr "И-мэйл хаяг"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:604
+msgid "Email Notification"
+msgstr "И-мэйл мэдэгдэл"
+
+#: posapp/src/pages/LoginPage.jsx:112
+msgid "Email or username"
+msgstr "И-мэйл эсвэл хэрэглэгчийн нэр"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:463
+msgid "Enable Customer Display"
+msgstr "Харилцагчийн дэлгэц идэвхжүүлэх"
+
+#. Label of a Check field in DocType 'EASYPOS Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "Enable Offline Mode"
+msgstr "Офлайн горим идэвхжүүлэх"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:175
+msgid "Enabled"
+msgstr "Идэвхтэй"
+
+#: posapp/src/components/InvoicePay/index.jsx:348
+msgid "Enter the amount received for each payment mode."
+msgstr "Төлбөрийн хэлбэр бүрээр хүлээн авсан дүнг оруулна уу."
+
+#: posapp/src/pages/LoginPage.jsx:123
+msgid "Enter your password"
+msgstr "Нууц үгээ оруулна уу"
+
+#: posapp/src/pages/LoginPage.jsx:101
+msgid "Enter your workstation credentials to start a shift."
+msgstr "Ээлж эхлүүлэхийн тулд ажлын байрны нэвтрэх мэдээллээ оруулна уу."
+
+#: posapp/src/pages/LoginPage.jsx:73
+msgid "Every sale accounted for, down to the till"
+msgstr "Борлуулалт бүр бүртгэлтэй, касс хүртэл"
+
+#: posapp/src/pages/LoginPage.jsx:60
+msgid "Every sale."
+msgstr "Борлуулалт бүр."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:250
+msgid "Exchange Rate"
+msgstr "Ханш"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Expand"
+msgstr "Дэлгэх"
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Expected"
+msgstr "Хүлээгдэж буй"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:273
+#: posapp/src/pages/POSProfileDetailPage.jsx:704
+msgid "Expense Account"
+msgstr "Зардлын данс"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:265
+msgid "Expiry Duration (days)"
+msgstr "Хүчинтэй хугацаа (өдөр)"
+
+#: posapp/src/components/Cart/index.jsx:743
+msgid "FREE"
+msgstr "ҮНЭГҮЙ"
+
+#: posapp/src/pages/SyncPage.jsx:34
+msgid "Failed"
+msgstr "Амжилтгүй"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:123
+msgid "Failed to cancel invoice"
+msgstr "Нэхэмжлэх цуцалж чадсангүй"
+
+#: posapp/src/components/InvoicePay/index.jsx:218
+#: posapp/src/components/InvoicePay/index.jsx:278
+#: posapp/src/components/InvoicePay/index.jsx:331
+msgid "Failed to complete payment"
+msgstr "Төлбөр дуусгаж чадсангүй"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:101
+msgid "Failed to create credit note"
+msgstr "Кредит нэхэмжлэх үүсгэж чадсангүй"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:42
+#: posapp/src/components/Customer/NewCustomerModal.jsx:47
+msgid "Failed to create customer"
+msgstr "Харилцагч үүсгэж чадсангүй"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Address"
+msgstr "Хаяг устгаж чадсангүй"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Contact"
+msgstr "Холбоо барих устгаж чадсангүй"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:20
+msgid "Failed to load Razorpay checkout"
+msgstr "Razorpay төлбөрийн цонхыг ачаалж чадсангүй"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:118
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:122
+msgid "Failed to open till"
+msgstr "Касс нээж чадсангүй"
+
+#: posapp/src/components/Customer/AddressModal.jsx:63
+msgid "Failed to save Address"
+msgstr "Хаяг хадгалж чадсангүй"
+
+#: posapp/src/components/Customer/ContactModal.jsx:60
+msgid "Failed to save Contact"
+msgstr "Холбоо барих хадгалж чадсангүй"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:138
+msgid "Failed to save Customer"
+msgstr "Харилцагч хадгалж чадсангүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:367
+msgid "Failed to save Discount"
+msgstr "Хөнгөлөлт хадгалж чадсангүй"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:155
+msgid "Failed to save Item Price"
+msgstr "Барааны үнэ хадгалж чадсангүй"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:114
+msgid "Failed to save Loyalty Program"
+msgstr "Урамшууллын хөтөлбөр хадгалж чадсангүй"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:209
+msgid "Failed to save POS Profile"
+msgstr "POS профайл хадгалж чадсангүй"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:140
+msgid "Failed to save Price List"
+msgstr "Үнийн жагсаалт хадгалж чадсангүй"
+
+#: posapp/src/components/Cart/index.jsx:279
+msgid "Failed to save draft"
+msgstr "Ноорог хадгалж чадсангүй"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:42
+msgid "Failed to start Razorpay payment"
+msgstr "Razorpay төлбөр эхлүүлж чадсангүй"
+
+#: posapp/src/engine/outbox.js:60
+msgid "Failed to sync invoice"
+msgstr "Нэхэмжлэх синк хийж чадсангүй"
+
+#: posapp/src/components/Customer/AddressModal.jsx:135
+msgid "Fax"
+msgstr "Факс"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetch from server"
+msgstr "Серверээс татах"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetching…"
+msgstr "Татаж байна…"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:198
+msgid "Filter by POS Profile"
+msgstr "POS профайлаар шүүх"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:144
+#: posapp/src/pages/InvoiceRegisterPage.jsx:184
+msgid "Filter by customer"
+msgstr "Харилцагчаар шүүх"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:162
+#: posapp/src/pages/CustomerListPage.jsx:187
+#: posapp/src/pages/InvoiceRegisterPage.jsx:216
+msgid "Filter by email"
+msgstr "И-мэйлээр шүүх"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:153
+#: posapp/src/pages/CustomerListPage.jsx:178
+#: posapp/src/pages/InvoiceRegisterPage.jsx:207
+msgid "Filter by mobile"
+msgstr "Гар утсаар шүүх"
+
+#: posapp/src/components/common/FilterBar.jsx:29
+#: posapp/src/components/common/FilterBar.jsx:37
+msgid "Filters"
+msgstr ""
+
+#: posapp/src/components/common/FilterBar.jsx:30
+msgid "Filters applied"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Finishing up — your receipt will print here once it's confirmed."
+msgstr "Дуусгаж байна — баталгаажмагц баримт энд хэвлэгдэнэ."
+
+#: posapp/src/components/Customer/ContactModal.jsx:93
+msgid "First Name"
+msgstr "Нэр"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:848
+msgid "For Price List"
+msgstr "Үнийн жагсаалтад"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:223
+msgid "For the 'Apply Rule On Other' condition the field {field} is mandatory"
+msgstr "\"Дүрмийг бусдад хэрэглэх\" нөхцөлд {field} талбар заавал шаардлагатай"
+
+#: posapp/src/pages/LoginPage.jsx:143
+msgid "Forgot password?"
+msgstr "Нууц үгээ мартсан уу?"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:877
+msgid "Free Item"
+msgstr "Үнэгүй бараа"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:888
+msgid "Free Item Rate"
+msgstr "Үнэгүй барааны үнэ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:884
+msgid "Free Item UOM"
+msgstr "Үнэгүй барааны хэмжих нэгж"
+
+#: posapp/src/components/Cart/index.jsx:732
+msgid "Free Items"
+msgstr "Үнэгүй бараанууд"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:881
+msgid "Free Qty"
+msgstr "Үнэгүй тоо"
+
+#: posapp/src/pages/DiscountListPage.jsx:17
+msgid "Free item"
+msgstr "Үнэгүй бараа"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:299
+msgid "Free item code is not selected"
+msgstr "Үнэгүй барааны код сонгогдоогүй байна"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:155
+msgid "From Date"
+msgstr "Эхлэх огноо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:918
+msgid "Give free item for every N quantity"
+msgstr "N ширхэг тутамд нэг үнэгүй бараа өгөх"
+
+#: posapp/src/pages/ReportsPage.jsx:199
+msgid "Go to Terminal"
+msgstr "Терминал руу очих"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:656
+#: posapp/src/components/Cart/index.jsx:801
+#: posapp/src/components/InvoicePay/index.jsx:183
+#: posapp/src/components/InvoicePay/index.jsx:378
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:263
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Grand Total"
+msgstr "Нийт дүн"
+
+#: posapp/src/pages/ReportsPage.jsx:209
+msgid "Gross sales"
+msgstr "Нийт борлуулалт"
+
+#: posapp/src/pages/CustomerListPage.jsx:42
+msgid "Group"
+msgstr "Бүлэг"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:974
+msgid "Has Priority"
+msgstr "Тэргүүлэх эрэмбэтэй"
+
+#: posapp/src/components/Items/index.jsx:50
+msgid "Has variants"
+msgstr "Хувилбартай"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:24
+msgid "Held offline — not yet synced"
+msgstr "Офлайн хадгалсан — синк хийгдээгүй"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:458
+msgid "Hide Images"
+msgstr "Зургийг нуух"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:459
+msgid "Hide Unavailable Items"
+msgstr "Боломжгүй барааг нуух"
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Hide password"
+msgstr "Нууц үгийг нуух"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:164
+msgid "ITEMS"
+msgstr "БАРАА"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1011
+msgid "If enabled, the system only validates the rule instead of applying it automatically"
+msgstr "Идэвхжүүлсэн бол систем дүрмийг автоматаар хэрэглэхийн оронд зөвхөн шалгана"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:889
+msgid "If rate is zero then item will be treated as \"Free Item\""
+msgstr "Үнэ тэг бол бараа \"Үнэгүй бараа\" гэж тооцогдоно"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:464
+msgid "Ignore Pricing Rule"
+msgstr "Үнийн дүрмийг үл хэрэгсэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Amount"
+msgstr "Дүнгээр"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Percentage %"
+msgstr "Хувиар %"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:13
+#: posapp/src/pages/CustomerListPage.jsx:58
+msgid "Inactive"
+msgstr "Идэвхгүй"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:689
+msgid "Income Account"
+msgstr "Орлогын данс"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Individual"
+msgstr "Хувь хүн"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:256
+msgid "Industry"
+msgstr "Салбар"
+
+#: posapp/src/utils/format.js:44
+msgid "Internal Transfer"
+msgstr "Дотоод шилжүүлэг"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:320
+msgid "Invalid condition expression"
+msgstr "Нөхцөлийн илэрхийлэл буруу"
+
+#: easy_pos/api/pricing.py:58 easy_pos/api/pricing.py:175
+msgid "Invalid coupon code"
+msgstr "Купон код буруу"
+
+#: posapp/src/components/Cart/index.jsx:166
+msgid "Invalid or expired coupon code"
+msgstr "Купон код буруу эсвэл хугацаа дууссан"
+
+#: posapp/src/store/authStore.js:37
+msgid "Invalid username or password"
+msgstr "Хэрэглэгчийн нэр эсвэл нууц үг буруу"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:15
+#: posapp/src/pages/InvoiceDetailPage.jsx:106
+#: posapp/src/pages/InvoiceRegisterPage.jsx:22
+#: posapp/src/pages/ReportsPage.jsx:369
+msgid "Invoice"
+msgstr "Нэхэмжлэх"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:239
+msgid "Invoice Details"
+msgstr "Нэхэмжлэхийн дэлгэрэнгүй"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice details aren't available offline. Reconnect and try again."
+msgstr "Нэхэмжлэхийн дэлгэрэнгүй офлайнд байхгүй. Дахин холбогдоод оролдоно уу."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice not found."
+msgstr "Нэхэмжлэх олдсонгүй."
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:151
+msgid "Invoiced Qty"
+msgstr "Нэхэмжилсэн тоо"
+
+#: posapp/src/components/Sidebar/index.jsx:12
+#: posapp/src/pages/InvoiceDetailPage.jsx:214
+#: posapp/src/pages/InvoiceRegisterPage.jsx:133
+msgid "Invoices"
+msgstr "Нэхэмжлэхүүд"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:431
+msgid "Is Cumulative"
+msgstr "Хуримтлагдах эсэх"
+
+#: posapp/src/components/Customer/ContactModal.jsx:118
+msgid "Is Primary Contact"
+msgstr "Үндсэн холбоо барих эсэх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:907
+msgid "Is Recursive"
+msgstr "Давтагдах эсэх"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:150
+#: posapp/src/engine/sync.js:8 posapp/src/pages/InvoiceDetailPage.jsx:277
+#: posapp/src/pages/ItemPriceDetailPage.jsx:183
+#: posapp/src/pages/ItemPriceListPage.jsx:19
+msgid "Item"
+msgstr "Бараа"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:457
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:619
+msgid "Item Code"
+msgstr "Барааны код"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:116
+msgid "Item Code, UOM, Price List and Rate are required"
+msgstr "Барааны код, хэмжих нэгж, үнийн жагсаалт болон үнэ заавал шаардлагатай"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:178
+msgid "Item Details"
+msgstr "Барааны дэлгэрэнгүй"
+
+#: posapp/src/components/Cart/index.jsx:773
+msgid "Item Discounts"
+msgstr "Барааны хөнгөлөлт"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json posapp/src/engine/sync.js:9
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:508
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:625
+#: posapp/src/pages/POSProfileDetailPage.jsx:489
+msgid "Item Group"
+msgstr "Барааны бүлэг"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:481
+msgid "Item Groups"
+msgstr "Барааны бүлгүүд"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:196
+msgid "Item Name"
+msgstr "Барааны нэр"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:16 posapp/src/pages/ItemPriceDetailPage.jsx:82
+msgid "Item Price"
+msgstr "Барааны үнэ"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:153
+msgid "Item Price saved successfully"
+msgstr "Барааны үнэ амжилттай хадгалагдлаа"
+
+#: posapp/src/components/Sidebar/index.jsx:15
+#: posapp/src/pages/ItemPriceDetailPage.jsx:170
+#: posapp/src/pages/ItemPriceListPage.jsx:107
+msgid "Item Prices"
+msgstr "Барааны үнүүд"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:303
+msgid "Item Tax"
+msgstr "Барааны татвар"
+
+#: posapp/src/components/Cart/index.jsx:752
+msgid "Item Total"
+msgstr "Барааны нийт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:275
+msgid "Items"
+msgstr "Бараанууд"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:129
+msgid "Items to Return"
+msgstr "Буцаах бараа"
+
+#: posapp/src/pages/SyncPage.jsx:18
+msgid "Just now"
+msgstr "Дөнгөж сая"
+
+#: posapp/src/components/Topbar/index.jsx:122
+#: posapp/src/components/Topbar/index.jsx:123 posapp/src/pages/LoginPage.jsx:93
+msgid "Language"
+msgstr "Хэл"
+
+#: posapp/src/components/Customer/ContactModal.jsx:96
+msgid "Last Name"
+msgstr "Овог"
+
+#: posapp/src/pages/SyncPage.jsx:284
+msgid "Last synced {when}"
+msgstr "Сүүлд синк хийсэн {when}"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:266
+msgid "Leave empty for points to never expire"
+msgstr "Оноо хэзээ ч дуусахгүй байхын тулд хоосон үлдээнэ үү"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:188
+msgid "Leave empty to make this price list applicable for all countries, or restrict it to specific ones."
+msgstr "Энэ үнийн жагсаалтыг бүх улсад хамааруулах бол хоосон үлдээх, эсвэл тодорхой улсаар хязгаарлана уу."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:283
+msgid "Leave empty to make this profile applicable for all users."
+msgstr "Энэ профайлыг бүх хэрэглэгчид хамааруулах бол хоосон үлдээнэ үү."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:574
+msgid "Letter Head"
+msgstr "Хэвлэмэл толгой"
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Light mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+#: posapp/src/components/Cart/index.jsx:836
+msgid "Load Draft"
+msgstr "Ноорог ачаалах"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:103
+msgid "Loading variants…"
+msgstr "Хувилбаруудыг ачаалж байна…"
+
+#: posapp/src/routes.jsx:37
+msgid "Loading..."
+msgstr "Ачаалж байна..."
+
+#: posapp/src/components/Cart/index.jsx:614
+#: posapp/src/components/Customer/AddressContactSection.jsx:138
+#: posapp/src/components/Customer/AddressContactSection.jsx:191
+#: posapp/src/pages/InvoiceDetailPage.jsx:135
+msgid "Loading…"
+msgstr "Ачаалж байна…"
+
+#: posapp/src/components/Topbar/index.jsx:195
+msgid "Log out"
+msgstr "Гарах"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:17 posapp/src/pages/CustomerDetailPage.jsx:266
+#: posapp/src/pages/CustomerDetailPage.jsx:271
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/SettingsPage.jsx:8
+msgid "Loyalty Program"
+msgstr "Урамшууллын хөтөлбөр"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:111
+msgid "Loyalty Program saved successfully"
+msgstr "Урамшууллын хөтөлбөр амжилттай хадгалагдлаа"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:129
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:77
+msgid "Loyalty Programs"
+msgstr "Урамшууллын хөтөлбөрүүд"
+
+#: posapp/src/components/InvoicePay/index.jsx:478
+msgid "Loyalty Redeemed"
+msgstr "Зарцуулсан урамшуулал"
+
+#: posapp/src/components/InvoicePay/index.jsx:384
+msgid "Loyalty points can't be redeemed in {currency}. ERPNext only redeems them in the company's currency ({company_currency})."
+msgstr "Урамшууллын оноог {currency}-ээр зарцуулах боломжгүй. ERPNext зөвхөн компанийн валютаар ({company_currency}) зарцуулдаг."
+
+#: easy_pos/api/pos.py:275
+msgid "Loyalty points can't be redeemed on a {0} invoice. ERPNext only redeems them in the company's currency ({1})."
+msgstr "{0} нэхэмжлэх дээр урамшууллын оноо зарцуулах боломжгүй. ERPNext зөвхөн компанийн валютаар ({1}) зарцуулдаг."
+
+#: posapp/src/pages/SyncPage.jsx:235
+msgid "MASTER DATA"
+msgstr "ҮНДСЭН ӨГӨГДӨЛ"
+
+#: posapp/src/components/Sidebar/index.jsx:126
+msgid "Main"
+msgstr ""
+
+#: posapp/src/pages/SettingsPage.jsx:15
+msgid "Manage cashier accounts and permissions"
+msgstr "Кассчдын бүртгэл, эрхийг удирдах"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:419
+msgid "Manual (none)"
+msgstr "Гараар (байхгүй)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:770
+msgid "Margin"
+msgstr "Ашгийн хувь"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:784
+msgid "Margin Rate or Amount"
+msgstr "Ашгийн хувь эсвэл дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:775
+msgid "Margin Type"
+msgstr "Ашгийн төрөл"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:253
+msgid "Market Segment"
+msgstr "Зах зээлийн сегмент"
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "Master Setup"
+msgstr "Үндсэн тохиргоо"
+
+#: posapp/src/pages/SyncPage.jsx:124
+msgid "Master data cached for offline use. Fetch pulls the latest catalog, customers, and pricing from the server."
+msgstr "Үндсэн өгөгдлийг офлайн ашиглалтад кэшлэсэн. \"Татах\" нь серверээс хамгийн сүүлийн каталог, харилцагч, үнийг татна."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:733
+msgid "Max Amount"
+msgstr "Дээд дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:727
+msgid "Max Qty (Stock UOM)"
+msgstr "Дээд тоо (нөөцийн хэмжих нэгж)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:258
+msgid "Max discount allowed for item: {item} is {pct}%"
+msgstr "{item} барааны зөвшөөрөгдөх дээд хөнгөлөлт {pct}%"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:730
+msgid "Min Amount"
+msgstr "Доод дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:282
+msgid "Min Amt can not be greater than Max Amt"
+msgstr "Доод дүн дээд дүнгээс их байж болохгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:724
+msgid "Min Qty (Stock UOM)"
+msgstr "Доод тоо (нөөцийн хэмжих нэгж)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:285
+msgid "Min Qty can not be greater than Max Qty"
+msgstr "Доод тоо дээд тооноос их байж болохгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:291
+msgid "Min Qty should be greater than Recurse Over Qty"
+msgstr "Доод тоо давталтын тооноос их байх ёстой"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:210
+msgid "Minimum Total Spent"
+msgstr "Хамгийн бага нийт зарцуулалт"
+
+#: easy_pos/api/currency.py:27
+msgid "Missing Exchange Rate"
+msgstr "Ханш байхгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:426
+msgid "Mixed Conditions"
+msgstr "Холимог нөхцөл"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:150
+#: posapp/src/components/Customer/ContactModal.jsx:105
+#: posapp/src/components/Customer/NewCustomerModal.jsx:114
+#: posapp/src/pages/CustomerDetailPage.jsx:208
+#: posapp/src/pages/CustomerListPage.jsx:30
+#: posapp/src/pages/CustomerListPage.jsx:175
+#: posapp/src/pages/InvoiceRegisterPage.jsx:204
+msgid "Mobile No"
+msgstr "Гар утасны дугаар"
+
+#. Label of a Link field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+#: posapp/src/engine/sync.js:15 posapp/src/pages/InvoiceDetailPage.jsx:408
+#: posapp/src/pages/POSProfileDetailPage.jsx:355
+msgid "Mode of Payment"
+msgstr "Төлбөрийн хэлбэр"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Modes of Payment"
+msgstr "Төлбөрийн хэлбэрүүд"
+
+#: posapp/src/components/Sidebar/index.jsx:141
+#: posapp/src/components/Sidebar/index.jsx:145
+msgid "More"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:360
+msgid "More Information"
+msgstr "Нэмэлт мэдээлэл"
+
+#: posapp/src/components/common/ChildTable.jsx:282
+msgid "Move down"
+msgstr "Доош зөөх"
+
+#: posapp/src/components/common/ChildTable.jsx:273
+msgid "Move up"
+msgstr "Дээш зөөх"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Multiple Tier Program"
+msgstr "Олон түвшинтэй хөтөлбөр"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:657
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:325
+#: posapp/src/pages/InvoiceDetailPage.jsx:398
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Net Total"
+msgstr "Цэвэр нийт"
+
+#: posapp/src/pages/ReportsPage.jsx:210
+msgid "Net sales"
+msgstr "Цэвэр борлуулалт"
+
+#: posapp/src/pages/SyncPage.jsx:13 posapp/src/pages/SyncPage.jsx:15
+msgid "Never"
+msgstr "Хэзээ ч үгүй"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "New Address"
+msgstr "Шинэ хаяг"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "New Contact"
+msgstr "Шинэ холбоо барих"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:53
+msgid "New Customer"
+msgstr "Шинэ харилцагч"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountDetailPage.jsx:385
+msgid "New Discount"
+msgstr "Шинэ хөнгөлөлт"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:82
+#: posapp/src/pages/ItemPriceDetailPage.jsx:168
+msgid "New Item Price"
+msgstr "Шинэ барааны үнэ"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:127
+msgid "New Loyalty Program"
+msgstr "Шинэ урамшууллын хөтөлбөр"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+#: posapp/src/pages/POSProfileDetailPage.jsx:222
+msgid "New POS Profile"
+msgstr "Шинэ POS профайл"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListDetailPage.jsx:153
+msgid "New Price List"
+msgstr "Шинэ үнийн жагсаалт"
+
+#: posapp/src/components/Cart/index.jsx:388
+#: posapp/src/pages/CustomerListPage.jsx:150
+msgid "New customer"
+msgstr "Шинэ харилцагч"
+
+#: posapp/src/pages/DiscountListPage.jsx:133
+msgid "New discount"
+msgstr "Шинэ хөнгөлөлт"
+
+#: posapp/src/pages/LoginPage.jsx:167
+msgid "New here"
+msgstr "Анх удаа уу"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:168
+msgid "New invoice"
+msgstr "Шинэ нэхэмжлэх"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:140
+msgid "New item price"
+msgstr "Шинэ барааны үнэ"
+
+#: posapp/src/pages/PriceListListPage.jsx:108
+msgid "New price list"
+msgstr "Шинэ үнийн жагсаалт"
+
+#: posapp/src/pages/POSProfileListPage.jsx:119
+msgid "New profile"
+msgstr "Шинэ профайл"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:94
+msgid "New program"
+msgstr "Шинэ хөтөлбөр"
+
+#: posapp/src/components/common/Pagination.jsx:27
+msgid "Next"
+msgstr "Дараах"
+
+#: posapp/src/components/common/ConfirmModal.jsx:30
+#: posapp/src/pages/InvoiceDetailPage.jsx:432
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "No"
+msgstr "Үгүй"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:104
+msgid "No Loyalty Programs found"
+msgstr "Урамшууллын хөтөлбөр олдсонгүй"
+
+#: posapp/src/pages/POSProfileListPage.jsx:152
+msgid "No POS Profiles found"
+msgstr "POS профайл олдсонгүй"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:142
+msgid "No addresses added"
+msgstr "Хаяг нэмэгдээгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:558
+msgid "No brands added"
+msgstr "Брэнд нэмэгдээгүй"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:343
+msgid "No bundle components"
+msgstr "Багцын бүрэлдэхүүн байхгүй"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:46
+msgid "No camera was found on this device."
+msgstr "Энэ төхөөрөмж дээр камер олдсонгүй."
+
+#: posapp/src/components/Cart/index.jsx:616
+msgid "No components"
+msgstr "Бүрэлдэхүүн байхгүй"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "No connection — working from cached data"
+msgstr "Холболт байхгүй — кэшлэсэн өгөгдлөөр ажиллаж байна"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:195
+msgid "No contacts added"
+msgstr "Холбоо барих нэмэгдээгүй"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:191
+msgid "No countries added — applies to all countries"
+msgstr "Улс нэмэгдээгүй — бүх улсад хамаарна"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:299
+msgid "No credit limits configured"
+msgstr "Зээлийн хязгаар тохируулаагүй"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:524
+msgid "No customer groups added"
+msgstr "Харилцагчийн бүлэг нэмэгдээгүй"
+
+#: posapp/src/pages/CustomerListPage.jsx:210
+msgid "No customers found"
+msgstr "Харилцагч олдсонгүй"
+
+#: posapp/src/pages/DiscountListPage.jsx:143
+msgid "No discounts found"
+msgstr "Хөнгөлөлт олдсонгүй"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:185
+msgid "No draft invoices found"
+msgstr "Ноорог нэхэмжлэх олдсонгүй"
+
+#: easy_pos/api/currency.py:24
+msgid "No exchange rate found from {0} to {1}. Create a Currency Exchange record (For Selling) for this pair."
+msgstr "{0}-ээс {1} рүү ханш олдсонгүй. Энэ хосод валют солилцооны бичлэг (борлуулалтад) үүсгэнэ үү."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:239
+msgid "No invoices found"
+msgstr "Нэхэмжлэх олдсонгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:504
+#: posapp/src/pages/POSProfileDetailPage.jsx:485
+msgid "No item groups added"
+msgstr "Барааны бүлэг нэмэгдээгүй"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:173
+msgid "No item prices found"
+msgstr "Барааны үнэ олдсонгүй"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:317
+msgid "No items"
+msgstr "Бараа байхгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:453
+msgid "No items added"
+msgstr "Бараа нэмэгдээгүй"
+
+#: posapp/src/components/Cart/index.jsx:451
+msgid "No items in cart"
+msgstr "Сагсанд бараа байхгүй"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items in this category"
+msgstr "Энэ ангилалд бараа байхгүй"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items match your search"
+msgstr "Хайлтад тохирох бараа байхгүй"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:135
+msgid "No items on this invoice"
+msgstr "Энэ нэхэмжлэхэд бараа байхгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:325
+msgid "No items sold in this period."
+msgstr "Энэ хугацаанд бараа зарагдаагүй."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:341
+msgid "No payment modes added"
+msgstr "Төлбөрийн хэлбэр нэмэгдээгүй"
+
+#: posapp/src/components/InvoicePay/index.jsx:430
+msgid "No payment modes configured for this POS Profile."
+msgstr "Энэ POS профайлд төлбөрийн хэлбэр тохируулаагүй байна."
+
+#: posapp/src/pages/ReportsPage.jsx:252
+msgid "No payment modes configured."
+msgstr "Төлбөрийн хэлбэр тохируулаагүй."
+
+#: posapp/src/components/Closing/index.jsx:98
+msgid "No payment modes found for this shift."
+msgstr "Энэ ээлжид төлбөрийн хэлбэр олдсонгүй."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:419
+msgid "No payments"
+msgstr "Төлбөр байхгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:269
+msgid "No payments recorded in this period."
+msgstr "Энэ хугацаанд төлбөр бүртгэгдээгүй."
+
+#: posapp/src/pages/PriceListListPage.jsx:118
+msgid "No price lists found"
+msgstr "Үнийн жагсаалт олдсонгүй"
+
+#: posapp/src/components/common/ListTable.jsx:43
+#: posapp/src/components/common/ListTable.jsx:99
+msgid "No records found"
+msgstr "Бичлэг олдсонгүй"
+
+#: posapp/src/components/common/ChildTable.jsx:216
+msgid "No rows"
+msgstr "Мөр байхгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:292
+msgid "No sales in this period."
+msgstr "Энэ хугацаанд борлуулалт байхгүй."
+
+#: posapp/src/components/Topbar/index.jsx:99
+msgid "No shift open"
+msgstr "Нээлттэй ээлж байхгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:196
+msgid "No shifts to report on yet. Open a shift from the Terminal to see live shift numbers here."
+msgstr "Тайлагнах ээлж одоогоор байхгүй. Ээлжийн тоог энд шууд харахын тулд терминалаас ээлж нээнэ үү."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:390
+msgid "No taxes applied"
+msgstr "Татвар хэрэглээгүй"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:197
+msgid "No taxes on this invoice"
+msgstr "Энэ нэхэмжлэхэд татвар байхгүй"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:194
+msgid "No tiers added"
+msgstr "Түвшин нэмэгдээгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:365
+msgid "No transactions in this period."
+msgstr "Энэ хугацаанд гүйлгээ байхгүй."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:286
+msgid "No users added — applies to all users"
+msgstr "Хэрэглэгч нэмэгдээгүй — бүх хэрэглэгчид хамаарна"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:35
+msgid "No variants are set up for this item yet."
+msgstr "Энэ бараанд хувилбар хараахан тохируулаагүй байна."
+
+#: posapp/src/components/common/LinkField.jsx:218
+msgid "No {doctype} found"
+msgstr "{doctype} олдсонгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:611
+msgid "None"
+msgstr "Байхгүй"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:252
+msgid "Note"
+msgstr "Тэмдэглэл"
+
+#: posapp/src/pages/SyncPage.jsx:173
+msgid "Nothing queued — every offline sale on this device has synced."
+msgstr "Дараалал хоосон — энэ төхөөрөмжийн бүх офлайн борлуулалт синк хийгдсэн."
+
+#: posapp/src/components/common/AlertModal.jsx:15
+msgid "OK"
+msgstr "OK"
+
+#: posapp/src/components/Customer/AddressModal.jsx:10
+msgid "Office"
+msgstr "Оффис"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/components/Topbar/index.jsx:87 posapp/src/pages/SyncPage.jsx:129
+msgid "Offline"
+msgstr "Офлайн"
+
+#: posapp/src/pages/SyncPage.jsx:136
+msgid "Offline mode isn't enabled for this deployment (EasyPOS Settings). Data still caches below for later, but the Terminal won't fall back to it while offline until it's turned on."
+msgstr "Энэ суулгацад офлайн горим идэвхжээгүй (EasyPOS тохиргоо). Өгөгдөл доор кэшлэгдсээр байх боловч горимыг асаах хүртэл терминал офлайнд түүнийг ашиглахгүй."
+
+#: posapp/src/components/InvoicePay/index.jsx:179
+msgid "Offline — pending sync. Reprint from Invoices once synced."
+msgstr "Офлайн — синк хүлээж байна. Синк хийгдсэний дараа Нэхэмжлэхээс дахин хэвлэнэ үү."
+
+#: posapp/src/pages/POSTerminalPage.jsx:75
+msgid "Offline — showing cached catalog and pricing. Sales ring up and sync automatically once reconnected."
+msgstr "Офлайн — кэшлэсэн каталог, үнийг харуулж байна. Борлуулалт бүртгэгдэж, дахин холбогдмогц автоматаар синк хийгдэнэ."
+
+#: posapp/src/utils/format.js:52
+msgid "On Item Quantity"
+msgstr ""
+
+#: posapp/src/utils/format.js:49
+msgid "On Net Total"
+msgstr ""
+
+#: posapp/src/utils/format.js:50
+msgid "On Previous Row Amount"
+msgstr ""
+
+#: posapp/src/utils/format.js:51
+msgid "On Previous Row Total"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:58
+msgid "One counter."
+msgstr "Нэг лангуу."
+
+#: posapp/src/pages/LoginPage.jsx:77
+msgid "One login per cashier, one record per shift"
+msgstr "Кассчин бүрт нэг нэвтрэлт, ээлж бүрт нэг бичлэг"
+
+#: posapp/src/components/Topbar/index.jsx:87
+msgid "Online"
+msgstr "Онлайн"
+
+#: easy_pos/api/pos.py:385
+msgid "Only a submitted invoice can be returned"
+msgstr "Зөвхөн илгээсэн нэхэмжлэхийг буцааж болно"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:521
+msgid "Only show Customers of these Customer Groups. Leave empty for all."
+msgstr "Зөвхөн эдгээр харилцагчийн бүлгийн харилцагчдыг харуулах. Бүгдийг бол хоосон үлдээнэ үү."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:482
+msgid "Only show Items from these Item Groups. Leave empty for all."
+msgstr "Зөвхөн эдгээр барааны бүлгийн барааг харуулах. Бүгдийг бол хоосон үлдээнэ үү."
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Open"
+msgstr "Нээх"
+
+#: posapp/src/components/Cart/index.jsx:366
+msgid "Open Customer Display"
+msgstr "Харилцагчийн дэлгэц нээх"
+
+#: posapp/src/pages/SyncPage.jsx:299
+msgid "Open a shift before syncing"
+msgstr "Синк хийхээс өмнө ээлж нээнэ үү"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:152
+msgid "Open till"
+msgstr "Касс нээх"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:131
+msgid "Open your till"
+msgstr "Кассаа нээнэ үү"
+
+#: posapp/src/components/Closing/index.jsx:111
+msgid "Opening"
+msgstr "Нээлт"
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Opening Amount"
+msgstr "Нээлтийн дүн"
+
+#. Label of a Table field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Opening Balance Details"
+msgstr "Эхний үлдэгдлийн дэлгэрэнгүй"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:161
+msgid "Opening a shift requires an internet connection — stock and pricing for the profile you pick have to be resolved live. Reconnect to open your till."
+msgstr "Ээлж нээхэд интернэт холболт шаардлагатай — сонгосон профайлын нөөц, үнийг шууд тодорхойлох ёстой. Кассаа нээхийн тулд дахин холбогдоно уу."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:191
+msgid "Opening balance"
+msgstr "Эхний үлдэгдэл"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:149
+msgid "Opening…"
+msgstr "Нээж байна…"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:256
+msgid "Optional note"
+msgstr "Нэмэлт тэмдэглэл"
+
+#: posapp/src/components/Cart/index.jsx:645
+msgid "Order Discount"
+msgstr "Захиалгын хөнгөлөлт"
+
+#: posapp/src/components/Cart/index.jsx:792
+msgid "Order Discount ({pct}%)"
+msgstr "Захиалгын хөнгөлөлт ({pct}%)"
+
+#: posapp/src/components/Customer/AddressModal.jsx:19
+msgid "Other"
+msgstr "Бусад"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:159
+#: posapp/src/components/Items/index.jsx:77
+msgid "Out of stock"
+msgstr "Дууссан"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:266
+msgid "Outstanding Amount"
+msgstr "Үлдэгдэл төлбөр"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:16 posapp/src/utils/format.js:34
+msgid "Overdue"
+msgstr "Хугацаа хэтэрсэн"
+
+#: posapp/src/utils/format.js:41
+msgid "Overdue and Discounted"
+msgstr "Хугацаа хэтэрсэн, хөнгөлөлттэй"
+
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "POS Closing Entry"
+msgstr "POS хаалтын бичилт"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Closing/index.jsx:86
+#: posapp/src/pages/InvoiceDetailPage.jsx:245
+msgid "POS Opening Entry"
+msgstr "POS нээлтийн бичилт"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:180
+#: posapp/src/engine/sync.js:14 posapp/src/pages/InvoiceDetailPage.jsx:244
+#: posapp/src/pages/InvoiceRegisterPage.jsx:190
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+msgid "POS Profile"
+msgstr "POS профайл"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:206
+msgid "POS Profile saved successfully"
+msgstr "POS профайл амжилттай хадгалагдлаа"
+
+#: posapp/src/components/Sidebar/index.jsx:14
+#: posapp/src/pages/POSProfileDetailPage.jsx:224
+#: posapp/src/pages/POSProfileListPage.jsx:90
+msgid "POS Profiles"
+msgstr "POS профайлууд"
+
+#: posapp/src/pages/POSTerminalPage.jsx:34
+msgid "POS Terminal"
+msgstr "POS терминал"
+
+#: posapp/src/components/common/Pagination.jsx:8
+msgid "Page {page} of {total}"
+msgstr "{total}-ийн {page}-р хуудас"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:14 posapp/src/utils/format.js:32
+msgid "Paid"
+msgstr "Төлөгдсөн"
+
+#: posapp/src/components/InvoicePay/index.jsx:473
+#: posapp/src/pages/InvoiceDetailPage.jsx:264
+msgid "Paid Amount"
+msgstr "Төлсөн дүн"
+
+#: posapp/src/utils/format.js:35
+msgid "Partly Paid"
+msgstr "Хэсэгчлэн төлөгдсөн"
+
+#: posapp/src/utils/format.js:42
+msgid "Partly Paid and Discounted"
+msgstr "Хэсэгчлэн төлөгдсөн, хөнгөлөлттэй"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Partnership"
+msgstr "Түншлэл"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:644
+msgid "Party Information"
+msgstr "Талын мэдээлэл"
+
+#: posapp/src/pages/LoginPage.jsx:122
+msgid "Password"
+msgstr "Нууц үг"
+
+#: posapp/src/components/InvoicePay/index.jsx:367
+msgid "Pay with {gateway}"
+msgstr "{gateway}-ээр төлөх"
+
+#: posapp/src/components/Cart/index.jsx:855
+msgid "Pay {amount}"
+msgstr "{amount} төлөх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:414
+msgid "Payment Gateway"
+msgstr "Төлбөрийн гарц"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:335
+msgid "Payment Methods"
+msgstr "Төлбөрийн аргууд"
+
+#. Label of a Table field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Payment Reconciliation"
+msgstr "Төлбөрийн тулгалт"
+
+#: posapp/src/components/Closing/index.jsx:90
+#: posapp/src/components/InvoicePay/index.jsx:422
+msgid "Payment Summary"
+msgstr "Төлбөрийн хураангуй"
+
+#: posapp/src/pages/ReportsPage.jsx:258
+msgid "Payment method breakdown"
+msgstr "Төлбөрийн хэлбэрээр задаргаа"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:164
+msgid "Payment methods are mandatory. Please add at least one payment method."
+msgstr "Төлбөрийн арга заавал шаардлагатай. Дор хаяж нэг төлбөрийн арга нэмнэ үү."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:406
+msgid "Payments"
+msgstr "Төлбөрүүд"
+
+#: posapp/src/pages/SyncPage.jsx:148
+msgid "Pending Invoices"
+msgstr "Хүлээгдэж буй нэхэмжлэх"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Pending sync"
+msgstr "Синк хүлээж байна"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+msgid "Percentage"
+msgstr "Хувь"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Period Details"
+msgstr "Хугацааны дэлгэрэнгүй"
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period End Date"
+msgstr "Хугацааны дуусах огноо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:740
+msgid "Period Settings"
+msgstr "Хугацааны тохиргоо"
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Datetime field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period Start Date"
+msgstr "Хугацааны эхлэх огноо"
+
+#: posapp/src/components/Customer/AddressModal.jsx:18
+msgid "Permanent"
+msgstr "Байнгын"
+
+#: posapp/src/components/Customer/AddressModal.jsx:11
+msgid "Personal"
+msgstr "Хувийн"
+
+#: posapp/src/components/Customer/AddressModal.jsx:129
+#: posapp/src/components/Customer/ContactModal.jsx:102
+msgid "Phone"
+msgstr "Утас"
+
+#: posapp/src/components/Customer/AddressModal.jsx:12
+msgid "Plant"
+msgstr "Үйлдвэр"
+
+#: posapp/src/components/CustomerDisplay/PaymentView.jsx:13
+msgid "Please Pay"
+msgstr "Төлнө үү"
+
+#: posapp/src/components/Cart/index.jsx:214
+msgid "Please add at least one item to the cart"
+msgstr "Сагсанд дор хаяж нэг бараа нэмнэ үү"
+
+#: posapp/src/components/InvoicePay/index.jsx:228
+msgid "Please add one or more items to the cart"
+msgstr "Сагсанд нэг буюу хэд хэдэн бараа нэмнэ үү"
+
+#: posapp/src/components/InvoicePay/index.jsx:232
+msgid "Please enter an amount for at least one payment mode"
+msgstr "Дор хаяж нэг төлбөрийн хэлбэрт дүн оруулна уу"
+
+#: posapp/src/components/Cart/index.jsx:210
+#: posapp/src/components/InvoicePay/index.jsx:224
+msgid "Please select a customer"
+msgstr "Харилцагч сонгоно уу"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:169
+msgid "Please select a default mode of payment"
+msgstr "Анхдагч төлбөрийн хэлбэр сонгоно уу"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:81
+msgid "Point the camera at a barcode, QR code, or serial/batch label."
+msgstr "Камераа баркод, QR код эсвэл сери/багцын шошго руу чиглүүлнэ үү."
+
+#: posapp/src/pages/POSTerminalPage.jsx:119
+msgid "Populates the item search field, same as a hardware scanner"
+msgstr "Барааны хайлтын талбарыг тоног төхөөрөмжийн уншигч шиг бөглөнө"
+
+#: posapp/src/components/Customer/AddressModal.jsx:13
+msgid "Postal"
+msgstr "Шуудангийн"
+
+#: posapp/src/components/Customer/AddressModal.jsx:126
+msgid "Postal Code"
+msgstr "Шуудангийн код"
+
+#. Label of a Date field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:242
+msgid "Posting Date"
+msgstr "Бичилтийн огноо"
+
+#. Label of a Time field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:243
+msgid "Posting Time"
+msgstr "Бичилтийн цаг"
+
+#: posapp/src/components/Customer/AddressModal.jsx:139
+msgid "Preferred Billing Address"
+msgstr "Сонгосон нэхэмжлэлийн хаяг"
+
+#: posapp/src/components/Customer/AddressModal.jsx:146
+msgid "Preferred Shipping Address"
+msgstr "Сонгосон хүргэлтийн хаяг"
+
+#: posapp/src/components/common/Pagination.jsx:18
+msgid "Previous"
+msgstr "Өмнөх"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Price"
+msgstr "Үнэ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:797
+msgid "Price Discount Scheme"
+msgstr "Үнийн хөнгөлөлтийн схем"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:11 posapp/src/pages/InvoiceDetailPage.jsx:258
+#: posapp/src/pages/ItemPriceDetailPage.jsx:207
+#: posapp/src/pages/ItemPriceListPage.jsx:30
+#: posapp/src/pages/ItemPriceListPage.jsx:147
+#: posapp/src/pages/POSProfileDetailPage.jsx:630
+#: posapp/src/pages/POSProfileListPage.jsx:36
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListListPage.jsx:18
+msgid "Price List"
+msgstr "Үнийн жагсаалт"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:203
+#: posapp/src/pages/PriceListDetailPage.jsx:163
+msgid "Price List Details"
+msgstr "Үнийн жагсаалтын дэлгэрэнгүй"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:167
+msgid "Price List Name"
+msgstr "Үнийн жагсаалтын нэр"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:96
+msgid "Price List Name and Currency are required"
+msgstr "Үнийн жагсаалтын нэр болон валют заавал шаардлагатай"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:102
+msgid "Price List must be applicable for Buying or Selling"
+msgstr "Үнийн жагсаалт нь худалдан авалт эсвэл борлуулалтад хамаарах ёстой"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:138
+msgid "Price List saved successfully"
+msgstr "Үнийн жагсаалт амжилттай хадгалагдлаа"
+
+#: posapp/src/components/Sidebar/index.jsx:16
+#: posapp/src/pages/PriceListDetailPage.jsx:155
+#: posapp/src/pages/PriceListListPage.jsx:81
+msgid "Price Lists"
+msgstr "Үнийн жагсаалтууд"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:177
+msgid "Price Not UOM Dependent"
+msgstr "Үнэ хэмжих нэгжээс хамаарахгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:411
+msgid "Price or Product Discount"
+msgstr "Үнийн эсвэл барааны хөнгөлөлт"
+
+#: posapp/src/engine/sync.js:12
+msgid "Pricing Rule"
+msgstr "Үнийн дүрэм"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:155
+#: posapp/src/components/Customer/AddressContactSection.jsx:207
+msgid "Primary"
+msgstr "Үндсэн"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:231
+msgid "Print / Reprint"
+msgstr "Хэвлэх / Дахин хэвлэх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:566
+msgid "Print Format"
+msgstr "Хэвлэх формат"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:587
+msgid "Print Heading"
+msgstr "Хэвлэх гарчиг"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:462
+msgid "Print Receipt on Order Complete"
+msgstr "Захиалга дуусахад баримт хэвлэх"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:561
+msgid "Print Settings"
+msgstr "Хэвлэх тохиргоо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:982
+#: posapp/src/pages/DiscountListPage.jsx:53
+msgid "Priority"
+msgstr "Тэргүүлэх эрэмбэ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:196
+msgid "Priority is mandatory"
+msgstr "Тэргүүлэх эрэмбэ заавал шаардлагатай"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Product"
+msgstr "Бүтээгдэхүүн"
+
+#: posapp/src/components/Items/index.jsx:44
+msgid "Product Bundle"
+msgstr "Бүтээгдэхүүний багц"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:867
+msgid "Product Discount Scheme"
+msgstr "Барааны хөнгөлөлтийн схем"
+
+#: posapp/src/pages/POSProfileListPage.jsx:19
+msgid "Profile"
+msgstr "Профайл"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:232
+msgid "Profile Info"
+msgstr "Профайлын мэдээлэл"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:12
+msgid "Program"
+msgstr "Хөтөлбөр"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:137
+msgid "Program Details"
+msgstr "Хөтөлбөрийн дэлгэрэнгүй"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:141
+msgid "Program Name"
+msgstr "Хөтөлбөрийн нэр"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:92
+msgid "Program Name, From Date and Conversion Factor are required"
+msgstr "Хөтөлбөрийн нэр, эхлэх огноо болон хөрвүүлэх коэффициент заавал шаардлагатай"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:145
+msgid "Program Type"
+msgstr "Хөтөлбөрийн төрөл"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:290
+#: posapp/src/pages/POSProfileDetailPage.jsx:768
+msgid "Project"
+msgstr "Төсөл"
+
+#: posapp/src/pages/SyncPage.jsx:75
+msgid "Push failed. Check your connection and try again."
+msgstr "Илгээж чадсангүй. Холболтоо шалгаад дахин оролдоно уу."
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Push now"
+msgstr "Одоо илгээх"
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Pushing…"
+msgstr "Илгээж байна…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:278
+#: posapp/src/pages/InvoiceDetailPage.jsx:337
+msgid "Qty"
+msgstr "Тоо"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:926
+msgid "Qty for which recursion isn't applicable."
+msgstr "Давталт хамаарахгүй тоо."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:720
+msgid "Quantity and Amount"
+msgstr "Тоо ба дүн"
+
+#: posapp/src/pages/SyncPage.jsx:32
+msgid "Queued"
+msgstr "Дараалалд"
+
+#: posapp/src/pages/ReportsPage.jsx:24
+msgid "Range"
+msgstr "Хүрээ"
+
+#: posapp/src/components/Cart/index.jsx:530
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:171
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:821
+#: posapp/src/pages/InvoiceDetailPage.jsx:282
+#: posapp/src/pages/InvoiceDetailPage.jsx:372
+#: posapp/src/pages/ItemPriceDetailPage.jsx:224
+#: posapp/src/pages/ItemPriceDetailPage.jsx:231
+#: posapp/src/pages/ItemPriceListPage.jsx:36
+msgid "Rate"
+msgstr "Үнэ"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:203
+msgid "Rate (%)"
+msgstr "Хувь хэмжээ (%)"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:238
+msgid "Rate (%) applies to percentage-based charges; Amount applies to \"Actual\" charges. Totals are recalculated against the returned items when the credit note is created."
+msgstr "Хувь хэмжээ (%) нь хувиар тооцох төлбөрт, дүн нь \"Бодит\" төлбөрт хэрэглэгдэнэ. Кредит нэхэмжлэх үүсгэхэд нийт дүнг буцаасан бараагаар дахин тооцно."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:297
+msgid "Rate can not be negative"
+msgstr "Үнэ сөрөг байж болохгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:802
+msgid "Rate or Discount"
+msgstr "Үнэ эсвэл хөнгөлөлт"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:229
+msgid "Rate or Discount is required for the price discount."
+msgstr "Үнийн хөнгөлөлтөд үнэ эсвэл хөнгөлөлт заавал шаардлагатай."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:421
+msgid "Razorpay"
+msgstr ""
+
+#: easy_pos/api/payment_gateways/razorpay.py:26
+msgid "Razorpay is not configured. Set it up under Razorpay Settings first."
+msgstr "Razorpay тохируулаагүй байна. Эхлээд Razorpay тохиргоонд тохируулна уу."
+
+#: easy_pos/api/payment_gateways/razorpay.py:61
+msgid "Razorpay payment signature verification failed"
+msgstr "Razorpay төлбөрийн гарын үсгийн баталгаажуулалт амжилтгүй"
+
+#: posapp/src/components/InvoicePay/index.jsx:168
+#: posapp/src/components/InvoicePay/index.jsx:177
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Receipt"
+msgstr "Баримт"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:599
+msgid "Receipt Delivery"
+msgstr "Баримт хүргэлт"
+
+#: posapp/src/pages/ReportsPage.jsx:355
+msgid "Recent transactions"
+msgstr "Сүүлийн гүйлгээнүүд"
+
+#: posapp/src/components/Topbar/index.jsx:110
+msgid "Reconnect to close your shift"
+msgstr "Ээлжээ хаахын тулд дахин холбогдоно уу"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:144
+msgid "Reconnect to open a shift"
+msgstr "Ээлж нээхийн тулд дахин холбогдоно уу"
+
+#: posapp/src/pages/SyncPage.jsx:159
+msgid "Reconnect to push queued invoices"
+msgstr "Дараалалд буй нэхэмжлэхийг илгээхийн тулд дахин холбогдоно уу"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:916
+msgid "Recurse Every (As Per Transaction UOM)"
+msgstr "Давтамж (гүйлгээний хэмжих нэгжээр)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:293
+msgid "Recurse Over Qty cannot be less than 0"
+msgstr "Давталтын тоо 0-ээс бага байж болохгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:325
+msgid "Recursive Discounts with Mixed condition is not supported by the system"
+msgstr "Холимог нөхцөлтэй давтагдах хөнгөлөлтийг систем дэмждэггүй"
+
+#: posapp/src/components/InvoicePay/index.jsx:394
+msgid "Redeem Loyalty Points ({n} available)"
+msgstr "Урамшууллын оноо зарцуулах ({n} байна)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:251
+msgid "Redemption"
+msgstr "Зарцуулалт"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:52
+msgid "Register"
+msgstr "Бүртгүүлэх"
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:50
+msgid "Reload"
+msgstr "Дахин ачаалах"
+
+#: posapp/src/pages/LoginPage.jsx:137
+msgid "Remember this device"
+msgstr "Энэ төхөөрөмжийг санах"
+
+#: posapp/src/components/Cart/index.jsx:520
+msgid "Remove"
+msgstr "Хасах"
+
+#: posapp/src/components/Cart/index.jsx:706
+msgid "Remove coupon"
+msgstr "Купон хасах"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:441
+msgid "Remove row"
+msgstr "Мөр хасах"
+
+#: posapp/src/components/Sidebar/index.jsx:19
+#: posapp/src/pages/ReportsPage.jsx:101 posapp/src/pages/ReportsPage.jsx:155
+msgid "Reports"
+msgstr "Тайлангууд"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retry"
+msgstr "Дахин оролдох"
+
+#: posapp/src/pages/SyncPage.jsx:87
+msgid "Retry failed."
+msgstr "Дахин оролдлого амжилтгүй."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:184
+msgid "Retry sync"
+msgstr "Синкийг дахин оролдох"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retrying…"
+msgstr "Дахин оролдож байна…"
+
+#: posapp/src/utils/format.js:36
+msgid "Return"
+msgstr "Буцаалт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:261
+msgid "Return Against"
+msgstr "Буцаалтын эх баримт"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:174
+msgid "Return Amount"
+msgstr "Буцаалтын дүн"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:154
+msgid "Return Qty"
+msgstr "Буцаалтын тоо"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:185
+msgid "Return Total"
+msgstr "Буцаалтын нийт"
+
+#: posapp/src/components/Closing/index.jsx:59
+msgid "Review the counted totals for this shift before closing."
+msgstr "Хаахаас өмнө энэ ээлжийн тоолсон нийт дүнг шалгана уу."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:897
+msgid "Round Free Qty"
+msgstr "Үнэгүй тоог бөөрөнхийлөх"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:401
+msgid "Rounded Total"
+msgstr "Бөөрөнхийлсөн нийт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:400
+msgid "Rounding Adjustment"
+msgstr "Бөөрөнхийллийн тохируулга"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1019
+msgid "Rule Description"
+msgstr "Дүрмийн тайлбар"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:613
+msgid "SMS Notification"
+msgstr "SMS мэдэгдэл"
+
+#: posapp/src/pages/ReportsPage.jsx:140
+msgid "Sales"
+msgstr "Борлуулалт"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:18
+msgid "Sales Invoice"
+msgstr "Борлуулалтын нэхэмжлэх"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Sales Manager"
+msgstr "Борлуулалтын менежер"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:686
+msgid "Sales Partner"
+msgstr "Борлуулалтын түнш"
+
+#: posapp/src/engine/sync.js:13 posapp/src/pages/InvoiceDetailPage.jsx:397
+#: posapp/src/pages/POSProfileDetailPage.jsx:718
+msgid "Sales Taxes and Charges Template"
+msgstr "Борлуулалтын татвар, төлбөрийн загвар"
+
+#: posapp/src/pages/SyncPage.jsx:151
+msgid "Sales completed offline, queued locally until they reach ERPNext."
+msgstr "Офлайн хийсэн борлуулалт ERPNext-д хүрэх хүртэл орон нутгийн дараалалд байна."
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by day"
+msgstr "Борлуулалтын чиг хандлага · өдрөөр"
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by hour"
+msgstr "Борлуулалтын чиг хандлага · цагаар"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:872
+msgid "Same Item"
+msgstr "Ижил бараа"
+
+#: posapp/src/components/Customer/AddressModal.jsx:86
+#: posapp/src/components/Customer/ContactModal.jsx:83
+#: posapp/src/components/common/SaveButton.jsx:28
+msgid "Save"
+msgstr "Хадгалах"
+
+#: posapp/src/components/Cart/index.jsx:824
+msgid "Save Draft"
+msgstr "Ноорог хадгалах"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:95
+msgid "Save the customer first to add addresses and contacts."
+msgstr "Хаяг, холбоо барих нэмэхийн тулд эхлээд харилцагчийг хадгална уу."
+
+#: posapp/src/components/Cart/index.jsx:819
+#: posapp/src/components/Customer/AddressModal.jsx:83
+#: posapp/src/components/Customer/ContactModal.jsx:80
+#: posapp/src/components/common/SaveButton.jsx:25
+msgid "Saving…"
+msgstr "Хадгалж байна…"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:61
+msgid "Scan barcode"
+msgstr "Баркод уншуулах"
+
+#: posapp/src/pages/POSTerminalPage.jsx:37
+msgid "Scan barcode/serial/batch or search items"
+msgstr "Баркод/сери/багц уншуулах эсвэл бараа хайх"
+
+#: posapp/src/components/Topbar/index.jsx:61
+#: posapp/src/components/Topbar/index.jsx:62
+msgid "Scan with camera"
+msgstr "Камераар уншуулах"
+
+#: posapp/src/components/Cart/index.jsx:508
+msgid "Scan/add the item again to add another unit"
+msgstr "Дахин нэг ширхэг нэмэхийн тулд барааг дахин уншуулж/нэмнэ үү"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+msgid "Search and pull a saved draft into the terminal"
+msgstr "Хадгалсан ноорог хайж терминал руу ачаалах"
+
+#: posapp/src/components/Cart/index.jsx:595
+msgid "Search batch no"
+msgstr "Багцын дугаар хайх"
+
+#: posapp/src/pages/CustomerListPage.jsx:118
+msgid "Search customer, mobile or email"
+msgstr "Харилцагч, гар утас эсвэл и-мэйл хайх"
+
+#: posapp/src/components/Cart/index.jsx:386
+msgid "Search customer..."
+msgstr "Харилцагч хайх..."
+
+#: posapp/src/pages/DiscountListPage.jsx:111
+msgid "Search discount title"
+msgstr "Хөнгөлөлтийн гарчиг хайх"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:136
+msgid "Search invoice or customer"
+msgstr "Нэхэмжлэх эсвэл харилцагч хайх"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:113
+msgid "Search item code or name"
+msgstr "Барааны код эсвэл нэр хайх"
+
+#: posapp/src/pages/PriceListListPage.jsx:87
+msgid "Search price list"
+msgstr "Үнийн жагсаалт хайх"
+
+#: posapp/src/pages/POSProfileListPage.jsx:96
+msgid "Search profile or warehouse"
+msgstr "Профайл эсвэл агуулах хайх"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:83
+msgid "Search program name"
+msgstr "Хөтөлбөрийн нэр хайх"
+
+#: posapp/src/components/Cart/index.jsx:575
+msgid "Search serial no"
+msgstr "Серийн дугаар хайх"
+
+#: posapp/src/components/Topbar/index.jsx:53
+#: posapp/src/components/common/LinkField.jsx:162
+msgid "Search..."
+msgstr "Хайх..."
+
+#: posapp/src/components/Items/index.jsx:351
+msgid "Searching…"
+msgstr "Хайж байна…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:566
+msgid "Select Brand"
+msgstr "Брэнд сонгох"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:307
+msgid "Select Company"
+msgstr "Компани сонгох"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:206
+msgid "Select Country"
+msgstr "Улс сонгох"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:531
+msgid "Select Customer Group"
+msgstr "Харилцагчийн бүлэг сонгох"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:461
+msgid "Select Item"
+msgstr "Бараа сонгох"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:512
+#: posapp/src/pages/POSProfileDetailPage.jsx:492
+msgid "Select Item Group"
+msgstr "Барааны бүлэг сонгох"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:359
+msgid "Select Mode"
+msgstr "Хэлбэр сонгох"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:181
+msgid "Select POS profile"
+msgstr "POS профайл сонгох"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:474
+#: posapp/src/pages/DiscountDetailPage.jsx:525
+#: posapp/src/pages/DiscountDetailPage.jsx:579
+msgid "Select UOM"
+msgstr "Хэмжих нэгж сонгох"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:294
+msgid "Select User"
+msgstr "Хэрэглэгч сонгох"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:261
+#: posapp/src/pages/POSProfileDetailPage.jsx:677
+#: posapp/src/pages/POSProfileDetailPage.jsx:691
+msgid "Select a Company first"
+msgstr "Эхлээд компани сонгоно уу"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:165
+msgid "Select an option for every attribute to pick a variant."
+msgstr "Хувилбар сонгохын тулд шинж чанар бүрт нэг сонголт хийнэ үү."
+
+#: easy_pos/api/pos.py:410 posapp/src/components/Invoice/CreditNoteModal.jsx:71
+msgid "Select at least one item to return"
+msgstr "Буцаах дор хаяж нэг бараа сонгоно уу"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:172
+msgid "Select company"
+msgstr "Компани сонгох"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:99
+msgid "Select customer group"
+msgstr "Харилцагчийн бүлэг сонгох"
+
+#: posapp/src/components/Items/index.jsx:66
+msgid "Select options"
+msgstr "Сонголтууд сонгох"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:983
+msgid "Select priority"
+msgstr "Тэргүүлэх эрэмбэ сонгох"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:107
+msgid "Select territory"
+msgstr "Нутаг дэвсгэр сонгох"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:648
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:217
+#: posapp/src/pages/ItemPriceListPage.jsx:12
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:174
+#: posapp/src/pages/PriceListListPage.jsx:30
+msgid "Selling"
+msgstr "Борлуулалт"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:274
+msgid "Selling must be checked, if Applicable For is selected as {field}"
+msgstr "\"Хамаарах\" нь {field} гэж сонгогдсон бол Борлуулалтыг тэмдэглэх ёстой"
+
+#: posapp/src/components/Cart/index.jsx:570 posapp/src/engine/sync.js:19
+msgid "Serial No"
+msgstr "Серийн дугаар"
+
+#: posapp/src/pages/SyncPage.jsx:129
+msgid "Server connected"
+msgstr "Сервер холбогдсон"
+
+#: easy_pos/api/pwa.py:29
+msgid "Service worker not built yet - run `yarn build` in posapp/"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:20
+#: posapp/src/pages/SettingsPage.jsx:25
+msgid "Settings"
+msgstr "Тохиргоо"
+
+#: posapp/src/pages/ReportsPage.jsx:22
+msgid "Shift"
+msgstr "Ээлж"
+
+#: posapp/src/pages/ReportsPage.jsx:225
+msgid "Shift summary"
+msgstr "Ээлжийн хураангуй"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:156
+#: posapp/src/components/Customer/AddressModal.jsx:9
+msgid "Shipping"
+msgstr "Хүргэлт"
+
+#: posapp/src/components/Customer/AddressModal.jsx:14
+msgid "Shop"
+msgstr "Дэлгүүр"
+
+#: posapp/src/components/Cart/index.jsx:358
+msgid "Shopping Cart"
+msgstr "Худалдааны сагс"
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Show password"
+msgstr "Нууц үгийг харуулах"
+
+#: posapp/src/pages/LoginPage.jsx:99 posapp/src/pages/LoginPage.jsx:159
+msgid "Sign in"
+msgstr "Нэвтрэх"
+
+#: posapp/src/pages/LoginPage.jsx:63
+msgid "Sign in to open your till and start ringing up sales."
+msgstr "Кассаа нээж борлуулалт эхлүүлэхийн тулд нэвтэрнэ үү."
+
+#: posapp/src/pages/LoginPage.jsx:155
+msgid "Signing in…"
+msgstr "Нэвтэрч байна…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:948
+msgid "Simple Python Expression, Example: territory != 'All Territories'"
+msgstr "Энгийн Python илэрхийлэл, жишээ: territory != 'All Territories'"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Single Tier Program"
+msgstr "Нэг түвшинтэй хөтөлбөр"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:191
+msgid "Spend thresholds and how many currency units earn 1 loyalty point at each tier."
+msgstr "Зарцуулалтын босго болон түвшин бүрт хэдэн валютын нэгжээр 1 урамшууллын оноо авах."
+
+#: posapp/src/components/Customer/AddressModal.jsx:120
+msgid "State/Province"
+msgstr "Муж/Аймаг"
+
+#. Label of a Select field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/CustomerListPage.jsx:54
+#: posapp/src/pages/DiscountListPage.jsx:66
+#: posapp/src/pages/InvoiceRegisterPage.jsx:46
+#: posapp/src/pages/POSProfileListPage.jsx:42
+#: posapp/src/pages/PriceListListPage.jsx:42
+msgid "Status"
+msgstr "Төлөв"
+
+#: posapp/src/utils/format.js:39
+msgid "Submitted"
+msgstr "Илгээсэн"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Submitting…"
+msgstr "Илгээж байна…"
+
+#: posapp/src/components/Customer/AddressModal.jsx:15
+msgid "Subsidiary"
+msgstr "Охин компани"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:29
+msgid "Subtotal"
+msgstr "Дэд дүн"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:701
+#: posapp/src/pages/ItemPriceDetailPage.jsx:213
+msgid "Supplier"
+msgstr "Нийлүүлэгч"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:707
+msgid "Supplier Group"
+msgstr "Нийлүүлэгчийн бүлэг"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to dark mode"
+msgstr "Харанхуй горим руу шилжих"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to light mode"
+msgstr "Гэрэл горим руу шилжих"
+
+#: posapp/src/components/Sidebar/index.jsx:18 posapp/src/pages/SyncPage.jsx:58
+msgid "Sync"
+msgstr "Синк"
+
+#: posapp/src/pages/SyncPage.jsx:121
+msgid "Sync center"
+msgstr "Синкийн төв"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Sync failed"
+msgstr "Синк амжилтгүй"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:100
+msgid "Sync failed — check the Sync page for details."
+msgstr "Синк амжилтгүй — дэлгэрэнгүйг Синк хуудаснаас харна уу."
+
+#: posapp/src/pages/SyncPage.jsx:108
+msgid "Sync failed. Check your connection and try again."
+msgstr "Синк амжилтгүй. Холболтоо шалгаад дахин оролдоно уу."
+
+#: posapp/src/pages/SyncPage.jsx:35
+msgid "Synced"
+msgstr "Синк хийгдсэн"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+#: posapp/src/pages/InvoiceDetailPage.jsx:182 posapp/src/pages/SyncPage.jsx:33
+msgid "Syncing…"
+msgstr "Синк хийж байна…"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "System Manager"
+msgstr "Системийн менежер"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:964
+msgid "System will notify to increase or decrease quantity or amount"
+msgstr "Систем тоо эсвэл дүнг нэмэх, хасахыг мэдэгдэнэ"
+
+#: posapp/src/components/InvoicePay/index.jsx:347
+msgid "Take Payment"
+msgstr "Төлбөр авах"
+
+#: posapp/src/components/Cart/index.jsx:452
+msgid "Tap an item to add it here"
+msgstr "Энд нэмэхийн тулд бараа дээр дарна уу"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:205
+#: posapp/src/pages/InvoiceDetailPage.jsx:396
+#: posapp/src/pages/POSProfileDetailPage.jsx:733
+msgid "Tax Category"
+msgstr "Татварын ангилал"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:202
+msgid "Tax ID"
+msgstr "Татвар төлөгчийн дугаар"
+
+#: posapp/src/components/Cart/index.jsx:756
+msgid "Taxes"
+msgstr "Татвар"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:192
+#: posapp/src/pages/InvoiceDetailPage.jsx:368
+#: posapp/src/pages/InvoiceDetailPage.jsx:394
+msgid "Taxes and Charges"
+msgstr "Татвар ба төлбөр"
+
+#: posapp/src/components/Sidebar/index.jsx:11
+msgid "Terminal"
+msgstr "Терминал"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:578
+msgid "Terms and Conditions"
+msgstr "Нөхцөл ба болзол"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:106
+#: posapp/src/pages/CustomerDetailPage.jsx:193
+#: posapp/src/pages/CustomerListPage.jsx:48
+#: posapp/src/pages/CustomerListPage.jsx:166
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:680
+msgid "Territory"
+msgstr "Нутаг дэвсгэр"
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:13
+msgid "Thank You!"
+msgstr "Баярлалаа!"
+
+#: posapp/src/components/InvoicePay/index.jsx:318
+msgid "That attempt failed — you can try another payment method in the {gateway} window."
+msgstr "Тэр оролдлого амжилтгүй боллоо — {gateway} цонхонд өөр төлбөрийн аргыг туршиж болно."
+
+#: posapp/src/components/Cart/index.jsx:677
+msgid "This POS Profile doesn't allow manual discount changes."
+msgstr "Энэ POS профайл хөнгөлөлтийг гараар өөрчлөхийг зөвшөөрдөггүй."
+
+#: easy_pos/api/payment.py:44
+msgid "This invoice has already been finalized"
+msgstr "Энэ нэхэмжлэх аль хэдийн эцэслэгдсэн"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:140
+msgid "This offline sale isn't in the local queue on this device anymore."
+msgstr "Энэ офлайн борлуулалт энэ төхөөрөмжийн орон нутгийн дараалалд байхаа больсон."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:65
+msgid "This profile sells in {currency} but the company's currency is {company_currency}. A new customer's first sale will fail until 'Allow multi-currency invoices against single party account' is enabled in Accounts Settings."
+msgstr "Энэ профайл {currency}-ээр борлуулдаг боловч компанийн валют {company_currency} байна. Accounts Settings-д 'Allow multi-currency invoices against single party account'-ийг идэвхжүүлэх хүртэл шинэ харилцагчийн анхны борлуулалт амжилтгүй болно."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:158
+msgid "This sale was completed offline and hasn't reached ERPNext yet. It will get a real invoice number once it syncs — reconnect and it should sync automatically, or retry below."
+msgstr "Энэ борлуулалт офлайн хийгдсэн бөгөөд ERPNext-д хараахан хүрээгүй. Синк хийгдмэгц жинхэнэ нэхэмжлэхийн дугаар авна — дахин холбогдвол автоматаар синк хийгдэнэ, эсвэл доороос дахин оролдоно уу."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:265
+msgid "This will permanently delete this address."
+msgstr "Энэ хаяг бүрмөсөн устгагдана."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:266
+msgid "This will permanently delete this contact."
+msgstr "Энэ холбоо барих бүрмөсөн устгагдана."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:963
+msgid "Threshold for Suggestion (In Percentage)"
+msgstr "Санал болгох босго (хувиар)"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:279
+msgid "Tier"
+msgstr "Түвшин"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:198
+msgid "Tier Name"
+msgstr "Түвшний нэр"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:399
+#: posapp/src/pages/DiscountListPage.jsx:26
+msgid "Title"
+msgstr "Гарчиг"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:195
+msgid "Title is required"
+msgstr "Гарчиг заавал шаардлагатай"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:158
+msgid "To Date"
+msgstr "Дуусах огноо"
+
+#: posapp/src/pages/ReportsPage.jsx:23
+msgid "Today"
+msgstr "Өнөөдөр"
+
+#: posapp/src/components/Topbar/index.jsx:147
+msgid "Toggle dark mode"
+msgstr "Харанхуй горимыг солих"
+
+#: posapp/src/pages/ReportsPage.jsx:301
+msgid "Top selling items"
+msgstr "Хамгийн их зарагдсан бараа"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:45
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:172
+#: posapp/src/pages/InvoiceDetailPage.jsx:382
+msgid "Total"
+msgstr "Нийт"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:399
+msgid "Total Taxes and Charges"
+msgstr "Нийт татвар ба төлбөр"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Totals"
+msgstr "Нийт дүнгүүд"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+msgid "Transaction"
+msgstr "Гүйлгээ"
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/pages/ReportsPage.jsx:214
+msgid "Transactions"
+msgstr "Гүйлгээнүүд"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:200
+#: posapp/src/pages/DiscountListPage.jsx:43
+#: posapp/src/pages/InvoiceDetailPage.jsx:371
+#: posapp/src/pages/ItemPriceListPage.jsx:53
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:23
+msgid "Type"
+msgstr "Төрөл"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:470
+#: posapp/src/pages/DiscountDetailPage.jsx:521
+#: posapp/src/pages/DiscountDetailPage.jsx:575
+#: posapp/src/pages/InvoiceDetailPage.jsx:279
+#: posapp/src/pages/InvoiceDetailPage.jsx:338
+#: posapp/src/pages/ItemPriceDetailPage.jsx:193
+#: posapp/src/pages/ItemPriceListPage.jsx:47
+msgid "UOM"
+msgstr "Хэмжих нэгж"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:47
+msgid "Unable to start the camera."
+msgstr "Камерыг эхлүүлж чадсангүй."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:15 posapp/src/utils/format.js:33
+msgid "Unpaid"
+msgstr "Төлөгдөөгүй"
+
+#: posapp/src/utils/format.js:40
+msgid "Unpaid and Discounted"
+msgstr "Төлөгдөөгүй, хөнгөлөлттэй"
+
+#: posapp/src/components/Topbar/index.jsx:167
+#: posapp/src/pages/POSProfileDetailPage.jsx:290
+msgid "User"
+msgstr "Хэрэглэгч"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "User Details"
+msgstr "Хэрэглэгчийн дэлгэрэнгүй"
+
+#: posapp/src/pages/LoginPage.jsx:26
+msgid "Username and password are required"
+msgstr "Хэрэглэгчийн нэр болон нууц үг заавал шаардлагатай"
+
+#: posapp/src/pages/SettingsPage.jsx:14
+msgid "Users"
+msgstr "Хэрэглэгчид"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:745
+#: posapp/src/pages/ItemPriceDetailPage.jsx:242
+msgid "Valid From"
+msgstr "Хүчинтэй эхлэх"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:42
+msgid "Valid Till"
+msgstr "Хүчинтэй дуусах"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:753
+#: posapp/src/pages/DiscountListPage.jsx:60
+#: posapp/src/pages/ItemPriceDetailPage.jsx:245
+#: posapp/src/pages/ItemPriceListPage.jsx:63
+msgid "Valid Upto"
+msgstr "Хүчинтэй хүртэл"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:315
+msgid "Valid Upto Date cannot be before Valid From Date"
+msgstr "\"Хүчинтэй хүртэл\" огноо \"Хүчинтэй эхлэх\" огнооноос өмнө байж болохгүй"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:312
+msgid "Valid from and valid upto fields are mandatory for the cumulative"
+msgstr "Хуримтлагдах дүрэмд хүчинтэй эхлэх, хүчинтэй хүртэл талбарууд заавал шаардлагатай"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1010
+msgid "Validate Applied Rule"
+msgstr "Хэрэглэсэн дүрмийг шалгах"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:461
+msgid "Validate Stock on Save"
+msgstr "Хадгалахад нөөцийг шалгах"
+
+#: posapp/src/components/common/AlertModal.jsx:10
+msgid "Validation Error"
+msgstr "Шалгалтын алдаа"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:238
+msgid "Validity"
+msgstr "Хүчинтэй байдал"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:249
+msgid "Variant {variant} and its template {template} cannot both be added to the same Pricing Rule"
+msgstr "{variant} хувилбар болон түүний загвар {template}-ийг нэг үнийн дүрэмд хамт нэмэх боломжгүй"
+
+#: posapp/src/pages/ReportsPage.jsx:360
+msgid "View all"
+msgstr "Бүгдийг харах"
+
+#: posapp/src/components/Cart/CartBar.jsx:20
+msgid "View cart"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:427
+msgid "View purchase history"
+msgstr "Худалдан авалтын түүх харах"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Waiting for {gateway}…"
+msgstr "{gateway}-г хүлээж байна…"
+
+#: posapp/src/components/InvoicePay/index.jsx:180
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Walk-in"
+msgstr "Санамсаргүй харилцагч"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Customer/AddressModal.jsx:16
+#: posapp/src/pages/DiscountDetailPage.jsx:419
+#: posapp/src/pages/InvoiceDetailPage.jsx:259
+#: posapp/src/pages/InvoiceDetailPage.jsx:339
+#: posapp/src/pages/POSProfileDetailPage.jsx:243
+#: posapp/src/pages/POSProfileListPage.jsx:30
+msgid "Warehouse"
+msgstr "Агуулах"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:259
+msgid "Website"
+msgstr "Вэб сайт"
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:8
+msgid "Welcome"
+msgstr "Тавтай морил"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:405
+msgid "When checked, the closing amount for this payment method is calculated automatically from sales. Uncheck to have the cashier manually count and enter the amount at POS closing."
+msgstr "Тэмдэглэсэн бол энэ төлбөрийн хэлбэрийн хаалтын дүн борлуулалтаас автоматаар тооцогдоно. POS хаалтын үед кассчин дүнг гараар тоолж оруулахын тулд тэмдэглэгээг арилгана уу."
+
+#. Description of the 'Enable Offline Mode' (Check) field in DocType 'EASYPOS
+#. Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "When enabled, the POS Terminal reads/writes from the local offline database instead of calling the server directly, and syncs changes back once online."
+msgstr "Идэвхжүүлсэн бол POS терминал серверийг шууд дуудахын оронд орон нутгийн офлайн өгөгдлийн сангаас уншиж/бичиж, онлайн болмогц өөрчлөлтийг синк хийнэ."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:425
+msgid "When set, Complete Payment opens this gateway's checkout for the amount entered instead of treating it as manually received. Configure the gateway's own credentials (e.g. Razorpay Settings) separately."
+msgstr "Тохируулсан бол \"Төлбөр дуусгах\" нь оруулсан дүнг гараар хүлээн авсанд тооцохын оронд энэ гарцын төлбөрийн цонхыг нээнэ. Гарцын нэвтрэх мэдээллийг (ж.нь Razorpay тохиргоо) тусад нь тохируулна уу."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:642
+msgid "Write Off Account"
+msgstr "Хасагдуулах данс"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:656
+msgid "Write Off Cost Center"
+msgstr "Хасагдуулах зардлын төв"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:666
+msgid "Write Off Limit"
+msgstr "Хасагдуулах хязгаар"
+
+#: posapp/src/components/common/ConfirmModal.jsx:39
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "Yes"
+msgstr "Тийм"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:431
+msgid "Yes, Cancel"
+msgstr "Тийм, цуцлах"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:173
+msgid "You can only select one mode of payment as default"
+msgstr "Зөвхөн нэг төлбөрийн хэлбэрийг анхдагчаар сонгож болно"
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:9
+msgid "Your order will appear here shortly."
+msgstr "Таны захиалга удахгүй энд гарч ирнэ."
+
+#: posapp/src/pages/ReportsPage.jsx:155
+msgid "Your sales, shift, and payment summary"
+msgstr "Таны борлуулалт, ээлж, төлбөрийн хураангуй"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:84
+msgid "e.g. Aarav Sharma"
+msgstr "ж.нь Aarav Sharma"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:202
+msgid "e.g. Silver"
+msgstr "ж.нь Мөнгө"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:123
+msgid "e.g. customer@example.com"
+msgstr "ж.нь customer@example.com"
+
+#: easy_pos/api/pos.py:515
+msgid "opening_entry is required for shift scope"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:201
+msgid "{field} is not added in the table"
+msgstr "{field} хүснэгтэд нэмэгдээгүй байна"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:215
+msgid "{field} is required"
+msgstr "{field} заавал шаардлагатай"
+
+#: posapp/src/components/InvoicePay/index.jsx:449
+msgid "{gateway} is not configured yet."
+msgstr "{gateway} хараахан тохируулагдаагүй."
+
+#: posapp/src/components/InvoicePay/index.jsx:444
+msgid "{gateway} needs a connection — unavailable while offline."
+msgstr "{gateway} холболт шаарддаг — офлайнд боломжгүй."
+
+#: posapp/src/components/InvoicePay/index.jsx:452
+msgid "{gateway} — offline"
+msgstr "{gateway} — офлайн"
+
+#: posapp/src/components/InvoicePay/index.jsx:156
+msgid "{item} (Free)"
+msgstr "{item} (Үнэгүй)"
+
+#: posapp/src/components/Sidebar/index.jsx:75
+#: posapp/src/pages/SettingsPage.jsx:43
+msgid "{label} — coming soon"
+msgstr "{label} — удахгүй"
+
+#: posapp/src/pages/SyncPage.jsx:337
+msgid "{label} — {n} cached"
+msgstr "{label} — {n} кэшлэсэн"
+
+#: posapp/src/components/Sidebar/index.jsx:88
+msgid "{label} — {n} invoice(s) pending sync"
+msgstr "{label} — синк хүлээж буй {n} нэхэмжлэх"
+
+#: posapp/src/pages/ReportsPage.jsx:338
+msgid "{n} invoices"
+msgstr "{n} нэхэмжлэх"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "{n} items"
+msgstr "{n} бараа"
+
+#: posapp/src/components/Cart/index.jsx:412
+msgid "{n} loyalty points available"
+msgstr "{n} урамшууллын оноо байна"
+
+#: posapp/src/pages/SyncPage.jsx:288
+msgid "{n} record(s) cached locally. Master data is read-only offline — a Fetch pulls a fresh snapshot of every domain at once (they're all resolved together for the current shift's POS Profile)."
+msgstr "Орон нутагт {n} бичлэг кэшлэсэн. Үндсэн өгөгдөл офлайнд зөвхөн унших боломжтой — \"Татах\" нь бүх хүрээний шинэ агшин зургийг нэг дор татна (тэдгээр нь одоогийн ээлжийн POS профайлд хамт тодорхойлогдоно)."
+
+#: posapp/src/pages/ReportsPage.jsx:347
+msgid "{n} returns"
+msgstr "{n} буцаалт"
+
+#: posapp/src/pages/SyncPage.jsx:21
+msgid "{n}h ago"
+msgstr "{n} цагийн өмнө"
+
+#: posapp/src/pages/SyncPage.jsx:19
+msgid "{n}m ago"
+msgstr "{n} минутын өмнө"
+
+#: posapp/src/components/Items/index.jsx:77
+msgid "{qty} left"
+msgstr "{qty} үлдсэн"
+
+#: posapp/src/components/Cart/index.jsx:485
+msgid "{rate} each"
+msgstr "нэг бүр {rate}"
+

@@ -1,0 +1,3566 @@
+# Chinese translations for Easy POS.
+# Copyright (C) 2026 Aashish
+# This file is distributed under the same license as the Easy POS project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy POS VERSION\n"
+"Report-Msgid-Bugs-To: aashishvashisht6@gmail.com\n"
+"POT-Creation-Date: 2026-10-24 22:43+0553\n"
+"PO-Revision-Date: 2026-10-23 22:37+0553\n"
+"Last-Translator: aashishvashisht6@gmail.com\n"
+"Language: zh\n"
+"Language-Team: aashishvashisht6@gmail.com\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: posapp/src/components/common/ChildTable.jsx:122
+#: posapp/src/components/common/ChildTable.jsx:329
+msgid "+ Add row"
+msgstr "+ 添加行"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "1 item"
+msgstr "1 件商品"
+
+#: posapp/src/components/Cart/index.jsx:411
+msgid "1 loyalty point available"
+msgstr "可用 1 个积分"
+
+#. Header text in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "<span class=\"h4\">EASYPOS</span>"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:783
+msgid "A free-item offer in this cart needs a connection to resolve — pricing/discounts for this whole cart are on hold at list price until reconnected."
+msgstr "此购物车中的赠品优惠需要联网才能计算——在重新连接之前，整个购物车的价格/折扣暂按标价计算。"
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:44
+msgid "A new version of Easy POS is available."
+msgstr "Easy POS 有新版本可用。"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:132
+msgid "A shift needs to be open before you can ring up sales."
+msgstr "开始销售前需要先开班。"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:131
+msgid "ADDRESSES"
+msgstr "地址"
+
+#: posapp/src/pages/SyncPage.jsx:322
+msgid "ALL DOMAINS"
+msgstr "全部数据域"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:199
+#: posapp/src/pages/InvoiceDetailPage.jsx:370
+msgid "Account Head"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:250
+msgid "Account Manager"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:675
+msgid "Account for Change Amount"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:625
+msgid "Accounting"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:755
+msgid "Accounting Dimensions"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:12
+#: posapp/src/pages/CustomerListPage.jsx:58
+#: posapp/src/pages/DiscountListPage.jsx:12
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileListPage.jsx:12
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Active"
+msgstr ""
+
+#: posapp/src/utils/format.js:48
+msgid "Actual"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:133
+msgid "Add Address"
+msgstr "添加地址"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:186
+msgid "Add Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:54
+msgid "Add a new customer to bill this sale against."
+msgstr "添加一位新客户来开具此笔销售。"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:97
+msgid "Add at least one Collection Rule (tier) — mandatory even for a Single Tier Program"
+msgstr "至少添加一条积分规则（等级）——即使是单级计划也必须添加"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:342
+msgid "Add the Modes of Payment cashiers can use to settle a sale on this profile."
+msgstr "添加收银员在此配置下可用于结算的付款方式。"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:95
+msgid "Add to Cart"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:349
+msgid "Additional Discount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:359
+msgid "Additional Discount Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:353
+msgid "Additional Discount Percentage"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:92
+#: posapp/src/components/Customer/AddressContactSection.jsx:104
+msgid "Address & Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:108
+msgid "Address Line 1"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:111
+msgid "Address Line 2"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:96
+msgid "Address Title"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:100
+msgid "Address Type"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:52
+msgid "Address Type, Address Line 1, City/Town and Country are required"
+msgstr "地址类型、地址行 1、城市和国家为必填项"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Administrator"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:958
+msgid "Advanced Settings"
+msgstr ""
+
+#: posapp/src/components/ItemGroup/index.jsx:41
+#: posapp/src/pages/CustomerListPage.jsx:11
+#: posapp/src/pages/DiscountDetailPage.jsx:655
+#: posapp/src/pages/DiscountListPage.jsx:11
+#: posapp/src/pages/InvoiceRegisterPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:11
+#: posapp/src/pages/POSProfileListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:10
+msgid "All"
+msgstr ""
+
+#: posapp/src/pages/POSProfileListPage.jsx:127
+msgid "All companies"
+msgstr "所有公司"
+
+#: posapp/src/pages/CustomerListPage.jsx:158
+msgid "All groups"
+msgstr "所有分组"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:148
+msgid "All price lists"
+msgstr "所有价格表"
+
+#: posapp/src/pages/CustomerListPage.jsx:167
+msgid "All territories"
+msgstr "所有区域"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:468
+msgid "Allow Partial Payment"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:466
+msgid "Allow User to Edit Discount"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:465
+msgid "Allow User to Edit Rate"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:381
+#: posapp/src/pages/POSProfileDetailPage.jsx:386
+msgid "Allow in Returns"
+msgstr "允许用于退货"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:211
+msgid "Already added"
+msgstr "已添加"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Amended From"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:46
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:220
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+#: posapp/src/pages/InvoiceDetailPage.jsx:309
+#: posapp/src/pages/InvoiceDetailPage.jsx:375
+#: posapp/src/pages/InvoiceDetailPage.jsx:411
+#: posapp/src/pages/InvoiceRegisterPage.jsx:40
+#: posapp/src/pages/ReportsPage.jsx:374
+msgid "Amount"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:16
+msgid "Amount Paid"
+msgstr "已付金额"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:395
+msgid "Applicability"
+msgstr "适用范围"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:654
+msgid "Applicable For"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:187
+msgid "Applicable for Countries"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:282
+msgid "Applicable for Users"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:700
+msgid "Apply"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:812
+#: posapp/src/pages/InvoiceDetailPage.jsx:351
+#: posapp/src/pages/POSProfileDetailPage.jsx:737
+msgid "Apply Discount On"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1001
+msgid "Apply Discount on Discounted Rate"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:993
+msgid "Apply Multiple Pricing Rules"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:403
+msgid "Apply On"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:925
+msgid "Apply Recursion Over (As Per Transaction UOM)"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:555
+msgid "Apply Rule On Brand *"
+msgstr "规则适用于品牌 *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:450
+msgid "Apply Rule On Item Code *"
+msgstr "规则适用于商品编码 *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:501
+msgid "Apply Rule On Item Group *"
+msgstr "规则适用于商品分组 *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:610
+msgid "Apply Rule On Other"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:651
+msgid "Apply on…"
+msgstr "适用于…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:430
+msgid "Are you sure you want to cancel {name}? This cannot be undone."
+msgstr "确定要取消 {name} 吗？此操作无法撤销。"
+
+#: posapp/src/components/common/ConfirmModal.jsx:25
+msgid "Are you sure?"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:234
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the field 'Priority' is mandatory."
+msgstr "由于已启用“在折后价上再打折”，“优先级”字段为必填项。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:237
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the value of the field 'Priority' should be more than 1."
+msgstr "由于已启用“在折后价上再打折”，“优先级”字段的值必须大于 1。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:272
+msgid "Atleast one of the Selling or Buying must be selected"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:162
+msgid "Auto Opt-In"
+msgstr "自动加入"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:460
+msgid "Automatically Add Filtered Item To Cart"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:394
+#: posapp/src/pages/POSProfileDetailPage.jsx:400
+msgid "Automatically Calculated"
+msgstr "自动计算"
+
+#: posapp/src/pages/ReportsPage.jsx:217
+msgid "Avg ticket"
+msgstr "客单价"
+
+#: posapp/src/components/common/PageHeader.jsx:19
+msgid "Back"
+msgstr "返回"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:178
+msgid "Back to Invoices"
+msgstr "返回发票列表"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Balance Due"
+msgstr "应付余额"
+
+#: posapp/src/engine/sync.js:20
+msgid "Batch"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:590
+msgid "Batch No"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:8
+msgid "Billing"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:226
+msgid "Billing Currency"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:562
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:635
+msgid "Brand"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:83
+msgid "Built for retail teams that never stop moving."
+msgstr "为从不停歇的零售团队打造。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:333
+msgid "Bundle Components"
+msgstr "组合商品明细"
+
+#: posapp/src/components/Cart/index.jsx:611
+msgid "Bundle Contents"
+msgstr "组合商品内容"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:335
+msgid "Bundle Item"
+msgstr "组合商品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:649
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:216
+#: posapp/src/pages/ItemPriceListPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:173
+#: posapp/src/pages/PriceListListPage.jsx:36
+msgid "Buying"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:277
+msgid "Buying must be checked, if Applicable For is selected as {field}"
+msgstr "如果“适用于”选择为 {field}，则必须勾选“采购”"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:328
+#: posapp/src/pages/CustomerDetailPage.jsx:333
+msgid "Bypass Check"
+msgstr "跳过检查"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:184
+msgid "CONTACTS"
+msgstr "联系人"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:44
+msgid "Camera access was denied. Allow camera permission and try again."
+msgstr "相机访问被拒绝。请允许相机权限后重试。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:696
+#: posapp/src/pages/POSProfileDetailPage.jsx:255
+msgid "Campaign"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:65
+#: posapp/src/components/Customer/AddressModal.jsx:77
+#: posapp/src/components/Customer/ContactModal.jsx:74
+#: posapp/src/components/Customer/NewCustomerModal.jsx:59
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:117
+#: posapp/src/components/InvoicePay/index.jsx:353
+#: posapp/src/components/Items/ItemVariantModal.jsx:87
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:137
+msgid "Cancel"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:227
+#: posapp/src/pages/InvoiceDetailPage.jsx:429
+msgid "Cancel Invoice"
+msgstr "取消发票"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/utils/format.js:38
+msgid "Cancelled"
+msgstr ""
+
+#: easy_pos/api/pos.py:387
+msgid "Cannot create a credit note against a credit note"
+msgstr "不能针对红字发票再开红字发票"
+
+#: easy_pos/setup/create_demo_pos_profiles.py:79
+msgid "Cannot create demo POS Profiles: no company was given and no default Company is set."
+msgstr "无法创建演示 POS 配置：未指定公司，且未设置默认公司。"
+
+#: easy_pos/setup/create_demo_data.py:85
+msgid "Cannot create demo data: no company was given and no default Company is set."
+msgstr "无法创建演示数据：未指定公司，且未设置默认公司。"
+
+#: posapp/src/components/Cart/index.jsx:437
+msgid "Cart Items"
+msgstr "购物车商品"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Cashier"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:446
+msgid "Cashier enters the amount to charge; a {gateway} checkout opens on Complete Payment."
+msgstr "收银员输入应收金额；点击“完成付款”时会打开 {gateway} 支付页面。"
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:21
+msgid "Change Due"
+msgstr "找零"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Change to Return"
+msgstr "改为退货"
+
+#: posapp/src/pages/LoginPage.jsx:69
+msgid "Checkout that keeps up during rush hour"
+msgstr "高峰时段也能从容结账"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:83
+msgid "Choose options to select a variant"
+msgstr "选择选项以确定规格"
+
+#: posapp/src/components/Customer/AddressModal.jsx:114
+msgid "City/Town"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:441
+msgid "Clear all"
+msgstr "全部清除"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:173
+#: posapp/src/pages/CustomerListPage.jsx:198
+#: posapp/src/pages/InvoiceRegisterPage.jsx:227
+#: posapp/src/pages/ItemPriceListPage.jsx:161
+#: posapp/src/pages/POSProfileListPage.jsx:140
+msgid "Clear filters"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:94
+msgid "Click/scan the item again to add another unit"
+msgstr "再次点击/扫描商品可再加一件"
+
+#: posapp/src/components/common/Modal.jsx:27
+msgid "Close"
+msgstr ""
+
+#: posapp/src/pages/POSTerminalPage.jsx:101
+msgid "Close cart"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:112
+#: posapp/src/components/Topbar/index.jsx:188
+msgid "Close shift"
+msgstr "交班"
+
+#: posapp/src/components/Closing/index.jsx:79
+msgid "Close till"
+msgstr "关闭收银台"
+
+#: posapp/src/components/Closing/index.jsx:55
+msgid "Close your till"
+msgstr "关闭您的收银台"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Closed"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Closing"
+msgstr ""
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Closing Amount"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:76
+msgid "Closing…"
+msgstr "正在关闭…"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Collapse"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:221
+msgid "Collection Factor (=1 point)"
+msgstr "积分系数（=1 积分）"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:190
+msgid "Collection Rules (Tiers)"
+msgstr "积分规则（等级）"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:14
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:171
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+#: posapp/src/pages/CustomerDetailPage.jsx:303
+#: posapp/src/pages/DiscountDetailPage.jsx:760
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:152
+#: posapp/src/pages/POSProfileDetailPage.jsx:236
+#: posapp/src/pages/POSProfileListPage.jsx:126
+msgid "Company"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:259
+msgid "Company Address"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:114
+msgid "Company Name"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:153
+msgid "Company and Warehouse are required"
+msgstr "公司和仓库为必填项"
+
+#: posapp/src/components/InvoicePay/index.jsx:369
+msgid "Complete Payment"
+msgstr "完成付款"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:336
+msgid "Component"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:945
+msgid "Condition"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:454
+msgid "Configuration"
+msgstr ""
+
+#: posapp/src/pages/SettingsPage.jsx:9
+msgid "Configure tiers, points and redemption rules"
+msgstr "配置等级、积分和兑换规则"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "Connected to the server"
+msgstr "已连接到服务器"
+
+#: posapp/src/utils/format.js:43
+msgid "Consolidated"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:29
+msgid "Conversion Factor"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:256
+msgid "Conversion Factor (1 point = ? currency)"
+msgstr "换算系数（1 积分 = ? 货币）"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:282
+#: posapp/src/pages/POSProfileDetailPage.jsx:760
+msgid "Cost Center"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:122
+msgid "Could not load report data."
+msgstr "无法加载报表数据。"
+
+#: posapp/src/engine/sync.js:45
+msgid "Could not reach the server to sync."
+msgstr "无法连接服务器进行同步。"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:74
+msgid "Could not resolve this profile's currency."
+msgstr "无法确定此配置的币种。"
+
+#: posapp/src/components/Closing/index.jsx:58
+msgid "Count the drawer and enter the actual amount for manually entered payment modes."
+msgstr "请清点钱箱，并为手动录入的付款方式输入实际金额。"
+
+#: posapp/src/components/Closing/index.jsx:124
+msgid "Counted"
+msgstr "实点"
+
+#: posapp/src/components/Customer/AddressModal.jsx:123
+#: posapp/src/pages/PriceListDetailPage.jsx:201
+msgid "Country"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:106
+msgid "Country added more than once: {countries}"
+msgstr "国家重复添加：{countries}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:117
+msgid "County"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:720
+msgid "Coupon \"{code}\" applied"
+msgstr "已使用优惠券“{code}”"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:438
+msgid "Coupon Code Based"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:685
+msgid "Coupon code"
+msgstr "优惠券码"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:22
+msgid "Create"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:111
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:121
+#: posapp/src/pages/InvoiceDetailPage.jsx:222
+msgid "Create Credit Note"
+msgstr "开具红字发票"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:73
+msgid "Create Customer"
+msgstr ""
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:6
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:8
+msgid "Create Demo Data"
+msgstr "创建演示数据"
+
+#: posapp/src/pages/LoginPage.jsx:172
+msgid "Create an account"
+msgstr "创建账户"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:45
+msgid "Created/updated {0} demo items priced against {1} for {2} (warehouse: {3}), {4} POS Profiles: {5}, and {6} Customers: {7}."
+msgstr "已为 {2} 创建/更新 {0} 个按 {1} 定价的演示商品（仓库：{3}），{4} 个 POS 配置：{5}，以及 {6} 个客户：{7}。"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:29
+msgid "Creating demo items..."
+msgstr "正在创建演示商品..."
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:70
+msgid "Creating…"
+msgstr "正在创建…"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:316
+msgid "Credit Limit"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:296
+msgid "Credit Limits"
+msgstr ""
+
+#: posapp/src/utils/format.js:37
+msgid "Credit Note Issued"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:120
+msgid "Credit limit is already defined for one of the selected Companies"
+msgstr "所选公司之一已设置信用额度"
+
+#: posapp/src/pages/ReportsPage.jsx:343
+msgid "Credit notes"
+msgstr "红字发票"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:763
+#: posapp/src/pages/InvoiceDetailPage.jsx:246
+#: posapp/src/pages/ItemPriceDetailPage.jsx:228
+#: posapp/src/pages/POSProfileDetailPage.jsx:638
+#: posapp/src/pages/PriceListDetailPage.jsx:170
+#: posapp/src/pages/PriceListListPage.jsx:24
+msgid "Currency"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:306
+msgid "Currency should be same as Price List Currency: {currency}"
+msgstr "币种必须与价格表币种相同：{currency}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:17
+msgid "Current"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:80
+msgid "Current shift · {profile}"
+msgstr "当前班次 · {profile}"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:34
+#: posapp/src/components/Cart/DraftPickerModal.jsx:135
+#: posapp/src/components/Cart/index.jsx:381
+#: posapp/src/components/InvoicePay/index.jsx:180 posapp/src/engine/sync.js:10
+#: posapp/src/pages/CustomerDetailPage.jsx:72
+#: posapp/src/pages/CustomerListPage.jsx:19
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:664
+#: posapp/src/pages/InvoiceDetailPage.jsx:241
+#: posapp/src/pages/InvoiceRegisterPage.jsx:28
+#: posapp/src/pages/InvoiceRegisterPage.jsx:175
+#: posapp/src/pages/ItemPriceDetailPage.jsx:210
+#: posapp/src/pages/POSProfileDetailPage.jsx:239
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Customer"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:167
+#: posapp/src/pages/CustomerDetailPage.jsx:365
+msgid "Customer Details"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:98
+#: posapp/src/pages/CustomerDetailPage.jsx:183
+#: posapp/src/pages/CustomerListPage.jsx:157
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:670
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:169
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:36
+#: posapp/src/pages/POSProfileDetailPage.jsx:528
+msgid "Customer Group"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:520
+msgid "Customer Groups"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:82
+#: posapp/src/pages/CustomerDetailPage.jsx:171
+msgid "Customer Name"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:115
+msgid "Customer Name, Customer Group and Territory are required"
+msgstr "客户名称、客户分组和区域为必填项"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:110
+msgid "Customer Primary Address"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:119
+msgid "Customer Primary Contact"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:178
+msgid "Customer Territory"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:90
+#: posapp/src/pages/CustomerDetailPage.jsx:175
+msgid "Customer Type"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:31
+msgid "Customer name is required"
+msgstr "客户名称为必填项"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:136
+msgid "Customer saved successfully"
+msgstr "客户已保存"
+
+#: posapp/src/components/Sidebar/index.jsx:13
+#: posapp/src/pages/CustomerDetailPage.jsx:159
+#: posapp/src/pages/CustomerListPage.jsx:112
+msgid "Customers"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Dark mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:40
+#: posapp/src/pages/InvoiceRegisterPage.jsx:34
+msgid "Date"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:303
+#: posapp/src/pages/POSProfileDetailPage.jsx:308
+#: posapp/src/pages/POSProfileDetailPage.jsx:368
+#: posapp/src/pages/POSProfileDetailPage.jsx:373
+msgid "Default"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:243
+msgid "Default Payment Terms Template"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:234
+msgid "Default Price List"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:221
+msgid "Defaults"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:268
+msgid "Delete"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Address?"
+msgstr "删除地址？"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Contact?"
+msgstr "删除联系人？"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:33
+msgid "Demo Data Created"
+msgstr "演示数据已创建"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:17
+msgid "Demo items (normal, serialized, batch-tracked, and a combo) with selling prices and opening stock, 5 POS Profiles showing off different features, and 5 demo Customers will be created for this company (a default warehouse is created too if it doesn't already have one)."
+msgstr "将为该公司创建演示商品（普通、序列号管理、批次管理和一个组合商品），包含销售价格和期初库存；5 个展示不同功能的 POS 配置；以及 5 个演示客户（如果尚无默认仓库，也会一并创建）。"
+
+#: posapp/src/components/Customer/ContactModal.jsx:111
+msgid "Department"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:108
+msgid "Designation"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:143
+msgid "Difference"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:745
+msgid "Disable Rounded Total"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:467
+msgid "Disable auto-setting Grand Total to default Mode of Payment"
+msgstr "禁用将总计自动分配到默认付款方式"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:157
+#: posapp/src/components/Customer/AddressModal.jsx:152
+#: posapp/src/pages/CustomerDetailPage.jsx:214
+#: posapp/src/pages/DiscountDetailPage.jsx:442
+#: posapp/src/pages/DiscountListPage.jsx:13
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileDetailPage.jsx:275
+#: posapp/src/pages/POSProfileListPage.jsx:13
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:12
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Disabled"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:555
+#: posapp/src/components/CustomerDisplay/CartView.jsx:34
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountListPage.jsx:37
+msgid "Discount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:289
+msgid "Discount %"
+msgstr "折扣 %"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:827
+msgid "Discount Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:296
+msgid "Discount Amt"
+msgstr "折扣金额"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:837
+msgid "Discount Percentage"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:334
+msgid "Discount given"
+msgstr "已给折扣"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:605
+msgid "Discount on Other Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:365
+msgid "Discount saved successfully"
+msgstr "折扣已保存"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:17
+#: posapp/src/pages/DiscountDetailPage.jsx:387
+#: posapp/src/pages/DiscountListPage.jsx:105
+msgid "Discounts"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:330
+msgid "Discounts and returns"
+msgstr "折扣与退货"
+
+#: posapp/src/components/common/ToastContainer.jsx:30
+#: posapp/src/pwa/PwaUpdateBanner.jsx:53
+msgid "Dismiss"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:902
+msgid "Don't Enforce Free Item Qty"
+msgstr ""
+
+#: posapp/src/components/common/FilterBar.jsx:40
+msgid "Done"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/SyncPage.jsx:198 posapp/src/utils/format.js:31
+msgid "Draft"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:268
+msgid "Duplicate Brand found in the table"
+msgstr "表中存在重复的品牌"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:244
+msgid "Duplicate Item Code found in the table"
+msgstr "表中存在重复的商品编码"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:265
+msgid "Duplicate Item Group found in the table"
+msgstr "表中存在重复的商品分组"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:185
+msgid "Duplicate customer group found in the customer group table"
+msgstr "客户分组表中存在重复的客户分组"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:180
+msgid "Duplicate item group found in the item group table"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:940
+msgid "Dynamic Condition"
+msgstr ""
+
+#. Label of a shortcut in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASY POS"
+msgstr ""
+
+#. Name of a Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS Settings"
+msgstr "EASYPOS 设置"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "EP Closing Entry"
+msgstr "EP 交班记录"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "EP Closing Entry Detail"
+msgstr "EP 交班记录明细"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "EP Opening Entry"
+msgstr "EP 开班记录"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "Edit Address"
+msgstr "编辑地址"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "Edit Contact"
+msgstr "编辑联系人"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:159
+#: posapp/src/components/Customer/NewCustomerModal.jsx:121
+#: posapp/src/pages/CustomerDetailPage.jsx:211
+#: posapp/src/pages/CustomerListPage.jsx:36
+#: posapp/src/pages/CustomerListPage.jsx:184
+#: posapp/src/pages/InvoiceRegisterPage.jsx:213
+msgid "Email"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:132
+#: posapp/src/components/Customer/ContactModal.jsx:99
+msgid "Email Address"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:604
+msgid "Email Notification"
+msgstr "邮件通知"
+
+#: posapp/src/pages/LoginPage.jsx:112
+msgid "Email or username"
+msgstr "邮箱或用户名"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:463
+msgid "Enable Customer Display"
+msgstr "启用客显屏"
+
+#. Label of a Check field in DocType 'EASYPOS Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "Enable Offline Mode"
+msgstr "启用离线模式"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:175
+msgid "Enabled"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:348
+msgid "Enter the amount received for each payment mode."
+msgstr "请输入每种付款方式的实收金额。"
+
+#: posapp/src/pages/LoginPage.jsx:123
+msgid "Enter your password"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:101
+msgid "Enter your workstation credentials to start a shift."
+msgstr "输入工作站凭据以开始班次。"
+
+#: posapp/src/pages/LoginPage.jsx:73
+msgid "Every sale accounted for, down to the till"
+msgstr "每笔销售都有账可查，直到钱箱"
+
+#: posapp/src/pages/LoginPage.jsx:60
+msgid "Every sale."
+msgstr "每一笔销售。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:250
+msgid "Exchange Rate"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Expand"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Expected"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:273
+#: posapp/src/pages/POSProfileDetailPage.jsx:704
+msgid "Expense Account"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:265
+msgid "Expiry Duration (days)"
+msgstr "有效期（天）"
+
+#: posapp/src/components/Cart/index.jsx:743
+msgid "FREE"
+msgstr "赠品"
+
+#: posapp/src/pages/SyncPage.jsx:34
+msgid "Failed"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:123
+msgid "Failed to cancel invoice"
+msgstr "取消发票失败"
+
+#: posapp/src/components/InvoicePay/index.jsx:218
+#: posapp/src/components/InvoicePay/index.jsx:278
+#: posapp/src/components/InvoicePay/index.jsx:331
+msgid "Failed to complete payment"
+msgstr "完成付款失败"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:101
+msgid "Failed to create credit note"
+msgstr "开具红字发票失败"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:42
+#: posapp/src/components/Customer/NewCustomerModal.jsx:47
+msgid "Failed to create customer"
+msgstr "创建客户失败"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Address"
+msgstr "删除地址失败"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Contact"
+msgstr "删除联系人失败"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:20
+msgid "Failed to load Razorpay checkout"
+msgstr "加载 Razorpay 支付页面失败"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:118
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:122
+msgid "Failed to open till"
+msgstr "打开收银台失败"
+
+#: posapp/src/components/Customer/AddressModal.jsx:63
+msgid "Failed to save Address"
+msgstr "保存地址失败"
+
+#: posapp/src/components/Customer/ContactModal.jsx:60
+msgid "Failed to save Contact"
+msgstr "保存联系人失败"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:138
+msgid "Failed to save Customer"
+msgstr "保存客户失败"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:367
+msgid "Failed to save Discount"
+msgstr "保存折扣失败"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:155
+msgid "Failed to save Item Price"
+msgstr "保存商品价格失败"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:114
+msgid "Failed to save Loyalty Program"
+msgstr "保存会员计划失败"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:209
+msgid "Failed to save POS Profile"
+msgstr "保存 POS 配置失败"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:140
+msgid "Failed to save Price List"
+msgstr "保存价格表失败"
+
+#: posapp/src/components/Cart/index.jsx:279
+msgid "Failed to save draft"
+msgstr "保存草稿失败"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:42
+msgid "Failed to start Razorpay payment"
+msgstr "发起 Razorpay 付款失败"
+
+#: posapp/src/engine/outbox.js:60
+msgid "Failed to sync invoice"
+msgstr "同步发票失败"
+
+#: posapp/src/components/Customer/AddressModal.jsx:135
+msgid "Fax"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetch from server"
+msgstr "从服务器获取"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetching…"
+msgstr "正在获取…"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:198
+msgid "Filter by POS Profile"
+msgstr "按 POS 配置筛选"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:144
+#: posapp/src/pages/InvoiceRegisterPage.jsx:184
+msgid "Filter by customer"
+msgstr "按客户筛选"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:162
+#: posapp/src/pages/CustomerListPage.jsx:187
+#: posapp/src/pages/InvoiceRegisterPage.jsx:216
+msgid "Filter by email"
+msgstr "按邮箱筛选"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:153
+#: posapp/src/pages/CustomerListPage.jsx:178
+#: posapp/src/pages/InvoiceRegisterPage.jsx:207
+msgid "Filter by mobile"
+msgstr "按手机号筛选"
+
+#: posapp/src/components/common/FilterBar.jsx:29
+#: posapp/src/components/common/FilterBar.jsx:37
+msgid "Filters"
+msgstr ""
+
+#: posapp/src/components/common/FilterBar.jsx:30
+msgid "Filters applied"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Finishing up — your receipt will print here once it's confirmed."
+msgstr "即将完成——确认后小票将在此打印。"
+
+#: posapp/src/components/Customer/ContactModal.jsx:93
+msgid "First Name"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:848
+msgid "For Price List"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:223
+msgid "For the 'Apply Rule On Other' condition the field {field} is mandatory"
+msgstr "对于“规则适用于其他”条件，字段 {field} 为必填项"
+
+#: posapp/src/pages/LoginPage.jsx:143
+msgid "Forgot password?"
+msgstr "忘记密码？"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:877
+msgid "Free Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:888
+msgid "Free Item Rate"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:884
+msgid "Free Item UOM"
+msgstr "赠品单位"
+
+#: posapp/src/components/Cart/index.jsx:732
+msgid "Free Items"
+msgstr "赠品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:881
+msgid "Free Qty"
+msgstr "赠送数量"
+
+#: posapp/src/pages/DiscountListPage.jsx:17
+msgid "Free item"
+msgstr "赠品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:299
+msgid "Free item code is not selected"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:155
+msgid "From Date"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:918
+msgid "Give free item for every N quantity"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:199
+msgid "Go to Terminal"
+msgstr "前往收银台"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:656
+#: posapp/src/components/Cart/index.jsx:801
+#: posapp/src/components/InvoicePay/index.jsx:183
+#: posapp/src/components/InvoicePay/index.jsx:378
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:263
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Grand Total"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:209
+msgid "Gross sales"
+msgstr "销售总额"
+
+#: posapp/src/pages/CustomerListPage.jsx:42
+msgid "Group"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:974
+msgid "Has Priority"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:50
+msgid "Has variants"
+msgstr "有规格"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:24
+msgid "Held offline — not yet synced"
+msgstr "离线保留——尚未同步"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:458
+msgid "Hide Images"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:459
+msgid "Hide Unavailable Items"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Hide password"
+msgstr "隐藏密码"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:164
+msgid "ITEMS"
+msgstr "商品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1011
+msgid "If enabled, the system only validates the rule instead of applying it automatically"
+msgstr "启用后，系统只校验规则，而不自动应用"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:889
+msgid "If rate is zero then item will be treated as \"Free Item\""
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:464
+msgid "Ignore Pricing Rule"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Amount"
+msgstr "按金额"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Percentage %"
+msgstr "按百分比 %"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:13
+#: posapp/src/pages/CustomerListPage.jsx:58
+msgid "Inactive"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:689
+msgid "Income Account"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Individual"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:256
+msgid "Industry"
+msgstr ""
+
+#: posapp/src/utils/format.js:44
+msgid "Internal Transfer"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:320
+msgid "Invalid condition expression"
+msgstr ""
+
+#: easy_pos/api/pricing.py:58 easy_pos/api/pricing.py:175
+msgid "Invalid coupon code"
+msgstr "优惠券码无效"
+
+#: posapp/src/components/Cart/index.jsx:166
+msgid "Invalid or expired coupon code"
+msgstr "优惠券码无效或已过期"
+
+#: posapp/src/store/authStore.js:37
+msgid "Invalid username or password"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:15
+#: posapp/src/pages/InvoiceDetailPage.jsx:106
+#: posapp/src/pages/InvoiceRegisterPage.jsx:22
+#: posapp/src/pages/ReportsPage.jsx:369
+msgid "Invoice"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:239
+msgid "Invoice Details"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice details aren't available offline. Reconnect and try again."
+msgstr "离线时无法查看发票详情。请重新连接后重试。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice not found."
+msgstr "未找到发票。"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:151
+msgid "Invoiced Qty"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:12
+#: posapp/src/pages/InvoiceDetailPage.jsx:214
+#: posapp/src/pages/InvoiceRegisterPage.jsx:133
+msgid "Invoices"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:431
+msgid "Is Cumulative"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:118
+msgid "Is Primary Contact"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:907
+msgid "Is Recursive"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:150
+#: posapp/src/engine/sync.js:8 posapp/src/pages/InvoiceDetailPage.jsx:277
+#: posapp/src/pages/ItemPriceDetailPage.jsx:183
+#: posapp/src/pages/ItemPriceListPage.jsx:19
+msgid "Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:457
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:619
+msgid "Item Code"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:116
+msgid "Item Code, UOM, Price List and Rate are required"
+msgstr "商品编码、单位、价格表和价格为必填项"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:178
+msgid "Item Details"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:773
+msgid "Item Discounts"
+msgstr "商品折扣"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json posapp/src/engine/sync.js:9
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:508
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:625
+#: posapp/src/pages/POSProfileDetailPage.jsx:489
+msgid "Item Group"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:481
+msgid "Item Groups"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:196
+msgid "Item Name"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:16 posapp/src/pages/ItemPriceDetailPage.jsx:82
+msgid "Item Price"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:153
+msgid "Item Price saved successfully"
+msgstr "商品价格已保存"
+
+#: posapp/src/components/Sidebar/index.jsx:15
+#: posapp/src/pages/ItemPriceDetailPage.jsx:170
+#: posapp/src/pages/ItemPriceListPage.jsx:107
+msgid "Item Prices"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:303
+msgid "Item Tax"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:752
+msgid "Item Total"
+msgstr "商品合计"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:275
+msgid "Items"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:129
+msgid "Items to Return"
+msgstr "退货商品"
+
+#: posapp/src/pages/SyncPage.jsx:18
+msgid "Just now"
+msgstr "刚刚"
+
+#: posapp/src/components/Topbar/index.jsx:122
+#: posapp/src/components/Topbar/index.jsx:123 posapp/src/pages/LoginPage.jsx:93
+msgid "Language"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:96
+msgid "Last Name"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:284
+msgid "Last synced {when}"
+msgstr "上次同步 {when}"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:266
+msgid "Leave empty for points to never expire"
+msgstr "留空表示积分永不过期"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:188
+msgid "Leave empty to make this price list applicable for all countries, or restrict it to specific ones."
+msgstr "留空表示此价格表适用于所有国家，或限定为部分国家。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:283
+msgid "Leave empty to make this profile applicable for all users."
+msgstr "留空表示此配置适用于所有用户。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:574
+msgid "Letter Head"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Light mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+#: posapp/src/components/Cart/index.jsx:836
+msgid "Load Draft"
+msgstr "载入草稿"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:103
+msgid "Loading variants…"
+msgstr "正在加载规格…"
+
+#: posapp/src/routes.jsx:37
+msgid "Loading..."
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:614
+#: posapp/src/components/Customer/AddressContactSection.jsx:138
+#: posapp/src/components/Customer/AddressContactSection.jsx:191
+#: posapp/src/pages/InvoiceDetailPage.jsx:135
+msgid "Loading…"
+msgstr "加载中…"
+
+#: posapp/src/components/Topbar/index.jsx:195
+msgid "Log out"
+msgstr "退出登录"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:17 posapp/src/pages/CustomerDetailPage.jsx:266
+#: posapp/src/pages/CustomerDetailPage.jsx:271
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/SettingsPage.jsx:8
+msgid "Loyalty Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:111
+msgid "Loyalty Program saved successfully"
+msgstr "会员计划已保存"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:129
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:77
+msgid "Loyalty Programs"
+msgstr "会员计划"
+
+#: posapp/src/components/InvoicePay/index.jsx:478
+msgid "Loyalty Redeemed"
+msgstr "已兑换积分"
+
+#: posapp/src/components/InvoicePay/index.jsx:384
+msgid "Loyalty points can't be redeemed in {currency}. ERPNext only redeems them in the company's currency ({company_currency})."
+msgstr "积分不能以 {currency} 兑换。ERPNext 只以公司币种（{company_currency}）兑换积分。"
+
+#: easy_pos/api/pos.py:275
+msgid "Loyalty points can't be redeemed on a {0} invoice. ERPNext only redeems them in the company's currency ({1})."
+msgstr "{0} 发票不能兑换积分。ERPNext 只以公司币种（{1}）兑换积分。"
+
+#: posapp/src/pages/SyncPage.jsx:235
+msgid "MASTER DATA"
+msgstr "主数据"
+
+#: posapp/src/components/Sidebar/index.jsx:126
+msgid "Main"
+msgstr ""
+
+#: posapp/src/pages/SettingsPage.jsx:15
+msgid "Manage cashier accounts and permissions"
+msgstr "管理收银员账户和权限"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:419
+msgid "Manual (none)"
+msgstr "手动（无）"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:770
+msgid "Margin"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:784
+msgid "Margin Rate or Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:775
+msgid "Margin Type"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:253
+msgid "Market Segment"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "Master Setup"
+msgstr "主数据设置"
+
+#: posapp/src/pages/SyncPage.jsx:124
+msgid "Master data cached for offline use. Fetch pulls the latest catalog, customers, and pricing from the server."
+msgstr "主数据已缓存供离线使用。“获取”会从服务器拉取最新的商品目录、客户和价格。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:733
+msgid "Max Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:727
+msgid "Max Qty (Stock UOM)"
+msgstr "最大数量（库存单位）"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:258
+msgid "Max discount allowed for item: {item} is {pct}%"
+msgstr "商品 {item} 允许的最大折扣为 {pct}%"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:730
+msgid "Min Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:282
+msgid "Min Amt can not be greater than Max Amt"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:724
+msgid "Min Qty (Stock UOM)"
+msgstr "最小数量（库存单位）"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:285
+msgid "Min Qty can not be greater than Max Qty"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:291
+msgid "Min Qty should be greater than Recurse Over Qty"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:210
+msgid "Minimum Total Spent"
+msgstr ""
+
+#: easy_pos/api/currency.py:27
+msgid "Missing Exchange Rate"
+msgstr "缺少汇率"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:426
+msgid "Mixed Conditions"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:150
+#: posapp/src/components/Customer/ContactModal.jsx:105
+#: posapp/src/components/Customer/NewCustomerModal.jsx:114
+#: posapp/src/pages/CustomerDetailPage.jsx:208
+#: posapp/src/pages/CustomerListPage.jsx:30
+#: posapp/src/pages/CustomerListPage.jsx:175
+#: posapp/src/pages/InvoiceRegisterPage.jsx:204
+msgid "Mobile No"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+#: posapp/src/engine/sync.js:15 posapp/src/pages/InvoiceDetailPage.jsx:408
+#: posapp/src/pages/POSProfileDetailPage.jsx:355
+msgid "Mode of Payment"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Modes of Payment"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:141
+#: posapp/src/components/Sidebar/index.jsx:145
+msgid "More"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:360
+msgid "More Information"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:282
+msgid "Move down"
+msgstr "下移"
+
+#: posapp/src/components/common/ChildTable.jsx:273
+msgid "Move up"
+msgstr "上移"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Multiple Tier Program"
+msgstr ""
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:657
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:325
+#: posapp/src/pages/InvoiceDetailPage.jsx:398
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Net Total"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:210
+msgid "Net sales"
+msgstr "销售净额"
+
+#: posapp/src/pages/SyncPage.jsx:13 posapp/src/pages/SyncPage.jsx:15
+msgid "Never"
+msgstr "从不"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "New Address"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "New Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:53
+msgid "New Customer"
+msgstr "新建客户"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountDetailPage.jsx:385
+msgid "New Discount"
+msgstr "新建折扣"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:82
+#: posapp/src/pages/ItemPriceDetailPage.jsx:168
+msgid "New Item Price"
+msgstr "新建商品价格"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:127
+msgid "New Loyalty Program"
+msgstr "新建会员计划"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+#: posapp/src/pages/POSProfileDetailPage.jsx:222
+msgid "New POS Profile"
+msgstr "新建 POS 配置"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListDetailPage.jsx:153
+msgid "New Price List"
+msgstr "新建价格表"
+
+#: posapp/src/components/Cart/index.jsx:388
+#: posapp/src/pages/CustomerListPage.jsx:150
+msgid "New customer"
+msgstr "新建客户"
+
+#: posapp/src/pages/DiscountListPage.jsx:133
+msgid "New discount"
+msgstr "新建折扣"
+
+#: posapp/src/pages/LoginPage.jsx:167
+msgid "New here"
+msgstr "第一次使用"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:168
+msgid "New invoice"
+msgstr "新建发票"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:140
+msgid "New item price"
+msgstr "新建商品价格"
+
+#: posapp/src/pages/PriceListListPage.jsx:108
+msgid "New price list"
+msgstr "新建价格表"
+
+#: posapp/src/pages/POSProfileListPage.jsx:119
+msgid "New profile"
+msgstr "新建配置"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:94
+msgid "New program"
+msgstr "新建计划"
+
+#: posapp/src/components/common/Pagination.jsx:27
+msgid "Next"
+msgstr ""
+
+#: posapp/src/components/common/ConfirmModal.jsx:30
+#: posapp/src/pages/InvoiceDetailPage.jsx:432
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "No"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:104
+msgid "No Loyalty Programs found"
+msgstr "未找到会员计划"
+
+#: posapp/src/pages/POSProfileListPage.jsx:152
+msgid "No POS Profiles found"
+msgstr "未找到 POS 配置"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:142
+msgid "No addresses added"
+msgstr "未添加地址"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:558
+msgid "No brands added"
+msgstr "未添加品牌"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:343
+msgid "No bundle components"
+msgstr "无组合商品明细"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:46
+msgid "No camera was found on this device."
+msgstr "此设备上未找到相机。"
+
+#: posapp/src/components/Cart/index.jsx:616
+msgid "No components"
+msgstr "无组成部分"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "No connection — working from cached data"
+msgstr "无网络连接——正在使用缓存数据"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:195
+msgid "No contacts added"
+msgstr "未添加联系人"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:191
+msgid "No countries added — applies to all countries"
+msgstr "未添加国家——适用于所有国家"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:299
+msgid "No credit limits configured"
+msgstr "未配置信用额度"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:524
+msgid "No customer groups added"
+msgstr "未添加客户分组"
+
+#: posapp/src/pages/CustomerListPage.jsx:210
+msgid "No customers found"
+msgstr "未找到客户"
+
+#: posapp/src/pages/DiscountListPage.jsx:143
+msgid "No discounts found"
+msgstr "未找到折扣"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:185
+msgid "No draft invoices found"
+msgstr "未找到草稿发票"
+
+#: easy_pos/api/currency.py:24
+msgid "No exchange rate found from {0} to {1}. Create a Currency Exchange record (For Selling) for this pair."
+msgstr "未找到从 {0} 到 {1} 的汇率。请为该货币对创建货币汇率记录（用于销售）。"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:239
+msgid "No invoices found"
+msgstr "未找到发票"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:504
+#: posapp/src/pages/POSProfileDetailPage.jsx:485
+msgid "No item groups added"
+msgstr "未添加商品分组"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:173
+msgid "No item prices found"
+msgstr "未找到商品价格"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:317
+msgid "No items"
+msgstr "无商品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:453
+msgid "No items added"
+msgstr "未添加商品"
+
+#: posapp/src/components/Cart/index.jsx:451
+msgid "No items in cart"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items in this category"
+msgstr "此分类下没有商品"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items match your search"
+msgstr "没有符合搜索条件的商品"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:135
+msgid "No items on this invoice"
+msgstr "此发票上没有商品"
+
+#: posapp/src/pages/ReportsPage.jsx:325
+msgid "No items sold in this period."
+msgstr "此期间没有售出商品。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:341
+msgid "No payment modes added"
+msgstr "未添加付款方式"
+
+#: posapp/src/components/InvoicePay/index.jsx:430
+msgid "No payment modes configured for this POS Profile."
+msgstr "此 POS 配置未设置付款方式。"
+
+#: posapp/src/pages/ReportsPage.jsx:252
+msgid "No payment modes configured."
+msgstr "未设置付款方式。"
+
+#: posapp/src/components/Closing/index.jsx:98
+msgid "No payment modes found for this shift."
+msgstr "未找到此班次的付款方式。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:419
+msgid "No payments"
+msgstr "无付款"
+
+#: posapp/src/pages/ReportsPage.jsx:269
+msgid "No payments recorded in this period."
+msgstr "此期间没有付款记录。"
+
+#: posapp/src/pages/PriceListListPage.jsx:118
+msgid "No price lists found"
+msgstr "未找到价格表"
+
+#: posapp/src/components/common/ListTable.jsx:43
+#: posapp/src/components/common/ListTable.jsx:99
+msgid "No records found"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:216
+msgid "No rows"
+msgstr "无数据行"
+
+#: posapp/src/pages/ReportsPage.jsx:292
+msgid "No sales in this period."
+msgstr "此期间没有销售。"
+
+#: posapp/src/components/Topbar/index.jsx:99
+msgid "No shift open"
+msgstr "没有开放的班次"
+
+#: posapp/src/pages/ReportsPage.jsx:196
+msgid "No shifts to report on yet. Open a shift from the Terminal to see live shift numbers here."
+msgstr "暂无可报告的班次。在收银台开班后即可在此查看实时班次数据。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:390
+msgid "No taxes applied"
+msgstr "未应用税费"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:197
+msgid "No taxes on this invoice"
+msgstr "此发票无税费"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:194
+msgid "No tiers added"
+msgstr "未添加等级"
+
+#: posapp/src/pages/ReportsPage.jsx:365
+msgid "No transactions in this period."
+msgstr "此期间没有交易。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:286
+msgid "No users added — applies to all users"
+msgstr "未添加用户——适用于所有用户"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:35
+msgid "No variants are set up for this item yet."
+msgstr "此商品尚未设置规格。"
+
+#: posapp/src/components/common/LinkField.jsx:218
+msgid "No {doctype} found"
+msgstr "未找到 {doctype}"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:611
+msgid "None"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:252
+msgid "Note"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:173
+msgid "Nothing queued — every offline sale on this device has synced."
+msgstr "队列为空——此设备上的所有离线销售均已同步。"
+
+#: posapp/src/components/common/AlertModal.jsx:15
+msgid "OK"
+msgstr "确定"
+
+#: posapp/src/components/Customer/AddressModal.jsx:10
+msgid "Office"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/components/Topbar/index.jsx:87 posapp/src/pages/SyncPage.jsx:129
+msgid "Offline"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:136
+msgid "Offline mode isn't enabled for this deployment (EasyPOS Settings). Data still caches below for later, but the Terminal won't fall back to it while offline until it's turned on."
+msgstr "此部署未启用离线模式（EasyPOS 设置）。数据仍会在下方缓存，但在启用之前，收银台离线时不会使用这些数据。"
+
+#: posapp/src/components/InvoicePay/index.jsx:179
+msgid "Offline — pending sync. Reprint from Invoices once synced."
+msgstr "离线——等待同步。同步后可在“发票”中重新打印。"
+
+#: posapp/src/pages/POSTerminalPage.jsx:75
+msgid "Offline — showing cached catalog and pricing. Sales ring up and sync automatically once reconnected."
+msgstr "离线——正在显示缓存的商品目录和价格。销售照常记录，重新连接后自动同步。"
+
+#: posapp/src/utils/format.js:52
+msgid "On Item Quantity"
+msgstr ""
+
+#: posapp/src/utils/format.js:49
+msgid "On Net Total"
+msgstr ""
+
+#: posapp/src/utils/format.js:50
+msgid "On Previous Row Amount"
+msgstr ""
+
+#: posapp/src/utils/format.js:51
+msgid "On Previous Row Total"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:58
+msgid "One counter."
+msgstr "一个柜台。"
+
+#: posapp/src/pages/LoginPage.jsx:77
+msgid "One login per cashier, one record per shift"
+msgstr "每位收银员一个登录，每个班次一条记录"
+
+#: posapp/src/components/Topbar/index.jsx:87
+msgid "Online"
+msgstr ""
+
+#: easy_pos/api/pos.py:385
+msgid "Only a submitted invoice can be returned"
+msgstr "只能对已提交的发票办理退货"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:521
+msgid "Only show Customers of these Customer Groups. Leave empty for all."
+msgstr "仅显示这些客户分组中的客户。留空表示全部。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:482
+msgid "Only show Items from these Item Groups. Leave empty for all."
+msgstr "仅显示这些商品分组中的商品。留空表示全部。"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Open"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:366
+msgid "Open Customer Display"
+msgstr "打开客显屏"
+
+#: posapp/src/pages/SyncPage.jsx:299
+msgid "Open a shift before syncing"
+msgstr "同步前请先开班"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:152
+msgid "Open till"
+msgstr "打开收银台"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:131
+msgid "Open your till"
+msgstr "打开您的收银台"
+
+#: posapp/src/components/Closing/index.jsx:111
+msgid "Opening"
+msgstr ""
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Opening Amount"
+msgstr ""
+
+#. Label of a Table field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Opening Balance Details"
+msgstr ""
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:161
+msgid "Opening a shift requires an internet connection — stock and pricing for the profile you pick have to be resolved live. Reconnect to open your till."
+msgstr "开班需要联网——所选配置的库存和价格必须实时获取。请重新连接以打开收银台。"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:191
+msgid "Opening balance"
+msgstr "期初余额"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:149
+msgid "Opening…"
+msgstr "正在打开…"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:256
+msgid "Optional note"
+msgstr "备注（可选）"
+
+#: posapp/src/components/Cart/index.jsx:645
+msgid "Order Discount"
+msgstr "整单折扣"
+
+#: posapp/src/components/Cart/index.jsx:792
+msgid "Order Discount ({pct}%)"
+msgstr "整单折扣（{pct}%）"
+
+#: posapp/src/components/Customer/AddressModal.jsx:19
+msgid "Other"
+msgstr ""
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:159
+#: posapp/src/components/Items/index.jsx:77
+msgid "Out of stock"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:266
+msgid "Outstanding Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:16 posapp/src/utils/format.js:34
+msgid "Overdue"
+msgstr ""
+
+#: posapp/src/utils/format.js:41
+msgid "Overdue and Discounted"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "POS Closing Entry"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Closing/index.jsx:86
+#: posapp/src/pages/InvoiceDetailPage.jsx:245
+msgid "POS Opening Entry"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:180
+#: posapp/src/engine/sync.js:14 posapp/src/pages/InvoiceDetailPage.jsx:244
+#: posapp/src/pages/InvoiceRegisterPage.jsx:190
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+msgid "POS Profile"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:206
+msgid "POS Profile saved successfully"
+msgstr "POS 配置已保存"
+
+#: posapp/src/components/Sidebar/index.jsx:14
+#: posapp/src/pages/POSProfileDetailPage.jsx:224
+#: posapp/src/pages/POSProfileListPage.jsx:90
+msgid "POS Profiles"
+msgstr "POS 配置"
+
+#: posapp/src/pages/POSTerminalPage.jsx:34
+msgid "POS Terminal"
+msgstr "POS 收银台"
+
+#: posapp/src/components/common/Pagination.jsx:8
+msgid "Page {page} of {total}"
+msgstr "第 {page} 页，共 {total} 页"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:14 posapp/src/utils/format.js:32
+msgid "Paid"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:473
+#: posapp/src/pages/InvoiceDetailPage.jsx:264
+msgid "Paid Amount"
+msgstr ""
+
+#: posapp/src/utils/format.js:35
+msgid "Partly Paid"
+msgstr ""
+
+#: posapp/src/utils/format.js:42
+msgid "Partly Paid and Discounted"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Partnership"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:644
+msgid "Party Information"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:122
+msgid "Password"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:367
+msgid "Pay with {gateway}"
+msgstr "使用 {gateway} 付款"
+
+#: posapp/src/components/Cart/index.jsx:855
+msgid "Pay {amount}"
+msgstr "支付 {amount}"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:414
+msgid "Payment Gateway"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:335
+msgid "Payment Methods"
+msgstr ""
+
+#. Label of a Table field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Payment Reconciliation"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:90
+#: posapp/src/components/InvoicePay/index.jsx:422
+msgid "Payment Summary"
+msgstr "付款汇总"
+
+#: posapp/src/pages/ReportsPage.jsx:258
+msgid "Payment method breakdown"
+msgstr "按付款方式细分"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:164
+msgid "Payment methods are mandatory. Please add at least one payment method."
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:406
+msgid "Payments"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:148
+msgid "Pending Invoices"
+msgstr "待处理发票"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Pending sync"
+msgstr "待同步"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+msgid "Percentage"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Period Details"
+msgstr ""
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period End Date"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:740
+msgid "Period Settings"
+msgstr ""
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Datetime field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period Start Date"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:18
+msgid "Permanent"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:11
+msgid "Personal"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:129
+#: posapp/src/components/Customer/ContactModal.jsx:102
+msgid "Phone"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:12
+msgid "Plant"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/PaymentView.jsx:13
+msgid "Please Pay"
+msgstr "请付款"
+
+#: posapp/src/components/Cart/index.jsx:214
+msgid "Please add at least one item to the cart"
+msgstr "请至少向购物车添加一件商品"
+
+#: posapp/src/components/InvoicePay/index.jsx:228
+msgid "Please add one or more items to the cart"
+msgstr "请向购物车添加一件或多件商品"
+
+#: posapp/src/components/InvoicePay/index.jsx:232
+msgid "Please enter an amount for at least one payment mode"
+msgstr "请至少为一种付款方式输入金额"
+
+#: posapp/src/components/Cart/index.jsx:210
+#: posapp/src/components/InvoicePay/index.jsx:224
+msgid "Please select a customer"
+msgstr "请选择客户"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:169
+msgid "Please select a default mode of payment"
+msgstr ""
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:81
+msgid "Point the camera at a barcode, QR code, or serial/batch label."
+msgstr "将相机对准条形码、二维码或序列号/批次标签。"
+
+#: posapp/src/pages/POSTerminalPage.jsx:119
+msgid "Populates the item search field, same as a hardware scanner"
+msgstr "填入商品搜索框，与硬件扫码枪相同"
+
+#: posapp/src/components/Customer/AddressModal.jsx:13
+msgid "Postal"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:126
+msgid "Postal Code"
+msgstr ""
+
+#. Label of a Date field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:242
+msgid "Posting Date"
+msgstr ""
+
+#. Label of a Time field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:243
+msgid "Posting Time"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:139
+msgid "Preferred Billing Address"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:146
+msgid "Preferred Shipping Address"
+msgstr ""
+
+#: posapp/src/components/common/Pagination.jsx:18
+msgid "Previous"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Price"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:797
+msgid "Price Discount Scheme"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:11 posapp/src/pages/InvoiceDetailPage.jsx:258
+#: posapp/src/pages/ItemPriceDetailPage.jsx:207
+#: posapp/src/pages/ItemPriceListPage.jsx:30
+#: posapp/src/pages/ItemPriceListPage.jsx:147
+#: posapp/src/pages/POSProfileDetailPage.jsx:630
+#: posapp/src/pages/POSProfileListPage.jsx:36
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListListPage.jsx:18
+msgid "Price List"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:203
+#: posapp/src/pages/PriceListDetailPage.jsx:163
+msgid "Price List Details"
+msgstr "价格表详情"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:167
+msgid "Price List Name"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:96
+msgid "Price List Name and Currency are required"
+msgstr "价格表名称和币种为必填项"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:102
+msgid "Price List must be applicable for Buying or Selling"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:138
+msgid "Price List saved successfully"
+msgstr "价格表已保存"
+
+#: posapp/src/components/Sidebar/index.jsx:16
+#: posapp/src/pages/PriceListDetailPage.jsx:155
+#: posapp/src/pages/PriceListListPage.jsx:81
+msgid "Price Lists"
+msgstr "价格表"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:177
+msgid "Price Not UOM Dependent"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:411
+msgid "Price or Product Discount"
+msgstr ""
+
+#: posapp/src/engine/sync.js:12
+msgid "Pricing Rule"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:155
+#: posapp/src/components/Customer/AddressContactSection.jsx:207
+msgid "Primary"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:231
+msgid "Print / Reprint"
+msgstr "打印 / 重新打印"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:566
+msgid "Print Format"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:587
+msgid "Print Heading"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:462
+msgid "Print Receipt on Order Complete"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:561
+msgid "Print Settings"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:982
+#: posapp/src/pages/DiscountListPage.jsx:53
+msgid "Priority"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:196
+msgid "Priority is mandatory"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Product"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:44
+msgid "Product Bundle"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:867
+msgid "Product Discount Scheme"
+msgstr ""
+
+#: posapp/src/pages/POSProfileListPage.jsx:19
+msgid "Profile"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:232
+msgid "Profile Info"
+msgstr "配置信息"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:12
+msgid "Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:137
+msgid "Program Details"
+msgstr "计划详情"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:141
+msgid "Program Name"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:92
+msgid "Program Name, From Date and Conversion Factor are required"
+msgstr "计划名称、开始日期和换算系数为必填项"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:145
+msgid "Program Type"
+msgstr "计划类型"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:290
+#: posapp/src/pages/POSProfileDetailPage.jsx:768
+msgid "Project"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:75
+msgid "Push failed. Check your connection and try again."
+msgstr "推送失败。请检查网络连接后重试。"
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Push now"
+msgstr "立即推送"
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Pushing…"
+msgstr "正在推送…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:278
+#: posapp/src/pages/InvoiceDetailPage.jsx:337
+msgid "Qty"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:926
+msgid "Qty for which recursion isn't applicable."
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:720
+msgid "Quantity and Amount"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:32
+msgid "Queued"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:24
+msgid "Range"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:530
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:171
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:821
+#: posapp/src/pages/InvoiceDetailPage.jsx:282
+#: posapp/src/pages/InvoiceDetailPage.jsx:372
+#: posapp/src/pages/ItemPriceDetailPage.jsx:224
+#: posapp/src/pages/ItemPriceDetailPage.jsx:231
+#: posapp/src/pages/ItemPriceListPage.jsx:36
+msgid "Rate"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:203
+msgid "Rate (%)"
+msgstr "税率 (%)"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:238
+msgid "Rate (%) applies to percentage-based charges; Amount applies to \"Actual\" charges. Totals are recalculated against the returned items when the credit note is created."
+msgstr "税率 (%) 适用于按百分比计算的费用；金额适用于“实际”费用。开具红字发票时，将按退货商品重新计算合计。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:297
+msgid "Rate can not be negative"
+msgstr "价格不能为负数"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:802
+msgid "Rate or Discount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:229
+msgid "Rate or Discount is required for the price discount."
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:421
+msgid "Razorpay"
+msgstr ""
+
+#: easy_pos/api/payment_gateways/razorpay.py:26
+msgid "Razorpay is not configured. Set it up under Razorpay Settings first."
+msgstr "Razorpay 尚未配置。请先在 Razorpay 设置中完成配置。"
+
+#: easy_pos/api/payment_gateways/razorpay.py:61
+msgid "Razorpay payment signature verification failed"
+msgstr "Razorpay 付款签名验证失败"
+
+#: posapp/src/components/InvoicePay/index.jsx:168
+#: posapp/src/components/InvoicePay/index.jsx:177
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Receipt"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:599
+msgid "Receipt Delivery"
+msgstr "小票发送"
+
+#: posapp/src/pages/ReportsPage.jsx:355
+msgid "Recent transactions"
+msgstr "最近交易"
+
+#: posapp/src/components/Topbar/index.jsx:110
+msgid "Reconnect to close your shift"
+msgstr "请重新连接以交班"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:144
+msgid "Reconnect to open a shift"
+msgstr "请重新连接以开班"
+
+#: posapp/src/pages/SyncPage.jsx:159
+msgid "Reconnect to push queued invoices"
+msgstr "请重新连接以推送队列中的发票"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:916
+msgid "Recurse Every (As Per Transaction UOM)"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:293
+msgid "Recurse Over Qty cannot be less than 0"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:325
+msgid "Recursive Discounts with Mixed condition is not supported by the system"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:394
+msgid "Redeem Loyalty Points ({n} available)"
+msgstr "兑换积分（可用 {n}）"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:251
+msgid "Redemption"
+msgstr ""
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:52
+msgid "Register"
+msgstr ""
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:50
+msgid "Reload"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:137
+msgid "Remember this device"
+msgstr "记住此设备"
+
+#: posapp/src/components/Cart/index.jsx:520
+msgid "Remove"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:706
+msgid "Remove coupon"
+msgstr "移除优惠券"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:441
+msgid "Remove row"
+msgstr "删除行"
+
+#: posapp/src/components/Sidebar/index.jsx:19
+#: posapp/src/pages/ReportsPage.jsx:101 posapp/src/pages/ReportsPage.jsx:155
+msgid "Reports"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retry"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:87
+msgid "Retry failed."
+msgstr "重试失败。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:184
+msgid "Retry sync"
+msgstr "重试同步"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retrying…"
+msgstr "正在重试…"
+
+#: posapp/src/utils/format.js:36
+msgid "Return"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:261
+msgid "Return Against"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:174
+msgid "Return Amount"
+msgstr "退货金额"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:154
+msgid "Return Qty"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:185
+msgid "Return Total"
+msgstr "退货合计"
+
+#: posapp/src/components/Closing/index.jsx:59
+msgid "Review the counted totals for this shift before closing."
+msgstr "交班前请核对本班次的实点合计。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:897
+msgid "Round Free Qty"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:401
+msgid "Rounded Total"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:400
+msgid "Rounding Adjustment"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1019
+msgid "Rule Description"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:613
+msgid "SMS Notification"
+msgstr "短信通知"
+
+#: posapp/src/pages/ReportsPage.jsx:140
+msgid "Sales"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:18
+msgid "Sales Invoice"
+msgstr ""
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Sales Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:686
+msgid "Sales Partner"
+msgstr ""
+
+#: posapp/src/engine/sync.js:13 posapp/src/pages/InvoiceDetailPage.jsx:397
+#: posapp/src/pages/POSProfileDetailPage.jsx:718
+msgid "Sales Taxes and Charges Template"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:151
+msgid "Sales completed offline, queued locally until they reach ERPNext."
+msgstr "离线完成的销售，在送达 ERPNext 之前暂存在本地队列。"
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by day"
+msgstr "销售趋势 · 按天"
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by hour"
+msgstr "销售趋势 · 按小时"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:872
+msgid "Same Item"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:86
+#: posapp/src/components/Customer/ContactModal.jsx:83
+#: posapp/src/components/common/SaveButton.jsx:28
+msgid "Save"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:824
+msgid "Save Draft"
+msgstr "保存草稿"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:95
+msgid "Save the customer first to add addresses and contacts."
+msgstr "请先保存客户，再添加地址和联系人。"
+
+#: posapp/src/components/Cart/index.jsx:819
+#: posapp/src/components/Customer/AddressModal.jsx:83
+#: posapp/src/components/Customer/ContactModal.jsx:80
+#: posapp/src/components/common/SaveButton.jsx:25
+msgid "Saving…"
+msgstr "正在保存…"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:61
+msgid "Scan barcode"
+msgstr "扫描条形码"
+
+#: posapp/src/pages/POSTerminalPage.jsx:37
+msgid "Scan barcode/serial/batch or search items"
+msgstr "扫描条形码/序列号/批次或搜索商品"
+
+#: posapp/src/components/Topbar/index.jsx:61
+#: posapp/src/components/Topbar/index.jsx:62
+msgid "Scan with camera"
+msgstr "用相机扫描"
+
+#: posapp/src/components/Cart/index.jsx:508
+msgid "Scan/add the item again to add another unit"
+msgstr "再次扫描/添加商品可再加一件"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+msgid "Search and pull a saved draft into the terminal"
+msgstr "搜索已保存的草稿并载入收银台"
+
+#: posapp/src/components/Cart/index.jsx:595
+msgid "Search batch no"
+msgstr "搜索批次号"
+
+#: posapp/src/pages/CustomerListPage.jsx:118
+msgid "Search customer, mobile or email"
+msgstr "搜索客户、手机号或邮箱"
+
+#: posapp/src/components/Cart/index.jsx:386
+msgid "Search customer..."
+msgstr "搜索客户..."
+
+#: posapp/src/pages/DiscountListPage.jsx:111
+msgid "Search discount title"
+msgstr "搜索折扣标题"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:136
+msgid "Search invoice or customer"
+msgstr "搜索发票或客户"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:113
+msgid "Search item code or name"
+msgstr "搜索商品编码或名称"
+
+#: posapp/src/pages/PriceListListPage.jsx:87
+msgid "Search price list"
+msgstr "搜索价格表"
+
+#: posapp/src/pages/POSProfileListPage.jsx:96
+msgid "Search profile or warehouse"
+msgstr "搜索配置或仓库"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:83
+msgid "Search program name"
+msgstr "搜索计划名称"
+
+#: posapp/src/components/Cart/index.jsx:575
+msgid "Search serial no"
+msgstr "搜索序列号"
+
+#: posapp/src/components/Topbar/index.jsx:53
+#: posapp/src/components/common/LinkField.jsx:162
+msgid "Search..."
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:351
+msgid "Searching…"
+msgstr "正在搜索…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:566
+msgid "Select Brand"
+msgstr "选择品牌"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:307
+msgid "Select Company"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:206
+msgid "Select Country"
+msgstr "选择国家"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:531
+msgid "Select Customer Group"
+msgstr "选择客户分组"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:461
+msgid "Select Item"
+msgstr "选择商品"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:512
+#: posapp/src/pages/POSProfileDetailPage.jsx:492
+msgid "Select Item Group"
+msgstr "选择商品分组"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:359
+msgid "Select Mode"
+msgstr "选择方式"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:181
+msgid "Select POS profile"
+msgstr "选择 POS 配置"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:474
+#: posapp/src/pages/DiscountDetailPage.jsx:525
+#: posapp/src/pages/DiscountDetailPage.jsx:579
+msgid "Select UOM"
+msgstr "选择单位"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:294
+msgid "Select User"
+msgstr "选择用户"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:261
+#: posapp/src/pages/POSProfileDetailPage.jsx:677
+#: posapp/src/pages/POSProfileDetailPage.jsx:691
+msgid "Select a Company first"
+msgstr "请先选择公司"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:165
+msgid "Select an option for every attribute to pick a variant."
+msgstr "为每个属性选择一个选项以确定规格。"
+
+#: easy_pos/api/pos.py:410 posapp/src/components/Invoice/CreditNoteModal.jsx:71
+msgid "Select at least one item to return"
+msgstr "请至少选择一件要退货的商品"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:172
+msgid "Select company"
+msgstr "选择公司"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:99
+msgid "Select customer group"
+msgstr "选择客户分组"
+
+#: posapp/src/components/Items/index.jsx:66
+msgid "Select options"
+msgstr "选择选项"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:983
+msgid "Select priority"
+msgstr "选择优先级"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:107
+msgid "Select territory"
+msgstr "选择区域"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:648
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:217
+#: posapp/src/pages/ItemPriceListPage.jsx:12
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:174
+#: posapp/src/pages/PriceListListPage.jsx:30
+msgid "Selling"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:274
+msgid "Selling must be checked, if Applicable For is selected as {field}"
+msgstr "如果“适用于”选择为 {field}，则必须勾选“销售”"
+
+#: posapp/src/components/Cart/index.jsx:570 posapp/src/engine/sync.js:19
+msgid "Serial No"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:129
+msgid "Server connected"
+msgstr "服务器已连接"
+
+#: easy_pos/api/pwa.py:29
+msgid "Service worker not built yet - run `yarn build` in posapp/"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:20
+#: posapp/src/pages/SettingsPage.jsx:25
+msgid "Settings"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:22
+msgid "Shift"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:225
+msgid "Shift summary"
+msgstr "班次汇总"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:156
+#: posapp/src/components/Customer/AddressModal.jsx:9
+msgid "Shipping"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:14
+msgid "Shop"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:358
+msgid "Shopping Cart"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Show password"
+msgstr "显示密码"
+
+#: posapp/src/pages/LoginPage.jsx:99 posapp/src/pages/LoginPage.jsx:159
+msgid "Sign in"
+msgstr "登录"
+
+#: posapp/src/pages/LoginPage.jsx:63
+msgid "Sign in to open your till and start ringing up sales."
+msgstr "登录以打开收银台并开始销售。"
+
+#: posapp/src/pages/LoginPage.jsx:155
+msgid "Signing in…"
+msgstr "正在登录…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:948
+msgid "Simple Python Expression, Example: territory != 'All Territories'"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Single Tier Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:191
+msgid "Spend thresholds and how many currency units earn 1 loyalty point at each tier."
+msgstr "消费门槛，以及每个等级多少货币单位可获得 1 个积分。"
+
+#: posapp/src/components/Customer/AddressModal.jsx:120
+msgid "State/Province"
+msgstr ""
+
+#. Label of a Select field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/CustomerListPage.jsx:54
+#: posapp/src/pages/DiscountListPage.jsx:66
+#: posapp/src/pages/InvoiceRegisterPage.jsx:46
+#: posapp/src/pages/POSProfileListPage.jsx:42
+#: posapp/src/pages/PriceListListPage.jsx:42
+msgid "Status"
+msgstr ""
+
+#: posapp/src/utils/format.js:39
+msgid "Submitted"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Submitting…"
+msgstr "正在提交…"
+
+#: posapp/src/components/Customer/AddressModal.jsx:15
+msgid "Subsidiary"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:29
+msgid "Subtotal"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:701
+#: posapp/src/pages/ItemPriceDetailPage.jsx:213
+msgid "Supplier"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:707
+msgid "Supplier Group"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to dark mode"
+msgstr "切换到深色模式"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to light mode"
+msgstr "切换到浅色模式"
+
+#: posapp/src/components/Sidebar/index.jsx:18 posapp/src/pages/SyncPage.jsx:58
+msgid "Sync"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:121
+msgid "Sync center"
+msgstr "同步中心"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Sync failed"
+msgstr "同步失败"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:100
+msgid "Sync failed — check the Sync page for details."
+msgstr "同步失败——详情请查看“同步”页面。"
+
+#: posapp/src/pages/SyncPage.jsx:108
+msgid "Sync failed. Check your connection and try again."
+msgstr "同步失败。请检查网络连接后重试。"
+
+#: posapp/src/pages/SyncPage.jsx:35
+msgid "Synced"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+#: posapp/src/pages/InvoiceDetailPage.jsx:182 posapp/src/pages/SyncPage.jsx:33
+msgid "Syncing…"
+msgstr "正在同步…"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "System Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:964
+msgid "System will notify to increase or decrease quantity or amount"
+msgstr "系统将提示增加或减少数量或金额"
+
+#: posapp/src/components/InvoicePay/index.jsx:347
+msgid "Take Payment"
+msgstr "收款"
+
+#: posapp/src/components/Cart/index.jsx:452
+msgid "Tap an item to add it here"
+msgstr "点击商品即可添加到此处"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:205
+#: posapp/src/pages/InvoiceDetailPage.jsx:396
+#: posapp/src/pages/POSProfileDetailPage.jsx:733
+msgid "Tax Category"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:202
+msgid "Tax ID"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:756
+msgid "Taxes"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:192
+#: posapp/src/pages/InvoiceDetailPage.jsx:368
+#: posapp/src/pages/InvoiceDetailPage.jsx:394
+msgid "Taxes and Charges"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:11
+msgid "Terminal"
+msgstr "收银台"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:578
+msgid "Terms and Conditions"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:106
+#: posapp/src/pages/CustomerDetailPage.jsx:193
+#: posapp/src/pages/CustomerListPage.jsx:48
+#: posapp/src/pages/CustomerListPage.jsx:166
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:680
+msgid "Territory"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:13
+msgid "Thank You!"
+msgstr "谢谢惠顾！"
+
+#: posapp/src/components/InvoicePay/index.jsx:318
+msgid "That attempt failed — you can try another payment method in the {gateway} window."
+msgstr "本次尝试失败——您可以在 {gateway} 窗口中换一种付款方式。"
+
+#: posapp/src/components/Cart/index.jsx:677
+msgid "This POS Profile doesn't allow manual discount changes."
+msgstr "此 POS 配置不允许手动修改折扣。"
+
+#: easy_pos/api/payment.py:44
+msgid "This invoice has already been finalized"
+msgstr "此发票已完成"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:140
+msgid "This offline sale isn't in the local queue on this device anymore."
+msgstr "此离线销售已不在本设备的本地队列中。"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:65
+msgid "This profile sells in {currency} but the company's currency is {company_currency}. A new customer's first sale will fail until 'Allow multi-currency invoices against single party account' is enabled in Accounts Settings."
+msgstr "此配置以 {currency} 销售，但公司币种是 {company_currency}。在 Accounts Settings 中启用 'Allow multi-currency invoices against single party account' 之前，新客户的首笔销售将会失败。"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:158
+msgid "This sale was completed offline and hasn't reached ERPNext yet. It will get a real invoice number once it syncs — reconnect and it should sync automatically, or retry below."
+msgstr "此笔销售在离线时完成，尚未送达 ERPNext。同步后将获得正式发票号——重新连接后应会自动同步，也可在下方重试。"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:265
+msgid "This will permanently delete this address."
+msgstr "此地址将被永久删除。"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:266
+msgid "This will permanently delete this contact."
+msgstr "此联系人将被永久删除。"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:963
+msgid "Threshold for Suggestion (In Percentage)"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:279
+msgid "Tier"
+msgstr "等级"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:198
+msgid "Tier Name"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:399
+#: posapp/src/pages/DiscountListPage.jsx:26
+msgid "Title"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:195
+msgid "Title is required"
+msgstr "标题为必填项"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:158
+msgid "To Date"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:23
+msgid "Today"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:147
+msgid "Toggle dark mode"
+msgstr "切换深色模式"
+
+#: posapp/src/pages/ReportsPage.jsx:301
+msgid "Top selling items"
+msgstr "畅销商品"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:45
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:172
+#: posapp/src/pages/InvoiceDetailPage.jsx:382
+msgid "Total"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:399
+msgid "Total Taxes and Charges"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Totals"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+msgid "Transaction"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/pages/ReportsPage.jsx:214
+msgid "Transactions"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:200
+#: posapp/src/pages/DiscountListPage.jsx:43
+#: posapp/src/pages/InvoiceDetailPage.jsx:371
+#: posapp/src/pages/ItemPriceListPage.jsx:53
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:23
+msgid "Type"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:470
+#: posapp/src/pages/DiscountDetailPage.jsx:521
+#: posapp/src/pages/DiscountDetailPage.jsx:575
+#: posapp/src/pages/InvoiceDetailPage.jsx:279
+#: posapp/src/pages/InvoiceDetailPage.jsx:338
+#: posapp/src/pages/ItemPriceDetailPage.jsx:193
+#: posapp/src/pages/ItemPriceListPage.jsx:47
+msgid "UOM"
+msgstr ""
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:47
+msgid "Unable to start the camera."
+msgstr "无法启动相机。"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:15 posapp/src/utils/format.js:33
+msgid "Unpaid"
+msgstr ""
+
+#: posapp/src/utils/format.js:40
+msgid "Unpaid and Discounted"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:167
+#: posapp/src/pages/POSProfileDetailPage.jsx:290
+msgid "User"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "User Details"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:26
+msgid "Username and password are required"
+msgstr "用户名和密码为必填项"
+
+#: posapp/src/pages/SettingsPage.jsx:14
+msgid "Users"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:745
+#: posapp/src/pages/ItemPriceDetailPage.jsx:242
+msgid "Valid From"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:42
+msgid "Valid Till"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:753
+#: posapp/src/pages/DiscountListPage.jsx:60
+#: posapp/src/pages/ItemPriceDetailPage.jsx:245
+#: posapp/src/pages/ItemPriceListPage.jsx:63
+msgid "Valid Upto"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:315
+msgid "Valid Upto Date cannot be before Valid From Date"
+msgstr "“有效期至”不能早于“有效期自”"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:312
+msgid "Valid from and valid upto fields are mandatory for the cumulative"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1010
+msgid "Validate Applied Rule"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:461
+msgid "Validate Stock on Save"
+msgstr ""
+
+#: posapp/src/components/common/AlertModal.jsx:10
+msgid "Validation Error"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:238
+msgid "Validity"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:249
+msgid "Variant {variant} and its template {template} cannot both be added to the same Pricing Rule"
+msgstr "规格 {variant} 及其模板 {template} 不能同时添加到同一定价规则中"
+
+#: posapp/src/pages/ReportsPage.jsx:360
+msgid "View all"
+msgstr "查看全部"
+
+#: posapp/src/components/Cart/CartBar.jsx:20
+msgid "View cart"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:427
+msgid "View purchase history"
+msgstr "查看购买记录"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Waiting for {gateway}…"
+msgstr "正在等待 {gateway}…"
+
+#: posapp/src/components/InvoicePay/index.jsx:180
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Walk-in"
+msgstr "散客"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Customer/AddressModal.jsx:16
+#: posapp/src/pages/DiscountDetailPage.jsx:419
+#: posapp/src/pages/InvoiceDetailPage.jsx:259
+#: posapp/src/pages/InvoiceDetailPage.jsx:339
+#: posapp/src/pages/POSProfileDetailPage.jsx:243
+#: posapp/src/pages/POSProfileListPage.jsx:30
+msgid "Warehouse"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:259
+msgid "Website"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:8
+msgid "Welcome"
+msgstr "欢迎"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:405
+msgid "When checked, the closing amount for this payment method is calculated automatically from sales. Uncheck to have the cashier manually count and enter the amount at POS closing."
+msgstr "勾选后，此付款方式的交班金额将根据销售自动计算。取消勾选则由收银员在交班时手动清点并输入金额。"
+
+#. Description of the 'Enable Offline Mode' (Check) field in DocType 'EASYPOS
+#. Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "When enabled, the POS Terminal reads/writes from the local offline database instead of calling the server directly, and syncs changes back once online."
+msgstr "启用后，POS 收银台将读写本地离线数据库，而不是直接调用服务器，并在恢复联网后同步更改。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:425
+msgid "When set, Complete Payment opens this gateway's checkout for the amount entered instead of treating it as manually received. Configure the gateway's own credentials (e.g. Razorpay Settings) separately."
+msgstr "设置后，“完成付款”会针对输入金额打开此支付网关的支付页面，而不是视为已手动收款。请另行配置网关凭据（例如 Razorpay 设置）。"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:642
+msgid "Write Off Account"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:656
+msgid "Write Off Cost Center"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:666
+msgid "Write Off Limit"
+msgstr ""
+
+#: posapp/src/components/common/ConfirmModal.jsx:39
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "Yes"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:431
+msgid "Yes, Cancel"
+msgstr "是，取消"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:173
+msgid "You can only select one mode of payment as default"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:9
+msgid "Your order will appear here shortly."
+msgstr "您的订单将很快显示在这里。"
+
+#: posapp/src/pages/ReportsPage.jsx:155
+msgid "Your sales, shift, and payment summary"
+msgstr "您的销售、班次和付款汇总"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:84
+msgid "e.g. Aarav Sharma"
+msgstr "例如：Aarav Sharma"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:202
+msgid "e.g. Silver"
+msgstr "例如：白银"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:123
+msgid "e.g. customer@example.com"
+msgstr "例如：customer@example.com"
+
+#: easy_pos/api/pos.py:515
+msgid "opening_entry is required for shift scope"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:201
+msgid "{field} is not added in the table"
+msgstr "表中未添加 {field}"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:215
+msgid "{field} is required"
+msgstr "{field} 为必填项"
+
+#: posapp/src/components/InvoicePay/index.jsx:449
+msgid "{gateway} is not configured yet."
+msgstr "{gateway} 尚未配置。"
+
+#: posapp/src/components/InvoicePay/index.jsx:444
+msgid "{gateway} needs a connection — unavailable while offline."
+msgstr "{gateway} 需要联网——离线时不可用。"
+
+#: posapp/src/components/InvoicePay/index.jsx:452
+msgid "{gateway} — offline"
+msgstr "{gateway} — 离线"
+
+#: posapp/src/components/InvoicePay/index.jsx:156
+msgid "{item} (Free)"
+msgstr "{item}（赠品）"
+
+#: posapp/src/components/Sidebar/index.jsx:75
+#: posapp/src/pages/SettingsPage.jsx:43
+msgid "{label} — coming soon"
+msgstr "{label} — 即将推出"
+
+#: posapp/src/pages/SyncPage.jsx:337
+msgid "{label} — {n} cached"
+msgstr "{label} — 已缓存 {n} 条"
+
+#: posapp/src/components/Sidebar/index.jsx:88
+msgid "{label} — {n} invoice(s) pending sync"
+msgstr "{label} — {n} 张发票待同步"
+
+#: posapp/src/pages/ReportsPage.jsx:338
+msgid "{n} invoices"
+msgstr "{n} 张发票"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "{n} items"
+msgstr "{n} 件商品"
+
+#: posapp/src/components/Cart/index.jsx:412
+msgid "{n} loyalty points available"
+msgstr "可用 {n} 个积分"
+
+#: posapp/src/pages/SyncPage.jsx:288
+msgid "{n} record(s) cached locally. Master data is read-only offline — a Fetch pulls a fresh snapshot of every domain at once (they're all resolved together for the current shift's POS Profile)."
+msgstr "本地已缓存 {n} 条记录。离线时主数据为只读——“获取”会一次性拉取所有数据域的最新快照（它们会按当前班次的 POS 配置一并计算）。"
+
+#: posapp/src/pages/ReportsPage.jsx:347
+msgid "{n} returns"
+msgstr "{n} 笔退货"
+
+#: posapp/src/pages/SyncPage.jsx:21
+msgid "{n}h ago"
+msgstr "{n} 小时前"
+
+#: posapp/src/pages/SyncPage.jsx:19
+msgid "{n}m ago"
+msgstr "{n} 分钟前"
+
+#: posapp/src/components/Items/index.jsx:77
+msgid "{qty} left"
+msgstr "剩余 {qty}"
+
+#: posapp/src/components/Cart/index.jsx:485
+msgid "{rate} each"
+msgstr "每件 {rate}"
+

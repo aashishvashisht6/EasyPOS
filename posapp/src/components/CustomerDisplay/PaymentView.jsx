@@ -1,8 +1,5 @@
-const formatAmount = (value, currencySymbol, precision) =>
-  `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
-    minimumFractionDigits: precision,
-    maximumFractionDigits: precision,
-  })}`;
+import { formatCurrency } from "../../utils/format";
+import { useTranslation } from "../../translation";
 
 // `splitLabel` ("Bill 2 of 3" / "Payer 1 of 3") is set while paying part of a
 // split bill; `partPaid` once that part is paid and the next one is pending.
@@ -17,5 +14,19 @@ const PaymentView = ({ grandTotal, currencySymbol, precision, splitLabel, partPa
     <div className="customer-display-payment-amount">{formatAmount(grandTotal, currencySymbol, precision)}</div>
   </div>
 );
+// currencyFormat ({ symbol, number_format, symbol_on_right }) comes from the
+// Terminal's broadcast snapshot (hooks/useCustomerDisplayBroadcaster.js).
+const formatAmount = (value, currencyFormat, precision) => formatCurrency(value ?? 0, currencyFormat, precision);
+
+const PaymentView = ({ grandTotal, currencyFormat, precision }) => {
+  const { __ } = useTranslation();
+  return (
+    <div className="customer-display-screen customer-display-payment">
+      <i className="bi bi-credit-card-2-front" style={{ fontSize: 64, color: "var(--color-primary)" }} />
+      <h2 className="mt-4">{__("Please Pay")}</h2>
+      <div className="customer-display-payment-amount">{formatAmount(grandTotal, currencyFormat, precision)}</div>
+    </div>
+  );
+};
 
 export default PaymentView;

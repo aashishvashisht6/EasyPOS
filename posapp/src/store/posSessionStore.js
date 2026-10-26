@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import { fetchOpeningEntry } from "../api/OpeningEntry";
 import { fetchProfile } from "../api/POSProfile";
-import { fetchCurrencySymbol } from "../api/Currency";
+import { fetchCurrencyContext } from "../api/Currency";
+import { DEFAULT_NUMBER_FORMAT } from "../utils/format";
+import { toastError } from "./toastStore";
+import { getServerMessage } from "../utils/serverError";
 import { fetchPrecisionSettings } from "../api/Invoice";
 import { fetchTaxesAndChargesTemplate } from "../api/Tax";
 import { fetchPricingRules } from "../api/Pricing";
@@ -22,6 +25,16 @@ const usePOSSessionStore = create((set, get) => ({
 	openingModalOpen: false,
 	currencyCode: DEFAULT_CURRENCY,
 	currencySymbol: DEFAULT_SYMBOL,
+	// Currency.number_format/symbol_on_right for currencyCode — drives digit
+	// grouping everywhere via hooks/useCurrencyFormatter (utils/format.js's
+	// formatCurrency), so a USD/EUR profile doesn't get INR lakh grouping.
+	numberFormat: DEFAULT_NUMBER_FORMAT,
+	symbolOnRight: false,
+	// The Company's own currency and the invoice-currency -> company-currency
+	// rate the shift's invoices post at (easy_pos.api.currency). conversionRate
+	// stays 1 for a single-currency shop.
+	companyCurrency: DEFAULT_CURRENCY,
+	conversionRate: 1,
 	// System Settings' Currency/Float Precision (or the number-format-derived
 	// equivalent) — same resolution ERPNext itself uses, fetched once per shift
 	// so amount rounding/display matches what the Sales Invoice will persist.
@@ -68,15 +81,29 @@ const usePOSSessionStore = create((set, get) => ({
 			fetchPrecisionSettings(),
 		]);
 		if (!profile) return;
-		const currency = profile.currency || DEFAULT_CURRENCY;
-		const [symbol, taxTemplateRows, pricingRules] = await Promise.all([
-			currency === get().currencyCode ? get().currencySymbol : fetchCurrencySymbol(currency),
+		const [currencyContext, taxTemplateRows, pricingRules] = await Promise.all([
+			fetchCurrencyContext(profile.name || pos_profile).catch((error) => {
+				// A missing exchange rate for a multi-currency profile is a config
+				// error the cashier/admin must see — not a network blip (offline,
+				// the cached profile currency below is still used).
+				const message = getServerMessage(error);
+				if (message) toastError(message, { duration: 0 });
+				else console.error(error);
+				return null;
+			}),
 			fetchTaxesAndChargesTemplate(profile.taxes_and_charges),
 			fetchPricingRules(profile.name || pos_profile),
 		]);
+		const currency = currencyContext?.currency || profile.currency || DEFAULT_CURRENCY;
 		set({
 			currencyCode: currency,
-			currencySymbol: symbol,
+			currencySymbol:
+				currencyContext?.symbol ||
+				(currency === DEFAULT_CURRENCY ? DEFAULT_SYMBOL : currency),
+			numberFormat: currencyContext?.number_format || DEFAULT_NUMBER_FORMAT,
+			symbolOnRight: !!currencyContext?.symbol_on_right,
+			companyCurrency: currencyContext?.company_currency || currency,
+			conversionRate: currencyContext?.conversion_rate || 1,
 			currencyPrecision: precisionSettings?.currency_precision ?? DEFAULT_CURRENCY_PRECISION,
 			floatPrecision: precisionSettings?.float_precision ?? DEFAULT_FLOAT_PRECISION,
 			warehouse: profile.warehouse || "",

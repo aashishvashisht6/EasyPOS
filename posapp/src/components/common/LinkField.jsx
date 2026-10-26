@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { searchLink } from "../../api/Search";
 import FieldShell from "./FieldShell";
+import { useTranslation } from "../../translation";
 
 const DEBOUNCE_MS = 250;
 
@@ -25,7 +26,7 @@ const LinkField = ({
   onChange,
   displayValue,
   filters,
-  placeholder = "Search...",
+  placeholder,
   required,
   disabled,
   allowClear = true,
@@ -40,6 +41,7 @@ const LinkField = ({
   onAction,
   onClick,
 }) => {
+  const { __ } = useTranslation();
   const id = useId();
   const containerRef = useRef(null);
   const debounceRef = useRef(null);
@@ -157,7 +159,7 @@ const LinkField = ({
             id={id}
             type="text"
             className={`form-control ${error ? "is-invalid" : ""}`}
-            placeholder={placeholder}
+            placeholder={placeholder ?? __("Search...")}
             value={shownValue}
             disabled={disabled}
             required={required}
@@ -213,7 +215,7 @@ const LinkField = ({
                   <span className="spinner-border spinner-border-sm" role="status" />
                 </div>
               ) : options.length === 0 ? (
-                <div className="pos-link-empty">No {doctype} found</div>
+                <div className="pos-link-empty">{__("No {doctype} found", { doctype })}</div>
               ) : (
                 options.map((option, index) => (
                   <button

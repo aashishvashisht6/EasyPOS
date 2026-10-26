@@ -47,10 +47,8 @@ const effectiveRate = (priceListRate, rule, precision) => {
 	const discountPercentage = flt(rule.discount_percentage);
 	const discountAmount = flt(rule.discount_amount);
 
-	if (rule.rate_or_discount === "Rate") {
-		const rate = flt(rule.rate, precision);
-		return { rate, discountAmount: flt(priceListRate - rate, precision) };
-	}
+	// "Rate" rules never reach here — they replace the price list rate instead
+	// (see computeCartPricingLocally).
 	if (rule.rate_or_discount === "Discount Percentage") {
 		if (discountPercentage === 100) return { rate: 0, discountAmount: priceListRate };
 		const rate = flt(priceListRate * (1 - discountPercentage / 100), precision);
@@ -79,9 +77,16 @@ export const computeCartPricingLocally = (items, pricingRules, ctx, precision = 
 		);
 		if (matches.some((rule) => rule.price_or_product_discount === "Product")) return null;
 
-		const priceListRate = flt(line.price_list_rate, precision);
+		const itemPriceRate = flt(line.price_list_rate, precision);
 		const priceRules = matches.filter((rule) => rule.price_or_product_discount === "Price");
 
+		// A "Rate" rule overrides the price list rate rather than discounting it —
+		// erpnext.accounts.doctype.pricing_rule.pricing_rule.apply_price_discount_rule
+		// sets price_list_rate to the rule's rate (when non-zero) and zeroes the
+		// discount, and re-applies it that way when the Sales Invoice is saved.
+		// Reporting it as price_list_rate − discount instead made ERPNext subtract
+		// the "discount" a second time on save (rate = rule.rate − discount).
+		let priceListRate = itemPriceRate;
 		let rate = priceListRate;
 		let discountAmount = 0;
 		const appliedRuleNames = [];
@@ -100,8 +105,14 @@ export const computeCartPricingLocally = (items, pricingRules, ctx, precision = 
 
 			let runningRate = priceListRate;
 			for (const rule of chosen) {
-				const effective = effectiveRate(runningRate, rule, precision);
-				runningRate = effective.rate;
+				if (rule.rate_or_discount === "Rate") {
+					if (flt(rule.rate) > 0) {
+						priceListRate = flt(rule.rate, precision);
+						runningRate = priceListRate;
+					}
+				} else {
+					runningRate = effectiveRate(runningRate, rule, precision).rate;
+				}
 				appliedRuleNames.push(rule.name);
 			}
 			rate = flt(Math.max(runningRate, 0), precision);

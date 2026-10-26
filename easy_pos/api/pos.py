@@ -2,8 +2,10 @@ import json
 
 import frappe
 from frappe import _
-from frappe.query_builder.functions import Sum
+from frappe.query_builder.functions import Count, Sum
 from frappe.utils import cint, flt, get_number_format_info, now, today
+
+from easy_pos.api.currency import get_profile_currency, get_profile_currency_context
 
 
 def get_currency_precision() -> int:
@@ -184,6 +186,18 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 
 	currency_precision = get_currency_precision()
 
+	# Set explicitly rather than left to ERPNext's own defaulting, so a profile
+	# whose currency (or Price List currency) differs from the Company's posts
+	# at the right exchange rate — the cart's rates are already in this
+	# currency (see easy_pos.api.currency.get_rate_factors).
+	currency_ctx = get_profile_currency_context(pos_profile.name)
+	currency_fields = {
+		"currency": currency_ctx.currency,
+		"conversion_rate": currency_ctx.conversion_rate,
+		"price_list_currency": currency_ctx.price_list_currency,
+		"plc_conversion_rate": currency_ctx.plc_conversion_rate,
+	}
+
 	# Order-level ("additional") discount from the cart, mapped onto the Sales
 	# Invoice's own discount fields so it flows through the standard
 	# calculate_taxes_and_totals recalculation instead of being lost. Rounded
@@ -252,6 +266,16 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 	# earned even when the cashier isn't redeeming this time); redemption only
 	# applies when the cashier explicitly ticked it with a positive points value.
 	redeeming = bool(invoice.get("redeem_loyalty_points")) and cint(invoice.get("loyalty_points")) > 0
+	# ERPNext's loyalty code works in the invoice's currency with no conversion
+	# (Loyalty Program.validate_loyalty_points, and SalesInvoice.make_gl_entries
+	# posts loyalty_amount as if it were company currency), so redeeming on a
+	# foreign-currency invoice would book the wrong amount. Block it outright.
+	if redeeming and currency_ctx.currency != currency_ctx.company_currency:
+		frappe.throw(
+			_(
+				"Loyalty points can't be redeemed on a {0} invoice. ERPNext only redeems them in the company's currency ({1})."
+			).format(currency_ctx.currency, currency_ctx.company_currency)
+		)
 	loyalty_fields = {
 		"loyalty_program": invoice.get("loyalty_program") or "",
 		"redeem_loyalty_points": 1 if redeeming else 0,
@@ -278,6 +302,7 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				"update_stock": 1,
 				"set_warehouse": pos_profile.warehouse,
 				"selling_price_list": pos_profile.selling_price_list,
+				**currency_fields,
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
@@ -299,6 +324,7 @@ def _save_sales_invoice(invoice: dict, opening_details: dict, ep_offline_id: str
 				"set_warehouse": pos_profile.warehouse,
 				"selling_price_list": pos_profile.selling_price_list,
 				"ep_offline_id": ep_offline_id,
+				**currency_fields,
 				**discount_fields,
 				**tax_fields,
 				**loyalty_fields,
@@ -422,6 +448,10 @@ def create_credit_note(name: str, items: list, taxes: list | None = None) -> dic
 			"return_against": name,
 			"selling_price_list": original.selling_price_list,
 			"currency": original.currency,
+			# A return must reverse at the original sale's rate, not today's.
+			"conversion_rate": original.conversion_rate,
+			"price_list_currency": original.price_list_currency,
+			"plc_conversion_rate": original.plc_conversion_rate,
 			"set_warehouse": original.set_warehouse,
 			"update_stock": 1,
 			"items": return_items,
@@ -478,10 +508,15 @@ def get_sales_report(
 	pos_profile: str | None = None,
 	from_date: str | None = None,
 	to_date: str | None = None,
+	currency: str | None = None,
 ) -> dict:
 	"""Cashier-scoped reports/dashboard data. `scope` is 'shift' (all invoices under
 	the given opening entry), or 'today'/'range' (the logged-in cashier's own invoices,
-	optionally narrowed to a POS Profile, over from_date..to_date)."""
+	optionally narrowed to a POS Profile, over from_date..to_date).
+
+	Totals are only ever summed within one currency: 'today'/'range' are filtered to
+	`currency` (else the profile's, else the most-used one), and the response lists
+	every currency the cashier sold in for that period so the page can switch."""
 	SalesInvoice = frappe.qb.DocType("Sales Invoice")
 	SalesInvoiceItem = frappe.qb.DocType("Sales Invoice Item")
 	SalesInvoicePayment = frappe.qb.DocType("Sales Invoice Payment")
@@ -498,6 +533,32 @@ def get_sales_report(
 			condition &= SalesInvoice.pos_profile == pos_profile
 		if from_date and to_date:
 			condition &= (SalesInvoice.posting_date >= from_date) & (SalesInvoice.posting_date <= to_date)
+
+	available_currencies = [
+		row.currency
+		for row in (
+			frappe.qb.from_(SalesInvoice)
+			.select(SalesInvoice.currency, Count(SalesInvoice.name).as_("invoice_count"))
+			.where(condition)
+			.groupby(SalesInvoice.currency)
+			.orderby(Count(SalesInvoice.name), order=frappe.qb.desc)
+		).run(as_dict=True)
+		if row.currency
+	]
+	if scope == "shift":
+		report_currency = get_profile_currency(
+			frappe.db.get_value("EP Opening Entry", opening_entry, "pos_profile")
+		)
+	elif currency in available_currencies:
+		report_currency = currency
+	elif pos_profile and get_profile_currency(pos_profile) in available_currencies:
+		report_currency = get_profile_currency(pos_profile)
+	elif available_currencies:
+		report_currency = available_currencies[0]
+	else:
+		report_currency = currency or (get_profile_currency(pos_profile) if pos_profile else None)
+	if scope != "shift" and report_currency:
+		condition &= SalesInvoice.currency == report_currency
 
 	invoices = (
 		frappe.qb.from_(SalesInvoice)
@@ -587,4 +648,9 @@ def get_sales_report(
 		},
 		"shift_summary": shift_summary,
 		"recent_invoices": recent_invoices,
+		# Every amount above is in this one currency (the invoices' own transaction
+		# currency); available_currencies lets the page switch when the cashier
+		# sold in more than one over the period.
+		"currency": report_currency,
+		"available_currencies": available_currencies,
 	}

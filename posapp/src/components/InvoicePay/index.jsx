@@ -21,14 +21,26 @@ import { mergePayments, netTurnPayments } from "../../utils/splitBill";
 // the cart exactly as it always has. With it, the cart is never reset here —
 // the split decides when the whole sale is done.
 const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
+import { getServerMessage } from "../../utils/serverError";
+import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
+import { getLanguage, tData, useTranslation } from "../../translation";
+
+const InvoicePay = ({ onClose, grandTotal, taxes, onComplete }) => {
+  const { __ } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [paymentModes, setPaymentModes] = useState([]);
   const [loadingModes, setLoadingModes] = useState(true);
   const [gatewayConfig, setGatewayConfig] = useState(null);
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
-  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+  const money = useCurrencyFormatter();
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
+  const currencyCode = usePOSSessionStore((s) => s.currencyCode);
+  const companyCurrency = usePOSSessionStore((s) => s.companyCurrency);
+  // ERPNext only redeems loyalty points in the company's currency (see
+  // easy_pos.api.pos._save_sales_invoice), so hide redemption on a profile
+  // that sells in another currency.
+  const loyaltyRedemptionBlocked = currencyCode !== companyCurrency;
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const printReceiptOnOrderComplete = usePOSSessionStore((s) => s.printReceiptOnOrderComplete);
   const printFormat = usePOSSessionStore((s) => s.printFormat);
@@ -123,11 +135,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
 
   const balanceDue = roundCurrency(amountDue - paidAmount - loyaltyAmount, currencyPrecision);
 
-  const formatAmount = (value) =>
-    `${currencySymbol}${(value ?? 0).toLocaleString("en-IN", {
-      minimumFractionDigits: currencyPrecision,
-      maximumFractionDigits: currencyPrecision,
-    })}`;
+  const formatAmount = (value) => money(value);
 
   const getPaymentAmount = (mode_of_payment) =>
     payments.find((row) => row.mode_of_payment === mode_of_payment)?.amount ?? "";
@@ -214,19 +222,19 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
   const buildOfflineReceiptHtml = (displayId) => {
     const rows = [
       ...items.map((row) => ({ label: row.item_code, qty: row.qty, amount: row.amount })),
-      ...freeItems.map((row) => ({ label: `${row.item_code} (Free)`, qty: row.qty, amount: 0 })),
+      ...freeItems.map((row) => ({ label: __("{item} (Free)", { item: row.item_code }), qty: row.qty, amount: 0 })),
     ];
     const itemRows = rows
       .map(
         (row) =>
-          `<tr><td>${row.label}</td><td style="text-align:center">${row.qty}</td><td style="text-align:right">${formatAmount(row.amount)}</td></tr>`,
+          `<tr><td>${row.label}</td><td style="text-align:center">${row.qty}</td><td style="text-align:end">${formatAmount(row.amount)}</td></tr>`,
       )
       .join("");
     const paymentRows = payments
       .filter((row) => parseFloat(row.amount) > 0)
-      .map((row) => `<tr><td colspan="2">${row.mode_of_payment}</td><td style="text-align:right">${formatAmount(row.amount)}</td></tr>`)
+      .map((row) => `<tr><td colspan="2">${tData(row.mode_of_payment)}</td><td style="text-align:end">${formatAmount(row.amount)}</td></tr>`)
       .join("");
-    return `<!doctype html><html><head><title>Receipt — ${displayId}</title><style>
+    return `<!doctype html><html lang="${getLanguage()}" dir="${document.documentElement.dir || "ltr"}"><head><title>${__("Receipt")} — ${displayId}</title><style>
       body{font-family:monospace;max-width:360px;margin:24px auto;color:#222}
       h3{margin:0 0 2px}
       .muted{color:#777;font-size:12px}
@@ -235,13 +243,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
       .banner{background:#fff3cd;color:#7a5b00;padding:6px 10px;font-size:12px;border-radius:4px;margin:10px 0}
       .total{border-top:1px solid #333;margin-top:8px;padding-top:6px;font-weight:bold;display:flex;justify-content:space-between}
     </style></head><body>
-      <h3>Receipt</h3>
+      <h3>${__("Receipt")}</h3>
       <div class="muted">${displayId}</div>
-      <div class="banner">Offline — pending sync. Reprint from Invoices once synced.</div>
-      <div class="muted">Customer: ${customerName || customer || "Walk-in"}</div>
+      <div class="banner">${__("Offline — pending sync. Reprint from Invoices once synced.")}</div>
+      <div class="muted">${__("Customer")}: ${customerName || customer || __("Walk-in")}</div>
       <table>${itemRows}</table>
       <table>${paymentRows}</table>
-      <div class="total"><span>Grand Total</span><span>${formatAmount(grandTotal)}</span></div>
+      <div class="total"><span>${__("Grand Total")}</span><span>${formatAmount(grandTotal)}</span></div>
       <script>window.print();</script>
     </body></html>`;
   };
@@ -306,21 +314,21 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
       onClose();
     } else {
       receiptTab?.close();
-      setError("Failed to complete payment");
+      setError(__("Failed to complete payment"));
     }
   };
 
   const validatePayment = () => {
     if (!customer) {
-      setError("Please select a customer");
+      setError(__("Please select a customer"));
       return false;
     }
     if (items.length < 1) {
-      setError("Please add one or more items to the cart");
+      setError(__("Please add one or more items to the cart"));
       return false;
     }
     if (payments.length < 1 || paidAmount <= 0) {
-      setError("Please enter an amount for at least one payment mode");
+      setError(__("Please enter an amount for at least one payment mode"));
       return false;
     }
     // A split payer must cover their whole share — anything short would be
@@ -365,10 +373,16 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
         })
       : postPaymentInvoice(invoicePayload, openingDetail, submitFlag, couponCode || undefined);
 
-    paymentPromise.then((data) => {
-      setSubmitting(false);
-      finishCheckout(data, receiptTab);
-    });
+    paymentPromise
+      .then((data) => {
+        setSubmitting(false);
+        finishCheckout(data, receiptTab);
+      })
+      .catch((err) => {
+        setSubmitting(false);
+        receiptTab?.close();
+        setError(getServerMessage(err) || __("Failed to complete payment"));
+      });
   };
 
   const payWithGateway = () => {
@@ -386,7 +400,9 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
     const receiptTab = printReceiptOnOrderComplete ? window.open("", "_blank") : null;
     if (receiptTab) {
       receiptTab.document.write(
-        "<title>Receipt</title><body style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px\">Finishing up — your receipt will print here once it's confirmed.</body>",
+        `<title>${__("Receipt")}</title><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#666;text-align:center;padding:0 24px">${__(
+          "Finishing up — your receipt will print here once it's confirmed.",
+        )}</body>`,
       );
       window.focus();
     }
@@ -404,7 +420,8 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
         // A failed attempt doesn't end the checkout — Razorpay's modal lets the
         // cashier/customer immediately retry with another method — so just
         // surface a non-blocking notice rather than tearing down the flow.
-        onAttemptFailed: () => setError("That attempt failed — you can try another payment method in the Razorpay window."),
+        onAttemptFailed: () =>
+          setError(__("That attempt failed — you can try another payment method in the {gateway} window.", { gateway: gatewayName })),
       })
       .then((data) => {
         setSubmitting(false);
@@ -417,7 +434,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
         // A dismissed checkout modal isn't an error — the invoice is left as a
         // Draft, retrievable the same way any other held sale is.
         if (!err?.cancelled) {
-          setError(err?.message || "Failed to complete payment");
+          setError(err?.message || __("Failed to complete payment"));
         }
       });
   };
@@ -439,11 +456,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
           ? "Enter what this payer is handing over; change is worked out against their share."
           : "Enter the amount received for each payment mode."
       }
+      title={__("Take Payment")}
+      subtitle={__("Enter the amount received for each payment mode.")}
       onClose={onClose}
       footer={
         <>
           <button type="button" className="pos-btn pos-btn-secondary" onClick={onClose}>
-            Cancel
+            {__("Cancel")}
           </button>
           <button
             type="button"
@@ -454,12 +473,13 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
             {submitting ? (
               <>
                 <span className="spinner-border spinner-border-sm" role="status" />
-                {payingViaGateway ? `Waiting for ${gatewayName}…` : "Submitting…"}
+                {payingViaGateway ? __("Waiting for {gateway}…", { gateway: gatewayName }) : __("Submitting…")}
               </>
             ) : payingViaGateway ? (
-              `Pay with ${gatewayName}`
+              __("Pay with {gateway}", { gateway: gatewayName })
             ) : (
               isInterimTurn ? "Record Payment" : "Complete Payment"
+              __("Complete Payment")
             )}
           </button>
         </>
@@ -470,6 +490,8 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
       <div className="invoice-pay-pill mb-3">
         <span className="invoice-pay-pill-label">{isTurn ? "Amount Due" : "Grand Total"}</span>
         <span className="invoice-pay-pill-value">{formatAmount(amountDue)}</span>
+        <span className="invoice-pay-pill-label">{__("Grand Total")}</span>
+        <span className="invoice-pay-pill-value">{formatAmount(grandTotal)}</span>
       </div>
       {isTurn && (
         <div className="mb-3" style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: -8 }}>
@@ -480,9 +502,19 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
       )}
 
       {loyaltyAllowed && loyaltyProgram && loyaltyPointsBalance > 0 && (
+      {loyaltyProgram && loyaltyPointsBalance > 0 && loyaltyRedemptionBlocked && (
+        <div className="mb-3" style={{ fontSize: 12, color: "var(--color-text-muted)" }}>
+          {__("Loyalty points can't be redeemed in {currency}. ERPNext only redeems them in the company's currency ({company_currency}).", {
+            currency: currencyCode,
+            company_currency: companyCurrency,
+          })}
+        </div>
+      )}
+
+      {loyaltyProgram && loyaltyPointsBalance > 0 && !loyaltyRedemptionBlocked && (
         <div className="mb-3">
           <CheckboxField
-            label={`Redeem Loyalty Points (${loyaltyPointsBalance} available)`}
+            label={__("Redeem Loyalty Points ({n} available)", { n: loyaltyPointsBalance })}
             checked={redeemLoyaltyPoints}
             onChange={(checked) => {
               setRedeemLoyaltyPoints(checked);
@@ -510,7 +542,7 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
         </div>
       )}
 
-      <label className="pos-field-label">Payment Summary</label>
+      <label className="pos-field-label">{__("Payment Summary")}</label>
 
       {loadingModes ? (
         <div className="text-center py-3">
@@ -518,14 +550,14 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
         </div>
       ) : paymentModes.length === 0 ? (
         <div className="text-muted text-center py-3" style={{ fontSize: 13 }}>
-          No payment modes configured for this POS Profile.
+          {__("No payment modes configured for this POS Profile.")}
         </div>
       ) : (
         <div className="invoice-pay-rows mb-3">
           {paymentModes.map((row) => (
             <div className="invoice-pay-row" key={row.mode_of_payment}>
               <div className="invoice-pay-row-label">
-                {row.mode_of_payment}
+                {tData(row.mode_of_payment)}
                 {row.ep_payment_gateway && (
                   <span
                     className={`badge ms-2 ${!isOnline ? "bg-secondary-subtle text-secondary" : "bg-primary-subtle text-primary"}`}
@@ -535,12 +567,15 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
                         ? `${row.ep_payment_gateway} needs a connection — unavailable while offline.`
                         : gatewayBlockedForTurn
                         ? `${row.ep_payment_gateway} can only take the last payer's turn of a split bill.`
+                        ? __("{gateway} needs a connection — unavailable while offline.", { gateway: row.ep_payment_gateway })
                         : gatewayConfig?.enabled
-                        ? `Cashier enters the amount to charge; a ${row.ep_payment_gateway} checkout opens on Complete Payment.`
-                        : `${row.ep_payment_gateway} is not configured yet.`
+                        ? __("Cashier enters the amount to charge; a {gateway} checkout opens on Complete Payment.", {
+                            gateway: row.ep_payment_gateway,
+                          })
+                        : __("{gateway} is not configured yet.", { gateway: row.ep_payment_gateway })
                     }
                   >
-                    {!isOnline ? `${row.ep_payment_gateway} — offline` : row.ep_payment_gateway}
+                    {!isOnline ? __("{gateway} — offline", { gateway: row.ep_payment_gateway }) : row.ep_payment_gateway}
                   </span>
                 )}
               </div>
@@ -567,19 +602,19 @@ const InvoicePay = ({ onClose, grandTotal, taxes, onComplete, bill }) => {
 
       <div className="invoice-pay-summary">
         <div>
-          <div className="invoice-pay-figure-label">Paid Amount</div>
+          <div className="invoice-pay-figure-label">{__("Paid Amount")}</div>
           <div className="invoice-pay-figure-value">{formatAmount(paidAmount)}</div>
         </div>
         {loyaltyAmount > 0 && (
           <div>
-            <div className="invoice-pay-figure-label">Loyalty Redeemed</div>
+            <div className="invoice-pay-figure-label">{__("Loyalty Redeemed")}</div>
             <div className="invoice-pay-figure-value" style={{ color: "var(--color-success-text)" }}>
               {formatAmount(loyaltyAmount)}
             </div>
           </div>
         )}
         <div>
-          <div className="invoice-pay-figure-label">{balanceDue > 0 ? "Balance Due" : "Change to Return"}</div>
+          <div className="invoice-pay-figure-label">{balanceDue > 0 ? __("Balance Due") : __("Change to Return")}</div>
           <div
             className="invoice-pay-figure-value"
             style={{

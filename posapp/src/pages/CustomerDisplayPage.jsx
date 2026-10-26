@@ -94,6 +94,8 @@ const CustomerDisplayPage = () => {
         splitLabel={payment.splitLabel}
         partPaid={payment.partPaid}
         currencySymbol={cartSnapshot?.currencySymbol}
+        grandTotal={payment.grandTotal}
+        currencyFormat={cartSnapshot?.currencyFormat}
         precision={cartSnapshot?.precision}
       />
     );
@@ -101,7 +103,7 @@ const CustomerDisplayPage = () => {
     content = (
       <ThankYouScreen
         complete={complete}
-        currencySymbol={cartSnapshot?.currencySymbol}
+        currencyFormat={cartSnapshot?.currencyFormat}
         precision={cartSnapshot?.precision}
       />
     );

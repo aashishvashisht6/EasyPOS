@@ -1,4 +1,5 @@
 import useToastStore from "../../store/toastStore";
+import { useTranslation } from "../../translation";
 
 const ICON_BY_TYPE = {
   success: "bi-check-circle-fill",
@@ -16,16 +17,17 @@ const ICON_BY_TYPE = {
 const ToastContainer = () => {
   const toasts = useToastStore((s) => s.toasts);
   const dismiss = useToastStore((s) => s.dismiss);
+  const { __ } = useTranslation();
 
   if (toasts.length === 0) return null;
 
   return (
     <div className="pos-toast-viewport">
-      {toasts.map((t) => (
-        <div key={t.id} className={`pos-toast pos-toast-${t.type}`} role="status">
-          <i className={`bi ${ICON_BY_TYPE[t.type] || ICON_BY_TYPE.info} pos-toast-icon`} />
-          <span className="pos-toast-message">{t.message}</span>
-          <button type="button" className="pos-toast-close" aria-label="Dismiss" onClick={() => dismiss(t.id)}>
+      {toasts.map((toast) => (
+        <div key={toast.id} className={`pos-toast pos-toast-${toast.type}`} role="status">
+          <i className={`bi ${ICON_BY_TYPE[toast.type] || ICON_BY_TYPE.info} pos-toast-icon`} />
+          <span className="pos-toast-message">{toast.message}</span>
+          <button type="button" className="pos-toast-close" aria-label={__("Dismiss")} onClick={() => dismiss(toast.id)}>
             <i className="bi bi-x" />
           </button>
         </div>

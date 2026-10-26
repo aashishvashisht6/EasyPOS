@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchInvoices } from "../../api/InvoiceRegister";
 import { getPendingInvoices } from "../../engine/outbox";
 import { Modal, ListTable, Pagination, LinkField, TextField } from "../common";
 import usePOSSessionStore from "../../store/posSessionStore";
+import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
+import { formatDate } from "../../utils/format";
+import { useTranslation } from "../../translation";
 
 const PAGE_SIZE = 10;
 
-const formatDate = (value) => {
-  if (!value) return "";
-  return new Date(value).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-};
-
-const DRAFT_COLUMNS = [
+const buildDraftColumns = (money, __) => [
   {
     key: "name",
-    label: "Invoice",
+    label: __("Invoice"),
     width: "1fr",
     render: (inv) => (
       <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>
@@ -23,9 +21,9 @@ const DRAFT_COLUMNS = [
           <span
             className="badge bg-warning-subtle text-warning-emphasis ms-2"
             style={{ fontSize: 9.5, fontWeight: 500 }}
-            title={inv.__pending?.status === "failed" ? inv.__pending?.error : "Held offline — not yet synced"}
+            title={inv.__pending?.status === "failed" ? inv.__pending?.error : __("Held offline — not yet synced")}
           >
-            {inv.__pending?.status === "failed" ? "Sync failed" : "Offline"}
+            {inv.__pending?.status === "failed" ? __("Sync failed") : __("Offline")}
           </span>
         )}
       </span>
@@ -33,25 +31,26 @@ const DRAFT_COLUMNS = [
   },
   {
     key: "customer",
-    label: "Customer",
+    label: __("Customer"),
     width: "1.3fr",
     render: (inv) => inv.customer_name || inv.customer,
   },
   {
     key: "posting_date",
-    label: "Date",
+    label: __("Date"),
     width: "0.9fr",
     render: (inv) => <span style={{ color: "var(--color-text-muted)" }}>{formatDate(inv.posting_date)}</span>,
   },
   {
     key: "grand_total",
-    label: "Amount",
+    label: __("Amount"),
     width: "0.8fr",
-    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>₹{inv.grand_total}</span>,
+    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>{money(inv.grand_total, inv.currency)}</span>,
   },
 ];
 
 const DraftPickerModal = ({ onClose, onSelect }) => {
+  const { __ } = useTranslation();
   const openingDetail = usePOSSessionStore((s) => s.openingDetail);
 
   const [customer, setCustomer] = useState("");
@@ -62,6 +61,8 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const money = useCurrencyFormatter(drafts.map((inv) => inv.currency));
+  const columns = useMemo(() => buildDraftColumns(money, __), [money, __]);
 
   // Sales Invoices queued locally (submit=0, i.e. "Save Draft" made while
   // offline — see engine/outbox.js) that haven't synced to ERPNext yet. Only
@@ -102,8 +103,8 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
 
   useEffect(() => {
     setLoading(true);
-    const t = setTimeout(loadDrafts, 300);
-    return () => clearTimeout(t);
+    const timer = setTimeout(loadDrafts, 300);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, customer, mobileNo, email, openingDetail?.pos_profile]);
 
@@ -125,13 +126,13 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
   return (
-    <Modal open onClose={onClose} title="Load Draft" subtitle="Search and pull a saved draft into the terminal" size="lg">
+    <Modal open onClose={onClose} title={__("Load Draft")} subtitle={__("Search and pull a saved draft into the terminal")} size="lg">
       <div className="d-flex flex-column" style={{ height: 480, minHeight: 0 }}>
         <div style={{ flexShrink: 0 }}>
           <div className="d-flex align-items-end gap-2 flex-wrap">
             <div style={{ width: 200 }}>
               <LinkField
-                label="Customer"
+                label={__("Customer")}
                 doctype="Customer"
                 value={customer}
                 displayValue={customerName}
@@ -140,25 +141,25 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
                   setCustomer(docname ?? "");
                   setCustomerName(docname ? option?.label || option?.description || docname : "");
                 }}
-                placeholder="Filter by customer"
+                placeholder={__("Filter by customer")}
                 size="sm"
               />
             </div>
             <div style={{ width: 160 }}>
               <TextField
-                label="Mobile No"
+                label={__("Mobile No")}
                 value={mobileNo}
                 onChange={resetToFirstPage(setMobileNo)}
-                placeholder="Filter by mobile"
+                placeholder={__("Filter by mobile")}
                 size="sm"
               />
             </div>
             <div style={{ width: 180 }}>
               <TextField
-                label="Email"
+                label={__("Email")}
                 value={email}
                 onChange={resetToFirstPage(setEmail)}
-                placeholder="Filter by email"
+                placeholder={__("Filter by email")}
                 size="sm"
               />
             </div>
@@ -169,7 +170,7 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
                 style={{ height: 30, fontSize: 12, padding: "0 12px", marginBottom: 14 }}
                 onClick={clearFilters}
               >
-                Clear filters
+                {__("Clear filters")}
               </button>
             )}
           </div>
@@ -178,10 +179,10 @@ const DraftPickerModal = ({ onClose, onSelect }) => {
         <div className="d-flex flex-column pt-2" style={{ flex: 1, minHeight: 0 }}>
           <div style={{ flex: 1, minHeight: 0 }}>
             <ListTable
-              columns={DRAFT_COLUMNS}
+              columns={columns}
               rows={drafts}
               loading={loading}
-              emptyMessage="No draft invoices found"
+              emptyMessage={__("No draft invoices found")}
               onRowClick={(inv) => onSelect(inv.__offline ? inv : inv.name)}
             />
           </div>

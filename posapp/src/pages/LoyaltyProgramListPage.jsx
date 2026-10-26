@@ -1,3 +1,4 @@
+import { __, _t, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchLoyaltyPrograms } from "../api/LoyaltyProgram";
@@ -8,7 +9,7 @@ const PAGE_SIZE = 20;
 const PROGRAM_COLUMNS = [
   {
     key: "loyalty_program_name",
-    label: "Program",
+    label: _t("Program"),
     width: "1.6fr",
     render: (p) => (
       <div>
@@ -19,32 +20,33 @@ const PROGRAM_COLUMNS = [
   },
   {
     key: "loyalty_program_type",
-    label: "Type",
+    label: _t("Type"),
     width: "1.1fr",
-    render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.loyalty_program_type}</span>,
+    render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.loyalty_program_type ? __(p.loyalty_program_type) : "—"}</span>,
   },
   {
     key: "conversion_factor",
-    label: "1 Point =",
+    label: _t("Conversion Factor"),
     width: "0.8fr",
     align: "end",
     render: (p) => <span>{p.conversion_factor}</span>,
   },
   {
     key: "customer_group",
-    label: "Customer Group",
+    label: _t("Customer Group"),
     width: "1fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.customer_group || "—"}</span>,
   },
   {
     key: "to_date",
-    label: "Valid Till",
+    label: _t("Valid Till"),
     width: "0.9fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.to_date || "—"}</span>,
   },
 ];
 
 const LoyaltyProgramListPage = () => {
+  const { __ } = useTranslation();
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
 
@@ -72,13 +74,13 @@ const LoyaltyProgramListPage = () => {
 
   useEffect(() => {
     setTopbar({
-      title: "Loyalty Programs",
+      title: _t("Loyalty Programs"),
       searchValue: search,
       onSearchChange: (value) => {
         setPage(0);
         setSearch(value);
       },
-      searchPlaceholder: "Search program name",
+      searchPlaceholder: _t("Search program name"),
     });
   }, [setTopbar, search]);
 
@@ -86,10 +88,10 @@ const LoyaltyProgramListPage = () => {
 
   return (
     <div className="d-flex flex-column flex-fill" style={{ minHeight: 0 }}>
-      <div className="d-flex align-items-center justify-content-end px-4 pt-3">
+      <div className="d-flex align-items-center justify-content-end px-4 pt-3 pos-list-toolbar">
         <Link to="/posapp/loyalty-program/new" className="pos-btn pos-btn-primary" style={{ height: 32, fontSize: "12.5px", padding: "0 14px" }}>
           <i className="bi bi-plus-lg" style={{ fontSize: 14 }} />
-          New program
+          {__("New program")}
         </Link>
       </div>
 
@@ -99,7 +101,7 @@ const LoyaltyProgramListPage = () => {
             columns={PROGRAM_COLUMNS}
             rows={programs}
             loading={loading}
-            emptyMessage="No Loyalty Programs found"
+            emptyMessage={__("No Loyalty Programs found")}
             onRowClick={(p) => navigate(`/posapp/loyalty-program/${encodeURIComponent(p.name)}`)}
           />
         </div>

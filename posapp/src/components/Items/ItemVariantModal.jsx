@@ -2,13 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import { fetchItemVariants } from "../../api/Items";
 import { Modal, ErrorAlert } from "../common";
 import usePOSSessionStore from "../../store/posSessionStore";
+import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 import useCartStore from "../../store/cartStore";
+import { __, tData, useTranslation } from "../../translation";
 
 // Attribute-chip picker for a variant template item — narrows `attributes`
 // down to the single matching variant, disabling any value that would leave
 // zero variants matching alongside what's already selected (same intent as
 // ERPNext desk's own variant selector).
 const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
+  const { __ } = useTranslation();
   const [attributes, setAttributes] = useState([]);
   const [variants, setVariants] = useState([]);
   const [selected, setSelected] = useState({});
@@ -18,7 +21,8 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
 
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const priceList = usePOSSessionStore((s) => s.priceList);
-  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+  const posProfile = usePOSSessionStore((s) => s.posProfile);
+  const money = useCurrencyFormatter();
   const customer = useCartStore((s) => s.customer);
 
   useEffect(() => {
@@ -26,9 +30,9 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
     setError("");
     setSelected({});
     setQty(1);
-    fetchItemVariants(templateItem.item_code, warehouse, priceList, customer).then((data) => {
+    fetchItemVariants(templateItem.item_code, warehouse, priceList, customer, posProfile).then((data) => {
       if (!data || !data.variants?.length) {
-        setError("No variants are set up for this item yet.");
+        setError(__("No variants are set up for this item yet."));
         setLoading(false);
         return;
       }
@@ -75,12 +79,12 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
     <Modal
       open
       onClose={onClose}
-      title={templateItem.item_name || templateItem.item_code}
-      subtitle="Choose options to select a variant"
+      title={tData(templateItem.item_name || templateItem.item_code)}
+      subtitle={__("Choose options to select a variant")}
       footer={
         <>
           <button type="button" className="pos-btn pos-btn-secondary" onClick={onClose}>
-            Cancel
+            {__("Cancel")}
           </button>
           <button
             type="button"
@@ -88,7 +92,7 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
             disabled={!resolvedVariant || outOfStock}
             onClick={handleAdd}
           >
-            Add to Cart
+            {__("Add to Cart")}
           </button>
         </>
       }
@@ -96,14 +100,14 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
       <ErrorAlert message={error} />
       {loading ? (
         <div className="d-flex align-items-center justify-content-center text-muted py-4">
-          <i className="bi bi-arrow-repeat me-2" /> Loading variants…
+          <i className="bi bi-arrow-repeat me-2" /> {__("Loading variants…")}
         </div>
       ) : (
         !error && (
           <div className="d-flex flex-column gap-3">
             {attributes.map(({ attribute, values }) => (
               <div key={attribute}>
-                <div className="pos-detail-label mb-2">{attribute}</div>
+                <div className="pos-detail-label mb-2">{tData(attribute)}</div>
                 <div className="d-flex flex-wrap gap-2">
                   {values.map((value) => {
                     const isSelected = selected[attribute] === value;
@@ -118,7 +122,7 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
                         disabled={!isViable}
                         onClick={() => handlePick(attribute, value)}
                       >
-                        {value}
+                        {tData(value)}
                       </button>
                     );
                   })}
@@ -137,7 +141,7 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
                       <div className="fw-semibold">
                         {resolvedVariant.rate === null || resolvedVariant.rate === undefined
                           ? "—"
-                          : `${currencySymbol}${resolvedVariant.rate}`}
+                          : money(resolvedVariant.rate)}
                       </div>
                     </div>
                     <div className="pos-item-stepper" style={{ marginTop: 0 }}>
@@ -152,13 +156,13 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
                   </div>
                   {outOfStock && (
                     <div className="text-danger mt-2" style={{ fontSize: 12 }}>
-                      Out of stock
+                      {__("Out of stock")}
                     </div>
                   )}
                 </>
               ) : (
                 <span className="text-muted" style={{ fontSize: 13 }}>
-                  Select an option for every attribute to pick a variant.
+                  {__("Select an option for every attribute to pick a variant.")}
                 </span>
               )}
             </div>

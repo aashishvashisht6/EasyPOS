@@ -1,0 +1,3566 @@
+# Tamil translations for Easy POS.
+# Copyright (C) 2026 Aashish
+# This file is distributed under the same license as the Easy POS project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy POS VERSION\n"
+"Report-Msgid-Bugs-To: aashishvashisht6@gmail.com\n"
+"POT-Creation-Date: 2026-10-24 22:43+0553\n"
+"PO-Revision-Date: 2026-10-23 22:37+0553\n"
+"Last-Translator: aashishvashisht6@gmail.com\n"
+"Language: ta\n"
+"Language-Team: aashishvashisht6@gmail.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: posapp/src/components/common/ChildTable.jsx:122
+#: posapp/src/components/common/ChildTable.jsx:329
+msgid "+ Add row"
+msgstr "+ வரிசையைச் சேர்"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "1 item"
+msgstr "1 பொருள்"
+
+#: posapp/src/components/Cart/index.jsx:411
+msgid "1 loyalty point available"
+msgstr "1 விசுவாசப் புள்ளி உள்ளது"
+
+#. Header text in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "<span class=\"h4\">EASYPOS</span>"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:783
+msgid "A free-item offer in this cart needs a connection to resolve — pricing/discounts for this whole cart are on hold at list price until reconnected."
+msgstr "இந்த வண்டியிலுள்ள இலவசப் பொருள் சலுகைக்கு இணைப்பு தேவை — மீண்டும் இணையும் வரை முழு வண்டியின் விலை/தள்ளுபடிகள் பட்டியல் விலையிலேயே இருக்கும்."
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:44
+msgid "A new version of Easy POS is available."
+msgstr "Easy POS-இன் புதிய பதிப்பு கிடைக்கிறது."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:132
+msgid "A shift needs to be open before you can ring up sales."
+msgstr "விற்பனையைப் பதிவு செய்வதற்கு முன் ஒரு ஷிஃப்ட் திறந்திருக்க வேண்டும்."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:131
+msgid "ADDRESSES"
+msgstr "முகவரிகள்"
+
+#: posapp/src/pages/SyncPage.jsx:322
+msgid "ALL DOMAINS"
+msgstr "அனைத்துப் பிரிவுகளும்"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:199
+#: posapp/src/pages/InvoiceDetailPage.jsx:370
+msgid "Account Head"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:250
+msgid "Account Manager"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:675
+msgid "Account for Change Amount"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:625
+msgid "Accounting"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:755
+msgid "Accounting Dimensions"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:12
+#: posapp/src/pages/CustomerListPage.jsx:58
+#: posapp/src/pages/DiscountListPage.jsx:12
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileListPage.jsx:12
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Active"
+msgstr ""
+
+#: posapp/src/utils/format.js:48
+msgid "Actual"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:133
+msgid "Add Address"
+msgstr "முகவரியைச் சேர்"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:186
+msgid "Add Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:54
+msgid "Add a new customer to bill this sale against."
+msgstr "இந்த விற்பனைக்குப் பில் போட புதிய வாடிக்கையாளரைச் சேர்க்கவும்."
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:97
+msgid "Add at least one Collection Rule (tier) — mandatory even for a Single Tier Program"
+msgstr "குறைந்தது ஒரு சேகரிப்பு விதியை (நிலை) சேர்க்கவும் — ஒற்றை நிலைத் திட்டத்திற்கும் கட்டாயம்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:342
+msgid "Add the Modes of Payment cashiers can use to settle a sale on this profile."
+msgstr "இந்தச் சுயவிவரத்தில் காசாளர்கள் விற்பனையைத் தீர்க்கப் பயன்படுத்தக்கூடிய கட்டண முறைகளைச் சேர்க்கவும்."
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:95
+msgid "Add to Cart"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:349
+msgid "Additional Discount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:359
+msgid "Additional Discount Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:353
+msgid "Additional Discount Percentage"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:92
+#: posapp/src/components/Customer/AddressContactSection.jsx:104
+msgid "Address & Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:108
+msgid "Address Line 1"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:111
+msgid "Address Line 2"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:96
+msgid "Address Title"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:100
+msgid "Address Type"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:52
+msgid "Address Type, Address Line 1, City/Town and Country are required"
+msgstr "முகவரி வகை, முகவரி வரி 1, நகரம் மற்றும் நாடு கட்டாயம்"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Administrator"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:958
+msgid "Advanced Settings"
+msgstr ""
+
+#: posapp/src/components/ItemGroup/index.jsx:41
+#: posapp/src/pages/CustomerListPage.jsx:11
+#: posapp/src/pages/DiscountDetailPage.jsx:655
+#: posapp/src/pages/DiscountListPage.jsx:11
+#: posapp/src/pages/InvoiceRegisterPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:11
+#: posapp/src/pages/POSProfileListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:10
+msgid "All"
+msgstr ""
+
+#: posapp/src/pages/POSProfileListPage.jsx:127
+msgid "All companies"
+msgstr "அனைத்து நிறுவனங்களும்"
+
+#: posapp/src/pages/CustomerListPage.jsx:158
+msgid "All groups"
+msgstr "அனைத்துக் குழுக்களும்"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:148
+msgid "All price lists"
+msgstr "அனைத்து விலைப் பட்டியல்களும்"
+
+#: posapp/src/pages/CustomerListPage.jsx:167
+msgid "All territories"
+msgstr "அனைத்துப் பகுதிகளும்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:468
+msgid "Allow Partial Payment"
+msgstr "பகுதிக் கட்டணத்தை அனுமதி"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:466
+msgid "Allow User to Edit Discount"
+msgstr "தள்ளுபடியைத் திருத்த பயனரை அனுமதி"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:465
+msgid "Allow User to Edit Rate"
+msgstr "விலையைத் திருத்த பயனரை அனுமதி"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:381
+#: posapp/src/pages/POSProfileDetailPage.jsx:386
+msgid "Allow in Returns"
+msgstr "திருப்பிக் கொடுப்பதில் அனுமதி"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:211
+msgid "Already added"
+msgstr "ஏற்கனவே சேர்க்கப்பட்டது"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Amended From"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:46
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:220
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+#: posapp/src/pages/InvoiceDetailPage.jsx:309
+#: posapp/src/pages/InvoiceDetailPage.jsx:375
+#: posapp/src/pages/InvoiceDetailPage.jsx:411
+#: posapp/src/pages/InvoiceRegisterPage.jsx:40
+#: posapp/src/pages/ReportsPage.jsx:374
+msgid "Amount"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:16
+msgid "Amount Paid"
+msgstr "செலுத்திய தொகை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:395
+msgid "Applicability"
+msgstr "பொருந்துதல்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:654
+msgid "Applicable For"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:187
+msgid "Applicable for Countries"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:282
+msgid "Applicable for Users"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:700
+msgid "Apply"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:812
+#: posapp/src/pages/InvoiceDetailPage.jsx:351
+#: posapp/src/pages/POSProfileDetailPage.jsx:737
+msgid "Apply Discount On"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1001
+msgid "Apply Discount on Discounted Rate"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:993
+msgid "Apply Multiple Pricing Rules"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:403
+msgid "Apply On"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:925
+msgid "Apply Recursion Over (As Per Transaction UOM)"
+msgstr "மீள்நிகழ்வைப் பயன்படுத்து (பரிவர்த்தனை அலகின்படி)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:555
+msgid "Apply Rule On Brand *"
+msgstr "விதியை பிராண்டுக்குப் பயன்படுத்து *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:450
+msgid "Apply Rule On Item Code *"
+msgstr "விதியை பொருள் குறியீட்டுக்குப் பயன்படுத்து *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:501
+msgid "Apply Rule On Item Group *"
+msgstr "விதியை பொருள் குழுவுக்குப் பயன்படுத்து *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:610
+msgid "Apply Rule On Other"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:651
+msgid "Apply on…"
+msgstr "இதற்குப் பயன்படுத்து…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:430
+msgid "Are you sure you want to cancel {name}? This cannot be undone."
+msgstr "{name}-ஐ ரத்து செய்ய விரும்புகிறீர்களா? இதைத் திரும்பப் பெற முடியாது."
+
+#: posapp/src/components/common/ConfirmModal.jsx:25
+msgid "Are you sure?"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:234
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the field 'Priority' is mandatory."
+msgstr "'தள்ளுபடி விலையில் தள்ளுபடி பயன்படுத்து' புலம் இயக்கப்பட்டுள்ளதால், 'முன்னுரிமை' புலம் கட்டாயம்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:237
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the value of the field 'Priority' should be more than 1."
+msgstr "'தள்ளுபடி விலையில் தள்ளுபடி பயன்படுத்து' புலம் இயக்கப்பட்டுள்ளதால், 'முன்னுரிமை' புலத்தின் மதிப்பு 1-ஐ விட அதிகமாக இருக்க வேண்டும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:272
+msgid "Atleast one of the Selling or Buying must be selected"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:162
+msgid "Auto Opt-In"
+msgstr "தானியங்கு இணைப்பு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:460
+msgid "Automatically Add Filtered Item To Cart"
+msgstr "வடிகட்டிய பொருளைத் தானாக வண்டியில் சேர்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:394
+#: posapp/src/pages/POSProfileDetailPage.jsx:400
+msgid "Automatically Calculated"
+msgstr "தானாகக் கணக்கிடப்பட்டது"
+
+#: posapp/src/pages/ReportsPage.jsx:217
+msgid "Avg ticket"
+msgstr "சராசரி பில்"
+
+#: posapp/src/components/common/PageHeader.jsx:19
+msgid "Back"
+msgstr "பின்செல்"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:178
+msgid "Back to Invoices"
+msgstr "விலைப்பட்டியல்களுக்குத் திரும்பு"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Balance Due"
+msgstr "நிலுவைத் தொகை"
+
+#: posapp/src/engine/sync.js:20
+msgid "Batch"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:590
+msgid "Batch No"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:8
+msgid "Billing"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:226
+msgid "Billing Currency"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:562
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:635
+msgid "Brand"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:83
+msgid "Built for retail teams that never stop moving."
+msgstr "ஒருபோதும் நிற்காத சில்லறை விற்பனைக் குழுக்களுக்காக உருவாக்கப்பட்டது."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:333
+msgid "Bundle Components"
+msgstr "தொகுப்புக் கூறுகள்"
+
+#: posapp/src/components/Cart/index.jsx:611
+msgid "Bundle Contents"
+msgstr "தொகுப்பின் உள்ளடக்கம்"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:335
+msgid "Bundle Item"
+msgstr "தொகுப்புப் பொருள்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:649
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:216
+#: posapp/src/pages/ItemPriceListPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:173
+#: posapp/src/pages/PriceListListPage.jsx:36
+msgid "Buying"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:277
+msgid "Buying must be checked, if Applicable For is selected as {field}"
+msgstr "'இதற்குப் பொருந்தும்' {field} எனத் தேர்ந்தெடுக்கப்பட்டால், வாங்குதல் குறிக்கப்பட வேண்டும்"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:328
+#: posapp/src/pages/CustomerDetailPage.jsx:333
+msgid "Bypass Check"
+msgstr "சரிபார்ப்பைத் தவிர்"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:184
+msgid "CONTACTS"
+msgstr "தொடர்புகள்"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:44
+msgid "Camera access was denied. Allow camera permission and try again."
+msgstr "கேமரா அணுகல் மறுக்கப்பட்டது. கேமரா அனுமதியை வழங்கி மீண்டும் முயலவும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:696
+#: posapp/src/pages/POSProfileDetailPage.jsx:255
+msgid "Campaign"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:65
+#: posapp/src/components/Customer/AddressModal.jsx:77
+#: posapp/src/components/Customer/ContactModal.jsx:74
+#: posapp/src/components/Customer/NewCustomerModal.jsx:59
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:117
+#: posapp/src/components/InvoicePay/index.jsx:353
+#: posapp/src/components/Items/ItemVariantModal.jsx:87
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:137
+msgid "Cancel"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:227
+#: posapp/src/pages/InvoiceDetailPage.jsx:429
+msgid "Cancel Invoice"
+msgstr "விலைப்பட்டியலை ரத்து செய்"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/utils/format.js:38
+msgid "Cancelled"
+msgstr ""
+
+#: easy_pos/api/pos.py:387
+msgid "Cannot create a credit note against a credit note"
+msgstr "கடன் குறிப்புக்கு எதிராகக் கடன் குறிப்பை உருவாக்க முடியாது"
+
+#: easy_pos/setup/create_demo_pos_profiles.py:79
+msgid "Cannot create demo POS Profiles: no company was given and no default Company is set."
+msgstr "டெமோ POS சுயவிவரங்களை உருவாக்க முடியவில்லை: நிறுவனம் கொடுக்கப்படவில்லை, இயல்புநிலை நிறுவனமும் அமைக்கப்படவில்லை."
+
+#: easy_pos/setup/create_demo_data.py:85
+msgid "Cannot create demo data: no company was given and no default Company is set."
+msgstr "டெமோ தரவை உருவாக்க முடியவில்லை: நிறுவனம் கொடுக்கப்படவில்லை, இயல்புநிலை நிறுவனமும் அமைக்கப்படவில்லை."
+
+#: posapp/src/components/Cart/index.jsx:437
+msgid "Cart Items"
+msgstr "வண்டியிலுள்ள பொருட்கள்"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Cashier"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:446
+msgid "Cashier enters the amount to charge; a {gateway} checkout opens on Complete Payment."
+msgstr "காசாளர் வசூலிக்க வேண்டிய தொகையை உள்ளிடுவார்; கட்டணத்தை முடி அழுத்தும்போது {gateway} கட்டணப் பக்கம் திறக்கும்."
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:21
+msgid "Change Due"
+msgstr "மீதித் தொகை"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Change to Return"
+msgstr "திருப்பலாக மாற்று"
+
+#: posapp/src/pages/LoginPage.jsx:69
+msgid "Checkout that keeps up during rush hour"
+msgstr "நெரிசல் நேரத்திலும் வேகமான பில்லிங்"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:83
+msgid "Choose options to select a variant"
+msgstr "வகையைத் தேர்ந்தெடுக்க விருப்பங்களைத் தேர்வு செய்யவும்"
+
+#: posapp/src/components/Customer/AddressModal.jsx:114
+msgid "City/Town"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:441
+msgid "Clear all"
+msgstr "அனைத்தையும் அழி"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:173
+#: posapp/src/pages/CustomerListPage.jsx:198
+#: posapp/src/pages/InvoiceRegisterPage.jsx:227
+#: posapp/src/pages/ItemPriceListPage.jsx:161
+#: posapp/src/pages/POSProfileListPage.jsx:140
+msgid "Clear filters"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:94
+msgid "Click/scan the item again to add another unit"
+msgstr "இன்னொரு அலகைச் சேர்க்க பொருளை மீண்டும் கிளிக்/ஸ்கேன் செய்யவும்"
+
+#: posapp/src/components/common/Modal.jsx:27
+msgid "Close"
+msgstr ""
+
+#: posapp/src/pages/POSTerminalPage.jsx:101
+msgid "Close cart"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:112
+#: posapp/src/components/Topbar/index.jsx:188
+msgid "Close shift"
+msgstr "ஷிஃப்டை மூடு"
+
+#: posapp/src/components/Closing/index.jsx:79
+msgid "Close till"
+msgstr "கல்லாவை மூடு"
+
+#: posapp/src/components/Closing/index.jsx:55
+msgid "Close your till"
+msgstr "உங்கள் கல்லாவை மூடவும்"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Closed"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Closing"
+msgstr "முடிவு"
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Closing Amount"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:76
+msgid "Closing…"
+msgstr "மூடுகிறது…"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Collapse"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:221
+msgid "Collection Factor (=1 point)"
+msgstr "சேகரிப்புக் காரணி (=1 புள்ளி)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:190
+msgid "Collection Rules (Tiers)"
+msgstr "சேகரிப்பு விதிகள் (நிலைகள்)"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:14
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:171
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+#: posapp/src/pages/CustomerDetailPage.jsx:303
+#: posapp/src/pages/DiscountDetailPage.jsx:760
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:152
+#: posapp/src/pages/POSProfileDetailPage.jsx:236
+#: posapp/src/pages/POSProfileListPage.jsx:126
+msgid "Company"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:259
+msgid "Company Address"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:114
+msgid "Company Name"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:153
+msgid "Company and Warehouse are required"
+msgstr "நிறுவனமும் கிடங்கும் கட்டாயம்"
+
+#: posapp/src/components/InvoicePay/index.jsx:369
+msgid "Complete Payment"
+msgstr "கட்டணத்தை முடி"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:336
+msgid "Component"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:945
+msgid "Condition"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:454
+msgid "Configuration"
+msgstr ""
+
+#: posapp/src/pages/SettingsPage.jsx:9
+msgid "Configure tiers, points and redemption rules"
+msgstr "நிலைகள், புள்ளிகள் மற்றும் மீட்பு விதிகளை அமைக்கவும்"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "Connected to the server"
+msgstr "சர்வருடன் இணைக்கப்பட்டது"
+
+#: posapp/src/utils/format.js:43
+msgid "Consolidated"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:29
+msgid "Conversion Factor"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:256
+msgid "Conversion Factor (1 point = ? currency)"
+msgstr "மாற்றுக் காரணி (1 புள்ளி = ? நாணயம்)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:282
+#: posapp/src/pages/POSProfileDetailPage.jsx:760
+msgid "Cost Center"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:122
+msgid "Could not load report data."
+msgstr "அறிக்கைத் தரவை ஏற்ற முடியவில்லை."
+
+#: posapp/src/engine/sync.js:45
+msgid "Could not reach the server to sync."
+msgstr "ஒத்திசைக்க சர்வரை அணுக முடியவில்லை."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:74
+msgid "Could not resolve this profile's currency."
+msgstr "இந்தச் சுயவிவரத்தின் நாணயத்தைக் கண்டறிய முடியவில்லை."
+
+#: posapp/src/components/Closing/index.jsx:58
+msgid "Count the drawer and enter the actual amount for manually entered payment modes."
+msgstr "கல்லாவை எண்ணி, கைமுறையாக உள்ளிடப்படும் கட்டண முறைகளுக்கு உண்மையான தொகையை உள்ளிடவும்."
+
+#: posapp/src/components/Closing/index.jsx:124
+msgid "Counted"
+msgstr "எண்ணியது"
+
+#: posapp/src/components/Customer/AddressModal.jsx:123
+#: posapp/src/pages/PriceListDetailPage.jsx:201
+msgid "Country"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:106
+msgid "Country added more than once: {countries}"
+msgstr "நாடு ஒன்றுக்கு மேற்பட்ட முறை சேர்க்கப்பட்டது: {countries}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:117
+msgid "County"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:720
+msgid "Coupon \"{code}\" applied"
+msgstr "கூப்பன் \"{code}\" பயன்படுத்தப்பட்டது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:438
+msgid "Coupon Code Based"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:685
+msgid "Coupon code"
+msgstr "கூப்பன் குறியீடு"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:22
+msgid "Create"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:111
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:121
+#: posapp/src/pages/InvoiceDetailPage.jsx:222
+msgid "Create Credit Note"
+msgstr "கடன் குறிப்பை உருவாக்கு"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:73
+msgid "Create Customer"
+msgstr ""
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:6
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:8
+msgid "Create Demo Data"
+msgstr "டெமோ தரவை உருவாக்கு"
+
+#: posapp/src/pages/LoginPage.jsx:172
+msgid "Create an account"
+msgstr "கணக்கை உருவாக்கு"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:45
+msgid "Created/updated {0} demo items priced against {1} for {2} (warehouse: {3}), {4} POS Profiles: {5}, and {6} Customers: {7}."
+msgstr "{2}-க்கு {1} விலையில் {0} டெமோ பொருட்கள் உருவாக்கப்பட்டன/புதுப்பிக்கப்பட்டன (கிடங்கு: {3}), {4} POS சுயவிவரங்கள்: {5}, மற்றும் {6} வாடிக்கையாளர்கள்: {7}."
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:29
+msgid "Creating demo items..."
+msgstr "டெமோ பொருட்களை உருவாக்குகிறது..."
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:70
+msgid "Creating…"
+msgstr "உருவாக்குகிறது…"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:316
+msgid "Credit Limit"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:296
+msgid "Credit Limits"
+msgstr ""
+
+#: posapp/src/utils/format.js:37
+msgid "Credit Note Issued"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:120
+msgid "Credit limit is already defined for one of the selected Companies"
+msgstr "தேர்ந்தெடுத்த நிறுவனங்களில் ஒன்றுக்கு ஏற்கனவே கடன் வரம்பு அமைக்கப்பட்டுள்ளது"
+
+#: posapp/src/pages/ReportsPage.jsx:343
+msgid "Credit notes"
+msgstr "கடன் குறிப்புகள்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:763
+#: posapp/src/pages/InvoiceDetailPage.jsx:246
+#: posapp/src/pages/ItemPriceDetailPage.jsx:228
+#: posapp/src/pages/POSProfileDetailPage.jsx:638
+#: posapp/src/pages/PriceListDetailPage.jsx:170
+#: posapp/src/pages/PriceListListPage.jsx:24
+msgid "Currency"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:306
+msgid "Currency should be same as Price List Currency: {currency}"
+msgstr "நாணயம் விலைப் பட்டியலின் நாணயத்துடன் ஒத்திருக்க வேண்டும்: {currency}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:17
+msgid "Current"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:80
+msgid "Current shift · {profile}"
+msgstr "தற்போதைய ஷிஃப்ட் · {profile}"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:34
+#: posapp/src/components/Cart/DraftPickerModal.jsx:135
+#: posapp/src/components/Cart/index.jsx:381
+#: posapp/src/components/InvoicePay/index.jsx:180 posapp/src/engine/sync.js:10
+#: posapp/src/pages/CustomerDetailPage.jsx:72
+#: posapp/src/pages/CustomerListPage.jsx:19
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:664
+#: posapp/src/pages/InvoiceDetailPage.jsx:241
+#: posapp/src/pages/InvoiceRegisterPage.jsx:28
+#: posapp/src/pages/InvoiceRegisterPage.jsx:175
+#: posapp/src/pages/ItemPriceDetailPage.jsx:210
+#: posapp/src/pages/POSProfileDetailPage.jsx:239
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Customer"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:167
+#: posapp/src/pages/CustomerDetailPage.jsx:365
+msgid "Customer Details"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:98
+#: posapp/src/pages/CustomerDetailPage.jsx:183
+#: posapp/src/pages/CustomerListPage.jsx:157
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:670
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:169
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:36
+#: posapp/src/pages/POSProfileDetailPage.jsx:528
+msgid "Customer Group"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:520
+msgid "Customer Groups"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:82
+#: posapp/src/pages/CustomerDetailPage.jsx:171
+msgid "Customer Name"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:115
+msgid "Customer Name, Customer Group and Territory are required"
+msgstr "வாடிக்கையாளர் பெயர், வாடிக்கையாளர் குழு மற்றும் பகுதி கட்டாயம்"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:110
+msgid "Customer Primary Address"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:119
+msgid "Customer Primary Contact"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:178
+msgid "Customer Territory"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:90
+#: posapp/src/pages/CustomerDetailPage.jsx:175
+msgid "Customer Type"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:31
+msgid "Customer name is required"
+msgstr "வாடிக்கையாளர் பெயர் கட்டாயம்"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:136
+msgid "Customer saved successfully"
+msgstr "வாடிக்கையாளர் சேமிக்கப்பட்டார்"
+
+#: posapp/src/components/Sidebar/index.jsx:13
+#: posapp/src/pages/CustomerDetailPage.jsx:159
+#: posapp/src/pages/CustomerListPage.jsx:112
+msgid "Customers"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Dark mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:40
+#: posapp/src/pages/InvoiceRegisterPage.jsx:34
+msgid "Date"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:303
+#: posapp/src/pages/POSProfileDetailPage.jsx:308
+#: posapp/src/pages/POSProfileDetailPage.jsx:368
+#: posapp/src/pages/POSProfileDetailPage.jsx:373
+msgid "Default"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:243
+msgid "Default Payment Terms Template"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:234
+msgid "Default Price List"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:221
+msgid "Defaults"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:268
+msgid "Delete"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Address?"
+msgstr "முகவரியை நீக்கவா?"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Contact?"
+msgstr "தொடர்பை நீக்கவா?"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:33
+msgid "Demo Data Created"
+msgstr "டெமோ தரவு உருவாக்கப்பட்டது"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:17
+msgid "Demo items (normal, serialized, batch-tracked, and a combo) with selling prices and opening stock, 5 POS Profiles showing off different features, and 5 demo Customers will be created for this company (a default warehouse is created too if it doesn't already have one)."
+msgstr "இந்த நிறுவனத்திற்கு விற்பனை விலை மற்றும் தொடக்கக் கையிருப்புடன் டெமோ பொருட்கள் (சாதாரண, வரிசை எண் கொண்ட, தொகுதி கண்காணிக்கப்படும் மற்றும் ஒரு காம்போ), பல்வேறு அம்சங்களைக் காட்டும் 5 POS சுயவிவரங்கள், 5 டெமோ வாடிக்கையாளர்கள் உருவாக்கப்படுவர் (இயல்புநிலைக் கிடங்கு இல்லையெனில் அதுவும் உருவாக்கப்படும்)."
+
+#: posapp/src/components/Customer/ContactModal.jsx:111
+msgid "Department"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:108
+msgid "Designation"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:143
+msgid "Difference"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:745
+msgid "Disable Rounded Total"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:467
+msgid "Disable auto-setting Grand Total to default Mode of Payment"
+msgstr "மொத்தத் தொகையை இயல்புநிலைக் கட்டண முறைக்குத் தானாக ஒதுக்குவதை முடக்கு"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:157
+#: posapp/src/components/Customer/AddressModal.jsx:152
+#: posapp/src/pages/CustomerDetailPage.jsx:214
+#: posapp/src/pages/DiscountDetailPage.jsx:442
+#: posapp/src/pages/DiscountListPage.jsx:13
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileDetailPage.jsx:275
+#: posapp/src/pages/POSProfileListPage.jsx:13
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:12
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Disabled"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:555
+#: posapp/src/components/CustomerDisplay/CartView.jsx:34
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountListPage.jsx:37
+msgid "Discount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:289
+msgid "Discount %"
+msgstr "தள்ளுபடி %"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:827
+msgid "Discount Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:296
+msgid "Discount Amt"
+msgstr "தள்ளுபடித் தொகை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:837
+msgid "Discount Percentage"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:334
+msgid "Discount given"
+msgstr "வழங்கிய தள்ளுபடி"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:605
+msgid "Discount on Other Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:365
+msgid "Discount saved successfully"
+msgstr "தள்ளுபடி சேமிக்கப்பட்டது"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:17
+#: posapp/src/pages/DiscountDetailPage.jsx:387
+#: posapp/src/pages/DiscountListPage.jsx:105
+msgid "Discounts"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:330
+msgid "Discounts and returns"
+msgstr "தள்ளுபடிகளும் திருப்பல்களும்"
+
+#: posapp/src/components/common/ToastContainer.jsx:30
+#: posapp/src/pwa/PwaUpdateBanner.jsx:53
+msgid "Dismiss"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:902
+msgid "Don't Enforce Free Item Qty"
+msgstr "இலவசப் பொருள் அளவைக் கட்டாயப்படுத்த வேண்டாம்"
+
+#: posapp/src/components/common/FilterBar.jsx:40
+msgid "Done"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/SyncPage.jsx:198 posapp/src/utils/format.js:31
+msgid "Draft"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:268
+msgid "Duplicate Brand found in the table"
+msgstr "அட்டவணையில் நகல் பிராண்ட் உள்ளது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:244
+msgid "Duplicate Item Code found in the table"
+msgstr "அட்டவணையில் நகல் பொருள் குறியீடு உள்ளது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:265
+msgid "Duplicate Item Group found in the table"
+msgstr "அட்டவணையில் நகல் பொருள் குழு உள்ளது"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:185
+msgid "Duplicate customer group found in the customer group table"
+msgstr "வாடிக்கையாளர் குழு அட்டவணையில் நகல் குழு உள்ளது"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:180
+msgid "Duplicate item group found in the item group table"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:940
+msgid "Dynamic Condition"
+msgstr "மாறும் நிபந்தனை"
+
+#. Label of a shortcut in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASY POS"
+msgstr ""
+
+#. Name of a Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS Settings"
+msgstr "EASYPOS அமைப்புகள்"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "EP Closing Entry"
+msgstr "EP முடிவுப் பதிவு"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "EP Closing Entry Detail"
+msgstr "EP முடிவுப் பதிவு விவரம்"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "EP Opening Entry"
+msgstr "EP தொடக்கப் பதிவு"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "Edit Address"
+msgstr "முகவரியைத் திருத்து"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "Edit Contact"
+msgstr "தொடர்பைத் திருத்து"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:159
+#: posapp/src/components/Customer/NewCustomerModal.jsx:121
+#: posapp/src/pages/CustomerDetailPage.jsx:211
+#: posapp/src/pages/CustomerListPage.jsx:36
+#: posapp/src/pages/CustomerListPage.jsx:184
+#: posapp/src/pages/InvoiceRegisterPage.jsx:213
+msgid "Email"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:132
+#: posapp/src/components/Customer/ContactModal.jsx:99
+msgid "Email Address"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:604
+msgid "Email Notification"
+msgstr "மின்னஞ்சல் அறிவிப்பு"
+
+#: posapp/src/pages/LoginPage.jsx:112
+msgid "Email or username"
+msgstr "மின்னஞ்சல் அல்லது பயனர்பெயர்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:463
+msgid "Enable Customer Display"
+msgstr "வாடிக்கையாளர் காட்சியை இயக்கு"
+
+#. Label of a Check field in DocType 'EASYPOS Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "Enable Offline Mode"
+msgstr "ஆஃப்லைன் பயன்முறையை இயக்கு"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:175
+msgid "Enabled"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:348
+msgid "Enter the amount received for each payment mode."
+msgstr "ஒவ்வொரு கட்டண முறைக்கும் பெற்ற தொகையை உள்ளிடவும்."
+
+#: posapp/src/pages/LoginPage.jsx:123
+msgid "Enter your password"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:101
+msgid "Enter your workstation credentials to start a shift."
+msgstr "ஷிஃப்டைத் தொடங்க பணிநிலையச் சான்றுகளை உள்ளிடவும்."
+
+#: posapp/src/pages/LoginPage.jsx:73
+msgid "Every sale accounted for, down to the till"
+msgstr "ஒவ்வொரு விற்பனையும் கணக்கில், கல்லா வரை"
+
+#: posapp/src/pages/LoginPage.jsx:60
+msgid "Every sale."
+msgstr "ஒவ்வொரு விற்பனையும்."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:250
+msgid "Exchange Rate"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Expand"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Expected"
+msgstr "எதிர்பார்த்தது"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:273
+#: posapp/src/pages/POSProfileDetailPage.jsx:704
+msgid "Expense Account"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:265
+msgid "Expiry Duration (days)"
+msgstr "செல்லுபடிக் காலம் (நாட்கள்)"
+
+#: posapp/src/components/Cart/index.jsx:743
+msgid "FREE"
+msgstr "இலவசம்"
+
+#: posapp/src/pages/SyncPage.jsx:34
+msgid "Failed"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:123
+msgid "Failed to cancel invoice"
+msgstr "விலைப்பட்டியலை ரத்து செய்ய முடியவில்லை"
+
+#: posapp/src/components/InvoicePay/index.jsx:218
+#: posapp/src/components/InvoicePay/index.jsx:278
+#: posapp/src/components/InvoicePay/index.jsx:331
+msgid "Failed to complete payment"
+msgstr "கட்டணத்தை முடிக்க முடியவில்லை"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:101
+msgid "Failed to create credit note"
+msgstr "கடன் குறிப்பை உருவாக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:42
+#: posapp/src/components/Customer/NewCustomerModal.jsx:47
+msgid "Failed to create customer"
+msgstr "வாடிக்கையாளரை உருவாக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Address"
+msgstr "முகவரியை நீக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Contact"
+msgstr "தொடர்பை நீக்க முடியவில்லை"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:20
+msgid "Failed to load Razorpay checkout"
+msgstr "Razorpay கட்டணப் பக்கத்தை ஏற்ற முடியவில்லை"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:118
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:122
+msgid "Failed to open till"
+msgstr "கல்லாவைத் திறக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/AddressModal.jsx:63
+msgid "Failed to save Address"
+msgstr "முகவரியைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/ContactModal.jsx:60
+msgid "Failed to save Contact"
+msgstr "தொடர்பைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:138
+msgid "Failed to save Customer"
+msgstr "வாடிக்கையாளரைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:367
+msgid "Failed to save Discount"
+msgstr "தள்ளுபடியைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:155
+msgid "Failed to save Item Price"
+msgstr "பொருள் விலையைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:114
+msgid "Failed to save Loyalty Program"
+msgstr "விசுவாசத் திட்டத்தைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:209
+msgid "Failed to save POS Profile"
+msgstr "POS சுயவிவரத்தைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:140
+msgid "Failed to save Price List"
+msgstr "விலைப் பட்டியலைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/components/Cart/index.jsx:279
+msgid "Failed to save draft"
+msgstr "வரைவைச் சேமிக்க முடியவில்லை"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:42
+msgid "Failed to start Razorpay payment"
+msgstr "Razorpay கட்டணத்தைத் தொடங்க முடியவில்லை"
+
+#: posapp/src/engine/outbox.js:60
+msgid "Failed to sync invoice"
+msgstr "விலைப்பட்டியலை ஒத்திசைக்க முடியவில்லை"
+
+#: posapp/src/components/Customer/AddressModal.jsx:135
+msgid "Fax"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetch from server"
+msgstr "சர்வரிலிருந்து பெறு"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetching…"
+msgstr "பெறுகிறது…"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:198
+msgid "Filter by POS Profile"
+msgstr "POS சுயவிவரப்படி வடிகட்டு"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:144
+#: posapp/src/pages/InvoiceRegisterPage.jsx:184
+msgid "Filter by customer"
+msgstr "வாடிக்கையாளர்படி வடிகட்டு"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:162
+#: posapp/src/pages/CustomerListPage.jsx:187
+#: posapp/src/pages/InvoiceRegisterPage.jsx:216
+msgid "Filter by email"
+msgstr "மின்னஞ்சல்படி வடிகட்டு"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:153
+#: posapp/src/pages/CustomerListPage.jsx:178
+#: posapp/src/pages/InvoiceRegisterPage.jsx:207
+msgid "Filter by mobile"
+msgstr "கைபேசிப்படி வடிகட்டு"
+
+#: posapp/src/components/common/FilterBar.jsx:29
+#: posapp/src/components/common/FilterBar.jsx:37
+msgid "Filters"
+msgstr ""
+
+#: posapp/src/components/common/FilterBar.jsx:30
+msgid "Filters applied"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Finishing up — your receipt will print here once it's confirmed."
+msgstr "முடிக்கிறது — உறுதிசெய்யப்பட்டதும் ரசீது இங்கே அச்சாகும்."
+
+#: posapp/src/components/Customer/ContactModal.jsx:93
+msgid "First Name"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:848
+msgid "For Price List"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:223
+msgid "For the 'Apply Rule On Other' condition the field {field} is mandatory"
+msgstr "'விதியை மற்றவற்றுக்குப் பயன்படுத்து' நிபந்தனைக்கு {field} புலம் கட்டாயம்"
+
+#: posapp/src/pages/LoginPage.jsx:143
+msgid "Forgot password?"
+msgstr "கடவுச்சொல் மறந்துவிட்டதா?"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:877
+msgid "Free Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:888
+msgid "Free Item Rate"
+msgstr "இலவசப் பொருள் விலை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:884
+msgid "Free Item UOM"
+msgstr "இலவசப் பொருள் அலகு"
+
+#: posapp/src/components/Cart/index.jsx:732
+msgid "Free Items"
+msgstr "இலவசப் பொருட்கள்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:881
+msgid "Free Qty"
+msgstr "இலவச அளவு"
+
+#: posapp/src/pages/DiscountListPage.jsx:17
+msgid "Free item"
+msgstr "இலவசப் பொருள்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:299
+msgid "Free item code is not selected"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:155
+msgid "From Date"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:918
+msgid "Give free item for every N quantity"
+msgstr "ஒவ்வொரு N அலகுக்கும் ஒரு இலவசப் பொருள் கொடு"
+
+#: posapp/src/pages/ReportsPage.jsx:199
+msgid "Go to Terminal"
+msgstr "டெர்மினலுக்குச் செல்"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:656
+#: posapp/src/components/Cart/index.jsx:801
+#: posapp/src/components/InvoicePay/index.jsx:183
+#: posapp/src/components/InvoicePay/index.jsx:378
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:263
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Grand Total"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:209
+msgid "Gross sales"
+msgstr "மொத்த விற்பனை"
+
+#: posapp/src/pages/CustomerListPage.jsx:42
+msgid "Group"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:974
+msgid "Has Priority"
+msgstr "முன்னுரிமை உள்ளது"
+
+#: posapp/src/components/Items/index.jsx:50
+msgid "Has variants"
+msgstr "வகைகள் உள்ளன"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:24
+msgid "Held offline — not yet synced"
+msgstr "ஆஃப்லைனில் வைக்கப்பட்டது — இன்னும் ஒத்திசைக்கப்படவில்லை"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:458
+msgid "Hide Images"
+msgstr "படங்களை மறை"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:459
+msgid "Hide Unavailable Items"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Hide password"
+msgstr "கடவுச்சொல்லை மறை"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:164
+msgid "ITEMS"
+msgstr "பொருட்கள்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1011
+msgid "If enabled, the system only validates the rule instead of applying it automatically"
+msgstr "இயக்கப்பட்டால், கணினி விதியைத் தானாகப் பயன்படுத்தாமல் சரிபார்க்க மட்டும் செய்யும்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:889
+msgid "If rate is zero then item will be treated as \"Free Item\""
+msgstr "விலை பூஜ்ஜியமாக இருந்தால், அந்தப் பொருள் \"இலவசப் பொருள்\" ஆகக் கருதப்படும்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:464
+msgid "Ignore Pricing Rule"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Amount"
+msgstr "தொகையாக"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Percentage %"
+msgstr "சதவீதமாக %"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:13
+#: posapp/src/pages/CustomerListPage.jsx:58
+msgid "Inactive"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:689
+msgid "Income Account"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Individual"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:256
+msgid "Industry"
+msgstr ""
+
+#: posapp/src/utils/format.js:44
+msgid "Internal Transfer"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:320
+msgid "Invalid condition expression"
+msgstr ""
+
+#: easy_pos/api/pricing.py:58 easy_pos/api/pricing.py:175
+msgid "Invalid coupon code"
+msgstr "தவறான கூப்பன் குறியீடு"
+
+#: posapp/src/components/Cart/index.jsx:166
+msgid "Invalid or expired coupon code"
+msgstr "தவறான அல்லது காலாவதியான கூப்பன் குறியீடு"
+
+#: posapp/src/store/authStore.js:37
+msgid "Invalid username or password"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:15
+#: posapp/src/pages/InvoiceDetailPage.jsx:106
+#: posapp/src/pages/InvoiceRegisterPage.jsx:22
+#: posapp/src/pages/ReportsPage.jsx:369
+msgid "Invoice"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:239
+msgid "Invoice Details"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice details aren't available offline. Reconnect and try again."
+msgstr "ஆஃப்லைனில் விலைப்பட்டியல் விவரங்கள் கிடைக்காது. மீண்டும் இணைந்து முயலவும்."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice not found."
+msgstr "விலைப்பட்டியல் கிடைக்கவில்லை."
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:151
+msgid "Invoiced Qty"
+msgstr "பில் போட்ட அளவு"
+
+#: posapp/src/components/Sidebar/index.jsx:12
+#: posapp/src/pages/InvoiceDetailPage.jsx:214
+#: posapp/src/pages/InvoiceRegisterPage.jsx:133
+msgid "Invoices"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:431
+msgid "Is Cumulative"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:118
+msgid "Is Primary Contact"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:907
+msgid "Is Recursive"
+msgstr "மீள்நிகழ்வு"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:150
+#: posapp/src/engine/sync.js:8 posapp/src/pages/InvoiceDetailPage.jsx:277
+#: posapp/src/pages/ItemPriceDetailPage.jsx:183
+#: posapp/src/pages/ItemPriceListPage.jsx:19
+msgid "Item"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:457
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:619
+msgid "Item Code"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:116
+msgid "Item Code, UOM, Price List and Rate are required"
+msgstr "பொருள் குறியீடு, அலகு, விலைப் பட்டியல் மற்றும் விலை கட்டாயம்"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:178
+msgid "Item Details"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:773
+msgid "Item Discounts"
+msgstr "பொருள் தள்ளுபடிகள்"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json posapp/src/engine/sync.js:9
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:508
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:625
+#: posapp/src/pages/POSProfileDetailPage.jsx:489
+msgid "Item Group"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:481
+msgid "Item Groups"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:196
+msgid "Item Name"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:16 posapp/src/pages/ItemPriceDetailPage.jsx:82
+msgid "Item Price"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:153
+msgid "Item Price saved successfully"
+msgstr "பொருள் விலை சேமிக்கப்பட்டது"
+
+#: posapp/src/components/Sidebar/index.jsx:15
+#: posapp/src/pages/ItemPriceDetailPage.jsx:170
+#: posapp/src/pages/ItemPriceListPage.jsx:107
+msgid "Item Prices"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:303
+msgid "Item Tax"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:752
+msgid "Item Total"
+msgstr "பொருட்களின் மொத்தம்"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:275
+msgid "Items"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:129
+msgid "Items to Return"
+msgstr "திருப்ப வேண்டிய பொருட்கள்"
+
+#: posapp/src/pages/SyncPage.jsx:18
+msgid "Just now"
+msgstr "இப்போதுதான்"
+
+#: posapp/src/components/Topbar/index.jsx:122
+#: posapp/src/components/Topbar/index.jsx:123 posapp/src/pages/LoginPage.jsx:93
+msgid "Language"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:96
+msgid "Last Name"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:284
+msgid "Last synced {when}"
+msgstr "கடைசியாக ஒத்திசைத்தது {when}"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:266
+msgid "Leave empty for points to never expire"
+msgstr "புள்ளிகள் ஒருபோதும் காலாவதியாகாமல் இருக்க காலியாக விடவும்"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:188
+msgid "Leave empty to make this price list applicable for all countries, or restrict it to specific ones."
+msgstr "இந்த விலைப் பட்டியல் அனைத்து நாடுகளுக்கும் பொருந்த காலியாக விடவும், அல்லது குறிப்பிட்ட நாடுகளுக்கு வரம்பிடவும்."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:283
+msgid "Leave empty to make this profile applicable for all users."
+msgstr "இந்தச் சுயவிவரம் அனைத்துப் பயனர்களுக்கும் பொருந்த காலியாக விடவும்."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:574
+msgid "Letter Head"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Light mode"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+#: posapp/src/components/Cart/index.jsx:836
+msgid "Load Draft"
+msgstr "வரைவை ஏற்று"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:103
+msgid "Loading variants…"
+msgstr "வகைகளை ஏற்றுகிறது…"
+
+#: posapp/src/routes.jsx:37
+msgid "Loading..."
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:614
+#: posapp/src/components/Customer/AddressContactSection.jsx:138
+#: posapp/src/components/Customer/AddressContactSection.jsx:191
+#: posapp/src/pages/InvoiceDetailPage.jsx:135
+msgid "Loading…"
+msgstr "ஏற்றுகிறது…"
+
+#: posapp/src/components/Topbar/index.jsx:195
+msgid "Log out"
+msgstr "வெளியேறு"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:17 posapp/src/pages/CustomerDetailPage.jsx:266
+#: posapp/src/pages/CustomerDetailPage.jsx:271
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/SettingsPage.jsx:8
+msgid "Loyalty Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:111
+msgid "Loyalty Program saved successfully"
+msgstr "விசுவாசத் திட்டம் சேமிக்கப்பட்டது"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:129
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:77
+msgid "Loyalty Programs"
+msgstr "விசுவாசத் திட்டங்கள்"
+
+#: posapp/src/components/InvoicePay/index.jsx:478
+msgid "Loyalty Redeemed"
+msgstr "பயன்படுத்திய விசுவாசப் புள்ளிகள்"
+
+#: posapp/src/components/InvoicePay/index.jsx:384
+msgid "Loyalty points can't be redeemed in {currency}. ERPNext only redeems them in the company's currency ({company_currency})."
+msgstr "விசுவாசப் புள்ளிகளை {currency}-இல் பயன்படுத்த முடியாது. ERPNext அவற்றை நிறுவனத்தின் நாணயத்தில் ({company_currency}) மட்டுமே பயன்படுத்துகிறது."
+
+#: easy_pos/api/pos.py:275
+msgid "Loyalty points can't be redeemed on a {0} invoice. ERPNext only redeems them in the company's currency ({1})."
+msgstr "{0} விலைப்பட்டியலில் விசுவாசப் புள்ளிகளைப் பயன்படுத்த முடியாது. ERPNext அவற்றை நிறுவனத்தின் நாணயத்தில் ({1}) மட்டுமே பயன்படுத்துகிறது."
+
+#: posapp/src/pages/SyncPage.jsx:235
+msgid "MASTER DATA"
+msgstr "முதன்மைத் தரவு"
+
+#: posapp/src/components/Sidebar/index.jsx:126
+msgid "Main"
+msgstr ""
+
+#: posapp/src/pages/SettingsPage.jsx:15
+msgid "Manage cashier accounts and permissions"
+msgstr "காசாளர் கணக்குகள் மற்றும் அனுமதிகளை நிர்வகி"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:419
+msgid "Manual (none)"
+msgstr "கைமுறை (எதுவுமில்லை)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:770
+msgid "Margin"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:784
+msgid "Margin Rate or Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:775
+msgid "Margin Type"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:253
+msgid "Market Segment"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "Master Setup"
+msgstr "முதன்மைத் தரவு அமைப்பு"
+
+#: posapp/src/pages/SyncPage.jsx:124
+msgid "Master data cached for offline use. Fetch pulls the latest catalog, customers, and pricing from the server."
+msgstr "முதன்மைத் தரவு ஆஃப்லைன் பயன்பாட்டிற்காகத் தற்காலிகமாகச் சேமிக்கப்பட்டுள்ளது. \"பெறு\" சர்வரிலிருந்து சமீபத்திய பட்டியல், வாடிக்கையாளர்கள், விலைகளைப் பெறும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:733
+msgid "Max Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:727
+msgid "Max Qty (Stock UOM)"
+msgstr "அதிகபட்ச அளவு (கையிருப்பு அலகு)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:258
+msgid "Max discount allowed for item: {item} is {pct}%"
+msgstr "{item} பொருளுக்கு அனுமதிக்கப்பட்ட அதிகபட்சத் தள்ளுபடி {pct}%"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:730
+msgid "Min Amount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:282
+msgid "Min Amt can not be greater than Max Amt"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:724
+msgid "Min Qty (Stock UOM)"
+msgstr "குறைந்தபட்ச அளவு (கையிருப்பு அலகு)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:285
+msgid "Min Qty can not be greater than Max Qty"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:291
+msgid "Min Qty should be greater than Recurse Over Qty"
+msgstr "குறைந்தபட்ச அளவு மீள்நிகழ்வு அளவை விட அதிகமாக இருக்க வேண்டும்"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:210
+msgid "Minimum Total Spent"
+msgstr ""
+
+#: easy_pos/api/currency.py:27
+msgid "Missing Exchange Rate"
+msgstr "மாற்று விகிதம் இல்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:426
+msgid "Mixed Conditions"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:150
+#: posapp/src/components/Customer/ContactModal.jsx:105
+#: posapp/src/components/Customer/NewCustomerModal.jsx:114
+#: posapp/src/pages/CustomerDetailPage.jsx:208
+#: posapp/src/pages/CustomerListPage.jsx:30
+#: posapp/src/pages/CustomerListPage.jsx:175
+#: posapp/src/pages/InvoiceRegisterPage.jsx:204
+msgid "Mobile No"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+#: posapp/src/engine/sync.js:15 posapp/src/pages/InvoiceDetailPage.jsx:408
+#: posapp/src/pages/POSProfileDetailPage.jsx:355
+msgid "Mode of Payment"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Modes of Payment"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:141
+#: posapp/src/components/Sidebar/index.jsx:145
+msgid "More"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:360
+msgid "More Information"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:282
+msgid "Move down"
+msgstr "கீழே நகர்த்து"
+
+#: posapp/src/components/common/ChildTable.jsx:273
+msgid "Move up"
+msgstr "மேலே நகர்த்து"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Multiple Tier Program"
+msgstr ""
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:657
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:325
+#: posapp/src/pages/InvoiceDetailPage.jsx:398
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Net Total"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:210
+msgid "Net sales"
+msgstr "நிகர விற்பனை"
+
+#: posapp/src/pages/SyncPage.jsx:13 posapp/src/pages/SyncPage.jsx:15
+msgid "Never"
+msgstr "ஒருபோதும் இல்லை"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "New Address"
+msgstr ""
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "New Contact"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:53
+msgid "New Customer"
+msgstr "புதிய வாடிக்கையாளர்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountDetailPage.jsx:385
+msgid "New Discount"
+msgstr "புதிய தள்ளுபடி"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:82
+#: posapp/src/pages/ItemPriceDetailPage.jsx:168
+msgid "New Item Price"
+msgstr "புதிய பொருள் விலை"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:127
+msgid "New Loyalty Program"
+msgstr "புதிய விசுவாசத் திட்டம்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+#: posapp/src/pages/POSProfileDetailPage.jsx:222
+msgid "New POS Profile"
+msgstr "புதிய POS சுயவிவரம்"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListDetailPage.jsx:153
+msgid "New Price List"
+msgstr "புதிய விலைப் பட்டியல்"
+
+#: posapp/src/components/Cart/index.jsx:388
+#: posapp/src/pages/CustomerListPage.jsx:150
+msgid "New customer"
+msgstr "புதிய வாடிக்கையாளர்"
+
+#: posapp/src/pages/DiscountListPage.jsx:133
+msgid "New discount"
+msgstr "புதிய தள்ளுபடி"
+
+#: posapp/src/pages/LoginPage.jsx:167
+msgid "New here"
+msgstr "புதியவரா"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:168
+msgid "New invoice"
+msgstr "புதிய விலைப்பட்டியல்"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:140
+msgid "New item price"
+msgstr "புதிய பொருள் விலை"
+
+#: posapp/src/pages/PriceListListPage.jsx:108
+msgid "New price list"
+msgstr "புதிய விலைப் பட்டியல்"
+
+#: posapp/src/pages/POSProfileListPage.jsx:119
+msgid "New profile"
+msgstr "புதிய சுயவிவரம்"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:94
+msgid "New program"
+msgstr "புதிய திட்டம்"
+
+#: posapp/src/components/common/Pagination.jsx:27
+msgid "Next"
+msgstr ""
+
+#: posapp/src/components/common/ConfirmModal.jsx:30
+#: posapp/src/pages/InvoiceDetailPage.jsx:432
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "No"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:104
+msgid "No Loyalty Programs found"
+msgstr "விசுவாசத் திட்டங்கள் எதுவும் இல்லை"
+
+#: posapp/src/pages/POSProfileListPage.jsx:152
+msgid "No POS Profiles found"
+msgstr "POS சுயவிவரங்கள் எதுவும் இல்லை"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:142
+msgid "No addresses added"
+msgstr "முகவரிகள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:558
+msgid "No brands added"
+msgstr "பிராண்டுகள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:343
+msgid "No bundle components"
+msgstr "தொகுப்புக் கூறுகள் இல்லை"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:46
+msgid "No camera was found on this device."
+msgstr "இந்தச் சாதனத்தில் கேமரா கிடைக்கவில்லை."
+
+#: posapp/src/components/Cart/index.jsx:616
+msgid "No components"
+msgstr "கூறுகள் இல்லை"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "No connection — working from cached data"
+msgstr "இணைப்பு இல்லை — தற்காலிகச் சேமிப்புத் தரவுடன் செயல்படுகிறது"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:195
+msgid "No contacts added"
+msgstr "தொடர்புகள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:191
+msgid "No countries added — applies to all countries"
+msgstr "நாடுகள் சேர்க்கப்படவில்லை — அனைத்து நாடுகளுக்கும் பொருந்தும்"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:299
+msgid "No credit limits configured"
+msgstr "கடன் வரம்புகள் அமைக்கப்படவில்லை"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:524
+msgid "No customer groups added"
+msgstr "வாடிக்கையாளர் குழுக்கள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/CustomerListPage.jsx:210
+msgid "No customers found"
+msgstr "வாடிக்கையாளர்கள் எவரும் இல்லை"
+
+#: posapp/src/pages/DiscountListPage.jsx:143
+msgid "No discounts found"
+msgstr "தள்ளுபடிகள் எதுவும் இல்லை"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:185
+msgid "No draft invoices found"
+msgstr "வரைவு விலைப்பட்டியல்கள் எதுவும் இல்லை"
+
+#: easy_pos/api/currency.py:24
+msgid "No exchange rate found from {0} to {1}. Create a Currency Exchange record (For Selling) for this pair."
+msgstr "{0} இலிருந்து {1}-க்கு மாற்று விகிதம் கிடைக்கவில்லை. இந்த ஜோடிக்கு நாணய மாற்றுப் பதிவை (விற்பனைக்கு) உருவாக்கவும்."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:239
+msgid "No invoices found"
+msgstr "விலைப்பட்டியல்கள் எதுவும் இல்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:504
+#: posapp/src/pages/POSProfileDetailPage.jsx:485
+msgid "No item groups added"
+msgstr "பொருள் குழுக்கள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:173
+msgid "No item prices found"
+msgstr "பொருள் விலைகள் எதுவும் இல்லை"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:317
+msgid "No items"
+msgstr "பொருட்கள் இல்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:453
+msgid "No items added"
+msgstr "பொருட்கள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/components/Cart/index.jsx:451
+msgid "No items in cart"
+msgstr "வண்டியில் பொருட்கள் இல்லை"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items in this category"
+msgstr "இந்த வகையில் பொருட்கள் இல்லை"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items match your search"
+msgstr "தேடலுக்குப் பொருந்தும் பொருட்கள் இல்லை"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:135
+msgid "No items on this invoice"
+msgstr "இந்த விலைப்பட்டியலில் பொருட்கள் இல்லை"
+
+#: posapp/src/pages/ReportsPage.jsx:325
+msgid "No items sold in this period."
+msgstr "இந்தக் காலத்தில் எந்தப் பொருளும் விற்கப்படவில்லை."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:341
+msgid "No payment modes added"
+msgstr "கட்டண முறைகள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/components/InvoicePay/index.jsx:430
+msgid "No payment modes configured for this POS Profile."
+msgstr "இந்த POS சுயவிவரத்திற்குக் கட்டண முறைகள் அமைக்கப்படவில்லை."
+
+#: posapp/src/pages/ReportsPage.jsx:252
+msgid "No payment modes configured."
+msgstr "கட்டண முறைகள் அமைக்கப்படவில்லை."
+
+#: posapp/src/components/Closing/index.jsx:98
+msgid "No payment modes found for this shift."
+msgstr "இந்த ஷிஃப்டுக்குக் கட்டண முறைகள் கிடைக்கவில்லை."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:419
+msgid "No payments"
+msgstr "கட்டணங்கள் இல்லை"
+
+#: posapp/src/pages/ReportsPage.jsx:269
+msgid "No payments recorded in this period."
+msgstr "இந்தக் காலத்தில் கட்டணங்கள் பதிவாகவில்லை."
+
+#: posapp/src/pages/PriceListListPage.jsx:118
+msgid "No price lists found"
+msgstr "விலைப் பட்டியல்கள் எதுவும் இல்லை"
+
+#: posapp/src/components/common/ListTable.jsx:43
+#: posapp/src/components/common/ListTable.jsx:99
+msgid "No records found"
+msgstr ""
+
+#: posapp/src/components/common/ChildTable.jsx:216
+msgid "No rows"
+msgstr "வரிசைகள் இல்லை"
+
+#: posapp/src/pages/ReportsPage.jsx:292
+msgid "No sales in this period."
+msgstr "இந்தக் காலத்தில் விற்பனை இல்லை."
+
+#: posapp/src/components/Topbar/index.jsx:99
+msgid "No shift open"
+msgstr "திறந்த ஷிஃப்ட் இல்லை"
+
+#: posapp/src/pages/ReportsPage.jsx:196
+msgid "No shifts to report on yet. Open a shift from the Terminal to see live shift numbers here."
+msgstr "அறிக்கையிட இன்னும் ஷிஃப்டுகள் இல்லை. நேரடி ஷிஃப்ட் எண்களை இங்கே காண டெர்மினலில் ஷிஃப்டைத் திறக்கவும்."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:390
+msgid "No taxes applied"
+msgstr "வரிகள் பயன்படுத்தப்படவில்லை"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:197
+msgid "No taxes on this invoice"
+msgstr "இந்த விலைப்பட்டியலில் வரிகள் இல்லை"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:194
+msgid "No tiers added"
+msgstr "நிலைகள் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/ReportsPage.jsx:365
+msgid "No transactions in this period."
+msgstr "இந்தக் காலத்தில் பரிவர்த்தனைகள் இல்லை."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:286
+msgid "No users added — applies to all users"
+msgstr "பயனர்கள் சேர்க்கப்படவில்லை — அனைத்துப் பயனர்களுக்கும் பொருந்தும்"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:35
+msgid "No variants are set up for this item yet."
+msgstr "இந்தப் பொருளுக்கு இன்னும் வகைகள் அமைக்கப்படவில்லை."
+
+#: posapp/src/components/common/LinkField.jsx:218
+msgid "No {doctype} found"
+msgstr "{doctype} கிடைக்கவில்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:611
+msgid "None"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:252
+msgid "Note"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:173
+msgid "Nothing queued — every offline sale on this device has synced."
+msgstr "வரிசை காலியாக உள்ளது — இந்தச் சாதனத்திலுள்ள அனைத்து ஆஃப்லைன் விற்பனைகளும் ஒத்திசைக்கப்பட்டன."
+
+#: posapp/src/components/common/AlertModal.jsx:15
+msgid "OK"
+msgstr "சரி"
+
+#: posapp/src/components/Customer/AddressModal.jsx:10
+msgid "Office"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/components/Topbar/index.jsx:87 posapp/src/pages/SyncPage.jsx:129
+msgid "Offline"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:136
+msgid "Offline mode isn't enabled for this deployment (EasyPOS Settings). Data still caches below for later, but the Terminal won't fall back to it while offline until it's turned on."
+msgstr "இந்த நிறுவலுக்கு ஆஃப்லைன் பயன்முறை இயக்கப்படவில்லை (EasyPOS அமைப்புகள்). தரவு கீழே தொடர்ந்து தற்காலிகமாகச் சேமிக்கப்படும், ஆனால் இயக்கப்படும் வரை டெர்மினல் ஆஃப்லைனில் அதைப் பயன்படுத்தாது."
+
+#: posapp/src/components/InvoicePay/index.jsx:179
+msgid "Offline — pending sync. Reprint from Invoices once synced."
+msgstr "ஆஃப்லைன் — ஒத்திசைவுக்குக் காத்திருக்கிறது. ஒத்திசைந்ததும் விலைப்பட்டியல்களில் இருந்து மீண்டும் அச்சிடவும்."
+
+#: posapp/src/pages/POSTerminalPage.jsx:75
+msgid "Offline — showing cached catalog and pricing. Sales ring up and sync automatically once reconnected."
+msgstr "ஆஃப்லைன் — தற்காலிகமாகச் சேமித்த பட்டியல் மற்றும் விலைகள் காட்டப்படுகின்றன. விற்பனைகள் பதிவாகி, மீண்டும் இணைந்ததும் தானாக ஒத்திசைக்கப்படும்."
+
+#: posapp/src/utils/format.js:52
+msgid "On Item Quantity"
+msgstr ""
+
+#: posapp/src/utils/format.js:49
+msgid "On Net Total"
+msgstr ""
+
+#: posapp/src/utils/format.js:50
+msgid "On Previous Row Amount"
+msgstr ""
+
+#: posapp/src/utils/format.js:51
+msgid "On Previous Row Total"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:58
+msgid "One counter."
+msgstr "ஒரே கவுண்டர்."
+
+#: posapp/src/pages/LoginPage.jsx:77
+msgid "One login per cashier, one record per shift"
+msgstr "ஒவ்வொரு காசாளருக்கும் ஒரு உள்நுழைவு, ஒவ்வொரு ஷிஃப்டுக்கும் ஒரு பதிவு"
+
+#: posapp/src/components/Topbar/index.jsx:87
+msgid "Online"
+msgstr ""
+
+#: easy_pos/api/pos.py:385
+msgid "Only a submitted invoice can be returned"
+msgstr "சமர்ப்பிக்கப்பட்ட விலைப்பட்டியலை மட்டுமே திருப்ப முடியும்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:521
+msgid "Only show Customers of these Customer Groups. Leave empty for all."
+msgstr "இந்த வாடிக்கையாளர் குழுக்களின் வாடிக்கையாளர்களை மட்டும் காட்டு. அனைவருக்கும் காலியாக விடவும்."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:482
+msgid "Only show Items from these Item Groups. Leave empty for all."
+msgstr "இந்தப் பொருள் குழுக்களின் பொருட்களை மட்டும் காட்டு. அனைத்துக்கும் காலியாக விடவும்."
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Open"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:366
+msgid "Open Customer Display"
+msgstr "வாடிக்கையாளர் காட்சியைத் திற"
+
+#: posapp/src/pages/SyncPage.jsx:299
+msgid "Open a shift before syncing"
+msgstr "ஒத்திசைப்பதற்கு முன் ஷிஃப்டைத் திறக்கவும்"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:152
+msgid "Open till"
+msgstr "கல்லாவைத் திற"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:131
+msgid "Open your till"
+msgstr "உங்கள் கல்லாவைத் திறக்கவும்"
+
+#: posapp/src/components/Closing/index.jsx:111
+msgid "Opening"
+msgstr ""
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Opening Amount"
+msgstr ""
+
+#. Label of a Table field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Opening Balance Details"
+msgstr ""
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:161
+msgid "Opening a shift requires an internet connection — stock and pricing for the profile you pick have to be resolved live. Reconnect to open your till."
+msgstr "ஷிஃப்டைத் திறக்க இணைய இணைப்பு தேவை — தேர்ந்தெடுத்த சுயவிவரத்தின் கையிருப்பும் விலைகளும் நேரடியாகக் கண்டறியப்பட வேண்டும். கல்லாவைத் திறக்க மீண்டும் இணையவும்."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:191
+msgid "Opening balance"
+msgstr "தொடக்க இருப்பு"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:149
+msgid "Opening…"
+msgstr "திறக்கிறது…"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:256
+msgid "Optional note"
+msgstr "விருப்பக் குறிப்பு"
+
+#: posapp/src/components/Cart/index.jsx:645
+msgid "Order Discount"
+msgstr "ஆர்டர் தள்ளுபடி"
+
+#: posapp/src/components/Cart/index.jsx:792
+msgid "Order Discount ({pct}%)"
+msgstr "ஆர்டர் தள்ளுபடி ({pct}%)"
+
+#: posapp/src/components/Customer/AddressModal.jsx:19
+msgid "Other"
+msgstr ""
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:159
+#: posapp/src/components/Items/index.jsx:77
+msgid "Out of stock"
+msgstr "கையிருப்பில் இல்லை"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:266
+msgid "Outstanding Amount"
+msgstr ""
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:16 posapp/src/utils/format.js:34
+msgid "Overdue"
+msgstr ""
+
+#: posapp/src/utils/format.js:41
+msgid "Overdue and Discounted"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "POS Closing Entry"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Closing/index.jsx:86
+#: posapp/src/pages/InvoiceDetailPage.jsx:245
+msgid "POS Opening Entry"
+msgstr ""
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:180
+#: posapp/src/engine/sync.js:14 posapp/src/pages/InvoiceDetailPage.jsx:244
+#: posapp/src/pages/InvoiceRegisterPage.jsx:190
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+msgid "POS Profile"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:206
+msgid "POS Profile saved successfully"
+msgstr "POS சுயவிவரம் சேமிக்கப்பட்டது"
+
+#: posapp/src/components/Sidebar/index.jsx:14
+#: posapp/src/pages/POSProfileDetailPage.jsx:224
+#: posapp/src/pages/POSProfileListPage.jsx:90
+msgid "POS Profiles"
+msgstr "POS சுயவிவரங்கள்"
+
+#: posapp/src/pages/POSTerminalPage.jsx:34
+msgid "POS Terminal"
+msgstr "POS டெர்மினல்"
+
+#: posapp/src/components/common/Pagination.jsx:8
+msgid "Page {page} of {total}"
+msgstr "பக்கம் {page} / {total}"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:14 posapp/src/utils/format.js:32
+msgid "Paid"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:473
+#: posapp/src/pages/InvoiceDetailPage.jsx:264
+msgid "Paid Amount"
+msgstr ""
+
+#: posapp/src/utils/format.js:35
+msgid "Partly Paid"
+msgstr "பகுதியாகச் செலுத்தப்பட்டது"
+
+#: posapp/src/utils/format.js:42
+msgid "Partly Paid and Discounted"
+msgstr "பகுதியாகச் செலுத்தப்பட்டு தள்ளுபடி செய்யப்பட்டது"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Partnership"
+msgstr "கூட்டாண்மை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:644
+msgid "Party Information"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:122
+msgid "Password"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:367
+msgid "Pay with {gateway}"
+msgstr "{gateway} மூலம் செலுத்து"
+
+#: posapp/src/components/Cart/index.jsx:855
+msgid "Pay {amount}"
+msgstr "{amount} செலுத்து"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:414
+msgid "Payment Gateway"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:335
+msgid "Payment Methods"
+msgstr ""
+
+#. Label of a Table field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Payment Reconciliation"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:90
+#: posapp/src/components/InvoicePay/index.jsx:422
+msgid "Payment Summary"
+msgstr "கட்டணச் சுருக்கம்"
+
+#: posapp/src/pages/ReportsPage.jsx:258
+msgid "Payment method breakdown"
+msgstr "கட்டண முறை வாரியான பிரிப்பு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:164
+msgid "Payment methods are mandatory. Please add at least one payment method."
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:406
+msgid "Payments"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:148
+msgid "Pending Invoices"
+msgstr "நிலுவையிலுள்ள விலைப்பட்டியல்கள்"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Pending sync"
+msgstr "ஒத்திசைவுக்குக் காத்திருக்கிறது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+msgid "Percentage"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Period Details"
+msgstr "காலத்தின் விவரங்கள்"
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period End Date"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:740
+msgid "Period Settings"
+msgstr ""
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Datetime field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period Start Date"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:18
+msgid "Permanent"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:11
+msgid "Personal"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:129
+#: posapp/src/components/Customer/ContactModal.jsx:102
+msgid "Phone"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:12
+msgid "Plant"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/PaymentView.jsx:13
+msgid "Please Pay"
+msgstr "தயவுசெய்து செலுத்தவும்"
+
+#: posapp/src/components/Cart/index.jsx:214
+msgid "Please add at least one item to the cart"
+msgstr "வண்டியில் குறைந்தது ஒரு பொருளைச் சேர்க்கவும்"
+
+#: posapp/src/components/InvoicePay/index.jsx:228
+msgid "Please add one or more items to the cart"
+msgstr "வண்டியில் ஒன்று அல்லது அதற்கு மேற்பட்ட பொருட்களைச் சேர்க்கவும்"
+
+#: posapp/src/components/InvoicePay/index.jsx:232
+msgid "Please enter an amount for at least one payment mode"
+msgstr "குறைந்தது ஒரு கட்டண முறைக்குத் தொகையை உள்ளிடவும்"
+
+#: posapp/src/components/Cart/index.jsx:210
+#: posapp/src/components/InvoicePay/index.jsx:224
+msgid "Please select a customer"
+msgstr "வாடிக்கையாளரைத் தேர்ந்தெடுக்கவும்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:169
+msgid "Please select a default mode of payment"
+msgstr ""
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:81
+msgid "Point the camera at a barcode, QR code, or serial/batch label."
+msgstr "கேமராவை பார்கோடு, QR குறியீடு அல்லது வரிசை/தொகுதி லேபிளை நோக்கிக் காட்டவும்."
+
+#: posapp/src/pages/POSTerminalPage.jsx:119
+msgid "Populates the item search field, same as a hardware scanner"
+msgstr "வன்பொருள் ஸ்கேனரைப் போலவே பொருள் தேடல் புலத்தை நிரப்பும்"
+
+#: posapp/src/components/Customer/AddressModal.jsx:13
+msgid "Postal"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:126
+msgid "Postal Code"
+msgstr ""
+
+#. Label of a Date field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:242
+msgid "Posting Date"
+msgstr ""
+
+#. Label of a Time field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:243
+msgid "Posting Time"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:139
+msgid "Preferred Billing Address"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:146
+msgid "Preferred Shipping Address"
+msgstr ""
+
+#: posapp/src/components/common/Pagination.jsx:18
+msgid "Previous"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Price"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:797
+msgid "Price Discount Scheme"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:11 posapp/src/pages/InvoiceDetailPage.jsx:258
+#: posapp/src/pages/ItemPriceDetailPage.jsx:207
+#: posapp/src/pages/ItemPriceListPage.jsx:30
+#: posapp/src/pages/ItemPriceListPage.jsx:147
+#: posapp/src/pages/POSProfileDetailPage.jsx:630
+#: posapp/src/pages/POSProfileListPage.jsx:36
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListListPage.jsx:18
+msgid "Price List"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:203
+#: posapp/src/pages/PriceListDetailPage.jsx:163
+msgid "Price List Details"
+msgstr "விலைப் பட்டியல் விவரங்கள்"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:167
+msgid "Price List Name"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:96
+msgid "Price List Name and Currency are required"
+msgstr "விலைப் பட்டியல் பெயரும் நாணயமும் கட்டாயம்"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:102
+msgid "Price List must be applicable for Buying or Selling"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:138
+msgid "Price List saved successfully"
+msgstr "விலைப் பட்டியல் சேமிக்கப்பட்டது"
+
+#: posapp/src/components/Sidebar/index.jsx:16
+#: posapp/src/pages/PriceListDetailPage.jsx:155
+#: posapp/src/pages/PriceListListPage.jsx:81
+msgid "Price Lists"
+msgstr "விலைப் பட்டியல்கள்"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:177
+msgid "Price Not UOM Dependent"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:411
+msgid "Price or Product Discount"
+msgstr ""
+
+#: posapp/src/engine/sync.js:12
+msgid "Pricing Rule"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:155
+#: posapp/src/components/Customer/AddressContactSection.jsx:207
+msgid "Primary"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:231
+msgid "Print / Reprint"
+msgstr "அச்சிடு / மீண்டும் அச்சிடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:566
+msgid "Print Format"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:587
+msgid "Print Heading"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:462
+msgid "Print Receipt on Order Complete"
+msgstr "ஆர்டர் முடிந்ததும் ரசீதை அச்சிடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:561
+msgid "Print Settings"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:982
+#: posapp/src/pages/DiscountListPage.jsx:53
+msgid "Priority"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:196
+msgid "Priority is mandatory"
+msgstr "முன்னுரிமை கட்டாயம்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Product"
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:44
+msgid "Product Bundle"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:867
+msgid "Product Discount Scheme"
+msgstr ""
+
+#: posapp/src/pages/POSProfileListPage.jsx:19
+msgid "Profile"
+msgstr "சுயவிவரம்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:232
+msgid "Profile Info"
+msgstr "சுயவிவரத் தகவல்"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:12
+msgid "Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:137
+msgid "Program Details"
+msgstr "திட்ட விவரங்கள்"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:141
+msgid "Program Name"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:92
+msgid "Program Name, From Date and Conversion Factor are required"
+msgstr "திட்டப் பெயர், தொடக்கத் தேதி மற்றும் மாற்றுக் காரணி கட்டாயம்"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:145
+msgid "Program Type"
+msgstr "திட்ட வகை"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:290
+#: posapp/src/pages/POSProfileDetailPage.jsx:768
+msgid "Project"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:75
+msgid "Push failed. Check your connection and try again."
+msgstr "அனுப்புதல் தோல்வியடைந்தது. இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்."
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Push now"
+msgstr "இப்போது அனுப்பு"
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Pushing…"
+msgstr "அனுப்புகிறது…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:278
+#: posapp/src/pages/InvoiceDetailPage.jsx:337
+msgid "Qty"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:926
+msgid "Qty for which recursion isn't applicable."
+msgstr "மீள்நிகழ்வு பொருந்தாத அளவு."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:720
+msgid "Quantity and Amount"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:32
+msgid "Queued"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:24
+msgid "Range"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:530
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:171
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:821
+#: posapp/src/pages/InvoiceDetailPage.jsx:282
+#: posapp/src/pages/InvoiceDetailPage.jsx:372
+#: posapp/src/pages/ItemPriceDetailPage.jsx:224
+#: posapp/src/pages/ItemPriceDetailPage.jsx:231
+#: posapp/src/pages/ItemPriceListPage.jsx:36
+msgid "Rate"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:203
+msgid "Rate (%)"
+msgstr "விகிதம் (%)"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:238
+msgid "Rate (%) applies to percentage-based charges; Amount applies to \"Actual\" charges. Totals are recalculated against the returned items when the credit note is created."
+msgstr "விகிதம் (%) சதவீத அடிப்படைக் கட்டணங்களுக்கும், தொகை \"உண்மையான\" கட்டணங்களுக்கும் பொருந்தும். கடன் குறிப்பை உருவாக்கும்போது திருப்பிய பொருட்களின் அடிப்படையில் மொத்தங்கள் மீண்டும் கணக்கிடப்படும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:297
+msgid "Rate can not be negative"
+msgstr "விலை எதிர்மறையாக இருக்க முடியாது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:802
+msgid "Rate or Discount"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:229
+msgid "Rate or Discount is required for the price discount."
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:421
+msgid "Razorpay"
+msgstr ""
+
+#: easy_pos/api/payment_gateways/razorpay.py:26
+msgid "Razorpay is not configured. Set it up under Razorpay Settings first."
+msgstr "Razorpay அமைக்கப்படவில்லை. முதலில் Razorpay அமைப்புகளில் அமைக்கவும்."
+
+#: easy_pos/api/payment_gateways/razorpay.py:61
+msgid "Razorpay payment signature verification failed"
+msgstr "Razorpay கட்டணக் கையொப்பச் சரிபார்ப்பு தோல்வியடைந்தது"
+
+#: posapp/src/components/InvoicePay/index.jsx:168
+#: posapp/src/components/InvoicePay/index.jsx:177
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Receipt"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:599
+msgid "Receipt Delivery"
+msgstr "ரசீது அனுப்புதல்"
+
+#: posapp/src/pages/ReportsPage.jsx:355
+msgid "Recent transactions"
+msgstr "சமீபத்திய பரிவர்த்தனைகள்"
+
+#: posapp/src/components/Topbar/index.jsx:110
+msgid "Reconnect to close your shift"
+msgstr "ஷிஃப்டை மூட மீண்டும் இணையவும்"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:144
+msgid "Reconnect to open a shift"
+msgstr "ஷிஃப்டைத் திறக்க மீண்டும் இணையவும்"
+
+#: posapp/src/pages/SyncPage.jsx:159
+msgid "Reconnect to push queued invoices"
+msgstr "வரிசையிலுள்ள விலைப்பட்டியல்களை அனுப்ப மீண்டும் இணையவும்"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:916
+msgid "Recurse Every (As Per Transaction UOM)"
+msgstr "ஒவ்வொரு முறையும் மீள்நிகழ் (பரிவர்த்தனை அலகின்படி)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:293
+msgid "Recurse Over Qty cannot be less than 0"
+msgstr "மீள்நிகழ்வு அளவு 0-ஐ விடக் குறைவாக இருக்க முடியாது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:325
+msgid "Recursive Discounts with Mixed condition is not supported by the system"
+msgstr "கலப்பு நிபந்தனைகளுடன் மீள்நிகழ் தள்ளுபடிகள் ஆதரிக்கப்படவில்லை"
+
+#: posapp/src/components/InvoicePay/index.jsx:394
+msgid "Redeem Loyalty Points ({n} available)"
+msgstr "விசுவாசப் புள்ளிகளைப் பயன்படுத்து ({n} உள்ளன)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:251
+msgid "Redemption"
+msgstr ""
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:52
+msgid "Register"
+msgstr ""
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:50
+msgid "Reload"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:137
+msgid "Remember this device"
+msgstr "இந்தச் சாதனத்தை நினைவில் கொள்"
+
+#: posapp/src/components/Cart/index.jsx:520
+msgid "Remove"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:706
+msgid "Remove coupon"
+msgstr "கூப்பனை நீக்கு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:441
+msgid "Remove row"
+msgstr "வரிசையை நீக்கு"
+
+#: posapp/src/components/Sidebar/index.jsx:19
+#: posapp/src/pages/ReportsPage.jsx:101 posapp/src/pages/ReportsPage.jsx:155
+msgid "Reports"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retry"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:87
+msgid "Retry failed."
+msgstr "மீண்டும் முயன்றது தோல்வியடைந்தது."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:184
+msgid "Retry sync"
+msgstr "ஒத்திசைவை மீண்டும் முயல்"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retrying…"
+msgstr "மீண்டும் முயல்கிறது…"
+
+#: posapp/src/utils/format.js:36
+msgid "Return"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:261
+msgid "Return Against"
+msgstr "இதற்கு எதிரான திருப்பல்"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:174
+msgid "Return Amount"
+msgstr "திருப்பல் தொகை"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:154
+msgid "Return Qty"
+msgstr "திருப்பல் அளவு"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:185
+msgid "Return Total"
+msgstr "திருப்பல் மொத்தம்"
+
+#: posapp/src/components/Closing/index.jsx:59
+msgid "Review the counted totals for this shift before closing."
+msgstr "மூடுவதற்கு முன் இந்த ஷிஃப்டின் எண்ணிய மொத்தங்களைச் சரிபார்க்கவும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:897
+msgid "Round Free Qty"
+msgstr "இலவச அளவை முழுமையாக்கு"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:401
+msgid "Rounded Total"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:400
+msgid "Rounding Adjustment"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1019
+msgid "Rule Description"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:613
+msgid "SMS Notification"
+msgstr "SMS அறிவிப்பு"
+
+#: posapp/src/pages/ReportsPage.jsx:140
+msgid "Sales"
+msgstr ""
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:18
+msgid "Sales Invoice"
+msgstr ""
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Sales Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:686
+msgid "Sales Partner"
+msgstr ""
+
+#: posapp/src/engine/sync.js:13 posapp/src/pages/InvoiceDetailPage.jsx:397
+#: posapp/src/pages/POSProfileDetailPage.jsx:718
+msgid "Sales Taxes and Charges Template"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:151
+msgid "Sales completed offline, queued locally until they reach ERPNext."
+msgstr "ஆஃப்லைனில் முடிந்த விற்பனைகள், ERPNext-ஐ அடையும் வரை உள்ளூர் வரிசையில் இருக்கும்."
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by day"
+msgstr "விற்பனைப் போக்கு · நாள்வாரியாக"
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by hour"
+msgstr "விற்பனைப் போக்கு · மணிவாரியாக"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:872
+msgid "Same Item"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:86
+#: posapp/src/components/Customer/ContactModal.jsx:83
+#: posapp/src/components/common/SaveButton.jsx:28
+msgid "Save"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:824
+msgid "Save Draft"
+msgstr "வரைவைச் சேமி"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:95
+msgid "Save the customer first to add addresses and contacts."
+msgstr "முகவரிகள், தொடர்புகளைச் சேர்க்க முதலில் வாடிக்கையாளரைச் சேமிக்கவும்."
+
+#: posapp/src/components/Cart/index.jsx:819
+#: posapp/src/components/Customer/AddressModal.jsx:83
+#: posapp/src/components/Customer/ContactModal.jsx:80
+#: posapp/src/components/common/SaveButton.jsx:25
+msgid "Saving…"
+msgstr "சேமிக்கிறது…"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:61
+msgid "Scan barcode"
+msgstr "பார்கோடை ஸ்கேன் செய்"
+
+#: posapp/src/pages/POSTerminalPage.jsx:37
+msgid "Scan barcode/serial/batch or search items"
+msgstr "பார்கோடு/வரிசை/தொகுதியை ஸ்கேன் செய்யவும் அல்லது பொருட்களைத் தேடவும்"
+
+#: posapp/src/components/Topbar/index.jsx:61
+#: posapp/src/components/Topbar/index.jsx:62
+msgid "Scan with camera"
+msgstr "கேமராவால் ஸ்கேன் செய்"
+
+#: posapp/src/components/Cart/index.jsx:508
+msgid "Scan/add the item again to add another unit"
+msgstr "இன்னொரு அலகைச் சேர்க்க பொருளை மீண்டும் ஸ்கேன்/சேர்க்கவும்"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+msgid "Search and pull a saved draft into the terminal"
+msgstr "சேமித்த வரைவைத் தேடி டெர்மினலில் ஏற்றவும்"
+
+#: posapp/src/components/Cart/index.jsx:595
+msgid "Search batch no"
+msgstr "தொகுதி எண்ணைத் தேடு"
+
+#: posapp/src/pages/CustomerListPage.jsx:118
+msgid "Search customer, mobile or email"
+msgstr "வாடிக்கையாளர், கைபேசி அல்லது மின்னஞ்சலைத் தேடு"
+
+#: posapp/src/components/Cart/index.jsx:386
+msgid "Search customer..."
+msgstr "வாடிக்கையாளரைத் தேடு..."
+
+#: posapp/src/pages/DiscountListPage.jsx:111
+msgid "Search discount title"
+msgstr "தள்ளுபடித் தலைப்பைத் தேடு"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:136
+msgid "Search invoice or customer"
+msgstr "விலைப்பட்டியல் அல்லது வாடிக்கையாளரைத் தேடு"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:113
+msgid "Search item code or name"
+msgstr "பொருள் குறியீடு அல்லது பெயரைத் தேடு"
+
+#: posapp/src/pages/PriceListListPage.jsx:87
+msgid "Search price list"
+msgstr "விலைப் பட்டியலைத் தேடு"
+
+#: posapp/src/pages/POSProfileListPage.jsx:96
+msgid "Search profile or warehouse"
+msgstr "சுயவிவரம் அல்லது கிடங்கைத் தேடு"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:83
+msgid "Search program name"
+msgstr "திட்டப் பெயரைத் தேடு"
+
+#: posapp/src/components/Cart/index.jsx:575
+msgid "Search serial no"
+msgstr "வரிசை எண்ணைத் தேடு"
+
+#: posapp/src/components/Topbar/index.jsx:53
+#: posapp/src/components/common/LinkField.jsx:162
+msgid "Search..."
+msgstr ""
+
+#: posapp/src/components/Items/index.jsx:351
+msgid "Searching…"
+msgstr "தேடுகிறது…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:566
+msgid "Select Brand"
+msgstr "பிராண்டைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:307
+msgid "Select Company"
+msgstr ""
+
+#: posapp/src/pages/PriceListDetailPage.jsx:206
+msgid "Select Country"
+msgstr "நாட்டைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:531
+msgid "Select Customer Group"
+msgstr "வாடிக்கையாளர் குழுவைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:461
+msgid "Select Item"
+msgstr "பொருளைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:512
+#: posapp/src/pages/POSProfileDetailPage.jsx:492
+msgid "Select Item Group"
+msgstr "பொருள் குழுவைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:359
+msgid "Select Mode"
+msgstr "முறையைத் தேர்ந்தெடு"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:181
+msgid "Select POS profile"
+msgstr "POS சுயவிவரத்தைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:474
+#: posapp/src/pages/DiscountDetailPage.jsx:525
+#: posapp/src/pages/DiscountDetailPage.jsx:579
+msgid "Select UOM"
+msgstr "அலகைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:294
+msgid "Select User"
+msgstr "பயனரைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:261
+#: posapp/src/pages/POSProfileDetailPage.jsx:677
+#: posapp/src/pages/POSProfileDetailPage.jsx:691
+msgid "Select a Company first"
+msgstr "முதலில் ஒரு நிறுவனத்தைத் தேர்ந்தெடுக்கவும்"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:165
+msgid "Select an option for every attribute to pick a variant."
+msgstr "வகையைத் தேர்ந்தெடுக்க ஒவ்வொரு பண்புக்கும் ஒரு விருப்பத்தைத் தேர்வு செய்யவும்."
+
+#: easy_pos/api/pos.py:410 posapp/src/components/Invoice/CreditNoteModal.jsx:71
+msgid "Select at least one item to return"
+msgstr "திருப்ப குறைந்தது ஒரு பொருளைத் தேர்ந்தெடுக்கவும்"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:172
+msgid "Select company"
+msgstr "நிறுவனத்தைத் தேர்ந்தெடு"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:99
+msgid "Select customer group"
+msgstr "வாடிக்கையாளர் குழுவைத் தேர்ந்தெடு"
+
+#: posapp/src/components/Items/index.jsx:66
+msgid "Select options"
+msgstr "விருப்பங்களைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:983
+msgid "Select priority"
+msgstr "முன்னுரிமையைத் தேர்ந்தெடு"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:107
+msgid "Select territory"
+msgstr "பகுதியைத் தேர்ந்தெடு"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:648
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:217
+#: posapp/src/pages/ItemPriceListPage.jsx:12
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:174
+#: posapp/src/pages/PriceListListPage.jsx:30
+msgid "Selling"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:274
+msgid "Selling must be checked, if Applicable For is selected as {field}"
+msgstr "'இதற்குப் பொருந்தும்' {field} எனத் தேர்ந்தெடுக்கப்பட்டால், விற்பனை குறிக்கப்பட வேண்டும்"
+
+#: posapp/src/components/Cart/index.jsx:570 posapp/src/engine/sync.js:19
+msgid "Serial No"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:129
+msgid "Server connected"
+msgstr "சர்வர் இணைக்கப்பட்டது"
+
+#: easy_pos/api/pwa.py:29
+msgid "Service worker not built yet - run `yarn build` in posapp/"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:20
+#: posapp/src/pages/SettingsPage.jsx:25
+msgid "Settings"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:22
+msgid "Shift"
+msgstr "ஷிஃப்ட்"
+
+#: posapp/src/pages/ReportsPage.jsx:225
+msgid "Shift summary"
+msgstr "ஷிஃப்ட் சுருக்கம்"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:156
+#: posapp/src/components/Customer/AddressModal.jsx:9
+msgid "Shipping"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:14
+msgid "Shop"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:358
+msgid "Shopping Cart"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Show password"
+msgstr "கடவுச்சொல்லைக் காட்டு"
+
+#: posapp/src/pages/LoginPage.jsx:99 posapp/src/pages/LoginPage.jsx:159
+msgid "Sign in"
+msgstr "உள்நுழை"
+
+#: posapp/src/pages/LoginPage.jsx:63
+msgid "Sign in to open your till and start ringing up sales."
+msgstr "கல்லாவைத் திறந்து விற்பனையைத் தொடங்க உள்நுழையவும்."
+
+#: posapp/src/pages/LoginPage.jsx:155
+msgid "Signing in…"
+msgstr "உள்நுழைகிறது…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:948
+msgid "Simple Python Expression, Example: territory != 'All Territories'"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Single Tier Program"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:191
+msgid "Spend thresholds and how many currency units earn 1 loyalty point at each tier."
+msgstr "செலவு வரம்புகளும், ஒவ்வொரு நிலையிலும் 1 விசுவாசப் புள்ளி பெற எத்தனை நாணய அலகுகள் தேவை என்பதும்."
+
+#: posapp/src/components/Customer/AddressModal.jsx:120
+msgid "State/Province"
+msgstr ""
+
+#. Label of a Select field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/CustomerListPage.jsx:54
+#: posapp/src/pages/DiscountListPage.jsx:66
+#: posapp/src/pages/InvoiceRegisterPage.jsx:46
+#: posapp/src/pages/POSProfileListPage.jsx:42
+#: posapp/src/pages/PriceListListPage.jsx:42
+msgid "Status"
+msgstr ""
+
+#: posapp/src/utils/format.js:39
+msgid "Submitted"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Submitting…"
+msgstr "சமர்ப்பிக்கிறது…"
+
+#: posapp/src/components/Customer/AddressModal.jsx:15
+msgid "Subsidiary"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:29
+msgid "Subtotal"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:701
+#: posapp/src/pages/ItemPriceDetailPage.jsx:213
+msgid "Supplier"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:707
+msgid "Supplier Group"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to dark mode"
+msgstr "இருண்ட பயன்முறைக்கு மாறு"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to light mode"
+msgstr "ஒளிப் பயன்முறைக்கு மாறு"
+
+#: posapp/src/components/Sidebar/index.jsx:18 posapp/src/pages/SyncPage.jsx:58
+msgid "Sync"
+msgstr ""
+
+#: posapp/src/pages/SyncPage.jsx:121
+msgid "Sync center"
+msgstr "ஒத்திசைவு மையம்"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Sync failed"
+msgstr "ஒத்திசைவு தோல்வியடைந்தது"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:100
+msgid "Sync failed — check the Sync page for details."
+msgstr "ஒத்திசைவு தோல்வியடைந்தது — விவரங்களுக்கு ஒத்திசைவுப் பக்கத்தைப் பார்க்கவும்."
+
+#: posapp/src/pages/SyncPage.jsx:108
+msgid "Sync failed. Check your connection and try again."
+msgstr "ஒத்திசைவு தோல்வியடைந்தது. இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்."
+
+#: posapp/src/pages/SyncPage.jsx:35
+msgid "Synced"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+#: posapp/src/pages/InvoiceDetailPage.jsx:182 posapp/src/pages/SyncPage.jsx:33
+msgid "Syncing…"
+msgstr "ஒத்திசைக்கிறது…"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "System Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:964
+msgid "System will notify to increase or decrease quantity or amount"
+msgstr "அளவு அல்லது தொகையைக் கூட்டவோ குறைக்கவோ கணினி அறிவிக்கும்"
+
+#: posapp/src/components/InvoicePay/index.jsx:347
+msgid "Take Payment"
+msgstr "கட்டணம் பெறு"
+
+#: posapp/src/components/Cart/index.jsx:452
+msgid "Tap an item to add it here"
+msgstr "இங்கே சேர்க்க ஒரு பொருளைத் தட்டவும்"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:205
+#: posapp/src/pages/InvoiceDetailPage.jsx:396
+#: posapp/src/pages/POSProfileDetailPage.jsx:733
+msgid "Tax Category"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:202
+msgid "Tax ID"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:756
+msgid "Taxes"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:192
+#: posapp/src/pages/InvoiceDetailPage.jsx:368
+#: posapp/src/pages/InvoiceDetailPage.jsx:394
+msgid "Taxes and Charges"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:11
+msgid "Terminal"
+msgstr "டெர்மினல்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:578
+msgid "Terms and Conditions"
+msgstr ""
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:106
+#: posapp/src/pages/CustomerDetailPage.jsx:193
+#: posapp/src/pages/CustomerListPage.jsx:48
+#: posapp/src/pages/CustomerListPage.jsx:166
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:680
+msgid "Territory"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:13
+msgid "Thank You!"
+msgstr "நன்றி!"
+
+#: posapp/src/components/InvoicePay/index.jsx:318
+msgid "That attempt failed — you can try another payment method in the {gateway} window."
+msgstr "அந்த முயற்சி தோல்வியடைந்தது — {gateway} சாளரத்தில் வேறு கட்டண முறையை முயலலாம்."
+
+#: posapp/src/components/Cart/index.jsx:677
+msgid "This POS Profile doesn't allow manual discount changes."
+msgstr "இந்த POS சுயவிவரம் தள்ளுபடியைக் கைமுறையாக மாற்ற அனுமதிக்காது."
+
+#: easy_pos/api/payment.py:44
+msgid "This invoice has already been finalized"
+msgstr "இந்த விலைப்பட்டியல் ஏற்கனவே இறுதி செய்யப்பட்டது"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:140
+msgid "This offline sale isn't in the local queue on this device anymore."
+msgstr "இந்த ஆஃப்லைன் விற்பனை இனி இந்தச் சாதனத்தின் உள்ளூர் வரிசையில் இல்லை."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:65
+msgid "This profile sells in {currency} but the company's currency is {company_currency}. A new customer's first sale will fail until 'Allow multi-currency invoices against single party account' is enabled in Accounts Settings."
+msgstr "இந்தச் சுயவிவரம் {currency}-இல் விற்கிறது, ஆனால் நிறுவனத்தின் நாணயம் {company_currency}. Accounts Settings-இல் 'Allow multi-currency invoices against single party account' இயக்கப்படும் வரை புதிய வாடிக்கையாளரின் முதல் விற்பனை தோல்வியடையும்."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:158
+msgid "This sale was completed offline and hasn't reached ERPNext yet. It will get a real invoice number once it syncs — reconnect and it should sync automatically, or retry below."
+msgstr "இந்த விற்பனை ஆஃப்லைனில் முடிந்தது, இன்னும் ERPNext-ஐ அடையவில்லை. ஒத்திசைந்ததும் உண்மையான விலைப்பட்டியல் எண் கிடைக்கும் — மீண்டும் இணைந்தால் தானாக ஒத்திசையும், அல்லது கீழே மீண்டும் முயலவும்."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:265
+msgid "This will permanently delete this address."
+msgstr "இந்த முகவரி நிரந்தரமாக நீக்கப்படும்."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:266
+msgid "This will permanently delete this contact."
+msgstr "இந்தத் தொடர்பு நிரந்தரமாக நீக்கப்படும்."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:963
+msgid "Threshold for Suggestion (In Percentage)"
+msgstr "பரிந்துரைக்கான வரம்பு (சதவீதத்தில்)"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:279
+msgid "Tier"
+msgstr "நிலை"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:198
+msgid "Tier Name"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:399
+#: posapp/src/pages/DiscountListPage.jsx:26
+msgid "Title"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:195
+msgid "Title is required"
+msgstr "தலைப்பு கட்டாயம்"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:158
+msgid "To Date"
+msgstr ""
+
+#: posapp/src/pages/ReportsPage.jsx:23
+msgid "Today"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:147
+msgid "Toggle dark mode"
+msgstr "இருண்ட பயன்முறையை மாற்று"
+
+#: posapp/src/pages/ReportsPage.jsx:301
+msgid "Top selling items"
+msgstr "அதிகம் விற்கும் பொருட்கள்"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:45
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:172
+#: posapp/src/pages/InvoiceDetailPage.jsx:382
+msgid "Total"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:399
+msgid "Total Taxes and Charges"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Totals"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+msgid "Transaction"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/pages/ReportsPage.jsx:214
+msgid "Transactions"
+msgstr ""
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:200
+#: posapp/src/pages/DiscountListPage.jsx:43
+#: posapp/src/pages/InvoiceDetailPage.jsx:371
+#: posapp/src/pages/ItemPriceListPage.jsx:53
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:23
+msgid "Type"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:470
+#: posapp/src/pages/DiscountDetailPage.jsx:521
+#: posapp/src/pages/DiscountDetailPage.jsx:575
+#: posapp/src/pages/InvoiceDetailPage.jsx:279
+#: posapp/src/pages/InvoiceDetailPage.jsx:338
+#: posapp/src/pages/ItemPriceDetailPage.jsx:193
+#: posapp/src/pages/ItemPriceListPage.jsx:47
+msgid "UOM"
+msgstr ""
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:47
+msgid "Unable to start the camera."
+msgstr "கேமராவைத் தொடங்க முடியவில்லை."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:15 posapp/src/utils/format.js:33
+msgid "Unpaid"
+msgstr ""
+
+#: posapp/src/utils/format.js:40
+msgid "Unpaid and Discounted"
+msgstr ""
+
+#: posapp/src/components/Topbar/index.jsx:167
+#: posapp/src/pages/POSProfileDetailPage.jsx:290
+msgid "User"
+msgstr ""
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "User Details"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:26
+msgid "Username and password are required"
+msgstr "பயனர்பெயரும் கடவுச்சொல்லும் கட்டாயம்"
+
+#: posapp/src/pages/SettingsPage.jsx:14
+msgid "Users"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:745
+#: posapp/src/pages/ItemPriceDetailPage.jsx:242
+msgid "Valid From"
+msgstr ""
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:42
+msgid "Valid Till"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:753
+#: posapp/src/pages/DiscountListPage.jsx:60
+#: posapp/src/pages/ItemPriceDetailPage.jsx:245
+#: posapp/src/pages/ItemPriceListPage.jsx:63
+msgid "Valid Upto"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:315
+msgid "Valid Upto Date cannot be before Valid From Date"
+msgstr "'வரை செல்லுபடி' தேதி 'முதல் செல்லுபடி' தேதிக்கு முன் இருக்க முடியாது"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:312
+msgid "Valid from and valid upto fields are mandatory for the cumulative"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1010
+msgid "Validate Applied Rule"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:461
+msgid "Validate Stock on Save"
+msgstr "சேமிக்கும்போது கையிருப்பைச் சரிபார்"
+
+#: posapp/src/components/common/AlertModal.jsx:10
+msgid "Validation Error"
+msgstr ""
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:238
+msgid "Validity"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:249
+msgid "Variant {variant} and its template {template} cannot both be added to the same Pricing Rule"
+msgstr "{variant} வகையையும் அதன் வார்ப்புரு {template}-ஐயும் ஒரே விலை விதியில் சேர்க்க முடியாது"
+
+#: posapp/src/pages/ReportsPage.jsx:360
+msgid "View all"
+msgstr "அனைத்தையும் காண்"
+
+#: posapp/src/components/Cart/CartBar.jsx:20
+msgid "View cart"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:427
+msgid "View purchase history"
+msgstr "கொள்முதல் வரலாற்றைக் காண்"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Waiting for {gateway}…"
+msgstr "{gateway}-க்குக் காத்திருக்கிறது…"
+
+#: posapp/src/components/InvoicePay/index.jsx:180
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Walk-in"
+msgstr "சாதாரண வாடிக்கையாளர்"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Customer/AddressModal.jsx:16
+#: posapp/src/pages/DiscountDetailPage.jsx:419
+#: posapp/src/pages/InvoiceDetailPage.jsx:259
+#: posapp/src/pages/InvoiceDetailPage.jsx:339
+#: posapp/src/pages/POSProfileDetailPage.jsx:243
+#: posapp/src/pages/POSProfileListPage.jsx:30
+msgid "Warehouse"
+msgstr ""
+
+#: posapp/src/pages/CustomerDetailPage.jsx:259
+msgid "Website"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:8
+msgid "Welcome"
+msgstr "வரவேற்கிறோம்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:405
+msgid "When checked, the closing amount for this payment method is calculated automatically from sales. Uncheck to have the cashier manually count and enter the amount at POS closing."
+msgstr "குறிக்கப்பட்டால், இந்தக் கட்டண முறையின் முடிவுத் தொகை விற்பனையிலிருந்து தானாகக் கணக்கிடப்படும். POS முடிவில் காசாளர் கைமுறையாக எண்ணி உள்ளிட குறியை நீக்கவும்."
+
+#. Description of the 'Enable Offline Mode' (Check) field in DocType 'EASYPOS
+#. Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "When enabled, the POS Terminal reads/writes from the local offline database instead of calling the server directly, and syncs changes back once online."
+msgstr "இயக்கப்பட்டால், POS டெர்மினல் சர்வரை நேரடியாக அழைக்காமல் உள்ளூர் ஆஃப்லைன் தரவுத்தளத்தில் படிக்கும்/எழுதும், மீண்டும் ஆன்லைனுக்கு வந்ததும் மாற்றங்களை ஒத்திசைக்கும்."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:425
+msgid "When set, Complete Payment opens this gateway's checkout for the amount entered instead of treating it as manually received. Configure the gateway's own credentials (e.g. Razorpay Settings) separately."
+msgstr "அமைக்கப்பட்டால், \"கட்டணத்தை முடி\" உள்ளிட்ட தொகையைக் கைமுறையாகப் பெற்றதாகக் கருதாமல் இந்தக் கட்டண நுழைவாயிலின் கட்டணப் பக்கத்தைத் திறக்கும். நுழைவாயிலின் சான்றுகளை (எ.கா. Razorpay அமைப்புகள்) தனியாக அமைக்கவும்."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:642
+msgid "Write Off Account"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:656
+msgid "Write Off Cost Center"
+msgstr ""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:666
+msgid "Write Off Limit"
+msgstr "தள்ளுபடிக் கணக்கு வரம்பு"
+
+#: posapp/src/components/common/ConfirmModal.jsx:39
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "Yes"
+msgstr ""
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:431
+msgid "Yes, Cancel"
+msgstr "ஆம், ரத்து செய்"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:173
+msgid "You can only select one mode of payment as default"
+msgstr ""
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:9
+msgid "Your order will appear here shortly."
+msgstr "உங்கள் ஆர்டர் விரைவில் இங்கே தோன்றும்."
+
+#: posapp/src/pages/ReportsPage.jsx:155
+msgid "Your sales, shift, and payment summary"
+msgstr "உங்கள் விற்பனை, ஷிஃப்ட் மற்றும் கட்டணச் சுருக்கம்"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:84
+msgid "e.g. Aarav Sharma"
+msgstr "எ.கா. Aarav Sharma"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:202
+msgid "e.g. Silver"
+msgstr "எ.கா. வெள்ளி"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:123
+msgid "e.g. customer@example.com"
+msgstr "எ.கா. customer@example.com"
+
+#: easy_pos/api/pos.py:515
+msgid "opening_entry is required for shift scope"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:201
+msgid "{field} is not added in the table"
+msgstr "{field} அட்டவணையில் சேர்க்கப்படவில்லை"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:215
+msgid "{field} is required"
+msgstr "{field} கட்டாயம்"
+
+#: posapp/src/components/InvoicePay/index.jsx:449
+msgid "{gateway} is not configured yet."
+msgstr "{gateway} இன்னும் அமைக்கப்படவில்லை."
+
+#: posapp/src/components/InvoicePay/index.jsx:444
+msgid "{gateway} needs a connection — unavailable while offline."
+msgstr "{gateway}-க்கு இணைப்பு தேவை — ஆஃப்லைனில் கிடைக்காது."
+
+#: posapp/src/components/InvoicePay/index.jsx:452
+msgid "{gateway} — offline"
+msgstr "{gateway} — ஆஃப்லைன்"
+
+#: posapp/src/components/InvoicePay/index.jsx:156
+msgid "{item} (Free)"
+msgstr "{item} (இலவசம்)"
+
+#: posapp/src/components/Sidebar/index.jsx:75
+#: posapp/src/pages/SettingsPage.jsx:43
+msgid "{label} — coming soon"
+msgstr "{label} — விரைவில்"
+
+#: posapp/src/pages/SyncPage.jsx:337
+msgid "{label} — {n} cached"
+msgstr "{label} — {n} தற்காலிகமாகச் சேமிக்கப்பட்டது"
+
+#: posapp/src/components/Sidebar/index.jsx:88
+msgid "{label} — {n} invoice(s) pending sync"
+msgstr "{label} — {n} விலைப்பட்டியல்கள் ஒத்திசைவுக்குக் காத்திருக்கின்றன"
+
+#: posapp/src/pages/ReportsPage.jsx:338
+msgid "{n} invoices"
+msgstr "{n} விலைப்பட்டியல்கள்"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "{n} items"
+msgstr "{n} பொருட்கள்"
+
+#: posapp/src/components/Cart/index.jsx:412
+msgid "{n} loyalty points available"
+msgstr "{n} விசுவாசப் புள்ளிகள் உள்ளன"
+
+#: posapp/src/pages/SyncPage.jsx:288
+msgid "{n} record(s) cached locally. Master data is read-only offline — a Fetch pulls a fresh snapshot of every domain at once (they're all resolved together for the current shift's POS Profile)."
+msgstr "உள்ளூரில் {n} பதிவுகள் தற்காலிகமாகச் சேமிக்கப்பட்டுள்ளன. ஆஃப்லைனில் முதன்மைத் தரவு படிக்க மட்டும் — \"பெறு\" அனைத்துப் பிரிவுகளின் புதிய நகலை ஒரே நேரத்தில் பெறும் (தற்போதைய ஷிஃப்டின் POS சுயவிவரத்திற்காக அவை ஒன்றாகக் கணக்கிடப்படும்)."
+
+#: posapp/src/pages/ReportsPage.jsx:347
+msgid "{n} returns"
+msgstr "{n} திருப்பல்கள்"
+
+#: posapp/src/pages/SyncPage.jsx:21
+msgid "{n}h ago"
+msgstr "{n} மணி முன்பு"
+
+#: posapp/src/pages/SyncPage.jsx:19
+msgid "{n}m ago"
+msgstr "{n} நிமி முன்பு"
+
+#: posapp/src/components/Items/index.jsx:77
+msgid "{qty} left"
+msgstr "{qty} மீதம்"
+
+#: posapp/src/components/Cart/index.jsx:485
+msgid "{rate} each"
+msgstr "ஒன்றுக்கு {rate}"
+

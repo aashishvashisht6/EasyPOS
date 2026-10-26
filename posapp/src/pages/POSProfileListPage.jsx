@@ -1,21 +1,22 @@
+import { __, _t, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchProfiles } from "../api/POSProfile";
 import { fetchCompanies } from "../api/Company";
-import { ListTable, FilterChips, Pagination, SelectField } from "../components/common";
+import { ListTable, FilterChips, Pagination, SelectField, FilterBar } from "../components/common";
 
 const PAGE_SIZE = 20;
 
 const STATUS_FILTERS = [
-  { label: "All", value: "" },
-  { label: "Active", value: "Active" },
-  { label: "Disabled", value: "Disabled" },
+  { label: _t("All"), value: "" },
+  { label: _t("Active"), value: "Active" },
+  { label: _t("Disabled"), value: "Disabled" },
 ];
 
 const PROFILE_COLUMNS = [
   {
     key: "name",
-    label: "Profile",
+    label: _t("Profile"),
     width: "1.4fr",
     render: (p) => (
       <div>
@@ -26,29 +27,30 @@ const PROFILE_COLUMNS = [
   },
   {
     key: "warehouse",
-    label: "Warehouse",
+    label: _t("Warehouse"),
     width: "1fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.warehouse || "—"}</span>,
   },
   {
     key: "selling_price_list",
-    label: "Price List",
+    label: _t("Price List"),
     width: "1fr",
     render: (p) => <span style={{ color: "var(--color-text-muted)" }}>{p.selling_price_list || "—"}</span>,
   },
   {
     key: "disabled",
-    label: "Status",
+    label: _t("Status"),
     width: "0.8fr",
     render: (p) => (
       <span className={p.disabled ? "pos-badge" : "pos-badge pos-badge-paid"}>
-        {p.disabled ? "Disabled" : "Active"}
+        {p.disabled ? __("Disabled") : __("Active")}
       </span>
     ),
   },
 ];
 
 const POSProfileListPage = () => {
+  const { __ } = useTranslation();
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
 
@@ -85,13 +87,13 @@ const POSProfileListPage = () => {
 
   useEffect(() => {
     setTopbar({
-      title: "POS Profiles",
+      title: _t("POS Profiles"),
       searchValue: search,
       onSearchChange: (value) => {
         setPage(0);
         setSearch(value);
       },
-      searchPlaceholder: "Search profile or warehouse",
+      searchPlaceholder: _t("Search profile or warehouse"),
     });
   }, [setTopbar, search]);
 
@@ -110,20 +112,19 @@ const POSProfileListPage = () => {
 
   return (
     <div className="d-flex flex-column flex-fill" style={{ minHeight: 0 }}>
-      <div className="d-flex align-items-center justify-content-between px-4 pt-3">
+      <div className="d-flex align-items-center justify-content-between px-4 pt-3 pos-list-toolbar">
         <FilterChips options={STATUS_FILTERS} value={status} onChange={resetToFirstPage(setStatus)} />
         <Link to="/posapp/pos-profile/new" className="pos-btn pos-btn-primary" style={{ height: 32, fontSize: "12.5px", padding: "0 14px" }}>
           <i className="bi bi-plus-lg" style={{ fontSize: 14 }} />
-          New profile
+          {__("New profile")}
         </Link>
       </div>
 
-      <div className="px-4 pt-3">
-        <div className="d-flex align-items-end gap-2">
+      <FilterBar active={Boolean(hasActiveFilters)}>
           <div style={{ width: 220 }}>
             <SelectField
-              label="Company"
-              placeholder="All companies"
+              label={__("Company")}
+              placeholder={__("All companies")}
               value={company}
               onChange={resetToFirstPage(setCompany)}
               options={companies.map((c) => ({ label: c.company_name, value: c.name }))}
@@ -136,11 +137,11 @@ const POSProfileListPage = () => {
               style={{ height: 30, fontSize: 12, padding: "0 12px", marginBottom: 14 }}
               onClick={clearFilters}
             >
-              Clear filters
+              {__("Clear filters")}
             </button>
           )}
-        </div>
-      </div>
+
+      </FilterBar>
 
       <div className="d-flex flex-column flex-fill px-4 pt-2 pb-4" style={{ minHeight: 0 }}>
         <div style={{ flex: 1, minHeight: 0 }}>
@@ -148,7 +149,7 @@ const POSProfileListPage = () => {
             columns={PROFILE_COLUMNS}
             rows={profiles}
             loading={loading}
-            emptyMessage="No POS Profiles found"
+            emptyMessage={__("No POS Profiles found")}
             onRowClick={(p) => navigate(`/posapp/pos-profile/${encodeURIComponent(p.name)}`)}
           />
         </div>

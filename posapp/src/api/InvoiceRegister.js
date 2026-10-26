@@ -10,6 +10,7 @@ const INVOICE_FIELDS = [
 	"docstatus",
 	"pos_profile",
 	"ep_split_index",
+	"currency",
 ];
 
 const STATUS_TO_DOCSTATUS = { Draft: 0, Submitted: 1, Cancelled: 2 };

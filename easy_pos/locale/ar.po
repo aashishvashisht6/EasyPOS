@@ -1,0 +1,3566 @@
+# Arabic translations for Easy POS.
+# Copyright (C) 2026 Aashish
+# This file is distributed under the same license as the Easy POS project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy POS VERSION\n"
+"Report-Msgid-Bugs-To: aashishvashisht6@gmail.com\n"
+"POT-Creation-Date: 2026-10-24 22:43+0553\n"
+"PO-Revision-Date: 2026-10-23 22:31+0553\n"
+"Last-Translator: aashishvashisht6@gmail.com\n"
+"Language: ar\n"
+"Language-Team: aashishvashisht6@gmail.com\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: posapp/src/components/common/ChildTable.jsx:122
+#: posapp/src/components/common/ChildTable.jsx:329
+msgid "+ Add row"
+msgstr "+ إضافة صف"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "1 item"
+msgstr "صنف واحد"
+
+#: posapp/src/components/Cart/index.jsx:411
+msgid "1 loyalty point available"
+msgstr "نقطة ولاء واحدة متاحة"
+
+#. Header text in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "<span class=\"h4\">EASYPOS</span>"
+msgstr ""
+
+#: posapp/src/components/Cart/index.jsx:783
+msgid "A free-item offer in this cart needs a connection to resolve — pricing/discounts for this whole cart are on hold at list price until reconnected."
+msgstr "يحتاج عرض الصنف المجاني في هذه السلة إلى اتصال — تم تعليق الأسعار والخصومات للسلة كاملة بسعر القائمة حتى إعادة الاتصال."
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:44
+msgid "A new version of Easy POS is available."
+msgstr "يتوفر إصدار جديد من Easy POS."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:132
+msgid "A shift needs to be open before you can ring up sales."
+msgstr "يجب فتح وردية قبل تسجيل المبيعات."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:131
+msgid "ADDRESSES"
+msgstr "العناوين"
+
+#: posapp/src/pages/SyncPage.jsx:322
+msgid "ALL DOMAINS"
+msgstr "كل المجالات"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:199
+#: posapp/src/pages/InvoiceDetailPage.jsx:370
+msgid "Account Head"
+msgstr "رأس الحساب"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:250
+msgid "Account Manager"
+msgstr "مدير الحساب"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:675
+msgid "Account for Change Amount"
+msgstr "حساب مبلغ الباقي"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:625
+msgid "Accounting"
+msgstr "المحاسبة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:755
+msgid "Accounting Dimensions"
+msgstr "الأبعاد المحاسبية"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:12
+#: posapp/src/pages/CustomerListPage.jsx:58
+#: posapp/src/pages/DiscountListPage.jsx:12
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileListPage.jsx:12
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Active"
+msgstr "نشط"
+
+#: posapp/src/utils/format.js:48
+msgid "Actual"
+msgstr "فعلي"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:133
+msgid "Add Address"
+msgstr "إضافة عنوان"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:186
+msgid "Add Contact"
+msgstr "إضافة جهة اتصال"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:54
+msgid "Add a new customer to bill this sale against."
+msgstr "أضف عميلًا جديدًا لإصدار فاتورة هذا البيع باسمه."
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:97
+msgid "Add at least one Collection Rule (tier) — mandatory even for a Single Tier Program"
+msgstr "أضف قاعدة تجميع واحدة على الأقل (مستوى) — إلزامية حتى لبرنامج المستوى الواحد"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:342
+msgid "Add the Modes of Payment cashiers can use to settle a sale on this profile."
+msgstr "أضف طرق الدفع التي يمكن للكاشير استخدامها لتسوية البيع في هذا الملف."
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:95
+msgid "Add to Cart"
+msgstr "أضف إلى السلة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:349
+msgid "Additional Discount"
+msgstr "خصم إضافي"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:359
+msgid "Additional Discount Amount"
+msgstr "مبلغ الخصم الإضافي"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:353
+msgid "Additional Discount Percentage"
+msgstr "نسبة الخصم الإضافي"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:92
+#: posapp/src/components/Customer/AddressContactSection.jsx:104
+msgid "Address & Contact"
+msgstr "العنوان وجهة الاتصال"
+
+#: posapp/src/components/Customer/AddressModal.jsx:108
+msgid "Address Line 1"
+msgstr "سطر العنوان 1"
+
+#: posapp/src/components/Customer/AddressModal.jsx:111
+msgid "Address Line 2"
+msgstr "سطر العنوان 2"
+
+#: posapp/src/components/Customer/AddressModal.jsx:96
+msgid "Address Title"
+msgstr "عنوان العنوان"
+
+#: posapp/src/components/Customer/AddressModal.jsx:100
+msgid "Address Type"
+msgstr "نوع العنوان"
+
+#: posapp/src/components/Customer/AddressModal.jsx:52
+msgid "Address Type, Address Line 1, City/Town and Country are required"
+msgstr "نوع العنوان وسطر العنوان 1 والمدينة والدولة مطلوبة"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Administrator"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:958
+msgid "Advanced Settings"
+msgstr "إعدادات متقدمة"
+
+#: posapp/src/components/ItemGroup/index.jsx:41
+#: posapp/src/pages/CustomerListPage.jsx:11
+#: posapp/src/pages/DiscountDetailPage.jsx:655
+#: posapp/src/pages/DiscountListPage.jsx:11
+#: posapp/src/pages/InvoiceRegisterPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:11
+#: posapp/src/pages/POSProfileListPage.jsx:11
+#: posapp/src/pages/PriceListListPage.jsx:10
+msgid "All"
+msgstr "الكل"
+
+#: posapp/src/pages/POSProfileListPage.jsx:127
+msgid "All companies"
+msgstr "كل الشركات"
+
+#: posapp/src/pages/CustomerListPage.jsx:158
+msgid "All groups"
+msgstr "كل المجموعات"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:148
+msgid "All price lists"
+msgstr "كل قوائم الأسعار"
+
+#: posapp/src/pages/CustomerListPage.jsx:167
+msgid "All territories"
+msgstr "كل المناطق"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:468
+msgid "Allow Partial Payment"
+msgstr "السماح بالدفع الجزئي"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:466
+msgid "Allow User to Edit Discount"
+msgstr "السماح للمستخدم بتعديل الخصم"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:465
+msgid "Allow User to Edit Rate"
+msgstr "السماح للمستخدم بتعديل السعر"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:381
+#: posapp/src/pages/POSProfileDetailPage.jsx:386
+msgid "Allow in Returns"
+msgstr "السماح في المرتجعات"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:211
+msgid "Already added"
+msgstr "مضاف بالفعل"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Amended From"
+msgstr ""
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:46
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:220
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+#: posapp/src/pages/InvoiceDetailPage.jsx:309
+#: posapp/src/pages/InvoiceDetailPage.jsx:375
+#: posapp/src/pages/InvoiceDetailPage.jsx:411
+#: posapp/src/pages/InvoiceRegisterPage.jsx:40
+#: posapp/src/pages/ReportsPage.jsx:374
+msgid "Amount"
+msgstr "المبلغ"
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:16
+msgid "Amount Paid"
+msgstr "المبلغ المدفوع"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:395
+msgid "Applicability"
+msgstr "قابلية التطبيق"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:654
+msgid "Applicable For"
+msgstr "ينطبق على"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:187
+msgid "Applicable for Countries"
+msgstr "ينطبق على الدول"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:282
+msgid "Applicable for Users"
+msgstr "ينطبق على المستخدمين"
+
+#: posapp/src/components/Cart/index.jsx:700
+msgid "Apply"
+msgstr "تطبيق"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:812
+#: posapp/src/pages/InvoiceDetailPage.jsx:351
+#: posapp/src/pages/POSProfileDetailPage.jsx:737
+msgid "Apply Discount On"
+msgstr "تطبيق الخصم على"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1001
+msgid "Apply Discount on Discounted Rate"
+msgstr "تطبيق الخصم على السعر المخصوم"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:993
+msgid "Apply Multiple Pricing Rules"
+msgstr "تطبيق قواعد تسعير متعددة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:403
+msgid "Apply On"
+msgstr "تطبيق على"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:925
+msgid "Apply Recursion Over (As Per Transaction UOM)"
+msgstr "تطبيق التكرار فوق (حسب وحدة قياس المعاملة)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:555
+msgid "Apply Rule On Brand *"
+msgstr "تطبيق القاعدة على العلامة التجارية *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:450
+msgid "Apply Rule On Item Code *"
+msgstr "تطبيق القاعدة على رمز الصنف *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:501
+msgid "Apply Rule On Item Group *"
+msgstr "تطبيق القاعدة على مجموعة الأصناف *"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:610
+msgid "Apply Rule On Other"
+msgstr "تطبيق القاعدة على آخر"
+
+#: posapp/src/components/Cart/index.jsx:651
+msgid "Apply on…"
+msgstr "تطبيق على…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:430
+msgid "Are you sure you want to cancel {name}? This cannot be undone."
+msgstr "هل أنت متأكد أنك تريد إلغاء {name}؟ لا يمكن التراجع عن ذلك."
+
+#: posapp/src/components/common/ConfirmModal.jsx:25
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:234
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the field 'Priority' is mandatory."
+msgstr "بما أن حقل 'تطبيق الخصم على السعر المخصوم' مفعّل، فإن حقل 'الأولوية' إلزامي."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:237
+msgid "As the field 'Apply Discount on Discounted Rate' is enabled, the value of the field 'Priority' should be more than 1."
+msgstr "بما أن حقل 'تطبيق الخصم على السعر المخصوم' مفعّل، يجب أن تكون قيمة حقل 'الأولوية' أكبر من 1."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:272
+msgid "Atleast one of the Selling or Buying must be selected"
+msgstr "يجب اختيار البيع أو الشراء على الأقل"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:162
+msgid "Auto Opt-In"
+msgstr "اشتراك تلقائي"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:460
+msgid "Automatically Add Filtered Item To Cart"
+msgstr "إضافة الصنف المفلتر إلى السلة تلقائيًا"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:394
+#: posapp/src/pages/POSProfileDetailPage.jsx:400
+msgid "Automatically Calculated"
+msgstr "محسوب تلقائيًا"
+
+#: posapp/src/pages/ReportsPage.jsx:217
+msgid "Avg ticket"
+msgstr "متوسط الفاتورة"
+
+#: posapp/src/components/common/PageHeader.jsx:19
+msgid "Back"
+msgstr "رجوع"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:178
+msgid "Back to Invoices"
+msgstr "العودة إلى الفواتير"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Balance Due"
+msgstr "الرصيد المستحق"
+
+#: posapp/src/engine/sync.js:20
+msgid "Batch"
+msgstr "دفعة"
+
+#: posapp/src/components/Cart/index.jsx:590
+msgid "Batch No"
+msgstr "رقم الدفعة"
+
+#: posapp/src/components/Customer/AddressModal.jsx:8
+msgid "Billing"
+msgstr "الفوترة"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:226
+msgid "Billing Currency"
+msgstr "عملة الفوترة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:562
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:635
+msgid "Brand"
+msgstr "العلامة التجارية"
+
+#: posapp/src/pages/LoginPage.jsx:83
+msgid "Built for retail teams that never stop moving."
+msgstr "مصمم لفرق البيع بالتجزئة التي لا تتوقف."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:333
+msgid "Bundle Components"
+msgstr "مكونات الحزمة"
+
+#: posapp/src/components/Cart/index.jsx:611
+msgid "Bundle Contents"
+msgstr "محتويات الحزمة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:335
+msgid "Bundle Item"
+msgstr "صنف الحزمة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:649
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:216
+#: posapp/src/pages/ItemPriceListPage.jsx:13
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:173
+#: posapp/src/pages/PriceListListPage.jsx:36
+msgid "Buying"
+msgstr "الشراء"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:277
+msgid "Buying must be checked, if Applicable For is selected as {field}"
+msgstr "يجب تحديد الشراء إذا تم اختيار 'ينطبق على' كـ {field}"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:328
+#: posapp/src/pages/CustomerDetailPage.jsx:333
+msgid "Bypass Check"
+msgstr "تجاوز التحقق"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:184
+msgid "CONTACTS"
+msgstr "جهات الاتصال"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:44
+msgid "Camera access was denied. Allow camera permission and try again."
+msgstr "تم رفض الوصول إلى الكاميرا. اسمح بإذن الكاميرا وحاول مرة أخرى."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:696
+#: posapp/src/pages/POSProfileDetailPage.jsx:255
+msgid "Campaign"
+msgstr "حملة"
+
+#: posapp/src/components/Closing/index.jsx:65
+#: posapp/src/components/Customer/AddressModal.jsx:77
+#: posapp/src/components/Customer/ContactModal.jsx:74
+#: posapp/src/components/Customer/NewCustomerModal.jsx:59
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:117
+#: posapp/src/components/InvoicePay/index.jsx:353
+#: posapp/src/components/Items/ItemVariantModal.jsx:87
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:137
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:227
+#: posapp/src/pages/InvoiceDetailPage.jsx:429
+msgid "Cancel Invoice"
+msgstr "إلغاء الفاتورة"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/utils/format.js:38
+msgid "Cancelled"
+msgstr "ملغاة"
+
+#: easy_pos/api/pos.py:387
+msgid "Cannot create a credit note against a credit note"
+msgstr "لا يمكن إنشاء إشعار دائن مقابل إشعار دائن"
+
+#: easy_pos/setup/create_demo_pos_profiles.py:79
+msgid "Cannot create demo POS Profiles: no company was given and no default Company is set."
+msgstr "تعذّر إنشاء ملفات نقاط البيع التجريبية: لم تُحدَّد شركة ولا توجد شركة افتراضية."
+
+#: easy_pos/setup/create_demo_data.py:85
+msgid "Cannot create demo data: no company was given and no default Company is set."
+msgstr "تعذّر إنشاء البيانات التجريبية: لم تُحدَّد شركة ولا توجد شركة افتراضية."
+
+#: posapp/src/components/Cart/index.jsx:437
+msgid "Cart Items"
+msgstr "أصناف السلة"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Cashier"
+msgstr ""
+
+#: posapp/src/components/InvoicePay/index.jsx:446
+msgid "Cashier enters the amount to charge; a {gateway} checkout opens on Complete Payment."
+msgstr "يدخل الكاشير المبلغ المطلوب تحصيله؛ ويفتح دفع {gateway} عند إتمام الدفع."
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:21
+msgid "Change Due"
+msgstr "الباقي المستحق"
+
+#: posapp/src/components/InvoicePay/index.jsx:485
+msgid "Change to Return"
+msgstr "الباقي المسترد"
+
+#: posapp/src/pages/LoginPage.jsx:69
+msgid "Checkout that keeps up during rush hour"
+msgstr "دفع سريع حتى في أوقات الذروة"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:83
+msgid "Choose options to select a variant"
+msgstr "اختر الخيارات لتحديد المتغير"
+
+#: posapp/src/components/Customer/AddressModal.jsx:114
+msgid "City/Town"
+msgstr "المدينة/البلدة"
+
+#: posapp/src/components/Cart/index.jsx:441
+msgid "Clear all"
+msgstr "مسح الكل"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:173
+#: posapp/src/pages/CustomerListPage.jsx:198
+#: posapp/src/pages/InvoiceRegisterPage.jsx:227
+#: posapp/src/pages/ItemPriceListPage.jsx:161
+#: posapp/src/pages/POSProfileListPage.jsx:140
+msgid "Clear filters"
+msgstr "مسح عوامل التصفية"
+
+#: posapp/src/components/Items/index.jsx:94
+msgid "Click/scan the item again to add another unit"
+msgstr "انقر/امسح الصنف مرة أخرى لإضافة وحدة أخرى"
+
+#: posapp/src/components/common/Modal.jsx:27
+msgid "Close"
+msgstr "إغلاق"
+
+#: posapp/src/pages/POSTerminalPage.jsx:101
+msgid "Close cart"
+msgstr "إغلاق السلة"
+
+#: posapp/src/components/Topbar/index.jsx:112
+#: posapp/src/components/Topbar/index.jsx:188
+msgid "Close shift"
+msgstr "إغلاق الوردية"
+
+#: posapp/src/components/Closing/index.jsx:79
+msgid "Close till"
+msgstr "إغلاق الصندوق"
+
+#: posapp/src/components/Closing/index.jsx:55
+msgid "Close your till"
+msgstr "أغلق صندوقك"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Closed"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Closing"
+msgstr "الإغلاق"
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Closing Amount"
+msgstr ""
+
+#: posapp/src/components/Closing/index.jsx:76
+msgid "Closing…"
+msgstr "جارٍ الإغلاق…"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Collapse"
+msgstr "طي"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:221
+msgid "Collection Factor (=1 point)"
+msgstr "معامل التجميع (=1 نقطة)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:190
+msgid "Collection Rules (Tiers)"
+msgstr "قواعد التجميع (المستويات)"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:14
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:171
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+#: posapp/src/pages/CustomerDetailPage.jsx:303
+#: posapp/src/pages/DiscountDetailPage.jsx:760
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:152
+#: posapp/src/pages/POSProfileDetailPage.jsx:236
+#: posapp/src/pages/POSProfileListPage.jsx:126
+msgid "Company"
+msgstr "الشركة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:259
+msgid "Company Address"
+msgstr "عنوان الشركة"
+
+#: posapp/src/components/Customer/ContactModal.jsx:114
+msgid "Company Name"
+msgstr "اسم الشركة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:153
+msgid "Company and Warehouse are required"
+msgstr "الشركة والمستودع مطلوبان"
+
+#: posapp/src/components/InvoicePay/index.jsx:369
+msgid "Complete Payment"
+msgstr "إتمام الدفع"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:336
+msgid "Component"
+msgstr "المكوّن"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:945
+msgid "Condition"
+msgstr "الشرط"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:454
+msgid "Configuration"
+msgstr "الإعداد"
+
+#: posapp/src/pages/SettingsPage.jsx:9
+msgid "Configure tiers, points and redemption rules"
+msgstr "إعداد المستويات والنقاط وقواعد الاستبدال"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "Connected to the server"
+msgstr "متصل بالخادم"
+
+#: posapp/src/utils/format.js:43
+msgid "Consolidated"
+msgstr "موحّدة"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:29
+msgid "Conversion Factor"
+msgstr "معامل التحويل"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:256
+msgid "Conversion Factor (1 point = ? currency)"
+msgstr "معامل التحويل (1 نقطة = ? عملة)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:282
+#: posapp/src/pages/POSProfileDetailPage.jsx:760
+msgid "Cost Center"
+msgstr "مركز التكلفة"
+
+#: posapp/src/pages/ReportsPage.jsx:122
+msgid "Could not load report data."
+msgstr "تعذّر تحميل بيانات التقرير."
+
+#: posapp/src/engine/sync.js:45
+msgid "Could not reach the server to sync."
+msgstr "تعذّر الوصول إلى الخادم للمزامنة."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:74
+msgid "Could not resolve this profile's currency."
+msgstr "تعذّر تحديد عملة هذا الملف."
+
+#: posapp/src/components/Closing/index.jsx:58
+msgid "Count the drawer and enter the actual amount for manually entered payment modes."
+msgstr "عُدّ الدرج وأدخل المبلغ الفعلي لطرق الدفع المُدخلة يدويًا."
+
+#: posapp/src/components/Closing/index.jsx:124
+msgid "Counted"
+msgstr "المعدود"
+
+#: posapp/src/components/Customer/AddressModal.jsx:123
+#: posapp/src/pages/PriceListDetailPage.jsx:201
+msgid "Country"
+msgstr "الدولة"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:106
+msgid "Country added more than once: {countries}"
+msgstr "تمت إضافة الدولة أكثر من مرة: {countries}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:117
+msgid "County"
+msgstr "المقاطعة"
+
+#: posapp/src/components/Cart/index.jsx:720
+msgid "Coupon \"{code}\" applied"
+msgstr "تم تطبيق القسيمة \"{code}\""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:438
+msgid "Coupon Code Based"
+msgstr "يعتمد على رمز القسيمة"
+
+#: posapp/src/components/Cart/index.jsx:685
+msgid "Coupon code"
+msgstr "رمز القسيمة"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:22
+msgid "Create"
+msgstr "إنشاء"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:111
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:121
+#: posapp/src/pages/InvoiceDetailPage.jsx:222
+msgid "Create Credit Note"
+msgstr "إنشاء إشعار دائن"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:73
+msgid "Create Customer"
+msgstr "إنشاء عميل"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:6
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:8
+msgid "Create Demo Data"
+msgstr "إنشاء بيانات تجريبية"
+
+#: posapp/src/pages/LoginPage.jsx:172
+msgid "Create an account"
+msgstr "إنشاء حساب"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:45
+msgid "Created/updated {0} demo items priced against {1} for {2} (warehouse: {3}), {4} POS Profiles: {5}, and {6} Customers: {7}."
+msgstr "تم إنشاء/تحديث {0} صنفًا تجريبيًا مسعّرًا وفق {1} لـ {2} (المستودع: {3})، و{4} ملفات نقاط بيع: {5}، و{6} عملاء: {7}."
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:29
+msgid "Creating demo items..."
+msgstr "جارٍ إنشاء الأصناف التجريبية..."
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:70
+msgid "Creating…"
+msgstr "جارٍ الإنشاء…"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:316
+msgid "Credit Limit"
+msgstr "حد الائتمان"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:296
+msgid "Credit Limits"
+msgstr "حدود الائتمان"
+
+#: posapp/src/utils/format.js:37
+msgid "Credit Note Issued"
+msgstr "تم إصدار إشعار دائن"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:120
+msgid "Credit limit is already defined for one of the selected Companies"
+msgstr "حد الائتمان محدد مسبقًا لإحدى الشركات المختارة"
+
+#: posapp/src/pages/ReportsPage.jsx:343
+msgid "Credit notes"
+msgstr "الإشعارات الدائنة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:763
+#: posapp/src/pages/InvoiceDetailPage.jsx:246
+#: posapp/src/pages/ItemPriceDetailPage.jsx:228
+#: posapp/src/pages/POSProfileDetailPage.jsx:638
+#: posapp/src/pages/PriceListDetailPage.jsx:170
+#: posapp/src/pages/PriceListListPage.jsx:24
+msgid "Currency"
+msgstr "العملة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:306
+msgid "Currency should be same as Price List Currency: {currency}"
+msgstr "يجب أن تكون العملة نفس عملة قائمة الأسعار: {currency}"
+
+#: posapp/src/components/Customer/AddressModal.jsx:17
+msgid "Current"
+msgstr "الحالي"
+
+#: posapp/src/pages/ReportsPage.jsx:80
+msgid "Current shift · {profile}"
+msgstr "الوردية الحالية · {profile}"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:34
+#: posapp/src/components/Cart/DraftPickerModal.jsx:135
+#: posapp/src/components/Cart/index.jsx:381
+#: posapp/src/components/InvoicePay/index.jsx:180 posapp/src/engine/sync.js:10
+#: posapp/src/pages/CustomerDetailPage.jsx:72
+#: posapp/src/pages/CustomerListPage.jsx:19
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:664
+#: posapp/src/pages/InvoiceDetailPage.jsx:241
+#: posapp/src/pages/InvoiceRegisterPage.jsx:28
+#: posapp/src/pages/InvoiceRegisterPage.jsx:175
+#: posapp/src/pages/ItemPriceDetailPage.jsx:210
+#: posapp/src/pages/POSProfileDetailPage.jsx:239
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Customer"
+msgstr "العميل"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:167
+#: posapp/src/pages/CustomerDetailPage.jsx:365
+msgid "Customer Details"
+msgstr "تفاصيل العميل"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:98
+#: posapp/src/pages/CustomerDetailPage.jsx:183
+#: posapp/src/pages/CustomerListPage.jsx:157
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:670
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:169
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:36
+#: posapp/src/pages/POSProfileDetailPage.jsx:528
+msgid "Customer Group"
+msgstr "مجموعة العملاء"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:520
+msgid "Customer Groups"
+msgstr "مجموعات العملاء"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:82
+#: posapp/src/pages/CustomerDetailPage.jsx:171
+msgid "Customer Name"
+msgstr "اسم العميل"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:115
+msgid "Customer Name, Customer Group and Territory are required"
+msgstr "اسم العميل ومجموعة العملاء والمنطقة مطلوبة"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:110
+msgid "Customer Primary Address"
+msgstr "العنوان الأساسي للعميل"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:119
+msgid "Customer Primary Contact"
+msgstr "جهة الاتصال الأساسية للعميل"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:178
+msgid "Customer Territory"
+msgstr "منطقة العميل"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:90
+#: posapp/src/pages/CustomerDetailPage.jsx:175
+msgid "Customer Type"
+msgstr "نوع العميل"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:31
+msgid "Customer name is required"
+msgstr "اسم العميل مطلوب"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:136
+msgid "Customer saved successfully"
+msgstr "تم حفظ العميل بنجاح"
+
+#: posapp/src/components/Sidebar/index.jsx:13
+#: posapp/src/pages/CustomerDetailPage.jsx:159
+#: posapp/src/pages/CustomerListPage.jsx:112
+msgid "Customers"
+msgstr "العملاء"
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Dark mode"
+msgstr "الوضع الداكن"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:40
+#: posapp/src/pages/InvoiceRegisterPage.jsx:34
+msgid "Date"
+msgstr "التاريخ"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:303
+#: posapp/src/pages/POSProfileDetailPage.jsx:308
+#: posapp/src/pages/POSProfileDetailPage.jsx:368
+#: posapp/src/pages/POSProfileDetailPage.jsx:373
+msgid "Default"
+msgstr "افتراضي"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:243
+msgid "Default Payment Terms Template"
+msgstr "قالب شروط الدفع الافتراضي"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:234
+msgid "Default Price List"
+msgstr "قائمة الأسعار الافتراضية"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:221
+msgid "Defaults"
+msgstr "الافتراضيات"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:268
+msgid "Delete"
+msgstr "حذف"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Address?"
+msgstr "حذف العنوان؟"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:262
+msgid "Delete Contact?"
+msgstr "حذف جهة الاتصال؟"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:33
+msgid "Demo Data Created"
+msgstr "تم إنشاء البيانات التجريبية"
+
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.js:17
+msgid "Demo items (normal, serialized, batch-tracked, and a combo) with selling prices and opening stock, 5 POS Profiles showing off different features, and 5 demo Customers will be created for this company (a default warehouse is created too if it doesn't already have one)."
+msgstr "سيتم إنشاء أصناف تجريبية (عادية، وبأرقام تسلسلية، ومتتبَّعة بالدفعات، وصنف مجمّع) بأسعار بيع ومخزون افتتاحي، و5 ملفات نقاط بيع تعرض ميزات مختلفة، و5 عملاء تجريبيين لهذه الشركة (ويُنشأ مستودع افتراضي أيضًا إن لم يكن موجودًا)."
+
+#: posapp/src/components/Customer/ContactModal.jsx:111
+msgid "Department"
+msgstr "القسم"
+
+#: posapp/src/components/Customer/ContactModal.jsx:108
+msgid "Designation"
+msgstr "المسمى الوظيفي"
+
+#: posapp/src/components/Closing/index.jsx:143
+msgid "Difference"
+msgstr "الفرق"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:745
+msgid "Disable Rounded Total"
+msgstr "تعطيل الإجمالي المقرّب"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:467
+msgid "Disable auto-setting Grand Total to default Mode of Payment"
+msgstr "تعطيل تعيين الإجمالي الكلي تلقائيًا لطريقة الدفع الافتراضية"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:157
+#: posapp/src/components/Customer/AddressModal.jsx:152
+#: posapp/src/pages/CustomerDetailPage.jsx:214
+#: posapp/src/pages/DiscountDetailPage.jsx:442
+#: posapp/src/pages/DiscountListPage.jsx:13
+#: posapp/src/pages/DiscountListPage.jsx:69
+#: posapp/src/pages/POSProfileDetailPage.jsx:275
+#: posapp/src/pages/POSProfileListPage.jsx:13
+#: posapp/src/pages/POSProfileListPage.jsx:46
+#: posapp/src/pages/PriceListListPage.jsx:12
+#: posapp/src/pages/PriceListListPage.jsx:45
+msgid "Disabled"
+msgstr "معطّل"
+
+#: posapp/src/components/Cart/index.jsx:555
+#: posapp/src/components/CustomerDisplay/CartView.jsx:34
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountListPage.jsx:37
+msgid "Discount"
+msgstr "الخصم"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:289
+msgid "Discount %"
+msgstr "الخصم %"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:827
+msgid "Discount Amount"
+msgstr "مبلغ الخصم"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:296
+msgid "Discount Amt"
+msgstr "مبلغ الخصم"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:837
+msgid "Discount Percentage"
+msgstr "نسبة الخصم"
+
+#: posapp/src/pages/ReportsPage.jsx:334
+msgid "Discount given"
+msgstr "الخصم الممنوح"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:605
+msgid "Discount on Other Item"
+msgstr "خصم على صنف آخر"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:365
+msgid "Discount saved successfully"
+msgstr "تم حفظ الخصم بنجاح"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:17
+#: posapp/src/pages/DiscountDetailPage.jsx:387
+#: posapp/src/pages/DiscountListPage.jsx:105
+msgid "Discounts"
+msgstr "الخصومات"
+
+#: posapp/src/pages/ReportsPage.jsx:330
+msgid "Discounts and returns"
+msgstr "الخصومات والمرتجعات"
+
+#: posapp/src/components/common/ToastContainer.jsx:30
+#: posapp/src/pwa/PwaUpdateBanner.jsx:53
+msgid "Dismiss"
+msgstr "تجاهل"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:902
+msgid "Don't Enforce Free Item Qty"
+msgstr "عدم فرض كمية الصنف المجاني"
+
+#: posapp/src/components/common/FilterBar.jsx:40
+msgid "Done"
+msgstr "تم"
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/SyncPage.jsx:198 posapp/src/utils/format.js:31
+msgid "Draft"
+msgstr "مسودة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:268
+msgid "Duplicate Brand found in the table"
+msgstr "تم العثور على علامة تجارية مكررة في الجدول"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:244
+msgid "Duplicate Item Code found in the table"
+msgstr "تم العثور على رمز صنف مكرر في الجدول"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:265
+msgid "Duplicate Item Group found in the table"
+msgstr "تم العثور على مجموعة أصناف مكررة في الجدول"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:185
+msgid "Duplicate customer group found in the customer group table"
+msgstr "تم العثور على مجموعة عملاء مكررة في جدول مجموعات العملاء"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:180
+msgid "Duplicate item group found in the item group table"
+msgstr "تم العثور على مجموعة أصناف مكررة في جدول مجموعات الأصناف"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:940
+msgid "Dynamic Condition"
+msgstr "شرط ديناميكي"
+
+#. Label of a shortcut in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASY POS"
+msgstr ""
+
+#. Name of a Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "EASYPOS Settings"
+msgstr "إعدادات EASYPOS"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "EP Closing Entry"
+msgstr "قيد إغلاق EP"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "EP Closing Entry Detail"
+msgstr "تفاصيل قيد إغلاق EP"
+
+#. Name of a DocType
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "EP Opening Entry"
+msgstr "قيد افتتاح EP"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "Edit Address"
+msgstr "تعديل العنوان"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "Edit Contact"
+msgstr "تعديل جهة الاتصال"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:159
+#: posapp/src/components/Customer/NewCustomerModal.jsx:121
+#: posapp/src/pages/CustomerDetailPage.jsx:211
+#: posapp/src/pages/CustomerListPage.jsx:36
+#: posapp/src/pages/CustomerListPage.jsx:184
+#: posapp/src/pages/InvoiceRegisterPage.jsx:213
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: posapp/src/components/Customer/AddressModal.jsx:132
+#: posapp/src/components/Customer/ContactModal.jsx:99
+msgid "Email Address"
+msgstr "عنوان البريد الإلكتروني"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:604
+msgid "Email Notification"
+msgstr "إشعار البريد الإلكتروني"
+
+#: posapp/src/pages/LoginPage.jsx:112
+msgid "Email or username"
+msgstr "البريد الإلكتروني أو اسم المستخدم"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:463
+msgid "Enable Customer Display"
+msgstr "تفعيل شاشة العميل"
+
+#. Label of a Check field in DocType 'EASYPOS Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "Enable Offline Mode"
+msgstr "تفعيل وضع عدم الاتصال"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:175
+msgid "Enabled"
+msgstr "مفعّل"
+
+#: posapp/src/components/InvoicePay/index.jsx:348
+msgid "Enter the amount received for each payment mode."
+msgstr "أدخل المبلغ المستلم لكل طريقة دفع."
+
+#: posapp/src/pages/LoginPage.jsx:123
+msgid "Enter your password"
+msgstr "أدخل كلمة المرور"
+
+#: posapp/src/pages/LoginPage.jsx:101
+msgid "Enter your workstation credentials to start a shift."
+msgstr "أدخل بيانات اعتماد محطة العمل لبدء وردية."
+
+#: posapp/src/pages/LoginPage.jsx:73
+msgid "Every sale accounted for, down to the till"
+msgstr "كل عملية بيع محسوبة حتى الصندوق"
+
+#: posapp/src/pages/LoginPage.jsx:60
+msgid "Every sale."
+msgstr "كل عملية بيع."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:250
+msgid "Exchange Rate"
+msgstr "سعر الصرف"
+
+#: posapp/src/components/common/ChildTable.jsx:252
+msgid "Expand"
+msgstr "توسيع"
+
+#: posapp/src/components/Closing/index.jsx:117
+msgid "Expected"
+msgstr "المتوقع"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:273
+#: posapp/src/pages/POSProfileDetailPage.jsx:704
+msgid "Expense Account"
+msgstr "حساب المصروفات"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:265
+msgid "Expiry Duration (days)"
+msgstr "مدة الانتهاء (بالأيام)"
+
+#: posapp/src/components/Cart/index.jsx:743
+msgid "FREE"
+msgstr "مجاني"
+
+#: posapp/src/pages/SyncPage.jsx:34
+msgid "Failed"
+msgstr "فشل"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:123
+msgid "Failed to cancel invoice"
+msgstr "تعذّر إلغاء الفاتورة"
+
+#: posapp/src/components/InvoicePay/index.jsx:218
+#: posapp/src/components/InvoicePay/index.jsx:278
+#: posapp/src/components/InvoicePay/index.jsx:331
+msgid "Failed to complete payment"
+msgstr "تعذّر إتمام الدفع"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:101
+msgid "Failed to create credit note"
+msgstr "تعذّر إنشاء الإشعار الدائن"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:42
+#: posapp/src/components/Customer/NewCustomerModal.jsx:47
+msgid "Failed to create customer"
+msgstr "تعذّر إنشاء العميل"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Address"
+msgstr "تعذّر حذف العنوان"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:82
+msgid "Failed to delete Contact"
+msgstr "تعذّر حذف جهة الاتصال"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:20
+msgid "Failed to load Razorpay checkout"
+msgstr "تعذّر تحميل دفع Razorpay"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:118
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:122
+msgid "Failed to open till"
+msgstr "تعذّر فتح الصندوق"
+
+#: posapp/src/components/Customer/AddressModal.jsx:63
+msgid "Failed to save Address"
+msgstr "تعذّر حفظ العنوان"
+
+#: posapp/src/components/Customer/ContactModal.jsx:60
+msgid "Failed to save Contact"
+msgstr "تعذّر حفظ جهة الاتصال"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:138
+msgid "Failed to save Customer"
+msgstr "تعذّر حفظ العميل"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:367
+msgid "Failed to save Discount"
+msgstr "تعذّر حفظ الخصم"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:155
+msgid "Failed to save Item Price"
+msgstr "تعذّر حفظ سعر الصنف"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:114
+msgid "Failed to save Loyalty Program"
+msgstr "تعذّر حفظ برنامج الولاء"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:209
+msgid "Failed to save POS Profile"
+msgstr "تعذّر حفظ ملف نقطة البيع"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:140
+msgid "Failed to save Price List"
+msgstr "تعذّر حفظ قائمة الأسعار"
+
+#: posapp/src/components/Cart/index.jsx:279
+msgid "Failed to save draft"
+msgstr "تعذّر حفظ المسودة"
+
+#: posapp/src/components/PaymentGateways/razorpay.js:42
+msgid "Failed to start Razorpay payment"
+msgstr "تعذّر بدء دفع Razorpay"
+
+#: posapp/src/engine/outbox.js:60
+msgid "Failed to sync invoice"
+msgstr "تعذّرت مزامنة الفاتورة"
+
+#: posapp/src/components/Customer/AddressModal.jsx:135
+msgid "Fax"
+msgstr "الفاكس"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetch from server"
+msgstr "جلب من الخادم"
+
+#: posapp/src/pages/SyncPage.jsx:305
+msgid "Fetching…"
+msgstr "جارٍ الجلب…"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:198
+msgid "Filter by POS Profile"
+msgstr "تصفية حسب ملف نقطة البيع"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:144
+#: posapp/src/pages/InvoiceRegisterPage.jsx:184
+msgid "Filter by customer"
+msgstr "تصفية حسب العميل"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:162
+#: posapp/src/pages/CustomerListPage.jsx:187
+#: posapp/src/pages/InvoiceRegisterPage.jsx:216
+msgid "Filter by email"
+msgstr "تصفية حسب البريد الإلكتروني"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:153
+#: posapp/src/pages/CustomerListPage.jsx:178
+#: posapp/src/pages/InvoiceRegisterPage.jsx:207
+msgid "Filter by mobile"
+msgstr "تصفية حسب الجوال"
+
+#: posapp/src/components/common/FilterBar.jsx:29
+#: posapp/src/components/common/FilterBar.jsx:37
+msgid "Filters"
+msgstr "عوامل التصفية"
+
+#: posapp/src/components/common/FilterBar.jsx:30
+msgid "Filters applied"
+msgstr "تم تطبيق عوامل التصفية"
+
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Finishing up — your receipt will print here once it's confirmed."
+msgstr "جارٍ الإنهاء — ستتم طباعة إيصالك هنا بمجرد التأكيد."
+
+#: posapp/src/components/Customer/ContactModal.jsx:93
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:848
+msgid "For Price List"
+msgstr "لقائمة الأسعار"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:223
+msgid "For the 'Apply Rule On Other' condition the field {field} is mandatory"
+msgstr "لشرط 'تطبيق القاعدة على آخر' يكون الحقل {field} إلزاميًا"
+
+#: posapp/src/pages/LoginPage.jsx:143
+msgid "Forgot password?"
+msgstr "نسيت كلمة المرور؟"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:877
+msgid "Free Item"
+msgstr "صنف مجاني"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:888
+msgid "Free Item Rate"
+msgstr "سعر الصنف المجاني"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:884
+msgid "Free Item UOM"
+msgstr "وحدة قياس الصنف المجاني"
+
+#: posapp/src/components/Cart/index.jsx:732
+msgid "Free Items"
+msgstr "الأصناف المجانية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:881
+msgid "Free Qty"
+msgstr "الكمية المجانية"
+
+#: posapp/src/pages/DiscountListPage.jsx:17
+msgid "Free item"
+msgstr "صنف مجاني"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:299
+msgid "Free item code is not selected"
+msgstr "لم يتم اختيار رمز الصنف المجاني"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:155
+msgid "From Date"
+msgstr "من تاريخ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:918
+msgid "Give free item for every N quantity"
+msgstr "منح صنف مجاني لكل كمية N"
+
+#: posapp/src/pages/ReportsPage.jsx:199
+msgid "Go to Terminal"
+msgstr "الذهاب إلى الطرفية"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:656
+#: posapp/src/components/Cart/index.jsx:801
+#: posapp/src/components/InvoicePay/index.jsx:183
+#: posapp/src/components/InvoicePay/index.jsx:378
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:263
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Grand Total"
+msgstr "الإجمالي الكلي"
+
+#: posapp/src/pages/ReportsPage.jsx:209
+msgid "Gross sales"
+msgstr "إجمالي المبيعات"
+
+#: posapp/src/pages/CustomerListPage.jsx:42
+msgid "Group"
+msgstr "المجموعة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:974
+msgid "Has Priority"
+msgstr "له أولوية"
+
+#: posapp/src/components/Items/index.jsx:50
+msgid "Has variants"
+msgstr "له متغيرات"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:24
+msgid "Held offline — not yet synced"
+msgstr "محفوظ دون اتصال — لم تتم المزامنة بعد"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:458
+msgid "Hide Images"
+msgstr "إخفاء الصور"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:459
+msgid "Hide Unavailable Items"
+msgstr "إخفاء الأصناف غير المتوفرة"
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Hide password"
+msgstr "إخفاء كلمة المرور"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:164
+msgid "ITEMS"
+msgstr "الأصناف"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1011
+msgid "If enabled, the system only validates the rule instead of applying it automatically"
+msgstr "عند التفعيل، يتحقق النظام من القاعدة فقط بدلًا من تطبيقها تلقائيًا"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:889
+msgid "If rate is zero then item will be treated as \"Free Item\""
+msgstr "إذا كان السعر صفرًا فسيُعامل الصنف كـ \"صنف مجاني\""
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:464
+msgid "Ignore Pricing Rule"
+msgstr "تجاهل قاعدة التسعير"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Amount"
+msgstr "بالمبلغ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:785
+msgid "In Percentage %"
+msgstr "بالنسبة المئوية %"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:155
+#: posapp/src/pages/CustomerListPage.jsx:13
+#: posapp/src/pages/CustomerListPage.jsx:58
+msgid "Inactive"
+msgstr "غير نشط"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:689
+msgid "Income Account"
+msgstr "حساب الإيرادات"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Individual"
+msgstr "فرد"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:256
+msgid "Industry"
+msgstr "الصناعة"
+
+#: posapp/src/utils/format.js:44
+msgid "Internal Transfer"
+msgstr "تحويل داخلي"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:320
+msgid "Invalid condition expression"
+msgstr "تعبير شرط غير صالح"
+
+#: easy_pos/api/pricing.py:58 easy_pos/api/pricing.py:175
+msgid "Invalid coupon code"
+msgstr "رمز قسيمة غير صالح"
+
+#: posapp/src/components/Cart/index.jsx:166
+msgid "Invalid or expired coupon code"
+msgstr "رمز قسيمة غير صالح أو منتهي"
+
+#: posapp/src/store/authStore.js:37
+msgid "Invalid username or password"
+msgstr "اسم المستخدم أو كلمة المرور غير صحيحة"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:15
+#: posapp/src/pages/InvoiceDetailPage.jsx:106
+#: posapp/src/pages/InvoiceRegisterPage.jsx:22
+#: posapp/src/pages/ReportsPage.jsx:369
+msgid "Invoice"
+msgstr "الفاتورة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:239
+msgid "Invoice Details"
+msgstr "تفاصيل الفاتورة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice details aren't available offline. Reconnect and try again."
+msgstr "تفاصيل الفاتورة غير متاحة دون اتصال. أعد الاتصال وحاول مرة أخرى."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:201
+msgid "Invoice not found."
+msgstr "لم يتم العثور على الفاتورة."
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:151
+msgid "Invoiced Qty"
+msgstr "الكمية المفوترة"
+
+#: posapp/src/components/Sidebar/index.jsx:12
+#: posapp/src/pages/InvoiceDetailPage.jsx:214
+#: posapp/src/pages/InvoiceRegisterPage.jsx:133
+msgid "Invoices"
+msgstr "الفواتير"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:431
+msgid "Is Cumulative"
+msgstr "تراكمي"
+
+#: posapp/src/components/Customer/ContactModal.jsx:118
+msgid "Is Primary Contact"
+msgstr "جهة اتصال أساسية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:907
+msgid "Is Recursive"
+msgstr "متكرر"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:150
+#: posapp/src/engine/sync.js:8 posapp/src/pages/InvoiceDetailPage.jsx:277
+#: posapp/src/pages/ItemPriceDetailPage.jsx:183
+#: posapp/src/pages/ItemPriceListPage.jsx:19
+msgid "Item"
+msgstr "الصنف"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:457
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:619
+msgid "Item Code"
+msgstr "رمز الصنف"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:116
+msgid "Item Code, UOM, Price List and Rate are required"
+msgstr "رمز الصنف ووحدة القياس وقائمة الأسعار والسعر مطلوبة"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:178
+msgid "Item Details"
+msgstr "تفاصيل الصنف"
+
+#: posapp/src/components/Cart/index.jsx:773
+msgid "Item Discounts"
+msgstr "خصومات الأصناف"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json posapp/src/engine/sync.js:9
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+#: posapp/src/pages/DiscountDetailPage.jsx:508
+#: posapp/src/pages/DiscountDetailPage.jsx:614
+#: posapp/src/pages/DiscountDetailPage.jsx:625
+#: posapp/src/pages/POSProfileDetailPage.jsx:489
+msgid "Item Group"
+msgstr "مجموعة الأصناف"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:481
+msgid "Item Groups"
+msgstr "مجموعات الأصناف"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:196
+msgid "Item Name"
+msgstr "اسم الصنف"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:16 posapp/src/pages/ItemPriceDetailPage.jsx:82
+msgid "Item Price"
+msgstr "سعر الصنف"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:153
+msgid "Item Price saved successfully"
+msgstr "تم حفظ سعر الصنف بنجاح"
+
+#: posapp/src/components/Sidebar/index.jsx:15
+#: posapp/src/pages/ItemPriceDetailPage.jsx:170
+#: posapp/src/pages/ItemPriceListPage.jsx:107
+msgid "Item Prices"
+msgstr "أسعار الأصناف"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:303
+msgid "Item Tax"
+msgstr "ضريبة الصنف"
+
+#: posapp/src/components/Cart/index.jsx:752
+msgid "Item Total"
+msgstr "إجمالي الأصناف"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:275
+msgid "Items"
+msgstr "الأصناف"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:129
+msgid "Items to Return"
+msgstr "الأصناف المراد إرجاعها"
+
+#: posapp/src/pages/SyncPage.jsx:18
+msgid "Just now"
+msgstr "الآن"
+
+#: posapp/src/components/Topbar/index.jsx:122
+#: posapp/src/components/Topbar/index.jsx:123 posapp/src/pages/LoginPage.jsx:93
+msgid "Language"
+msgstr "اللغة"
+
+#: posapp/src/components/Customer/ContactModal.jsx:96
+msgid "Last Name"
+msgstr "اسم العائلة"
+
+#: posapp/src/pages/SyncPage.jsx:284
+msgid "Last synced {when}"
+msgstr "آخر مزامنة {when}"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:266
+msgid "Leave empty for points to never expire"
+msgstr "اتركه فارغًا لكي لا تنتهي النقاط أبدًا"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:188
+msgid "Leave empty to make this price list applicable for all countries, or restrict it to specific ones."
+msgstr "اتركه فارغًا لجعل قائمة الأسعار هذه تنطبق على كل الدول، أو قصرها على دول محددة."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:283
+msgid "Leave empty to make this profile applicable for all users."
+msgstr "اتركه فارغًا لجعل هذا الملف ينطبق على كل المستخدمين."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:574
+msgid "Letter Head"
+msgstr "ترويسة الخطاب"
+
+#: posapp/src/components/Topbar/index.jsx:177
+msgid "Light mode"
+msgstr "الوضع الفاتح"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+#: posapp/src/components/Cart/index.jsx:836
+msgid "Load Draft"
+msgstr "تحميل مسودة"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:103
+msgid "Loading variants…"
+msgstr "جارٍ تحميل المتغيرات…"
+
+#: posapp/src/routes.jsx:37
+msgid "Loading..."
+msgstr "جارٍ التحميل..."
+
+#: posapp/src/components/Cart/index.jsx:614
+#: posapp/src/components/Customer/AddressContactSection.jsx:138
+#: posapp/src/components/Customer/AddressContactSection.jsx:191
+#: posapp/src/pages/InvoiceDetailPage.jsx:135
+msgid "Loading…"
+msgstr "جارٍ التحميل…"
+
+#: posapp/src/components/Topbar/index.jsx:195
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:17 posapp/src/pages/CustomerDetailPage.jsx:266
+#: posapp/src/pages/CustomerDetailPage.jsx:271
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/SettingsPage.jsx:8
+msgid "Loyalty Program"
+msgstr "برنامج الولاء"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:111
+msgid "Loyalty Program saved successfully"
+msgstr "تم حفظ برنامج الولاء بنجاح"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:129
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:77
+msgid "Loyalty Programs"
+msgstr "برامج الولاء"
+
+#: posapp/src/components/InvoicePay/index.jsx:478
+msgid "Loyalty Redeemed"
+msgstr "نقاط الولاء المستبدلة"
+
+#: posapp/src/components/InvoicePay/index.jsx:384
+msgid "Loyalty points can't be redeemed in {currency}. ERPNext only redeems them in the company's currency ({company_currency})."
+msgstr "لا يمكن استبدال نقاط الولاء بعملة {currency}. يستبدلها ERPNext فقط بعملة الشركة ({company_currency})."
+
+#: easy_pos/api/pos.py:275
+msgid "Loyalty points can't be redeemed on a {0} invoice. ERPNext only redeems them in the company's currency ({1})."
+msgstr "لا يمكن استبدال نقاط الولاء على فاتورة بعملة {0}. يستبدلها ERPNext فقط بعملة الشركة ({1})."
+
+#: posapp/src/pages/SyncPage.jsx:235
+msgid "MASTER DATA"
+msgstr "البيانات الرئيسية"
+
+#: posapp/src/components/Sidebar/index.jsx:126
+msgid "Main"
+msgstr "التنقل الرئيسي"
+
+#: posapp/src/pages/SettingsPage.jsx:15
+msgid "Manage cashier accounts and permissions"
+msgstr "إدارة حسابات الكاشير والصلاحيات"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:419
+msgid "Manual (none)"
+msgstr "يدوي (لا شيء)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:770
+msgid "Margin"
+msgstr "الهامش"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:784
+msgid "Margin Rate or Amount"
+msgstr "نسبة أو مبلغ الهامش"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:775
+msgid "Margin Type"
+msgstr "نوع الهامش"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:253
+msgid "Market Segment"
+msgstr "شريحة السوق"
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "Master Setup"
+msgstr "إعداد البيانات الرئيسية"
+
+#: posapp/src/pages/SyncPage.jsx:124
+msgid "Master data cached for offline use. Fetch pulls the latest catalog, customers, and pricing from the server."
+msgstr "البيانات الرئيسية محفوظة للاستخدام دون اتصال. الجلب يسحب أحدث الكتالوج والعملاء والأسعار من الخادم."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:733
+msgid "Max Amount"
+msgstr "الحد الأقصى للمبلغ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:727
+msgid "Max Qty (Stock UOM)"
+msgstr "الحد الأقصى للكمية (وحدة المخزون)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:258
+msgid "Max discount allowed for item: {item} is {pct}%"
+msgstr "الحد الأقصى للخصم المسموح للصنف {item} هو {pct}%"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:730
+msgid "Min Amount"
+msgstr "الحد الأدنى للمبلغ"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:282
+msgid "Min Amt can not be greater than Max Amt"
+msgstr "لا يمكن أن يكون الحد الأدنى للمبلغ أكبر من الحد الأقصى"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:724
+msgid "Min Qty (Stock UOM)"
+msgstr "الحد الأدنى للكمية (وحدة المخزون)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:285
+msgid "Min Qty can not be greater than Max Qty"
+msgstr "لا يمكن أن يكون الحد الأدنى للكمية أكبر من الحد الأقصى"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:291
+msgid "Min Qty should be greater than Recurse Over Qty"
+msgstr "يجب أن يكون الحد الأدنى للكمية أكبر من كمية التكرار"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:210
+msgid "Minimum Total Spent"
+msgstr "الحد الأدنى لإجمالي الإنفاق"
+
+#: easy_pos/api/currency.py:27
+msgid "Missing Exchange Rate"
+msgstr "سعر الصرف مفقود"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:426
+msgid "Mixed Conditions"
+msgstr "شروط مختلطة"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:150
+#: posapp/src/components/Customer/ContactModal.jsx:105
+#: posapp/src/components/Customer/NewCustomerModal.jsx:114
+#: posapp/src/pages/CustomerDetailPage.jsx:208
+#: posapp/src/pages/CustomerListPage.jsx:30
+#: posapp/src/pages/CustomerListPage.jsx:175
+#: posapp/src/pages/InvoiceRegisterPage.jsx:204
+msgid "Mobile No"
+msgstr "رقم الجوال"
+
+#. Label of a Link field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+#: posapp/src/engine/sync.js:15 posapp/src/pages/InvoiceDetailPage.jsx:408
+#: posapp/src/pages/POSProfileDetailPage.jsx:355
+msgid "Mode of Payment"
+msgstr "طريقة الدفع"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Modes of Payment"
+msgstr ""
+
+#: posapp/src/components/Sidebar/index.jsx:141
+#: posapp/src/components/Sidebar/index.jsx:145
+msgid "More"
+msgstr "المزيد"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:360
+msgid "More Information"
+msgstr "مزيد من المعلومات"
+
+#: posapp/src/components/common/ChildTable.jsx:282
+msgid "Move down"
+msgstr "تحريك للأسفل"
+
+#: posapp/src/components/common/ChildTable.jsx:273
+msgid "Move up"
+msgstr "تحريك للأعلى"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Multiple Tier Program"
+msgstr "برنامج متعدد المستويات"
+
+#. Label of a Currency field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/components/Cart/index.jsx:657
+#: posapp/src/pages/DiscountDetailPage.jsx:815
+#: posapp/src/pages/InvoiceDetailPage.jsx:325
+#: posapp/src/pages/InvoiceDetailPage.jsx:398
+#: posapp/src/pages/POSProfileDetailPage.jsx:740
+msgid "Net Total"
+msgstr "الإجمالي الصافي"
+
+#: posapp/src/pages/ReportsPage.jsx:210
+msgid "Net sales"
+msgstr "صافي المبيعات"
+
+#: posapp/src/pages/SyncPage.jsx:13 posapp/src/pages/SyncPage.jsx:15
+msgid "Never"
+msgstr "أبدًا"
+
+#: posapp/src/components/Customer/AddressModal.jsx:71
+msgid "New Address"
+msgstr "عنوان جديد"
+
+#: posapp/src/components/Customer/ContactModal.jsx:68
+msgid "New Contact"
+msgstr "جهة اتصال جديدة"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:53
+msgid "New Customer"
+msgstr "عميل جديد"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:137
+#: posapp/src/pages/DiscountDetailPage.jsx:385
+msgid "New Discount"
+msgstr "خصم جديد"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:82
+#: posapp/src/pages/ItemPriceDetailPage.jsx:168
+msgid "New Item Price"
+msgstr "سعر صنف جديد"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:70
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:127
+msgid "New Loyalty Program"
+msgstr "برنامج ولاء جديد"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+#: posapp/src/pages/POSProfileDetailPage.jsx:222
+msgid "New POS Profile"
+msgstr "ملف نقطة بيع جديد"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListDetailPage.jsx:153
+msgid "New Price List"
+msgstr "قائمة أسعار جديدة"
+
+#: posapp/src/components/Cart/index.jsx:388
+#: posapp/src/pages/CustomerListPage.jsx:150
+msgid "New customer"
+msgstr "عميل جديد"
+
+#: posapp/src/pages/DiscountListPage.jsx:133
+msgid "New discount"
+msgstr "خصم جديد"
+
+#: posapp/src/pages/LoginPage.jsx:167
+msgid "New here"
+msgstr "جديد هنا"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:168
+msgid "New invoice"
+msgstr "فاتورة جديدة"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:140
+msgid "New item price"
+msgstr "سعر صنف جديد"
+
+#: posapp/src/pages/PriceListListPage.jsx:108
+msgid "New price list"
+msgstr "قائمة أسعار جديدة"
+
+#: posapp/src/pages/POSProfileListPage.jsx:119
+msgid "New profile"
+msgstr "ملف جديد"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:94
+msgid "New program"
+msgstr "برنامج جديد"
+
+#: posapp/src/components/common/Pagination.jsx:27
+msgid "Next"
+msgstr "التالي"
+
+#: posapp/src/components/common/ConfirmModal.jsx:30
+#: posapp/src/pages/InvoiceDetailPage.jsx:432
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "No"
+msgstr "لا"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:104
+msgid "No Loyalty Programs found"
+msgstr "لم يتم العثور على برامج ولاء"
+
+#: posapp/src/pages/POSProfileListPage.jsx:152
+msgid "No POS Profiles found"
+msgstr "لم يتم العثور على ملفات نقطة بيع"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:142
+msgid "No addresses added"
+msgstr "لم تتم إضافة عناوين"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:558
+msgid "No brands added"
+msgstr "لم تتم إضافة علامات تجارية"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:343
+msgid "No bundle components"
+msgstr "لا توجد مكونات للحزمة"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:46
+msgid "No camera was found on this device."
+msgstr "لم يتم العثور على كاميرا في هذا الجهاز."
+
+#: posapp/src/components/Cart/index.jsx:616
+msgid "No components"
+msgstr "لا توجد مكونات"
+
+#: posapp/src/components/Topbar/index.jsx:76
+msgid "No connection — working from cached data"
+msgstr "لا يوجد اتصال — العمل من البيانات المحفوظة"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:195
+msgid "No contacts added"
+msgstr "لم تتم إضافة جهات اتصال"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:191
+msgid "No countries added — applies to all countries"
+msgstr "لم تتم إضافة دول — ينطبق على كل الدول"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:299
+msgid "No credit limits configured"
+msgstr "لم يتم إعداد حدود ائتمان"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:524
+msgid "No customer groups added"
+msgstr "لم تتم إضافة مجموعات عملاء"
+
+#: posapp/src/pages/CustomerListPage.jsx:210
+msgid "No customers found"
+msgstr "لم يتم العثور على عملاء"
+
+#: posapp/src/pages/DiscountListPage.jsx:143
+msgid "No discounts found"
+msgstr "لم يتم العثور على خصومات"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:185
+msgid "No draft invoices found"
+msgstr "لم يتم العثور على مسودات فواتير"
+
+#: easy_pos/api/currency.py:24
+msgid "No exchange rate found from {0} to {1}. Create a Currency Exchange record (For Selling) for this pair."
+msgstr "لم يُعثر على سعر صرف من {0} إلى {1}. أنشئ سجل صرف عملات (Currency Exchange) للبيع لهذا الزوج."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:239
+msgid "No invoices found"
+msgstr "لم يتم العثور على فواتير"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:504
+#: posapp/src/pages/POSProfileDetailPage.jsx:485
+msgid "No item groups added"
+msgstr "لم تتم إضافة مجموعات أصناف"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:173
+msgid "No item prices found"
+msgstr "لم يتم العثور على أسعار أصناف"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:317
+msgid "No items"
+msgstr "لا توجد أصناف"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:453
+msgid "No items added"
+msgstr "لم تتم إضافة أصناف"
+
+#: posapp/src/components/Cart/index.jsx:451
+msgid "No items in cart"
+msgstr "لا توجد أصناف في السلة"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items in this category"
+msgstr "لا توجد أصناف في هذه الفئة"
+
+#: posapp/src/components/Items/index.jsx:357
+msgid "No items match your search"
+msgstr "لا توجد أصناف تطابق بحثك"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:135
+msgid "No items on this invoice"
+msgstr "لا توجد أصناف في هذه الفاتورة"
+
+#: posapp/src/pages/ReportsPage.jsx:325
+msgid "No items sold in this period."
+msgstr "لم يتم بيع أي صنف في هذه الفترة."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:341
+msgid "No payment modes added"
+msgstr "لم تتم إضافة طرق دفع"
+
+#: posapp/src/components/InvoicePay/index.jsx:430
+msgid "No payment modes configured for this POS Profile."
+msgstr "لم يتم إعداد طرق دفع لملف نقطة البيع هذا."
+
+#: posapp/src/pages/ReportsPage.jsx:252
+msgid "No payment modes configured."
+msgstr "لم يتم إعداد طرق دفع."
+
+#: posapp/src/components/Closing/index.jsx:98
+msgid "No payment modes found for this shift."
+msgstr "لم يتم العثور على طرق دفع لهذه الوردية."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:419
+msgid "No payments"
+msgstr "لا توجد مدفوعات"
+
+#: posapp/src/pages/ReportsPage.jsx:269
+msgid "No payments recorded in this period."
+msgstr "لم يتم تسجيل مدفوعات في هذه الفترة."
+
+#: posapp/src/pages/PriceListListPage.jsx:118
+msgid "No price lists found"
+msgstr "لم يتم العثور على قوائم أسعار"
+
+#: posapp/src/components/common/ListTable.jsx:43
+#: posapp/src/components/common/ListTable.jsx:99
+msgid "No records found"
+msgstr "لم يتم العثور على سجلات"
+
+#: posapp/src/components/common/ChildTable.jsx:216
+msgid "No rows"
+msgstr "لا توجد صفوف"
+
+#: posapp/src/pages/ReportsPage.jsx:292
+msgid "No sales in this period."
+msgstr "لا توجد مبيعات في هذه الفترة."
+
+#: posapp/src/components/Topbar/index.jsx:99
+msgid "No shift open"
+msgstr "لا توجد وردية مفتوحة"
+
+#: posapp/src/pages/ReportsPage.jsx:196
+msgid "No shifts to report on yet. Open a shift from the Terminal to see live shift numbers here."
+msgstr "لا توجد ورديات للتقرير بعد. افتح وردية من الطرفية لرؤية أرقام الوردية المباشرة هنا."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:390
+msgid "No taxes applied"
+msgstr "لا توجد ضرائب مطبقة"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:197
+msgid "No taxes on this invoice"
+msgstr "لا توجد ضرائب على هذه الفاتورة"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:194
+msgid "No tiers added"
+msgstr "لم تتم إضافة مستويات"
+
+#: posapp/src/pages/ReportsPage.jsx:365
+msgid "No transactions in this period."
+msgstr "لا توجد معاملات في هذه الفترة."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:286
+msgid "No users added — applies to all users"
+msgstr "لم تتم إضافة مستخدمين — ينطبق على كل المستخدمين"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:35
+msgid "No variants are set up for this item yet."
+msgstr "لم يتم إعداد متغيرات لهذا الصنف بعد."
+
+#: posapp/src/components/common/LinkField.jsx:218
+msgid "No {doctype} found"
+msgstr "لم يتم العثور على {doctype}"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:611
+msgid "None"
+msgstr "لا شيء"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:252
+msgid "Note"
+msgstr "ملاحظة"
+
+#: posapp/src/pages/SyncPage.jsx:173
+msgid "Nothing queued — every offline sale on this device has synced."
+msgstr "لا شيء في قائمة الانتظار — تمت مزامنة كل مبيعات هذا الجهاز دون اتصال."
+
+#: posapp/src/components/common/AlertModal.jsx:15
+msgid "OK"
+msgstr "موافق"
+
+#: posapp/src/components/Customer/AddressModal.jsx:10
+msgid "Office"
+msgstr "المكتب"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/components/Topbar/index.jsx:87 posapp/src/pages/SyncPage.jsx:129
+msgid "Offline"
+msgstr "غير متصل"
+
+#: posapp/src/pages/SyncPage.jsx:136
+msgid "Offline mode isn't enabled for this deployment (EasyPOS Settings). Data still caches below for later, but the Terminal won't fall back to it while offline until it's turned on."
+msgstr "وضع عدم الاتصال غير مفعّل لهذا النشر (EasyPOS Settings). لا تزال البيانات تُحفظ أدناه لوقت لاحق، لكن الطرفية لن تعتمد عليها دون اتصال حتى يتم تفعيله."
+
+#: posapp/src/components/InvoicePay/index.jsx:179
+msgid "Offline — pending sync. Reprint from Invoices once synced."
+msgstr "غير متصل — بانتظار المزامنة. أعد الطباعة من الفواتير بعد المزامنة."
+
+#: posapp/src/pages/POSTerminalPage.jsx:75
+msgid "Offline — showing cached catalog and pricing. Sales ring up and sync automatically once reconnected."
+msgstr "غير متصل — يتم عرض الكتالوج والأسعار المحفوظة. تُسجل المبيعات وتتم مزامنتها تلقائيًا عند إعادة الاتصال."
+
+#: posapp/src/utils/format.js:52
+msgid "On Item Quantity"
+msgstr "على كمية الصنف"
+
+#: posapp/src/utils/format.js:49
+msgid "On Net Total"
+msgstr "على صافي الإجمالي"
+
+#: posapp/src/utils/format.js:50
+msgid "On Previous Row Amount"
+msgstr "على مبلغ الصف السابق"
+
+#: posapp/src/utils/format.js:51
+msgid "On Previous Row Total"
+msgstr "على إجمالي الصف السابق"
+
+#: posapp/src/pages/LoginPage.jsx:58
+msgid "One counter."
+msgstr "كاونتر واحد."
+
+#: posapp/src/pages/LoginPage.jsx:77
+msgid "One login per cashier, one record per shift"
+msgstr "تسجيل دخول واحد لكل كاشير، وسجل واحد لكل وردية"
+
+#: posapp/src/components/Topbar/index.jsx:87
+msgid "Online"
+msgstr "متصل"
+
+#: easy_pos/api/pos.py:385
+msgid "Only a submitted invoice can be returned"
+msgstr "لا يمكن إرجاع سوى فاتورة مُرحّلة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:521
+msgid "Only show Customers of these Customer Groups. Leave empty for all."
+msgstr "إظهار عملاء مجموعات العملاء هذه فقط. اتركه فارغًا للكل."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:482
+msgid "Only show Items from these Item Groups. Leave empty for all."
+msgstr "إظهار أصناف مجموعات الأصناف هذه فقط. اتركه فارغًا للكل."
+
+#. Option for the 'Status' (Select) field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Open"
+msgstr "مفتوح"
+
+#: posapp/src/components/Cart/index.jsx:366
+msgid "Open Customer Display"
+msgstr "فتح شاشة العميل"
+
+#: posapp/src/pages/SyncPage.jsx:299
+msgid "Open a shift before syncing"
+msgstr "افتح وردية قبل المزامنة"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:152
+msgid "Open till"
+msgstr "فتح الصندوق"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:131
+msgid "Open your till"
+msgstr "افتح صندوقك"
+
+#: posapp/src/components/Closing/index.jsx:111
+msgid "Opening"
+msgstr "الافتتاحي"
+
+#. Label of a Currency field in DocType 'EP Closing Entry Detail'
+#: easy_pos/easy_pos/doctype/ep_closing_entry_detail/ep_closing_entry_detail.json
+msgid "Opening Amount"
+msgstr "المبلغ الافتتاحي"
+
+#. Label of a Table field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Opening Balance Details"
+msgstr "تفاصيل الرصيد الافتتاحي"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:161
+msgid "Opening a shift requires an internet connection — stock and pricing for the profile you pick have to be resolved live. Reconnect to open your till."
+msgstr "يتطلب فتح الوردية اتصالًا بالإنترنت — يجب تحديد المخزون والأسعار للملف المختار مباشرة. أعد الاتصال لفتح صندوقك."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:191
+msgid "Opening balance"
+msgstr "الرصيد الافتتاحي"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:149
+msgid "Opening…"
+msgstr "جارٍ الفتح…"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:256
+msgid "Optional note"
+msgstr "ملاحظة اختيارية"
+
+#: posapp/src/components/Cart/index.jsx:645
+msgid "Order Discount"
+msgstr "خصم الطلب"
+
+#: posapp/src/components/Cart/index.jsx:792
+msgid "Order Discount ({pct}%)"
+msgstr "خصم الطلب ({pct}%)"
+
+#: posapp/src/components/Customer/AddressModal.jsx:19
+msgid "Other"
+msgstr "أخرى"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:159
+#: posapp/src/components/Items/index.jsx:77
+msgid "Out of stock"
+msgstr "نفد من المخزون"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:266
+msgid "Outstanding Amount"
+msgstr "المبلغ المستحق"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:16 posapp/src/utils/format.js:34
+msgid "Overdue"
+msgstr "متأخرة"
+
+#: posapp/src/utils/format.js:41
+msgid "Overdue and Discounted"
+msgstr "متأخرة ومخصومة"
+
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+msgid "POS Closing Entry"
+msgstr "قيد إغلاق نقطة البيع"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Closing/index.jsx:86
+#: posapp/src/pages/InvoiceDetailPage.jsx:245
+msgid "POS Opening Entry"
+msgstr "قيد افتتاح نقطة البيع"
+
+#. Label of a Link field in DocType 'EP Closing Entry'
+#. Label of a Link field in DocType 'EP Opening Entry'
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:180
+#: posapp/src/engine/sync.js:14 posapp/src/pages/InvoiceDetailPage.jsx:244
+#: posapp/src/pages/InvoiceRegisterPage.jsx:190
+#: posapp/src/pages/POSProfileDetailPage.jsx:104
+msgid "POS Profile"
+msgstr "ملف نقطة البيع"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:206
+msgid "POS Profile saved successfully"
+msgstr "تم حفظ ملف نقطة البيع بنجاح"
+
+#: posapp/src/components/Sidebar/index.jsx:14
+#: posapp/src/pages/POSProfileDetailPage.jsx:224
+#: posapp/src/pages/POSProfileListPage.jsx:90
+msgid "POS Profiles"
+msgstr "ملفات نقطة البيع"
+
+#: posapp/src/pages/POSTerminalPage.jsx:34
+msgid "POS Terminal"
+msgstr "طرفية نقطة البيع"
+
+#: posapp/src/components/common/Pagination.jsx:8
+msgid "Page {page} of {total}"
+msgstr "الصفحة {page} من {total}"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:14 posapp/src/utils/format.js:32
+msgid "Paid"
+msgstr "مدفوعة"
+
+#: posapp/src/components/InvoicePay/index.jsx:473
+#: posapp/src/pages/InvoiceDetailPage.jsx:264
+msgid "Paid Amount"
+msgstr "المبلغ المدفوع"
+
+#: posapp/src/utils/format.js:35
+msgid "Partly Paid"
+msgstr "مدفوعة جزئيًا"
+
+#: posapp/src/utils/format.js:42
+msgid "Partly Paid and Discounted"
+msgstr "مدفوعة جزئيًا ومخصومة"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:94
+#: posapp/src/pages/CustomerDetailPage.jsx:178
+msgid "Partnership"
+msgstr "شراكة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:644
+msgid "Party Information"
+msgstr "معلومات الطرف"
+
+#: posapp/src/pages/LoginPage.jsx:122
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: posapp/src/components/InvoicePay/index.jsx:367
+msgid "Pay with {gateway}"
+msgstr "الدفع عبر {gateway}"
+
+#: posapp/src/components/Cart/index.jsx:855
+msgid "Pay {amount}"
+msgstr "ادفع {amount}"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:414
+msgid "Payment Gateway"
+msgstr "بوابة الدفع"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:335
+msgid "Payment Methods"
+msgstr "طرق الدفع"
+
+#. Label of a Table field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Payment Reconciliation"
+msgstr "تسوية المدفوعات"
+
+#: posapp/src/components/Closing/index.jsx:90
+#: posapp/src/components/InvoicePay/index.jsx:422
+msgid "Payment Summary"
+msgstr "ملخص الدفع"
+
+#: posapp/src/pages/ReportsPage.jsx:258
+msgid "Payment method breakdown"
+msgstr "التوزيع حسب طريقة الدفع"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:164
+msgid "Payment methods are mandatory. Please add at least one payment method."
+msgstr "طرق الدفع إلزامية. يرجى إضافة طريقة دفع واحدة على الأقل."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:406
+msgid "Payments"
+msgstr "المدفوعات"
+
+#: posapp/src/pages/SyncPage.jsx:148
+msgid "Pending Invoices"
+msgstr "الفواتير المعلّقة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Pending sync"
+msgstr "بانتظار المزامنة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:778
+msgid "Percentage"
+msgstr "نسبة مئوية"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Period Details"
+msgstr "تفاصيل الفترة"
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period End Date"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:740
+msgid "Period Settings"
+msgstr "إعدادات الفترة"
+
+#. Label of a Datetime field in DocType 'EP Closing Entry'
+#. Label of a Datetime field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Period Start Date"
+msgstr ""
+
+#: posapp/src/components/Customer/AddressModal.jsx:18
+msgid "Permanent"
+msgstr "دائم"
+
+#: posapp/src/components/Customer/AddressModal.jsx:11
+msgid "Personal"
+msgstr "شخصي"
+
+#: posapp/src/components/Customer/AddressModal.jsx:129
+#: posapp/src/components/Customer/ContactModal.jsx:102
+msgid "Phone"
+msgstr "الهاتف"
+
+#: posapp/src/components/Customer/AddressModal.jsx:12
+msgid "Plant"
+msgstr "المصنع"
+
+#: posapp/src/components/CustomerDisplay/PaymentView.jsx:13
+msgid "Please Pay"
+msgstr "يرجى الدفع"
+
+#: posapp/src/components/Cart/index.jsx:214
+msgid "Please add at least one item to the cart"
+msgstr "يرجى إضافة صنف واحد على الأقل إلى السلة"
+
+#: posapp/src/components/InvoicePay/index.jsx:228
+msgid "Please add one or more items to the cart"
+msgstr "يرجى إضافة صنف أو أكثر إلى السلة"
+
+#: posapp/src/components/InvoicePay/index.jsx:232
+msgid "Please enter an amount for at least one payment mode"
+msgstr "يرجى إدخال مبلغ لطريقة دفع واحدة على الأقل"
+
+#: posapp/src/components/Cart/index.jsx:210
+#: posapp/src/components/InvoicePay/index.jsx:224
+msgid "Please select a customer"
+msgstr "يرجى اختيار عميل"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:169
+msgid "Please select a default mode of payment"
+msgstr "يرجى اختيار طريقة دفع افتراضية"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:81
+msgid "Point the camera at a barcode, QR code, or serial/batch label."
+msgstr "وجّه الكاميرا نحو باركود أو رمز QR أو ملصق الرقم التسلسلي/الدفعة."
+
+#: posapp/src/pages/POSTerminalPage.jsx:119
+msgid "Populates the item search field, same as a hardware scanner"
+msgstr "يملأ حقل البحث عن الأصناف، مثل الماسح الضوئي"
+
+#: posapp/src/components/Customer/AddressModal.jsx:13
+msgid "Postal"
+msgstr "بريدي"
+
+#: posapp/src/components/Customer/AddressModal.jsx:126
+msgid "Postal Code"
+msgstr "الرمز البريدي"
+
+#. Label of a Date field in DocType 'EP Closing Entry'
+#. Label of a Date field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:242
+msgid "Posting Date"
+msgstr "تاريخ الترحيل"
+
+#. Label of a Time field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: posapp/src/pages/InvoiceDetailPage.jsx:243
+msgid "Posting Time"
+msgstr "وقت الترحيل"
+
+#: posapp/src/components/Customer/AddressModal.jsx:139
+msgid "Preferred Billing Address"
+msgstr "عنوان الفوترة المفضل"
+
+#: posapp/src/components/Customer/AddressModal.jsx:146
+msgid "Preferred Shipping Address"
+msgstr "عنوان الشحن المفضل"
+
+#: posapp/src/components/common/Pagination.jsx:18
+msgid "Previous"
+msgstr "السابق"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Price"
+msgstr "السعر"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:797
+msgid "Price Discount Scheme"
+msgstr "نظام خصم السعر"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:11 posapp/src/pages/InvoiceDetailPage.jsx:258
+#: posapp/src/pages/ItemPriceDetailPage.jsx:207
+#: posapp/src/pages/ItemPriceListPage.jsx:30
+#: posapp/src/pages/ItemPriceListPage.jsx:147
+#: posapp/src/pages/POSProfileDetailPage.jsx:630
+#: posapp/src/pages/POSProfileListPage.jsx:36
+#: posapp/src/pages/PriceListDetailPage.jsx:69
+#: posapp/src/pages/PriceListListPage.jsx:18
+msgid "Price List"
+msgstr "قائمة الأسعار"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:203
+#: posapp/src/pages/PriceListDetailPage.jsx:163
+msgid "Price List Details"
+msgstr "تفاصيل قائمة الأسعار"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:167
+msgid "Price List Name"
+msgstr "اسم قائمة الأسعار"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:96
+msgid "Price List Name and Currency are required"
+msgstr "اسم قائمة الأسعار والعملة مطلوبان"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:102
+msgid "Price List must be applicable for Buying or Selling"
+msgstr "يجب أن تنطبق قائمة الأسعار على الشراء أو البيع"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:138
+msgid "Price List saved successfully"
+msgstr "تم حفظ قائمة الأسعار بنجاح"
+
+#: posapp/src/components/Sidebar/index.jsx:16
+#: posapp/src/pages/PriceListDetailPage.jsx:155
+#: posapp/src/pages/PriceListListPage.jsx:81
+msgid "Price Lists"
+msgstr "قوائم الأسعار"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:177
+msgid "Price Not UOM Dependent"
+msgstr "السعر لا يعتمد على وحدة القياس"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:411
+msgid "Price or Product Discount"
+msgstr "خصم السعر أو المنتج"
+
+#: posapp/src/engine/sync.js:12
+msgid "Pricing Rule"
+msgstr "قاعدة التسعير"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:155
+#: posapp/src/components/Customer/AddressContactSection.jsx:207
+msgid "Primary"
+msgstr "أساسي"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:231
+msgid "Print / Reprint"
+msgstr "طباعة / إعادة طباعة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:566
+msgid "Print Format"
+msgstr "تنسيق الطباعة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:587
+msgid "Print Heading"
+msgstr "عنوان الطباعة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:462
+msgid "Print Receipt on Order Complete"
+msgstr "طباعة الإيصال عند إتمام الطلب"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:561
+msgid "Print Settings"
+msgstr "إعدادات الطباعة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:982
+#: posapp/src/pages/DiscountListPage.jsx:53
+msgid "Priority"
+msgstr "الأولوية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:196
+msgid "Priority is mandatory"
+msgstr "الأولوية إلزامية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:414
+msgid "Product"
+msgstr "المنتج"
+
+#: posapp/src/components/Items/index.jsx:44
+msgid "Product Bundle"
+msgstr "حزمة منتجات"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:867
+msgid "Product Discount Scheme"
+msgstr "نظام خصم المنتج"
+
+#: posapp/src/pages/POSProfileListPage.jsx:19
+msgid "Profile"
+msgstr "الملف"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:232
+msgid "Profile Info"
+msgstr "معلومات الملف"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:12
+msgid "Program"
+msgstr "البرنامج"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:137
+msgid "Program Details"
+msgstr "تفاصيل البرنامج"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:141
+msgid "Program Name"
+msgstr "اسم البرنامج"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:92
+msgid "Program Name, From Date and Conversion Factor are required"
+msgstr "اسم البرنامج وتاريخ البدء ومعامل التحويل مطلوبة"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:145
+msgid "Program Type"
+msgstr "نوع البرنامج"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:290
+#: posapp/src/pages/POSProfileDetailPage.jsx:768
+msgid "Project"
+msgstr "المشروع"
+
+#: posapp/src/pages/SyncPage.jsx:75
+msgid "Push failed. Check your connection and try again."
+msgstr "فشل الإرسال. تحقق من اتصالك وحاول مرة أخرى."
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Push now"
+msgstr "إرسال الآن"
+
+#: posapp/src/pages/SyncPage.jsx:165
+msgid "Pushing…"
+msgstr "جارٍ الإرسال…"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:278
+#: posapp/src/pages/InvoiceDetailPage.jsx:337
+msgid "Qty"
+msgstr "الكمية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:926
+msgid "Qty for which recursion isn't applicable."
+msgstr "الكمية التي لا ينطبق عليها التكرار."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:720
+msgid "Quantity and Amount"
+msgstr "الكمية والمبلغ"
+
+#: posapp/src/pages/SyncPage.jsx:32
+msgid "Queued"
+msgstr "في قائمة الانتظار"
+
+#: posapp/src/pages/ReportsPage.jsx:24
+msgid "Range"
+msgstr "فترة"
+
+#: posapp/src/components/Cart/index.jsx:530
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:171
+#: posapp/src/pages/DiscountDetailPage.jsx:806
+#: posapp/src/pages/DiscountDetailPage.jsx:821
+#: posapp/src/pages/InvoiceDetailPage.jsx:282
+#: posapp/src/pages/InvoiceDetailPage.jsx:372
+#: posapp/src/pages/ItemPriceDetailPage.jsx:224
+#: posapp/src/pages/ItemPriceDetailPage.jsx:231
+#: posapp/src/pages/ItemPriceListPage.jsx:36
+msgid "Rate"
+msgstr "السعر"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:203
+msgid "Rate (%)"
+msgstr "النسبة (%)"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:238
+msgid "Rate (%) applies to percentage-based charges; Amount applies to \"Actual\" charges. Totals are recalculated against the returned items when the credit note is created."
+msgstr "تنطبق النسبة (%) على الرسوم القائمة على النسبة المئوية؛ ويطبق المبلغ على رسوم \"Actual\". يُعاد حساب الإجماليات على الأصناف المرتجعة عند إنشاء الإشعار الدائن."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:297
+msgid "Rate can not be negative"
+msgstr "لا يمكن أن يكون السعر سالبًا"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:802
+msgid "Rate or Discount"
+msgstr "السعر أو الخصم"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:229
+msgid "Rate or Discount is required for the price discount."
+msgstr "السعر أو الخصم مطلوب لخصم السعر."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:421
+msgid "Razorpay"
+msgstr ""
+
+#: easy_pos/api/payment_gateways/razorpay.py:26
+msgid "Razorpay is not configured. Set it up under Razorpay Settings first."
+msgstr "لم يتم إعداد Razorpay. اضبطه أولًا من إعدادات Razorpay."
+
+#: easy_pos/api/payment_gateways/razorpay.py:61
+msgid "Razorpay payment signature verification failed"
+msgstr "فشل التحقق من توقيع دفعة Razorpay"
+
+#: posapp/src/components/InvoicePay/index.jsx:168
+#: posapp/src/components/InvoicePay/index.jsx:177
+#: posapp/src/components/InvoicePay/index.jsx:297
+msgid "Receipt"
+msgstr "الإيصال"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:599
+msgid "Receipt Delivery"
+msgstr "إرسال الإيصال"
+
+#: posapp/src/pages/ReportsPage.jsx:355
+msgid "Recent transactions"
+msgstr "المعاملات الأخيرة"
+
+#: posapp/src/components/Topbar/index.jsx:110
+msgid "Reconnect to close your shift"
+msgstr "أعد الاتصال لإغلاق ورديتك"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:144
+msgid "Reconnect to open a shift"
+msgstr "أعد الاتصال لفتح وردية"
+
+#: posapp/src/pages/SyncPage.jsx:159
+msgid "Reconnect to push queued invoices"
+msgstr "أعد الاتصال لإرسال الفواتير المنتظرة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:916
+msgid "Recurse Every (As Per Transaction UOM)"
+msgstr "التكرار كل (حسب وحدة قياس المعاملة)"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:293
+msgid "Recurse Over Qty cannot be less than 0"
+msgstr "لا يمكن أن تكون كمية التكرار أقل من 0"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:325
+msgid "Recursive Discounts with Mixed condition is not supported by the system"
+msgstr "الخصومات المتكررة مع شرط مختلط غير مدعومة في النظام"
+
+#: posapp/src/components/InvoicePay/index.jsx:394
+msgid "Redeem Loyalty Points ({n} available)"
+msgstr "استبدال نقاط الولاء ({n} متاحة)"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:251
+msgid "Redemption"
+msgstr "الاستبدال"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:52
+msgid "Register"
+msgstr "السجل"
+
+#: posapp/src/pwa/PwaUpdateBanner.jsx:50
+msgid "Reload"
+msgstr "إعادة التحميل"
+
+#: posapp/src/pages/LoginPage.jsx:137
+msgid "Remember this device"
+msgstr "تذكر هذا الجهاز"
+
+#: posapp/src/components/Cart/index.jsx:520
+msgid "Remove"
+msgstr "إزالة"
+
+#: posapp/src/components/Cart/index.jsx:706
+msgid "Remove coupon"
+msgstr "إزالة القسيمة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:441
+msgid "Remove row"
+msgstr "إزالة الصف"
+
+#: posapp/src/components/Sidebar/index.jsx:19
+#: posapp/src/pages/ReportsPage.jsx:101 posapp/src/pages/ReportsPage.jsx:155
+msgid "Reports"
+msgstr "التقارير"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retry"
+msgstr "إعادة المحاولة"
+
+#: posapp/src/pages/SyncPage.jsx:87
+msgid "Retry failed."
+msgstr "فشلت إعادة المحاولة."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:184
+msgid "Retry sync"
+msgstr "إعادة المزامنة"
+
+#: posapp/src/pages/SyncPage.jsx:212
+msgid "Retrying…"
+msgstr "جارٍ إعادة المحاولة…"
+
+#: posapp/src/utils/format.js:36
+msgid "Return"
+msgstr "مرتجع"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:261
+msgid "Return Against"
+msgstr "مرتجع مقابل"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:174
+msgid "Return Amount"
+msgstr "مبلغ المرتجع"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:154
+msgid "Return Qty"
+msgstr "كمية المرتجع"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:185
+msgid "Return Total"
+msgstr "إجمالي المرتجع"
+
+#: posapp/src/components/Closing/index.jsx:59
+msgid "Review the counted totals for this shift before closing."
+msgstr "راجع الإجماليات المعدودة لهذه الوردية قبل الإغلاق."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:897
+msgid "Round Free Qty"
+msgstr "تقريب الكمية المجانية"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:401
+msgid "Rounded Total"
+msgstr "الإجمالي المقرّب"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:400
+msgid "Rounding Adjustment"
+msgstr "تعديل التقريب"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1019
+msgid "Rule Description"
+msgstr "وصف القاعدة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:613
+msgid "SMS Notification"
+msgstr "إشعار SMS"
+
+#: posapp/src/pages/ReportsPage.jsx:140
+msgid "Sales"
+msgstr "المبيعات"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/engine/sync.js:18
+msgid "Sales Invoice"
+msgstr "فاتورة المبيعات"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "Sales Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:686
+msgid "Sales Partner"
+msgstr "شريك المبيعات"
+
+#: posapp/src/engine/sync.js:13 posapp/src/pages/InvoiceDetailPage.jsx:397
+#: posapp/src/pages/POSProfileDetailPage.jsx:718
+msgid "Sales Taxes and Charges Template"
+msgstr "قالب ضرائب ورسوم المبيعات"
+
+#: posapp/src/pages/SyncPage.jsx:151
+msgid "Sales completed offline, queued locally until they reach ERPNext."
+msgstr "مبيعات تمت دون اتصال، في قائمة انتظار محلية حتى تصل إلى ERPNext."
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by day"
+msgstr "اتجاه المبيعات · حسب اليوم"
+
+#: posapp/src/pages/ReportsPage.jsx:276
+msgid "Sales trend · by hour"
+msgstr "اتجاه المبيعات · حسب الساعة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:872
+msgid "Same Item"
+msgstr "نفس الصنف"
+
+#: posapp/src/components/Customer/AddressModal.jsx:86
+#: posapp/src/components/Customer/ContactModal.jsx:83
+#: posapp/src/components/common/SaveButton.jsx:28
+msgid "Save"
+msgstr "حفظ"
+
+#: posapp/src/components/Cart/index.jsx:824
+msgid "Save Draft"
+msgstr "حفظ كمسودة"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:95
+msgid "Save the customer first to add addresses and contacts."
+msgstr "احفظ العميل أولًا لإضافة العناوين وجهات الاتصال."
+
+#: posapp/src/components/Cart/index.jsx:819
+#: posapp/src/components/Customer/AddressModal.jsx:83
+#: posapp/src/components/Customer/ContactModal.jsx:80
+#: posapp/src/components/common/SaveButton.jsx:25
+msgid "Saving…"
+msgstr "جارٍ الحفظ…"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:61
+msgid "Scan barcode"
+msgstr "مسح الباركود"
+
+#: posapp/src/pages/POSTerminalPage.jsx:37
+msgid "Scan barcode/serial/batch or search items"
+msgstr "امسح الباركود/الرقم التسلسلي/الدفعة أو ابحث عن الأصناف"
+
+#: posapp/src/components/Topbar/index.jsx:61
+#: posapp/src/components/Topbar/index.jsx:62
+msgid "Scan with camera"
+msgstr "المسح بالكاميرا"
+
+#: posapp/src/components/Cart/index.jsx:508
+msgid "Scan/add the item again to add another unit"
+msgstr "امسح/أضف الصنف مرة أخرى لإضافة وحدة أخرى"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:129
+msgid "Search and pull a saved draft into the terminal"
+msgstr "ابحث عن مسودة محفوظة واسحبها إلى الطرفية"
+
+#: posapp/src/components/Cart/index.jsx:595
+msgid "Search batch no"
+msgstr "البحث عن رقم الدفعة"
+
+#: posapp/src/pages/CustomerListPage.jsx:118
+msgid "Search customer, mobile or email"
+msgstr "البحث عن عميل أو جوال أو بريد إلكتروني"
+
+#: posapp/src/components/Cart/index.jsx:386
+msgid "Search customer..."
+msgstr "البحث عن عميل..."
+
+#: posapp/src/pages/DiscountListPage.jsx:111
+msgid "Search discount title"
+msgstr "البحث عن عنوان الخصم"
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:136
+msgid "Search invoice or customer"
+msgstr "البحث عن فاتورة أو عميل"
+
+#: posapp/src/pages/ItemPriceListPage.jsx:113
+msgid "Search item code or name"
+msgstr "البحث عن رمز الصنف أو اسمه"
+
+#: posapp/src/pages/PriceListListPage.jsx:87
+msgid "Search price list"
+msgstr "البحث عن قائمة أسعار"
+
+#: posapp/src/pages/POSProfileListPage.jsx:96
+msgid "Search profile or warehouse"
+msgstr "البحث عن ملف أو مستودع"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:83
+msgid "Search program name"
+msgstr "البحث عن اسم البرنامج"
+
+#: posapp/src/components/Cart/index.jsx:575
+msgid "Search serial no"
+msgstr "البحث عن الرقم التسلسلي"
+
+#: posapp/src/components/Topbar/index.jsx:53
+#: posapp/src/components/common/LinkField.jsx:162
+msgid "Search..."
+msgstr "بحث..."
+
+#: posapp/src/components/Items/index.jsx:351
+msgid "Searching…"
+msgstr "جارٍ البحث…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:566
+msgid "Select Brand"
+msgstr "اختر العلامة التجارية"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:307
+msgid "Select Company"
+msgstr "اختر الشركة"
+
+#: posapp/src/pages/PriceListDetailPage.jsx:206
+msgid "Select Country"
+msgstr "اختر الدولة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:531
+msgid "Select Customer Group"
+msgstr "اختر مجموعة العملاء"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:461
+msgid "Select Item"
+msgstr "اختر الصنف"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:512
+#: posapp/src/pages/POSProfileDetailPage.jsx:492
+msgid "Select Item Group"
+msgstr "اختر مجموعة الأصناف"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:359
+msgid "Select Mode"
+msgstr "اختر الطريقة"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:181
+msgid "Select POS profile"
+msgstr "اختر ملف نقطة البيع"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:474
+#: posapp/src/pages/DiscountDetailPage.jsx:525
+#: posapp/src/pages/DiscountDetailPage.jsx:579
+msgid "Select UOM"
+msgstr "اختر وحدة القياس"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:294
+msgid "Select User"
+msgstr "اختر المستخدم"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:261
+#: posapp/src/pages/POSProfileDetailPage.jsx:677
+#: posapp/src/pages/POSProfileDetailPage.jsx:691
+msgid "Select a Company first"
+msgstr "اختر الشركة أولًا"
+
+#: posapp/src/components/Items/ItemVariantModal.jsx:165
+msgid "Select an option for every attribute to pick a variant."
+msgstr "اختر خيارًا لكل سمة لتحديد المتغير."
+
+#: easy_pos/api/pos.py:410 posapp/src/components/Invoice/CreditNoteModal.jsx:71
+msgid "Select at least one item to return"
+msgstr "اختر صنفًا واحدًا على الأقل لإرجاعه"
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:172
+msgid "Select company"
+msgstr "اختر الشركة"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:99
+msgid "Select customer group"
+msgstr "اختر مجموعة العملاء"
+
+#: posapp/src/components/Items/index.jsx:66
+msgid "Select options"
+msgstr "اختر الخيارات"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:983
+msgid "Select priority"
+msgstr "اختر الأولوية"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:107
+msgid "Select territory"
+msgstr "اختر المنطقة"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:648
+#: posapp/src/pages/DiscountListPage.jsx:47
+#: posapp/src/pages/ItemPriceDetailPage.jsx:217
+#: posapp/src/pages/ItemPriceListPage.jsx:12
+#: posapp/src/pages/ItemPriceListPage.jsx:57
+#: posapp/src/pages/PriceListDetailPage.jsx:174
+#: posapp/src/pages/PriceListListPage.jsx:30
+msgid "Selling"
+msgstr "البيع"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:274
+msgid "Selling must be checked, if Applicable For is selected as {field}"
+msgstr "يجب تحديد البيع إذا تم اختيار 'ينطبق على' كـ {field}"
+
+#: posapp/src/components/Cart/index.jsx:570 posapp/src/engine/sync.js:19
+msgid "Serial No"
+msgstr "الرقم التسلسلي"
+
+#: posapp/src/pages/SyncPage.jsx:129
+msgid "Server connected"
+msgstr "الخادم متصل"
+
+#: easy_pos/api/pwa.py:29
+msgid "Service worker not built yet - run `yarn build` in posapp/"
+msgstr ""
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Sidebar/index.jsx:20
+#: posapp/src/pages/SettingsPage.jsx:25
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: posapp/src/pages/ReportsPage.jsx:22
+msgid "Shift"
+msgstr "الوردية"
+
+#: posapp/src/pages/ReportsPage.jsx:225
+msgid "Shift summary"
+msgstr "ملخص الوردية"
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:156
+#: posapp/src/components/Customer/AddressModal.jsx:9
+msgid "Shipping"
+msgstr "الشحن"
+
+#: posapp/src/components/Customer/AddressModal.jsx:14
+msgid "Shop"
+msgstr "المتجر"
+
+#: posapp/src/components/Cart/index.jsx:358
+msgid "Shopping Cart"
+msgstr "سلة التسوق"
+
+#: posapp/src/pages/LoginPage.jsx:127
+msgid "Show password"
+msgstr "إظهار كلمة المرور"
+
+#: posapp/src/pages/LoginPage.jsx:99 posapp/src/pages/LoginPage.jsx:159
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+#: posapp/src/pages/LoginPage.jsx:63
+msgid "Sign in to open your till and start ringing up sales."
+msgstr "سجّل الدخول لفتح صندوقك وبدء تسجيل المبيعات."
+
+#: posapp/src/pages/LoginPage.jsx:155
+msgid "Signing in…"
+msgstr "جارٍ تسجيل الدخول…"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:948
+msgid "Simple Python Expression, Example: territory != 'All Territories'"
+msgstr "تعبير Python بسيط، مثال: territory != 'All Territories'"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:148
+msgid "Single Tier Program"
+msgstr "برنامج مستوى واحد"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:191
+msgid "Spend thresholds and how many currency units earn 1 loyalty point at each tier."
+msgstr "حدود الإنفاق وعدد وحدات العملة التي تمنح نقطة ولاء واحدة في كل مستوى."
+
+#: posapp/src/components/Customer/AddressModal.jsx:120
+msgid "State/Province"
+msgstr "الولاية/المحافظة"
+
+#. Label of a Select field in DocType 'EP Opening Entry'
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+#: posapp/src/pages/CustomerListPage.jsx:54
+#: posapp/src/pages/DiscountListPage.jsx:66
+#: posapp/src/pages/InvoiceRegisterPage.jsx:46
+#: posapp/src/pages/POSProfileListPage.jsx:42
+#: posapp/src/pages/PriceListListPage.jsx:42
+msgid "Status"
+msgstr "الحالة"
+
+#: posapp/src/utils/format.js:39
+msgid "Submitted"
+msgstr "مُرسلة"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Submitting…"
+msgstr "جارٍ الإرسال…"
+
+#: posapp/src/components/Customer/AddressModal.jsx:15
+msgid "Subsidiary"
+msgstr "فرعي"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:29
+msgid "Subtotal"
+msgstr "المجموع الفرعي"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:701
+#: posapp/src/pages/ItemPriceDetailPage.jsx:213
+msgid "Supplier"
+msgstr "المورّد"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:100
+#: posapp/src/pages/DiscountDetailPage.jsx:707
+msgid "Supplier Group"
+msgstr "مجموعة الموردين"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to dark mode"
+msgstr "التبديل إلى الوضع الداكن"
+
+#: posapp/src/components/Topbar/index.jsx:146
+msgid "Switch to light mode"
+msgstr "التبديل إلى الوضع الفاتح"
+
+#: posapp/src/components/Sidebar/index.jsx:18 posapp/src/pages/SyncPage.jsx:58
+msgid "Sync"
+msgstr "المزامنة"
+
+#: posapp/src/pages/SyncPage.jsx:121
+msgid "Sync center"
+msgstr "مركز المزامنة"
+
+#: posapp/src/components/Cart/DraftPickerModal.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+msgid "Sync failed"
+msgstr "فشلت المزامنة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:100
+msgid "Sync failed — check the Sync page for details."
+msgstr "فشلت المزامنة — راجع صفحة المزامنة للتفاصيل."
+
+#: posapp/src/pages/SyncPage.jsx:108
+msgid "Sync failed. Check your connection and try again."
+msgstr "فشلت المزامنة. تحقق من اتصالك وحاول مرة أخرى."
+
+#: posapp/src/pages/SyncPage.jsx:35
+msgid "Synced"
+msgstr "تمت المزامنة"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:153
+#: posapp/src/pages/InvoiceDetailPage.jsx:182 posapp/src/pages/SyncPage.jsx:33
+msgid "Syncing…"
+msgstr "جارٍ المزامنة…"
+
+#. Name of a role
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+#: easy_pos/easy_pos/doctype/ep_opening_entry/ep_opening_entry.json
+msgid "System Manager"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:964
+msgid "System will notify to increase or decrease quantity or amount"
+msgstr "سيُنبّه النظام لزيادة أو تقليل الكمية أو المبلغ"
+
+#: posapp/src/components/InvoicePay/index.jsx:347
+msgid "Take Payment"
+msgstr "تحصيل الدفع"
+
+#: posapp/src/components/Cart/index.jsx:452
+msgid "Tap an item to add it here"
+msgstr "اضغط على صنف لإضافته هنا"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:205
+#: posapp/src/pages/InvoiceDetailPage.jsx:396
+#: posapp/src/pages/POSProfileDetailPage.jsx:733
+msgid "Tax Category"
+msgstr "فئة الضريبة"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:202
+msgid "Tax ID"
+msgstr "الرقم الضريبي"
+
+#: posapp/src/components/Cart/index.jsx:756
+msgid "Taxes"
+msgstr "الضرائب"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:192
+#: posapp/src/pages/InvoiceDetailPage.jsx:368
+#: posapp/src/pages/InvoiceDetailPage.jsx:394
+msgid "Taxes and Charges"
+msgstr "الضرائب والرسوم"
+
+#: posapp/src/components/Sidebar/index.jsx:11
+msgid "Terminal"
+msgstr "الطرفية"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:578
+msgid "Terms and Conditions"
+msgstr "الشروط والأحكام"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:106
+#: posapp/src/pages/CustomerDetailPage.jsx:193
+#: posapp/src/pages/CustomerListPage.jsx:48
+#: posapp/src/pages/CustomerListPage.jsx:166
+#: posapp/src/pages/DiscountDetailPage.jsx:99
+#: posapp/src/pages/DiscountDetailPage.jsx:680
+msgid "Territory"
+msgstr "المنطقة"
+
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:13
+msgid "Thank You!"
+msgstr "شكرًا لك!"
+
+#: posapp/src/components/InvoicePay/index.jsx:318
+msgid "That attempt failed — you can try another payment method in the {gateway} window."
+msgstr "فشلت تلك المحاولة — يمكنك تجربة طريقة دفع أخرى في نافذة {gateway}."
+
+#: posapp/src/components/Cart/index.jsx:677
+msgid "This POS Profile doesn't allow manual discount changes."
+msgstr "ملف نقطة البيع هذا لا يسمح بتغيير الخصم يدويًا."
+
+#: easy_pos/api/payment.py:44
+msgid "This invoice has already been finalized"
+msgstr "تم إنهاء هذه الفاتورة بالفعل"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:140
+msgid "This offline sale isn't in the local queue on this device anymore."
+msgstr "لم يعد هذا البيع غير المتصل في قائمة الانتظار المحلية لهذا الجهاز."
+
+#: posapp/src/components/Opening/OpeningEntryModal.jsx:65
+msgid "This profile sells in {currency} but the company's currency is {company_currency}. A new customer's first sale will fail until 'Allow multi-currency invoices against single party account' is enabled in Accounts Settings."
+msgstr "هذا الملف يبيع بعملة {currency} لكن عملة الشركة هي {company_currency}. ستفشل أول عملية بيع لأي عميل جديد حتى يتم تفعيل 'Allow multi-currency invoices against single party account' في Accounts Settings."
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:158
+msgid "This sale was completed offline and hasn't reached ERPNext yet. It will get a real invoice number once it syncs — reconnect and it should sync automatically, or retry below."
+msgstr "تمت عملية البيع هذه دون اتصال ولم تصل إلى ERPNext بعد. ستحصل على رقم فاتورة حقيقي عند المزامنة — أعد الاتصال وستتم المزامنة تلقائيًا، أو أعد المحاولة أدناه."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:265
+msgid "This will permanently delete this address."
+msgstr "سيؤدي هذا إلى حذف هذا العنوان نهائيًا."
+
+#: posapp/src/components/Customer/AddressContactSection.jsx:266
+msgid "This will permanently delete this contact."
+msgstr "سيؤدي هذا إلى حذف جهة الاتصال هذه نهائيًا."
+
+#: posapp/src/pages/DiscountDetailPage.jsx:963
+msgid "Threshold for Suggestion (In Percentage)"
+msgstr "حد الاقتراح (بالنسبة المئوية)"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:279
+msgid "Tier"
+msgstr "المستوى"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:198
+msgid "Tier Name"
+msgstr "اسم المستوى"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:399
+#: posapp/src/pages/DiscountListPage.jsx:26
+msgid "Title"
+msgstr "العنوان"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:195
+msgid "Title is required"
+msgstr "العنوان مطلوب"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:158
+msgid "To Date"
+msgstr "إلى تاريخ"
+
+#: posapp/src/pages/ReportsPage.jsx:23
+msgid "Today"
+msgstr "اليوم"
+
+#: posapp/src/components/Topbar/index.jsx:147
+msgid "Toggle dark mode"
+msgstr "تبديل الوضع الداكن"
+
+#: posapp/src/pages/ReportsPage.jsx:301
+msgid "Top selling items"
+msgstr "الأصناف الأكثر مبيعًا"
+
+#: posapp/src/components/CustomerDisplay/CartView.jsx:45
+#: posapp/src/components/CustomerDisplay/ThankYouScreen.jsx:26
+#: posapp/src/pages/InvoiceDetailPage.jsx:172
+#: posapp/src/pages/InvoiceDetailPage.jsx:382
+msgid "Total"
+msgstr "الإجمالي"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:399
+msgid "Total Taxes and Charges"
+msgstr "إجمالي الضرائب والرسوم"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "Totals"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:406
+msgid "Transaction"
+msgstr "المعاملة"
+
+#. Label of a Card Break in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/pages/ReportsPage.jsx:214
+msgid "Transactions"
+msgstr "المعاملات"
+
+#: posapp/src/components/Invoice/CreditNoteModal.jsx:200
+#: posapp/src/pages/DiscountListPage.jsx:43
+#: posapp/src/pages/InvoiceDetailPage.jsx:371
+#: posapp/src/pages/ItemPriceListPage.jsx:53
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:23
+msgid "Type"
+msgstr "النوع"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:470
+#: posapp/src/pages/DiscountDetailPage.jsx:521
+#: posapp/src/pages/DiscountDetailPage.jsx:575
+#: posapp/src/pages/InvoiceDetailPage.jsx:279
+#: posapp/src/pages/InvoiceDetailPage.jsx:338
+#: posapp/src/pages/ItemPriceDetailPage.jsx:193
+#: posapp/src/pages/ItemPriceListPage.jsx:47
+msgid "UOM"
+msgstr "وحدة القياس"
+
+#: posapp/src/components/common/BarcodeScannerModal.jsx:47
+msgid "Unable to start the camera."
+msgstr "تعذّر تشغيل الكاميرا."
+
+#: posapp/src/pages/InvoiceRegisterPage.jsx:15 posapp/src/utils/format.js:33
+msgid "Unpaid"
+msgstr "غير مدفوعة"
+
+#: posapp/src/utils/format.js:40
+msgid "Unpaid and Discounted"
+msgstr "غير مدفوعة ومخصومة"
+
+#: posapp/src/components/Topbar/index.jsx:167
+#: posapp/src/pages/POSProfileDetailPage.jsx:290
+msgid "User"
+msgstr "المستخدم"
+
+#. Label of a Section Break field in DocType 'EP Closing Entry'
+#: easy_pos/easy_pos/doctype/ep_closing_entry/ep_closing_entry.json
+msgid "User Details"
+msgstr ""
+
+#: posapp/src/pages/LoginPage.jsx:26
+msgid "Username and password are required"
+msgstr "اسم المستخدم وكلمة المرور مطلوبان"
+
+#: posapp/src/pages/SettingsPage.jsx:14
+msgid "Users"
+msgstr "المستخدمون"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:745
+#: posapp/src/pages/ItemPriceDetailPage.jsx:242
+msgid "Valid From"
+msgstr "صالح من"
+
+#: posapp/src/pages/LoyaltyProgramListPage.jsx:42
+msgid "Valid Till"
+msgstr "صالح حتى"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:753
+#: posapp/src/pages/DiscountListPage.jsx:60
+#: posapp/src/pages/ItemPriceDetailPage.jsx:245
+#: posapp/src/pages/ItemPriceListPage.jsx:63
+msgid "Valid Upto"
+msgstr "صالح حتى"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:315
+msgid "Valid Upto Date cannot be before Valid From Date"
+msgstr "لا يمكن أن يكون تاريخ 'صالح حتى' قبل تاريخ 'صالح من'"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:312
+msgid "Valid from and valid upto fields are mandatory for the cumulative"
+msgstr "حقلا 'صالح من' و'صالح حتى' إلزاميان للتراكمي"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:1010
+msgid "Validate Applied Rule"
+msgstr "التحقق من القاعدة المطبقة"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:461
+msgid "Validate Stock on Save"
+msgstr "التحقق من المخزون عند الحفظ"
+
+#: posapp/src/components/common/AlertModal.jsx:10
+msgid "Validation Error"
+msgstr "خطأ في التحقق"
+
+#: posapp/src/pages/ItemPriceDetailPage.jsx:238
+msgid "Validity"
+msgstr "الصلاحية"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:249
+msgid "Variant {variant} and its template {template} cannot both be added to the same Pricing Rule"
+msgstr "لا يمكن إضافة المتغير {variant} وقالبه {template} معًا إلى نفس قاعدة التسعير"
+
+#: posapp/src/pages/ReportsPage.jsx:360
+msgid "View all"
+msgstr "عرض الكل"
+
+#: posapp/src/components/Cart/CartBar.jsx:20
+msgid "View cart"
+msgstr "عرض السلة"
+
+#: posapp/src/components/Cart/index.jsx:427
+msgid "View purchase history"
+msgstr "عرض سجل المشتريات"
+
+#: posapp/src/components/InvoicePay/index.jsx:364
+msgid "Waiting for {gateway}…"
+msgstr "بانتظار {gateway}…"
+
+#: posapp/src/components/InvoicePay/index.jsx:180
+#: posapp/src/pages/ReportsPage.jsx:373
+msgid "Walk-in"
+msgstr "عميل نقدي"
+
+#. Label of a Link in the EASYPOS Workspace
+#: easy_pos/easy_pos/workspace/easypos/easypos.json
+#: posapp/src/components/Customer/AddressModal.jsx:16
+#: posapp/src/pages/DiscountDetailPage.jsx:419
+#: posapp/src/pages/InvoiceDetailPage.jsx:259
+#: posapp/src/pages/InvoiceDetailPage.jsx:339
+#: posapp/src/pages/POSProfileDetailPage.jsx:243
+#: posapp/src/pages/POSProfileListPage.jsx:30
+msgid "Warehouse"
+msgstr "المستودع"
+
+#: posapp/src/pages/CustomerDetailPage.jsx:259
+msgid "Website"
+msgstr "الموقع الإلكتروني"
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:8
+msgid "Welcome"
+msgstr "مرحبًا"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:405
+msgid "When checked, the closing amount for this payment method is calculated automatically from sales. Uncheck to have the cashier manually count and enter the amount at POS closing."
+msgstr "عند التحديد، يُحسب مبلغ الإغلاق لطريقة الدفع هذه تلقائيًا من المبيعات. ألغِ التحديد ليقوم الكاشير بالعدّ وإدخال المبلغ يدويًا عند إغلاق نقطة البيع."
+
+#. Description of the 'Enable Offline Mode' (Check) field in DocType 'EASYPOS
+#. Settings'
+#: easy_pos/easy_pos/doctype/easypos_settings/easypos_settings.json
+msgid "When enabled, the POS Terminal reads/writes from the local offline database instead of calling the server directly, and syncs changes back once online."
+msgstr "عند التفعيل، يقرأ طرف نقطة البيع ويكتب في قاعدة البيانات المحلية غير المتصلة بدلًا من الاتصال بالخادم مباشرة، ويزامن التغييرات عند عودة الاتصال."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:425
+msgid "When set, Complete Payment opens this gateway's checkout for the amount entered instead of treating it as manually received. Configure the gateway's own credentials (e.g. Razorpay Settings) separately."
+msgstr "عند التعيين، يفتح 'إتمام الدفع' صفحة دفع هذه البوابة للمبلغ المُدخل بدلًا من اعتباره مستلمًا يدويًا. اضبط بيانات اعتماد البوابة (مثل Razorpay Settings) بشكل منفصل."
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:642
+msgid "Write Off Account"
+msgstr "حساب الشطب"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:656
+msgid "Write Off Cost Center"
+msgstr "مركز تكلفة الشطب"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:666
+msgid "Write Off Limit"
+msgstr "حد الشطب"
+
+#: posapp/src/components/common/ConfirmModal.jsx:39
+#: posapp/src/pages/PriceListListPage.jsx:32
+#: posapp/src/pages/PriceListListPage.jsx:38
+msgid "Yes"
+msgstr "نعم"
+
+#: posapp/src/pages/InvoiceDetailPage.jsx:431
+msgid "Yes, Cancel"
+msgstr "نعم، إلغاء"
+
+#: posapp/src/pages/POSProfileDetailPage.jsx:173
+msgid "You can only select one mode of payment as default"
+msgstr "يمكنك اختيار طريقة دفع واحدة فقط كافتراضية"
+
+#: posapp/src/components/CustomerDisplay/IdleScreen.jsx:9
+msgid "Your order will appear here shortly."
+msgstr "سيظهر طلبك هنا قريبًا."
+
+#: posapp/src/pages/ReportsPage.jsx:155
+msgid "Your sales, shift, and payment summary"
+msgstr "ملخص مبيعاتك ووردياتك ومدفوعاتك"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:84
+msgid "e.g. Aarav Sharma"
+msgstr "مثال: أحمد علي"
+
+#: posapp/src/pages/LoyaltyProgramDetailPage.jsx:202
+msgid "e.g. Silver"
+msgstr "مثال: فضي"
+
+#: posapp/src/components/Customer/NewCustomerModal.jsx:123
+msgid "e.g. customer@example.com"
+msgstr "مثال: customer@example.com"
+
+#: easy_pos/api/pos.py:515
+msgid "opening_entry is required for shift scope"
+msgstr ""
+
+#: posapp/src/pages/DiscountDetailPage.jsx:201
+msgid "{field} is not added in the table"
+msgstr "لم تتم إضافة {field} في الجدول"
+
+#: posapp/src/pages/DiscountDetailPage.jsx:215
+msgid "{field} is required"
+msgstr "{field} مطلوب"
+
+#: posapp/src/components/InvoicePay/index.jsx:449
+msgid "{gateway} is not configured yet."
+msgstr "لم يتم إعداد {gateway} بعد."
+
+#: posapp/src/components/InvoicePay/index.jsx:444
+msgid "{gateway} needs a connection — unavailable while offline."
+msgstr "يحتاج {gateway} إلى اتصال — غير متاح دون اتصال."
+
+#: posapp/src/components/InvoicePay/index.jsx:452
+msgid "{gateway} — offline"
+msgstr "{gateway} — غير متصل"
+
+#: posapp/src/components/InvoicePay/index.jsx:156
+msgid "{item} (Free)"
+msgstr "{item} (مجاني)"
+
+#: posapp/src/components/Sidebar/index.jsx:75
+#: posapp/src/pages/SettingsPage.jsx:43
+msgid "{label} — coming soon"
+msgstr "{label} — قريبًا"
+
+#: posapp/src/pages/SyncPage.jsx:337
+msgid "{label} — {n} cached"
+msgstr "{label} — {n} محفوظة مؤقتًا"
+
+#: posapp/src/components/Sidebar/index.jsx:88
+msgid "{label} — {n} invoice(s) pending sync"
+msgstr "{label} — {n} فاتورة بانتظار المزامنة"
+
+#: posapp/src/pages/ReportsPage.jsx:338
+msgid "{n} invoices"
+msgstr "{n} فواتير"
+
+#: posapp/src/components/Cart/index.jsx:372
+msgid "{n} items"
+msgstr "{n} أصناف"
+
+#: posapp/src/components/Cart/index.jsx:412
+msgid "{n} loyalty points available"
+msgstr "{n} نقاط ولاء متاحة"
+
+#: posapp/src/pages/SyncPage.jsx:288
+msgid "{n} record(s) cached locally. Master data is read-only offline — a Fetch pulls a fresh snapshot of every domain at once (they're all resolved together for the current shift's POS Profile)."
+msgstr "{n} سجل محفوظ محليًا. البيانات الرئيسية للقراءة فقط دون اتصال — الجلب يسحب نسخة جديدة من كل المجالات معًا (يتم حلها جميعًا معًا لملف نقطة البيع للوردية الحالية)."
+
+#: posapp/src/pages/ReportsPage.jsx:347
+msgid "{n} returns"
+msgstr "{n} مرتجعات"
+
+#: posapp/src/pages/SyncPage.jsx:21
+msgid "{n}h ago"
+msgstr "قبل {n} ساعة"
+
+#: posapp/src/pages/SyncPage.jsx:19
+msgid "{n}m ago"
+msgstr "قبل {n} دقيقة"
+
+#: posapp/src/components/Items/index.jsx:77
+msgid "{qty} left"
+msgstr "متبقٍ {qty}"
+
+#: posapp/src/components/Cart/index.jsx:485
+msgid "{rate} each"
+msgstr "{rate} للوحدة"
+

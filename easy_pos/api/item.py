@@ -2,6 +2,7 @@ import frappe
 from frappe.query_builder.functions import IfNull
 from frappe.utils import flt, getdate, nowdate
 
+from easy_pos.api.currency import get_rate_factors
 from easy_pos.api.pos import get_currency_precision
 
 ITEM_FIELDS = [
@@ -182,7 +183,7 @@ def _get_item_tax_map(items, warehouse):
 	}
 
 
-def _get_rate_map(item_codes, price_list, customer=None):
+def _get_rate_map(item_codes, price_list, customer=None, price_list_factor=1.0, company_factor=1.0):
 	"""price_list_rate per item_code for the given selling price list; empty until a price list is known.
 
 	Resolution order per item (mirrors erpnext.stock.get_item_details.get_price_list_rate's
@@ -192,6 +193,10 @@ def _get_rate_map(item_codes, price_list, customer=None):
 	2. A generic Item Price row (no customer) for this price list.
 	Both are further filtered to rows whose valid_from/valid_upto window includes
 	today; if neither yields a match, the Item's own `standard_rate` is used.
+
+	price_list_factor/company_factor convert an Item Price rate (price list
+	currency) / standard_rate (company currency) into the invoice currency —
+	see easy_pos.api.currency.get_rate_factors. Both 1 for a single-currency shop.
 	"""
 	if not price_list or not item_codes:
 		return {}
@@ -222,9 +227,9 @@ def _get_rate_map(item_codes, price_list, customer=None):
 	rate_map = {}
 	for item_code in item_codes:
 		if item_code in customer_rate:
-			rate_map[item_code] = customer_rate[item_code]
+			rate_map[item_code] = flt(customer_rate[item_code]) * price_list_factor
 		elif item_code in generic_rate:
-			rate_map[item_code] = generic_rate[item_code]
+			rate_map[item_code] = flt(generic_rate[item_code]) * price_list_factor
 
 	missing = [code for code in item_codes if code not in rate_map]
 	if missing:
@@ -233,7 +238,7 @@ def _get_rate_map(item_codes, price_list, customer=None):
 		)
 		for row in standard_rates:
 			if row.standard_rate:
-				rate_map[row.name] = row.standard_rate
+				rate_map[row.name] = flt(row.standard_rate) * company_factor
 
 	return rate_map
 
@@ -269,12 +274,16 @@ def _allowed_item_groups(pos_profile):
 	return expanded
 
 
-def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
+def _attach_stock_and_rate(items, warehouse, price_list, customer=None, pos_profile=None):
 	"""
 	Stamps stock/rate onto each item dict in place. Both stay None until a
 	warehouse/price list is known — ie. before an Opening Entry exists — so the
 	terminal can show "no stock/rate yet" instead of a misleading placeholder.
 	Once known, a missing Bin/Item Price row genuinely means the value is 0.
+
+	`pos_profile`, when given, converts rates into that profile's invoice
+	currency (it can differ from the price list's/company's — see
+	easy_pos.api.currency), matching what the Sales Invoice will charge.
 
 	Non-stock items (services) never carry a Bin row, so stock always stays
 	None for them regardless of warehouse — the terminal treats None as "not
@@ -283,7 +292,8 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
 	currency_precision = get_currency_precision()
 	item_codes = [item.item_code for item in items]
 	stock_map = _get_stock_map(item_codes, warehouse)
-	rate_map = _get_rate_map(item_codes, price_list, customer)
+	price_list_factor, company_factor = get_rate_factors(pos_profile) if price_list else (1.0, 1.0)
+	rate_map = _get_rate_map(item_codes, price_list, customer, price_list_factor, company_factor)
 	tax_map = _get_item_tax_map(items, warehouse)
 	bundle_codes = _get_bundle_item_codes(item_codes)
 	for item in items:
@@ -307,11 +317,11 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
 	return items
 
 
-def _get_item(item_code, warehouse=None, price_list=None, customer=None, **extra):
+def _get_item(item_code, warehouse=None, price_list=None, customer=None, pos_profile=None, **extra):
 	item = frappe.db.get_value("Item", item_code, ITEM_FIELDS, as_dict=True)
 	if not item:
 		return None
-	_attach_stock_and_rate([item], warehouse, price_list, customer)
+	_attach_stock_and_rate([item], warehouse, price_list, customer, pos_profile)
 	item.update(extra)
 	return item
 
@@ -352,6 +362,7 @@ def get_item_variants(
 	warehouse: str | None = None,
 	price_list: str | None = None,
 	customer: str | None = None,
+	pos_profile: str | None = None,
 ) -> dict:
 	"""Attribute-picker data for a variant template (has_variants=1): the
 	template's attributes in their configured order, the set of values that
@@ -371,7 +382,7 @@ def get_item_variants(
 	if not variants:
 		return {"attributes": [], "variants": []}
 
-	_attach_stock_and_rate(variants, warehouse, price_list, customer)
+	_attach_stock_and_rate(variants, warehouse, price_list, customer, pos_profile)
 
 	template_attr_order = frappe.get_all(
 		"Item Variant Attribute",
@@ -468,7 +479,7 @@ def get_items(
 		fields=ITEM_FIELDS,
 		order_by="name asc",
 	)
-	_attach_stock_and_rate(items, warehouse, price_list, customer)
+	_attach_stock_and_rate(items, warehouse, price_list, customer, pos_profile)
 	return items
 
 
@@ -504,7 +515,7 @@ def search_item(
 	# 1. Barcode — exact match on the Item's barcodes child table
 	item_code = frappe.db.get_value("Item Barcode", {"barcode": search_text}, "parent")
 	if item_code:
-		item = _get_item(item_code, warehouse, price_list, customer)
+		item = _get_item(item_code, warehouse, price_list, customer, pos_profile)
 		if _allowed(item):
 			return {"match_type": "barcode", "items": [item]}
 
@@ -516,6 +527,7 @@ def search_item(
 			warehouse,
 			price_list,
 			customer,
+			pos_profile,
 			serial_no=search_text,
 			batch_no=serial.batch_no or "",
 		)
@@ -525,13 +537,13 @@ def search_item(
 	# 3. Batch No — exact match
 	if frappe.db.exists("Batch", search_text):
 		batch_item = frappe.db.get_value("Batch", search_text, "item")
-		item = _get_item(batch_item, warehouse, price_list, customer, batch_no=search_text)
+		item = _get_item(batch_item, warehouse, price_list, customer, pos_profile, batch_no=search_text)
 		if _allowed(item):
 			return {"match_type": "batch_no", "items": [item]}
 
 	# 4. Item code — exact match
 	if frappe.db.exists("Item", search_text):
-		item = _get_item(search_text, warehouse, price_list, customer)
+		item = _get_item(search_text, warehouse, price_list, customer, pos_profile)
 		if _allowed(item):
 			return {"match_type": "item_code", "items": [item]}
 
@@ -565,5 +577,5 @@ def search_item(
 		query = query.where(Item.item_group.isin(list(allowed_groups)))
 	query = query.orderby(Item.name).limit(50)
 	items = query.run(as_dict=True)
-	_attach_stock_and_rate(items, warehouse, price_list, customer)
+	_attach_stock_and_rate(items, warehouse, price_list, customer, pos_profile)
 	return {"match_type": "search", "items": items}

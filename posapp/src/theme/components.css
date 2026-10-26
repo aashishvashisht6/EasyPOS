@@ -100,7 +100,8 @@
   align-items: center;
   gap: 6px;
   background: transparent;
-  padding: 4px 6px 4px 4px;
+  padding-block: 4px;
+  padding-inline: 4px 6px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background 0.15s ease;
@@ -181,6 +182,19 @@
   color: var(--color-text-faint);
 }
 
+/* Selected entry (Topbar language menu) — primary-color "active" pattern,
+   readable in both themes (see the Dark Mode notes in CLAUDE.md). */
+.pos-user-menu-item.active,
+.pos-user-menu-item.active:hover,
+.pos-user-menu-item.active:focus {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.pos-user-menu-item.active i {
+  color: inherit;
+}
+
 .pos-user-menu-item-danger:hover,
 .pos-user-menu-item-danger:focus {
   background: var(--color-danger-bg);
@@ -238,7 +252,7 @@
 
 .pos-search i {
   position: absolute;
-  left: 9px;
+  inset-inline-start: 9px;
   top: 0;
   bottom: 0;
   margin: auto 0;
@@ -251,7 +265,7 @@
 .pos-search input {
   width: 100%;
   height: 30px;
-  padding-left: 28px;
+  padding-inline-start: 28px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
   background: var(--color-bg);
@@ -262,12 +276,12 @@
 }
 
 .pos-search input.has-scan-btn {
-  padding-right: 40px;
+  padding-inline-end: 40px;
 }
 
 .pos-search-scan-btn {
   position: absolute;
-  right: 12px;
+  inset-inline-end: 12px;
   top: 0;
   bottom: 0;
   margin: auto 0;
@@ -628,6 +642,17 @@
   margin-bottom: 0;
 }
 
+/* Language switchers: 38 languages, so the login picker is a compact select
+   and the Topbar menu scrolls instead of running off-screen. */
+.pos-login-language .form-select {
+  width: auto;
+}
+
+.pos-language-menu {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 /* NumberField: hide native spinner arrows, use the stepper UI instead */
 .pos-field input[type="number"]::-webkit-outer-spin-button,
 .pos-field input[type="number"]::-webkit-inner-spin-button {
@@ -650,7 +675,7 @@
 
 .pos-field-required {
   color: var(--color-danger-text);
-  margin-left: 2px;
+  margin-inline-start: 2px;
 }
 
 .pos-field-error {
@@ -813,9 +838,10 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0;
+  inset-inline-end: 0;
   width: 28px;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-start-end-radius: var(--radius-md);
+  border-end-end-radius: var(--radius-md);
   background: linear-gradient(to left, var(--color-surface), transparent);
   pointer-events: none;
   opacity: 0;
@@ -862,7 +888,8 @@
 .pos-ct-expand-panel {
   background: var(--color-surface-alt);
   border-bottom: 1px solid var(--color-border-faint);
-  padding: 8px 14px 12px 44px;
+  padding-block: 8px 12px;
+  padding-inline: 44px 14px;
   font-size: 12px;
   color: var(--color-text-secondary);
 }
@@ -871,7 +898,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 14px 8px 16px;
+  padding-block: 4px 8px;
+  padding-inline: 16px 14px;
   font-size: 11px;
   color: var(--color-danger-text);
   background: var(--color-danger-bg-soft);
@@ -1013,8 +1041,8 @@
 .pos-link-dropdown {
   position: absolute;
   top: calc(100% + 4px);
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   z-index: 200;
   background: var(--color-surface);
   border: 1px solid var(--color-border-soft);
@@ -1027,7 +1055,7 @@
 
 .pos-link-option {
   width: 100%;
-  text-align: left;
+  text-align: start;
   background: none;
   border: none;
   border-radius: var(--radius-sm);
@@ -1264,7 +1292,7 @@
 .pos-item-check-badge {
   position: absolute;
   top: 6px;
-  right: 6px;
+  inset-inline-end: 6px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -1279,7 +1307,7 @@
 .pos-item-bundle-badge {
   position: absolute;
   top: 6px;
-  left: 6px;
+  inset-inline-start: 6px;
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -1319,6 +1347,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* dir="auto" on the element lets an English name truncate at its own end in
+     RTL; match-parent keeps it aligned with the page instead of its own start. */
+  text-align: match-parent;
 }
 
 .pos-item-price-row {
@@ -1416,7 +1447,7 @@
 
 .pos-input-group i {
   position: absolute;
-  left: 12px;
+  inset-inline-start: 12px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--color-text-faint);
@@ -1426,7 +1457,7 @@
 .pos-input-group input {
   width: 100%;
   height: 42px;
-  padding-left: 38px;
+  padding-inline-start: 38px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-input);
   background: var(--color-surface);
@@ -1445,7 +1476,7 @@
 .pos-toast-viewport {
   position: fixed;
   top: 16px;
-  right: 16px;
+  inset-inline-end: 16px;
   z-index: 2200;
   display: flex;
   flex-direction: column;
@@ -1457,7 +1488,7 @@
 @keyframes pos-toast-in {
   from {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateX(calc(16px * var(--pos-dir-sign, 1)));
   }
   to {
     opacity: 1;
@@ -1475,10 +1506,11 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px 12px 12px 14px;
+  padding-block: 12px;
+  padding-inline: 14px 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-border-soft);
-  border-left: 3px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: 0 8px 20px rgba(16, 20, 28, 0.12);
   animation: pos-toast-in 0.2s ease;
@@ -1523,7 +1555,7 @@
 }
 
 .pos-toast-success {
-  border-left-color: var(--color-success-icon);
+  border-inline-start-color: var(--color-success-icon);
 }
 
 .pos-toast-success .pos-toast-icon {
@@ -1531,7 +1563,7 @@
 }
 
 .pos-toast-danger {
-  border-left-color: var(--color-danger-icon);
+  border-inline-start-color: var(--color-danger-icon);
 }
 
 .pos-toast-danger .pos-toast-icon {
@@ -1539,7 +1571,7 @@
 }
 
 .pos-toast-warning {
-  border-left-color: var(--color-warning-text-strong);
+  border-inline-start-color: var(--color-warning-text-strong);
 }
 
 .pos-toast-warning .pos-toast-icon {
@@ -1547,9 +1579,904 @@
 }
 
 .pos-toast-info {
-  border-left-color: var(--color-primary);
+  border-inline-start-color: var(--color-primary);
 }
 
 .pos-toast-info .pos-toast-icon {
   color: var(--color-primary-hover);
+}
+
+/* App shell — 100dvh tracks the *visible* viewport on mobile browsers, where
+   100vh includes the area behind the collapsing address bar and hides the
+   bottom of the page. 100vh stays as the fallback for older browsers. */
+.pos-app-shell {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Mobile foundations (< 640px; see utils/breakpoints.js) */
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* 44px minimum touch target. !important is deliberate: Bootstrap's own
+     .form-control-sm / .input-group-sm rules (injected after this file by
+     theme/bootstrapDirection.js) and per-component font-size rules would
+     otherwise win on source order or specificity. */
+  .pos-btn,
+  .pos-icon-btn,
+  .pos-btn-icon,
+  .btn,
+  .form-control,
+  .form-select,
+  .form-control-sm,
+  .form-select-sm,
+  .input-group-sm > .form-control,
+  .input-group-sm > .form-select,
+  .input-group-sm > .btn {
+    min-height: 44px !important;
+  }
+
+  .pos-icon-btn,
+  .pos-btn-icon {
+    min-width: 44px !important;
+  }
+
+  /* iOS Safari zooms the page on focus when an input's font is under 16px */
+  input,
+  select,
+  textarea,
+  .form-control,
+  .form-select,
+  .form-control-sm,
+  .form-select-sm,
+  .input-group-sm > .form-control,
+  .input-group-sm > .form-select,
+  .pos-search input {
+    font-size: 16px !important;
+  }
+}
+
+/* Bottom sheet (components/common/BottomSheet.jsx) */
+.pos-sheet-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+}
+
+.pos-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.pos-sheet {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  max-height: 85dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-start-start-radius: 16px;
+  border-start-end-radius: 16px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.18);
+  padding-bottom: var(--safe-bottom);
+  animation: pos-sheet-up 0.2s ease-out;
+}
+
+.pos-sheet-full {
+  height: 85dvh;
+}
+
+.pos-sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border-input);
+  margin: 8px auto 4px;
+  flex-shrink: 0;
+}
+
+.pos-sheet-title {
+  padding: 6px 16px 10px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.pos-sheet-body {
+  padding: 0 16px 16px;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+
+.pos-sheet-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border-soft);
+  flex-shrink: 0;
+}
+
+.pos-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pos-sheet-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 6px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pos-sheet-tile i {
+  font-size: 22px;
+}
+
+.pos-sheet-tile.active {
+  background: var(--color-primary-tint);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.pos-sheet-tile-badge {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--color-danger-text);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pos-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pos-sheet {
+    animation: none;
+  }
+}
+
+/* Bottom tab bar — phones only (the sidebar rail owns tablet/desktop) */
+.pos-bottom-nav,
+.pos-show-mobile {
+  display: none;
+}
+
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .pos-app-shell {
+    flex-direction: column;
+  }
+
+  .pos-sidebar {
+    display: none;
+  }
+
+  .pos-bottom-nav {
+    order: 2;
+    display: flex;
+    flex-shrink: 0;
+    min-height: var(--bottom-nav-height);
+    padding-bottom: var(--safe-bottom);
+    background: var(--color-dark-surface);
+    border-top: 1px solid var(--color-dark-border);
+  }
+
+  .pos-bottom-nav-item {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 2px;
+    background: none;
+    border: 0;
+    color: var(--color-dark-text-muted);
+    font-size: 10.5px;
+    text-decoration: none;
+  }
+
+  .pos-bottom-nav-item i {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .pos-bottom-nav-item.active {
+    color: var(--color-primary);
+    background: var(--color-primary-tint);
+  }
+
+  .pos-bottom-nav-dot {
+    position: absolute;
+    top: 6px;
+    inset-inline-start: calc(50% + 6px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-danger-text);
+  }
+
+  .pos-hide-mobile {
+    display: none !important;
+  }
+
+  .pos-show-mobile {
+    display: block;
+  }
+
+  /* Topbar: row 1 = title + actions, row 2 = full-width search */
+  .pos-topbar {
+    height: auto;
+    min-height: var(--topbar-height);
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .pos-topbar > .d-flex:first-child {
+    display: contents !important;
+  }
+
+  .pos-topbar-title {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .pos-topbar > .d-flex:last-child {
+    order: 2;
+    gap: 8px !important;
+  }
+
+  .pos-search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  .pos-search.has-scan {
+    max-width: none;
+  }
+
+  .pos-search-scan-btn {
+    width: 36px;
+    height: 36px;
+    right: auto;
+    inset-inline-end: 4px;
+  }
+
+  .pos-search input.has-scan-btn {
+    padding-inline-end: 44px;
+  }
+
+  /* Status pills collapse to just their dot */
+  .pos-status-label {
+    display: none;
+  }
+
+  .pos-status-pill {
+    padding: 8px;
+  }
+
+  .pos-user-trigger-caret {
+    display: none;
+  }
+}
+
+/* POS terminal: items + cart side by side from tablet up; on phones the cart
+   becomes a bottom sheet opened from the CartBar. */
+.pos-terminal-body {
+  flex: 1;
+  display: flex;
+  padding: 12px 16px 16px;
+  gap: 16px;
+  min-height: 0;
+}
+
+.pos-cart-sheet {
+  display: contents;
+}
+
+.pos-cart-sheet-head,
+.pos-cart-sheet-backdrop,
+.pos-cart-bar {
+  display: none;
+}
+
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .pos-terminal-body {
+    padding: 8px 12px;
+    gap: 0;
+  }
+
+  .pos-cart-sheet {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    height: 92dvh;
+    z-index: 1045;
+    padding: 0 8px calc(8px + var(--safe-bottom));
+    background: var(--color-bg);
+    border-start-start-radius: 16px;
+    border-start-end-radius: 16px;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.22s ease-out, visibility 0s linear 0.22s;
+  }
+
+  /* No transform once open: a transformed ancestor would become the containing
+     block for the position: fixed checkout/draft modals rendered inside Cart. */
+  .pos-cart-sheet.open {
+    transform: none;
+    visibility: visible;
+    transition: none;
+    animation: pos-sheet-up 0.22s ease-out;
+  }
+
+  .pos-cart-sheet-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    padding: 4px 0;
+  }
+
+  .pos-cart-sheet-head .pos-icon-btn {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 0;
+    border: 0;
+  }
+
+  .pos-cart-sheet-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1044;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .pos-cart-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin: 0 12px 8px;
+    min-height: 52px;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--color-dark-surface);
+    color: var(--color-dark-text);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .pos-cart-bar-count {
+    position: relative;
+    display: flex;
+    font-size: 20px;
+  }
+
+  .pos-cart-bar-badge {
+    position: absolute;
+    top: -6px;
+    inset-inline-start: 12px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pos-cart-bar-label {
+    flex: 1;
+    text-align: start;
+  }
+
+  .pos-cart-bar-total {
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+}
+
+/* Shared components on phones (Phase 3) */
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  /* Modal: full-screen sheet, body scrolls, footer pinned. Small confirm /
+     alert / scanner dialogs (.modal-sm) stay as centered cards. */
+  .modal-dialog:not(.modal-sm) {
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .modal-dialog:not(.modal-sm) .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .modal-dialog:not(.modal-sm) .modal-header {
+    padding-top: calc(0.75rem + var(--safe-top));
+  }
+
+  .modal-dialog:not(.modal-sm) .modal-body {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .modal-dialog:not(.modal-sm) .modal-footer {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding-bottom: calc(0.75rem + var(--safe-bottom));
+  }
+
+  .modal-dialog:not(.modal-sm) .modal-footer > * {
+    flex: 1;
+    margin: 0;
+  }
+
+  .modal-dialog.modal-sm {
+    margin-inline: 12px;
+  }
+
+  /* Filter chips scroll sideways instead of wrapping to several rows */
+  .pos-chip-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .pos-chip-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pos-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Page header: actions take a full-width row of equal buttons */
+  .pos-page-header-actions {
+    flex: 1 1 100%;
+  }
+
+  .pos-page-header-actions > * {
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  /* Pages are sized for a fixed-height desktop viewport (lists scroll inside
+     their own card). On phones let each page take its natural height and the
+     routed area scroll as one column instead. */
+  .pos-page-scroll > * {
+    flex-shrink: 0;
+    min-height: auto !important;
+  }
+
+  /* The POS terminal is the exception: its item grid is virtualized and must
+     fill (and scroll within) the space left above the cart bar. */
+  .pos-page-scroll > .pos-terminal-body {
+    flex-shrink: 1;
+    min-height: 0 !important;
+  }
+
+  .pos-page-scroll > .pos-cart-bar {
+    min-height: 52px !important;
+  }
+
+  /* ListTable cards */
+  /* Same contract as the desktop grid: fills a bounded parent (e.g. a modal
+     body) and scrolls inside it, or takes its natural height on a page. */
+  .pos-list-cards {
+    height: 100%;
+    min-height: 240px;
+    overflow-y: auto;
+  }
+
+  .pos-list-card {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border-faint);
+  }
+
+  .pos-list-card:last-child {
+    border-bottom: 0;
+  }
+
+  .pos-list-card-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    overflow-wrap: anywhere;
+  }
+
+  .pos-list-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 12px;
+  }
+
+  .pos-list-card-field {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .pos-table-row .pos-list-card-label,
+  .pos-ct-card-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-faint);
+  }
+
+  /* ChildTable cards (6+ columns) */
+  .pos-ct-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pos-ct-card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .pos-ct-card.has-error {
+    border-color: var(--color-danger-text);
+  }
+
+  .pos-ct-card > .pos-ct-row-error {
+    grid-column: 1 / -1;
+  }
+
+  .pos-ct-card-footer {
+    background: var(--color-surface-alt);
+  }
+
+  .pos-ct-card-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    font-size: 13px;
+  }
+}
+
+/* Phase 4: list pages, editors, reports on phones */
+.pos-filter-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-inline-start: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .pos-page-scroll .px-4 {
+    padding-inline: 12px !important;
+  }
+
+  /* Toolbar: chips on their own row, primary action full width underneath */
+  .pos-list-toolbar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 10px;
+  }
+
+  .pos-list-toolbar > .pos-btn {
+    width: 100%;
+  }
+
+  /* Filter fields stack full-width inside the sheet */
+  .pos-filter-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pos-filter-sheet > div {
+    width: 100% !important;
+  }
+
+  .pos-filter-sheet > .pos-btn {
+    margin-bottom: 0 !important;
+    align-self: flex-start;
+  }
+
+  /* Editor / detail pages: one column of fields. The cart's Save/Load Draft
+     pair is a deliberate two-up row, hence the exclusion. */
+  .pos-page-scroll .row:not(.cart-actions .row) > [class*="col-"] {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Header actions (Save, Cancel invoice, ...) become a bar pinned above the
+     bottom tab bar so they're reachable without scrolling back to the top. */
+  .pos-page-header-actions {
+    position: fixed;
+    inset-inline: 0;
+    bottom: calc(var(--bottom-nav-height) + var(--safe-bottom));
+    z-index: 5;
+    margin: 0;
+    padding: 8px 12px;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border-soft);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .pos-page-scroll:has(.pos-page-header-actions)::after {
+    content: "";
+    flex: 0 0 120px;
+  }
+
+  /* Reports KPI tiles: two per row */
+  .pos-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  /* Sync center: master list stacks above the detail panels */
+  .pos-sync-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pos-sync-split {
+    flex-direction: column;
+    flex: none !important;
+  }
+
+  .pos-sync-list {
+    width: 100% !important;
+  }
+
+  .pos-sync-split > div {
+    flex: none !important;
+  }
+}
+
+/* Phase 5: on-screen keyboard + landscape phones */
+.pos-app-shell {
+  padding-inline: var(--safe-left) var(--safe-right);
+}
+
+/* Set by the keyboard watcher in AppLayout while a text field has focus on a
+   phone: the tab bar and cart bar would otherwise eat the little space the
+   keyboard leaves. */
+.pos-kb-open .pos-bottom-nav,
+.pos-kb-open .pos-cart-bar {
+  display: none;
+}
+
+.pos-kb-open .pos-page-header-actions {
+  bottom: 0;
+}
+
+/* Landscape phone: compact chrome (width is >= 640px, so the portrait phone
+   rules above only apply through the combined query). */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --topbar-height: 44px;
+    --bottom-nav-height: 44px;
+  }
+
+  .pos-topbar {
+    flex-wrap: nowrap;
+    padding: 4px 12px;
+  }
+
+  .pos-topbar-title {
+    flex: 0 0 auto;
+    order: 1;
+  }
+
+  .pos-search,
+  .pos-search.has-scan {
+    order: 2;
+    flex: 1 1 auto;
+    max-width: 360px;
+  }
+
+  .pos-topbar > .d-flex:last-child {
+    order: 3;
+    margin-inline-start: auto;
+  }
+
+  .pos-bottom-nav-item {
+    flex-direction: row;
+    gap: 6px;
+    padding: 4px 2px;
+    font-size: 11px;
+  }
+
+  .pos-bottom-nav-dot {
+    top: 8px;
+  }
+
+  .pos-page-scroll > .pos-cart-bar {
+    min-height: 44px !important;
+    margin-bottom: 6px;
+    padding-block: 4px;
+  }
+
+  .pos-terminal-body {
+    padding-block: 4px;
+  }
+
+  .pos-cart-sheet {
+    height: 96dvh;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .pos-page-scroll:has(.pos-page-header-actions)::after {
+    flex-basis: 120px;
+  }
+}
+
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  /* Category chips: swipe, no scrollbar eating a row of height */
+  .pos-category-row {
+    scrollbar-width: none;
+  }
+
+  .pos-category-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Touch-target pass (found by the mobile sweep): controls that were <40px */
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .pos-user-trigger {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .pos-search-scan-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .pos-back-link {
+    min-height: 44px;
+  }
+
+  .input-group > .btn {
+    min-width: 44px;
+  }
+
+  .pos-ct-add-strip {
+    min-height: 44px;
+  }
+
+  .pos-item-stepper button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .pos-user-menu-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Dark mode: the cart bar's near-black fill disappears against the dark page,
+   so it takes the brand color there (light mode keeps the dark bar). */
+:root[data-theme="dark"] .pos-cart-bar {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+:root[data-theme="dark"] .pos-cart-bar-badge {
+  background: var(--color-on-primary);
+  color: var(--color-primary);
+}
+
+/* ── RTL (Arabic/Urdu/...; <html dir="rtl"> set by store/languageStore.js) ──
+   Layout spacing/positioning above uses logical properties, so it flips on
+   its own; these cover what logical properties can't: physical gradients,
+   the toast slide-in direction, and icons whose meaning is directional. */
+:root[dir="rtl"] {
+  --pos-dir-sign: -1;
+}
+
+:root[dir="rtl"] .pos-ct-fade-right {
+  background: linear-gradient(to right, var(--color-surface), transparent);
+}
+
+:root[dir="rtl"] .bi-arrow-left,
+:root[dir="rtl"] .bi-arrow-right,
+:root[dir="rtl"] .bi-chevron-left,
+:root[dir="rtl"] .bi-chevron-right,
+:root[dir="rtl"] .bi-box-arrow-right,
+:root[dir="rtl"] .bi-arrow-return-left {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+/* Long translations (found by the language sweep): labels may wrap inside
+   their box instead of overflowing it. */
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .pos-bottom-nav-item > span {
+    max-width: 100%;
+    line-height: 1.15;
+    text-align: center;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pos-stat-label {
+    overflow-wrap: anywhere;
+  }
 }
