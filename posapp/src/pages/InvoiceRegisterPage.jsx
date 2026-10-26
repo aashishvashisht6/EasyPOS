@@ -1,59 +1,62 @@
+import { _t, useTranslation } from "../translation";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import usePOSSessionStore from "../store/posSessionStore";
 import { fetchInvoices } from "../api/InvoiceRegister";
-import { ListTable, FilterChips, Pagination, LinkField, TextField } from "../components/common";
-import { formatDate, invoiceStatusBadgeClass } from "../utils/format";
+import { ListTable, FilterChips, Pagination, LinkField, TextField, FilterBar } from "../components/common";
+import { formatDate, invoiceStatusBadgeClass, invoiceStatusLabel } from "../utils/format";
+import useCurrencyFormatter from "../hooks/useCurrencyFormatter";
 
 const PAGE_SIZE = 20;
 
 const STATUS_FILTERS = [
-  { label: "All", value: "" },
-  { label: "Paid", value: "Paid" },
-  { label: "Unpaid", value: "Unpaid" },
-  { label: "Overdue", value: "Overdue" },
+  { label: _t("All"), value: "" },
+  { label: _t("Paid"), value: "Paid" },
+  { label: _t("Unpaid"), value: "Unpaid" },
+  { label: _t("Overdue"), value: "Overdue" },
 ];
 
-const INVOICE_COLUMNS = [
+const buildInvoiceColumns = (money) => [
   {
     key: "name",
-    label: "Invoice",
+    label: _t("Invoice"),
     width: "1fr",
     render: (inv) => <span style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-secondary)" }}>{inv.name}</span>,
   },
   {
     key: "customer",
-    label: "Customer",
+    label: _t("Customer"),
     width: "1.4fr",
     render: (inv) => inv.customer_name || inv.customer,
   },
   {
     key: "posting_date",
-    label: "Date",
+    label: _t("Date"),
     width: "1fr",
     render: (inv) => <span style={{ color: "var(--color-text-muted)" }}>{formatDate(inv.posting_date)}</span>,
   },
   {
     key: "grand_total",
-    label: "Amount",
+    label: _t("Amount"),
     width: "0.9fr",
-    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>₹{inv.grand_total}</span>,
+    render: (inv) => <span style={{ fontFamily: "var(--font-mono)" }}>{money(inv.grand_total, inv.currency)}</span>,
   },
   {
     key: "status",
-    label: "Status",
+    label: _t("Status"),
     width: "0.9fr",
-    render: (inv) => <span className={invoiceStatusBadgeClass(inv.status)}>{inv.status}</span>,
+    render: (inv) => <span className={invoiceStatusBadgeClass(inv.status)}>{invoiceStatusLabel(inv.status)}</span>,
   },
   {
     key: "pos_profile",
-    label: "Register",
+    label: _t("Register"),
     width: "0.9fr",
     render: (inv) => <span style={{ color: "var(--color-text-muted)" }}>{inv.pos_profile}</span>,
   },
 ];
 
 const InvoiceRegisterPage = () => {
+  const { __ } = useTranslation();
   const { setTopbar } = useOutletContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -68,6 +71,9 @@ const InvoiceRegisterPage = () => {
   const [email, setEmail] = useState("");
   const [search, setSearch] = useState("");
   const [invoices, setInvoices] = useState([]);
+  // Each row in its own invoice's currency — this list spans every profile.
+  const money = useCurrencyFormatter(invoices.map((inv) => inv.currency));
+  const columns = useMemo(() => buildInvoiceColumns(money), [money]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -124,10 +130,10 @@ const InvoiceRegisterPage = () => {
 
   useEffect(() => {
     setTopbar({
-      title: "Invoices",
+      title: _t("Invoices"),
       searchValue: search,
       onSearchChange: setSearch,
-      searchPlaceholder: "Search invoice or customer",
+      searchPlaceholder: _t("Search invoice or customer"),
     });
   }, [setTopbar, search]);
 
@@ -146,7 +152,7 @@ const InvoiceRegisterPage = () => {
   return (
     <>
       <div className="d-flex flex-column flex-fill" style={{ minHeight: 0 }}>
-        <div className="d-flex align-items-center justify-content-between px-4 pt-3">
+        <div className="d-flex align-items-center justify-content-between px-4 pt-3 pos-list-toolbar">
           <FilterChips
             options={STATUS_FILTERS.map((f) => ({ ...f, danger: f.value === "Overdue" }))}
             value={status}
@@ -159,15 +165,14 @@ const InvoiceRegisterPage = () => {
             onClick={() => navigate("/posapp/terminal")}
           >
             <i className="bi bi-plus-lg" style={{ fontSize: 14 }} />
-            New invoice
+            {__("New invoice")}
           </button>
         </div>
 
-        <div className="px-4 pt-3">
-          <div className="d-flex align-items-end gap-2">
+        <FilterBar active={Boolean(hasActiveFilters)}>
             <div style={{ width: 220 }}>
               <LinkField
-                label="Customer"
+                label={__("Customer")}
                 doctype="Customer"
                 value={customer}
                 displayValue={customerName}
@@ -176,13 +181,13 @@ const InvoiceRegisterPage = () => {
                   setCustomer(docname ?? "");
                   setCustomerName(docname ? option?.label || option?.description || docname : "");
                 }}
-                placeholder="Filter by customer"
+                placeholder={__("Filter by customer")}
                 size="sm"
               />
             </div>
             <div style={{ width: 200 }}>
               <LinkField
-                label="POS Profile"
+                label={__("POS Profile")}
                 doctype="POS Profile"
                 value={posProfile}
                 onChange={(docname) => {
@@ -190,25 +195,25 @@ const InvoiceRegisterPage = () => {
                   setPosProfile(docname ?? "");
                   setPosProfileTouched(true);
                 }}
-                placeholder="Filter by POS Profile"
+                placeholder={__("Filter by POS Profile")}
                 size="sm"
               />
             </div>
             <div style={{ width: 180 }}>
               <TextField
-                label="Mobile No"
+                label={__("Mobile No")}
                 value={mobileNo}
                 onChange={resetToFirstPage(setMobileNo)}
-                placeholder="Filter by mobile"
+                placeholder={__("Filter by mobile")}
                 size="sm"
               />
             </div>
             <div style={{ width: 220 }}>
               <TextField
-                label="Email"
+                label={__("Email")}
                 value={email}
                 onChange={resetToFirstPage(setEmail)}
-                placeholder="Filter by email"
+                placeholder={__("Filter by email")}
                 size="sm"
               />
             </div>
@@ -219,19 +224,19 @@ const InvoiceRegisterPage = () => {
                 style={{ height: 30, fontSize: 12, padding: "0 12px", marginBottom: 14 }}
                 onClick={clearFilters}
               >
-                Clear filters
+                {__("Clear filters")}
               </button>
             )}
-          </div>
-        </div>
+
+        </FilterBar>
 
         <div className="d-flex flex-column flex-fill px-4 pt-2 pb-4" style={{ minHeight: 0 }}>
           <div style={{ flex: 1, minHeight: 0 }}>
             <ListTable
-              columns={INVOICE_COLUMNS}
+              columns={columns}
               rows={visibleInvoices}
               loading={loading}
-              emptyMessage="No invoices found"
+              emptyMessage={__("No invoices found")}
               onRowClick={(inv) => navigate(`/posapp/invoices/${encodeURIComponent(inv.name)}`)}
               rowStyle={(inv) =>
                 inv.status?.startsWith("Overdue") ? { background: "var(--color-warning-bg-soft)" } : null

@@ -24,15 +24,17 @@ import LoyaltyProgramListPage from "./pages/LoyaltyProgramListPage";
 import LoyaltyProgramDetailPage from "./pages/LoyaltyProgramDetailPage";
 import ReportsPage from "./pages/ReportsPage";
 import CustomerDisplayPage from "./pages/CustomerDisplayPage";
+import { useTranslation } from "./translation";
 
 export function Spinner() {
+  const { __ } = useTranslation();
   return (
     <div
       className="d-flex justify-content-center align-items-center"
       style={{ height: "100vh" }}
     >
       <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+        <span className="visually-hidden">{__("Loading...")}</span>
       </div>
     </div>
   );

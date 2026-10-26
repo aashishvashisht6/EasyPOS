@@ -1,3 +1,4 @@
+import { tLabel, useTranslation } from "../../translation";
 import DetailField from "./DetailField";
 import ChildTable from "./ChildTable";
 import PageLoader from "./PageLoader";
@@ -13,7 +14,8 @@ import PageHeader from "./PageHeader";
 //   { type: "fields", title, fields: [{ label, value, mono, muted, span (col-md-*, default 3) }] },
 //   { type: "table", title, columns, rows, rowKey, emptyMessage, footer },
 // ]
-const FormView = ({ title, subtitle, badge, backTo, backLabel = "Back", actions, blocks = [], loading }) => {
+const FormView = ({ title, subtitle, badge, backTo, backLabel, actions, blocks = [], loading }) => {
+  const { __ } = useTranslation();
   if (loading) return <PageLoader />;
 
   return (
@@ -24,7 +26,7 @@ const FormView = ({ title, subtitle, badge, backTo, backLabel = "Back", actions,
         <div className="pos-card mb-3 p-3 p-md-4" key={`${block.type}-${block.title || i}`}>
           {block.title && (
             <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-              {block.title}
+              {tLabel(__, block.title)}
             </h6>
           )}
           {block.type === "table" ? (

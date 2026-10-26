@@ -1,16 +1,18 @@
 import Modal from "./Modal";
+import { useTranslation } from "../../translation";
 
-const AlertModal = ({ open, onClose, title = "Validation Error", message }) => {
+const AlertModal = ({ open, onClose, title, message }) => {
+  const { __ } = useTranslation();
   if (!open) return null;
 
   return (
     <Modal
-      title={title}
+      title={title ?? __("Validation Error")}
       onClose={onClose}
       size="sm"
       footer={
         <button type="button" className="pos-btn pos-btn-primary" onClick={onClose}>
-          OK
+          {__("OK")}
         </button>
       }
     >

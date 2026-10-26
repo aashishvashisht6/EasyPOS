@@ -96,4 +96,11 @@
   margin-top: 2px;
   font-size: 10.5px;
   color: var(--color-text-muted);
+/* Phones: the full-screen modal body already scrolls, so don't nest a second
+   (320px-capped) scroller inside it. */
+@media (max-width: 639.98px), (max-height: 500px) and (orientation: landscape) {
+  .closing-rows {
+    max-height: none;
+    overflow-y: visible;
+  }
 }

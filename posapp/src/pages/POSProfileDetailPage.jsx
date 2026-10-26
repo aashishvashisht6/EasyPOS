@@ -1,3 +1,5 @@
+import { getServerMessage } from "../utils/serverError";
+import { _t, useTranslation } from "../translation";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { fetchProfile, createProfile, saveProfile, fetchCompanyDefaults } from "../api/POSProfile";
@@ -61,6 +63,7 @@ const emptyProfile = {
 };
 
 const POSProfileDetailPage = () => {
+  const { __ } = useTranslation();
   const { name } = useParams();
   const navigate = useNavigate();
   const { setTopbar } = useOutletContext();
@@ -98,7 +101,7 @@ const POSProfileDetailPage = () => {
   }, [isEdit, name]);
 
   useEffect(() => {
-    setTopbar({ title: isEdit ? form.name || "POS Profile" : "New POS Profile" });
+    setTopbar({ title: isEdit ? form.name || _t("POS Profile") : _t("New POS Profile") });
   }, [isEdit, form.name, setTopbar]);
 
   const update = (field) => (value) => setForm((f) => ({ ...f, [field]: value }));
@@ -147,7 +150,7 @@ const POSProfileDetailPage = () => {
 
   const handleSubmit = async () => {
     if (!form.company || !form.warehouse) {
-      setError("Company and Warehouse are required");
+      setError(__("Company and Warehouse are required"));
       return;
     }
 
@@ -158,28 +161,28 @@ const POSProfileDetailPage = () => {
     // Mirrors pos_profile.py's validate_payment_methods: at least one row,
     // and exactly one of them marked default.
     if (payments.length === 0) {
-      setError("Payment methods are mandatory. Please add at least one payment method.");
+      setError(__("Payment methods are mandatory. Please add at least one payment method."));
       return;
     }
     const defaultModeCount = payments.filter((r) => r.default).length;
     if (defaultModeCount === 0) {
-      setError("Please select a default mode of payment");
+      setError(__("Please select a default mode of payment"));
       return;
     }
     if (defaultModeCount > 1) {
-      setError("You can only select one mode of payment as default");
+      setError(__("You can only select one mode of payment as default"));
       return;
     }
 
     // Mirrors pos_profile.py's validate_duplicate_groups.
     const itemGroupNames = item_groups.map((r) => r.item_group);
     if (new Set(itemGroupNames).size !== itemGroupNames.length) {
-      setError("Duplicate item group found in the item group table");
+      setError(__("Duplicate item group found in the item group table"));
       return;
     }
     const customerGroupNames = customer_groups.map((r) => r.customer_group);
     if (new Set(customerGroupNames).size !== customerGroupNames.length) {
-      setError("Duplicate customer group found in the customer group table");
+      setError(__("Duplicate customer group found in the customer group table"));
       return;
     }
 
@@ -200,10 +203,10 @@ const POSProfileDetailPage = () => {
         ? await saveProfile({ ...fullDoc, ...payload, name: form.name, modified: form.modified })
         : await createProfile(payload);
 
-      toastSuccess("POS Profile saved successfully");
+      toastSuccess(__("POS Profile saved successfully"));
       navigate(`/posapp/pos-profile/${encodeURIComponent(saved.name)}`, { replace: true });
     } catch (err) {
-      const message = err?.response?.data?.exc_type || "Failed to save POS Profile";
+      const message = getServerMessage(err) || __("Failed to save POS Profile");
       setError(message);
       toastError(message);
     } finally {
@@ -216,9 +219,9 @@ const POSProfileDetailPage = () => {
   return (
     <div className="px-3 px-md-4 py-3 py-md-4">
       <PageHeader
-        title={isEdit ? form.name : "New POS Profile"}
+        title={isEdit ? form.name : __("New POS Profile")}
         backTo="/posapp/pos-profile"
-        backLabel="POS Profiles"
+        backLabel={__("POS Profiles")}
         actions={<SaveButton saving={saving} onClick={handleSubmit} />}
       />
 
@@ -226,18 +229,18 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Profile Info
+          {__("Profile Info")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
-            <LinkField label="Company" required doctype="Company" value={form.company} onChange={handleCompanyChange} />
+            <LinkField label={__("Company")} required doctype="Company" value={form.company} onChange={handleCompanyChange} />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Customer" doctype="Customer" value={form.customer} onChange={update("customer")} />
+            <LinkField label={__("Customer")} doctype="Customer" value={form.customer} onChange={update("customer")} />
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Warehouse"
+              label={__("Warehouse")}
               required
               doctype="Warehouse"
               filters={[
@@ -249,13 +252,13 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Campaign" doctype="Campaign" value={form.campaign} onChange={update("campaign")} />
+            <LinkField label={__("Campaign")} doctype="Campaign" value={form.campaign} onChange={update("campaign")} />
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Company Address"
+              label={__("Company Address")}
               doctype="Address"
-              help={!form.company ? "Select a Company first" : undefined}
+              help={!form.company ? __("Select a Company first") : undefined}
               filters={
                 form.company
                   ? [
@@ -269,26 +272,26 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <CheckboxField label="Disabled" checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
+            <CheckboxField label={__("Disabled")} checked={form.disabled} onChange={(v) => update("disabled")(v ? 1 : 0)} />
           </div>
         </div>
       </div>
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <ChildTable
-          title="Applicable for Users"
-          description="Leave empty to make this profile applicable for all users."
+          title={__("Applicable for Users")}
+          description={__("Leave empty to make this profile applicable for all users.")}
           onAddRow={() => addRow("applicable_for_users", { user: "", default: 0 })}
           rows={form.applicable_for_users}
-          emptyMessage="No users added — applies to all users"
+          emptyMessage={__("No users added — applies to all users")}
           columns={[
             {
               key: "user",
-              label: "User",
+              label: _t("User"),
               width: "2fr",
               render: (row, idx) => (
                 <LinkField
-                  placeholder="Select User"
+                  placeholder={__("Select User")}
                   doctype="User"
                   value={row.user}
                   onChange={(v) => updateRow("applicable_for_users", idx, { user: v })}
@@ -297,12 +300,12 @@ const POSProfileDetailPage = () => {
             },
             {
               key: "default",
-              label: "Default",
+              label: _t("Default"),
               width: "1fr",
               render: (row, idx) => (
                 <CheckboxField
                   dense
-                  label="Default"
+                  label={__("Default")}
                   checked={row.default}
                   onChange={(v) => updateRow("applicable_for_users", idx, { default: v ? 1 : 0 })}
                 />
@@ -329,14 +332,14 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <ChildTable
-          title="Payment Methods"
+          title={__("Payment Methods")}
           onAddRow={() =>
             addRow("payments", { mode_of_payment: "", default: 0, allow_in_returns: 0, ep_automatically_calculated: 1 })
           }
           addRowPosition="bottom"
           rows={form.payments}
-          emptyMessage="No payment modes added"
-          emptyDescription="Add the Modes of Payment cashiers can use to settle a sale on this profile."
+          emptyMessage={__("No payment modes added")}
+          emptyDescription={__("Add the Modes of Payment cashiers can use to settle a sale on this profile.")}
           rowError={(row, idx) =>
             row.mode_of_payment &&
             form.payments.some((other, i) => i !== idx && other.mode_of_payment === row.mode_of_payment && i < idx)
@@ -349,11 +352,11 @@ const POSProfileDetailPage = () => {
           columns={[
             {
               key: "mode_of_payment",
-              label: "Mode of Payment",
+              label: _t("Mode of Payment"),
               width: "1.4fr",
               render: (row, idx) => (
                 <LinkField
-                  placeholder="Select Mode"
+                  placeholder={__("Select Mode")}
                   doctype="Mode of Payment"
                   value={row.mode_of_payment}
                   onChange={(v) => updateRow("payments", idx, { mode_of_payment: v })}
@@ -362,12 +365,12 @@ const POSProfileDetailPage = () => {
             },
             {
               key: "default",
-              label: "Default",
+              label: _t("Default"),
               width: "0.7fr",
               render: (row, idx) => (
                 <CheckboxField
                   dense
-                  label="Default"
+                  label={__("Default")}
                   checked={row.default}
                   onChange={(v) => updateRow("payments", idx, { default: v ? 1 : 0 })}
                 />
@@ -375,12 +378,12 @@ const POSProfileDetailPage = () => {
             },
             {
               key: "allow_in_returns",
-              label: "Allow in Returns",
+              label: _t("Allow in Returns"),
               width: "0.9fr",
               render: (row, idx) => (
                 <CheckboxField
                   dense
-                  label="Allow in Returns"
+                  label={__("Allow in Returns")}
                   checked={row.allow_in_returns}
                   onChange={(v) => updateRow("payments", idx, { allow_in_returns: v ? 1 : 0 })}
                 />
@@ -388,40 +391,40 @@ const POSProfileDetailPage = () => {
             },
             {
               key: "ep_automatically_calculated",
-              label: "Automatically Calculated",
+              label: _t("Automatically Calculated"),
               width: "1fr",
               render: (row, idx) => (
                 <div>
                   <CheckboxField
                     dense
-                    label="Automatically Calculated"
+                    label={__("Automatically Calculated")}
                     checked={row.ep_automatically_calculated ?? 1}
                     onChange={(v) => updateRow("payments", idx, { ep_automatically_calculated: v ? 1 : 0 })}
                   />
                   <div className="pos-field-description" style={{ fontSize: 11, color: "var(--color-text-faint)", marginTop: 2 }}>
-                    When checked, the closing amount for this payment method is calculated
-                    automatically from sales. Uncheck to have the cashier manually count and
-                    enter the amount at POS closing.
+                    {__(
+                      "When checked, the closing amount for this payment method is calculated automatically from sales. Uncheck to have the cashier manually count and enter the amount at POS closing.",
+                    )}
                   </div>
                 </div>
               ),
             },
             {
               key: "ep_payment_gateway",
-              label: "Payment Gateway",
+              label: _t("Payment Gateway"),
               width: "1fr",
               render: (row, idx) => (
                 <div>
                   <SelectField
-                    placeholder="Manual (none)"
+                    placeholder={__("Manual (none)")}
                     value={row.ep_payment_gateway || ""}
-                    options={["Razorpay"]}
+                    options={[_t("Razorpay")]}
                     onChange={(v) => updateRow("payments", idx, { ep_payment_gateway: v })}
                   />
                   <div className="pos-field-description" style={{ fontSize: 11, color: "var(--color-text-faint)", marginTop: 2 }}>
-                    When set, Complete Payment opens this gateway's checkout for the amount
-                    entered instead of treating it as manually received. Configure the
-                    gateway's own credentials (e.g. Razorpay Settings) separately.
+                    {__(
+                      "When set, Complete Payment opens this gateway's checkout for the amount entered instead of treating it as manually received. Configure the gateway's own credentials (e.g. Razorpay Settings) separately.",
+                    )}
                   </div>
                 </div>
               ),
@@ -435,7 +438,7 @@ const POSProfileDetailPage = () => {
                 <button
                   type="button"
                   className="pos-btn-icon danger"
-                  title="Remove row"
+                  title={__("Remove row")}
                   onClick={() => removeRow("payments", idx)}
                 >
                   <i className="bi bi-trash" />
@@ -448,21 +451,21 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Configuration
+          {__("Configuration")}
         </h6>
         <div className="row g-3">
           {[
-            ["hide_images", "Hide Images"],
-            ["hide_unavailable_items", "Hide Unavailable Items"],
-            ["auto_add_item_to_cart", "Automatically Add Filtered Item To Cart"],
-            ["validate_stock_on_save", "Validate Stock on Save"],
-            ["print_receipt_on_order_complete", "Print Receipt on Order Complete"],
-            ["ep_customer_display_enabled", "Enable Customer Display"],
-            ["ignore_pricing_rule", "Ignore Pricing Rule"],
-            ["allow_rate_change", "Allow User to Edit Rate"],
-            ["allow_discount_change", "Allow User to Edit Discount"],
-            ["disable_grand_total_to_default_mop", "Disable auto-setting Grand Total to default Mode of Payment"],
-            ["allow_partial_payment", "Allow Partial Payment"],
+            ["hide_images", __("Hide Images")],
+            ["hide_unavailable_items", __("Hide Unavailable Items")],
+            ["auto_add_item_to_cart", __("Automatically Add Filtered Item To Cart")],
+            ["validate_stock_on_save", __("Validate Stock on Save")],
+            ["print_receipt_on_order_complete", __("Print Receipt on Order Complete")],
+            ["ep_customer_display_enabled", __("Enable Customer Display")],
+            ["ignore_pricing_rule", __("Ignore Pricing Rule")],
+            ["allow_rate_change", __("Allow User to Edit Rate")],
+            ["allow_discount_change", __("Allow User to Edit Discount")],
+            ["disable_grand_total_to_default_mop", __("Disable auto-setting Grand Total to default Mode of Payment")],
+            ["allow_partial_payment", __("Allow Partial Payment")],
           ].map(([field, label]) => (
             <div className="col-6 col-md-4" key={field}>
               <CheckboxField label={label} checked={form[field]} onChange={(v) => update(field)(v ? 1 : 0)} />
@@ -475,18 +478,18 @@ const POSProfileDetailPage = () => {
         <div className="row g-3">
           <div className="col-md-6">
             <ChildTable
-              title="Item Groups"
-              description="Only show Items from these Item Groups. Leave empty for all."
+              title={__("Item Groups")}
+              description={__("Only show Items from these Item Groups. Leave empty for all.")}
               onAddRow={() => addRow("item_groups", { item_group: "" })}
               rows={form.item_groups}
-              emptyMessage="No item groups added"
+              emptyMessage={__("No item groups added")}
               columns={[
                 {
                   key: "item_group",
-                  label: "Item Group",
+                  label: _t("Item Group"),
                   render: (row, idx) => (
                     <LinkField
-                      placeholder="Select Item Group"
+                      placeholder={__("Select Item Group")}
                       doctype="Item Group"
                       value={row.item_group}
                       onChange={(v) => updateRow("item_groups", idx, { item_group: v })}
@@ -514,18 +517,18 @@ const POSProfileDetailPage = () => {
 
           <div className="col-md-6">
             <ChildTable
-              title="Customer Groups"
-              description="Only show Customers of these Customer Groups. Leave empty for all."
+              title={__("Customer Groups")}
+              description={__("Only show Customers of these Customer Groups. Leave empty for all.")}
               onAddRow={() => addRow("customer_groups", { customer_group: "" })}
               rows={form.customer_groups}
-              emptyMessage="No customer groups added"
+              emptyMessage={__("No customer groups added")}
               columns={[
                 {
                   key: "customer_group",
-                  label: "Customer Group",
+                  label: _t("Customer Group"),
                   render: (row, idx) => (
                     <LinkField
-                      placeholder="Select Customer Group"
+                      placeholder={__("Select Customer Group")}
                       doctype="Customer Group"
                       value={row.customer_group}
                       onChange={(v) => updateRow("customer_groups", idx, { customer_group: v })}
@@ -555,12 +558,12 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Print Settings
+          {__("Print Settings")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-3">
             <LinkField
-              label="Print Format"
+              label={__("Print Format")}
               doctype="Print Format"
               filters={[["Print Format", "doc_type", "=", "POS Invoice"]]}
               value={form.print_format}
@@ -568,11 +571,11 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-3">
-            <LinkField label="Letter Head" doctype="Letter Head" value={form.letter_head} onChange={update("letter_head")} />
+            <LinkField label={__("Letter Head")} doctype="Letter Head" value={form.letter_head} onChange={update("letter_head")} />
           </div>
           <div className="col-6 col-md-3">
             <LinkField
-              label="Terms and Conditions"
+              label={__("Terms and Conditions")}
               doctype="Terms and Conditions"
               filters={{ selling: 1 }}
               value={form.tc_name}
@@ -581,7 +584,7 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-3">
             <LinkField
-              label="Print Heading"
+              label={__("Print Heading")}
               doctype="Print Heading"
               filters={[["Print Heading", "docstatus", "!=", 2]]}
               value={form.select_print_heading}
@@ -593,12 +596,12 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Receipt Delivery
+          {__("Receipt Delivery")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
             <LinkField
-              label="Email Notification"
+              label={__("Email Notification")}
               doctype="Notification"
               filters={[["Notification", "channel", "=", "Email"]]}
               value={form.ep_email_notification}
@@ -607,7 +610,7 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="SMS Notification"
+              label={__("SMS Notification")}
               doctype="Notification"
               filters={[["Notification", "channel", "=", "SMS"]]}
               value={form.ep_sms_notification}
@@ -619,12 +622,12 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Accounting
+          {__("Accounting")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
             <LinkField
-              label="Price List"
+              label={__("Price List")}
               doctype="Price List"
               filters={{ selling: 1 }}
               value={form.selling_price_list}
@@ -632,11 +635,11 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Currency" required doctype="Currency" value={form.currency} onChange={update("currency")} />
+            <LinkField label={__("Currency")} required doctype="Currency" value={form.currency} onChange={update("currency")} />
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Write Off Account"
+              label={__("Write Off Account")}
               required
               doctype="Account"
               filters={
@@ -650,7 +653,7 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Write Off Cost Center"
+              label={__("Write Off Cost Center")}
               required
               doctype="Cost Center"
               filters={form.company ? { is_group: 0, company: form.company } : undefined}
@@ -660,7 +663,7 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <CurrencyField
-              label="Write Off Limit"
+              label={__("Write Off Limit")}
               required
               currency={form.currency}
               value={form.write_off_limit}
@@ -669,9 +672,9 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Account for Change Amount"
+              label={__("Account for Change Amount")}
               doctype="Account"
-              help={!form.company ? "Select a Company first" : undefined}
+              help={!form.company ? __("Select a Company first") : undefined}
               filters={
                 form.company
                   ? { account_type: ["in", ["Cash", "Bank"]], is_group: 0, company: form.company }
@@ -683,9 +686,9 @@ const POSProfileDetailPage = () => {
           </div>
           <div className="col-6 col-md-4">
             <LinkField
-              label="Income Account"
+              label={__("Income Account")}
               doctype="Account"
-              help={!form.company ? "Select a Company first" : undefined}
+              help={!form.company ? __("Select a Company first") : undefined}
               filters={
                 form.company
                   ? { is_group: 0, company: form.company, account_type: "Income Account" }
@@ -698,7 +701,7 @@ const POSProfileDetailPage = () => {
           {perpetualInventoryEnabled && (
             <div className="col-6 col-md-4">
               <LinkField
-                label="Expense Account"
+                label={__("Expense Account")}
                 doctype="Account"
                 filters={
                   form.company
@@ -712,7 +715,7 @@ const POSProfileDetailPage = () => {
           )}
           <div className="col-6 col-md-4">
             <LinkField
-              label="Sales Taxes and Charges Template"
+              label={__("Sales Taxes and Charges Template")}
               doctype="Sales Taxes and Charges Template"
               filters={
                 form.company
@@ -727,19 +730,19 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Tax Category" doctype="Tax Category" value={form.tax_category} onChange={update("tax_category")} />
+            <LinkField label={__("Tax Category")} doctype="Tax Category" value={form.tax_category} onChange={update("tax_category")} />
           </div>
           <div className="col-6 col-md-4">
             <SelectField
-              label="Apply Discount On"
+              label={__("Apply Discount On")}
               value={form.apply_discount_on}
               onChange={update("apply_discount_on")}
-              options={["Grand Total", "Net Total"]}
+              options={[_t("Grand Total"), _t("Net Total")]}
             />
           </div>
           <div className="col-6 col-md-4">
             <CheckboxField
-              label="Disable Rounded Total"
+              label={__("Disable Rounded Total")}
               checked={form.disable_rounded_total}
               onChange={(v) => update("disable_rounded_total")(v ? 1 : 0)}
             />
@@ -749,12 +752,12 @@ const POSProfileDetailPage = () => {
 
       <div className="pos-card mb-3 p-3 p-md-4">
         <h6 className="mb-3" style={{ fontSize: 13, fontWeight: 600 }}>
-          Accounting Dimensions
+          {__("Accounting Dimensions")}
         </h6>
         <div className="row g-3">
           <div className="col-6 col-md-4">
             <LinkField
-              label="Cost Center"
+              label={__("Cost Center")}
               doctype="Cost Center"
               filters={form.company ? { company: form.company, is_group: 0 } : undefined}
               value={form.cost_center}
@@ -762,7 +765,7 @@ const POSProfileDetailPage = () => {
             />
           </div>
           <div className="col-6 col-md-4">
-            <LinkField label="Project" doctype="Project" value={form.project} onChange={update("project")} />
+            <LinkField label={__("Project")} doctype="Project" value={form.project} onChange={update("project")} />
           </div>
         </div>
       </div>

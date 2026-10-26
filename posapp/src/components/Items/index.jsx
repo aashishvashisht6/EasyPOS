@@ -1,11 +1,15 @@
+import { tData, useTranslation } from "../../translation";
 import { useEffect, useState, useCallback, useMemo, useRef, memo } from "react";
 import { fetchItems, searchItem } from "../../api/Items";
 import useVirtualScroll from "../../hooks/VirtualScroll";
 import useCartStore from "../../store/cartStore";
 import usePOSSessionStore from "../../store/posSessionStore";
 import ItemVariantModal from "./ItemVariantModal";
+import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
+import useIsMobile from "../../hooks/useIsMobile";
 
 const CARD_HEIGHT = 150; // actual card content is ~138.5px tall — must exceed that or virtualized rows overlap
+const CARD_HEIGHT_MOBILE = 172; // phones get 40px stepper buttons (touch targets), ~14px taller content
 const CARD_MIN_WIDTH = 150; // px, includes gap — drives responsive column count
 const GRID_GAP = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -16,7 +20,8 @@ const AUTO_ADD_MATCH_TYPES = new Set(["barcode", "serial_no", "batch_no", "item_
 // ── Memoized card ───────────────────────────────────────────────────────────
 // item.stock/item.rate are null until an Opening Entry resolves a warehouse and
 // price list (see easy_pos.api.item.get_items) — shown as "—" / no stock badge.
-const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, currencySymbol }) => {
+const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, money }) => {
+  const { __ } = useTranslation();
   const hasStock = item.stock !== null && item.stock !== undefined;
   const outOfStock = hasStock && item.stock <= 0;
   // One row per unit — "+" would imply bumping an existing row's qty, which
@@ -36,13 +41,13 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
       )}
 
       {!!item.is_product_bundle && (
-        <div className="pos-item-bundle-badge" title="Product Bundle">
+        <div className="pos-item-bundle-badge" title={__("Product Bundle")}>
           <i className="bi bi-boxes" />
         </div>
       )}
 
       {!!item.has_variants && (
-        <div className="pos-item-bundle-badge" title="Has variants">
+        <div className="pos-item-bundle-badge" title={__("Has variants")}>
           <i className="bi bi-sliders" />
         </div>
       )}
@@ -51,25 +56,25 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
         {item.image ? <img src={item.image} alt={item.item_code} /> : <i className="bi bi-box-seam" />}
       </div>
 
-      <div className="pos-item-name" title={item.item_name || item.item_code}>
-        {item.item_name || item.item_code}
+      <div className="pos-item-name" dir="auto" title={tData(item.item_name || item.item_code)}>
+        {tData(item.item_name || item.item_code)}
       </div>
 
       {item.has_variants ? (
         <div className="pos-item-price-row">
           <span className="pos-item-price text-muted" style={{ color: "var(--color-text-faint)" }}>
-            Select options
+            {__("Select options")}
           </span>
         </div>
       ) : (
         <>
           <div className="pos-item-price-row">
             <span className="pos-item-price">
-              {item.rate === null || item.rate === undefined ? "—" : `${currencySymbol}${item.rate}`}
+              {item.rate === null || item.rate === undefined ? "—" : money(item.rate)}
             </span>
             {hasStock && (
               <span className={`pos-item-stock ${outOfStock ? "out" : ""}`}>
-                {outOfStock ? "Out of stock" : `${item.stock} left`}
+                {outOfStock ? __("Out of stock") : __("{qty} left", { qty: item.stock })}
               </span>
             )}
           </div>
@@ -86,7 +91,7 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
             <button
               type="button"
               disabled={outOfStock || isTracked}
-              title={isTracked ? "Click/scan the item again to add another unit" : undefined}
+              title={isTracked ? __("Click/scan the item again to add another unit") : undefined}
               onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}
             >
               +
@@ -100,6 +105,9 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
 
 // ── Main component ─────────────────────────────────────────────────────────
 const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
+  const { __ } = useTranslation();
+  const isMobile = useIsMobile();
+  const cardHeight = isMobile ? CARD_HEIGHT_MOBILE : CARD_HEIGHT;
   const [items, setItems] = useState([]);
   const [itemQty, setItemQty] = useState({});
   const [containerWidth, setContainerWidth] = useState(0);
@@ -118,7 +126,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const priceList = usePOSSessionStore((s) => s.priceList);
   const posProfile = usePOSSessionStore((s) => s.posProfile);
-  const currencySymbol = usePOSSessionStore((s) => s.currencySymbol);
+  const money = useCurrencyFormatter();
   const currencyPrecision = usePOSSessionStore((s) => s.currencyPrecision);
   const customer = useCartStore((s) => s.customer);
 
@@ -321,7 +329,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
 
   const { visibleRange, totalHeight, onScroll } = useVirtualScroll({
     totalRows: rows.length,
-    rowHeight: CARD_HEIGHT,
+    rowHeight: cardHeight,
     containerRef,
   });
 
@@ -340,13 +348,13 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         {searching && filteredItems.length === 0 ? (
           <div className="d-flex flex-column align-items-center justify-content-center text-muted gap-2 h-100">
             <i className="bi bi-arrow-repeat" style={{ fontSize: 30, opacity: 0.25 }} />
-            <span style={{ fontSize: 13 }}>Searching…</span>
+            <span style={{ fontSize: 13 }}>{__("Searching…")}</span>
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="d-flex flex-column align-items-center justify-content-center text-muted gap-2 h-100">
             <i className="bi bi-box-seam" style={{ fontSize: 30, opacity: 0.25 }} />
             <span style={{ fontSize: 13 }}>
-              {searchText ? "No items match your search" : "No items in this category"}
+              {searchText ? __("No items match your search") : __("No items in this category")}
             </span>
           </div>
         ) : (
@@ -358,9 +366,9 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
                 key={rowIndex}
                 style={{
                   position: "absolute",
-                  top: rowIndex * CARD_HEIGHT,
+                  top: rowIndex * cardHeight,
                   width: "100%",
-                  height: CARD_HEIGHT,
+                  height: cardHeight,
                   display: "grid",
                   gridTemplateColumns: `repeat(${columns}, 1fr)`,
                   gap: GRID_GAP,
@@ -375,7 +383,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
                     onAdd={addItemToCart}
                     onIncrement={handleIncrement}
                     onDecrement={handleDecrement}
-                    currencySymbol={currencySymbol}
+                    money={money}
                   />
                 ))}
               </div>

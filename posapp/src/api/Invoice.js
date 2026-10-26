@@ -23,18 +23,16 @@ export const postDraftInvoice = async (invoice, opening_details, submit, coupon_
 	}
 };
 
+// Propagates (no swallow) so InvoicePay can show the server's frappe.throw
+// message — e.g. ERPNext's party-account currency check or the loyalty guard.
 export const postPaymentInvoice = async (invoice, opening_details, submit, coupon_code) => {
-	try {
-		const response = await enginePost("/api/method/easy_pos.api.pos.create_invoice", {
-			invoice,
-			opening_details,
-			submit,
-			coupon_code,
-		});
-		return response.data.message;
-	} catch (error) {
-		console.error(error);
-	}
+	const response = await enginePost("/api/method/easy_pos.api.pos.create_invoice", {
+		invoice,
+		opening_details,
+		submit,
+		coupon_code,
+	});
+	return response.data.message;
 };
 
 export const fetchDraftInvoices = async (pos_profile) => {

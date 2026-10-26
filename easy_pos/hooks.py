@@ -203,7 +203,9 @@ before_tests = "erpnext.setup.utils.before_tests"
 
 # Request Events
 # ----------------
-# before_request = ["easy_pos.utils.before_request"]
+# Applies the POS device's chosen UI language to server-side messages
+# (see easy_pos.api.language.apply_request_language).
+before_request = ["easy_pos.api.language.apply_request_language"]
 # after_request = ["easy_pos.utils.after_request"]
 
 # Job Events

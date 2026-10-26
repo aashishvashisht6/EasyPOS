@@ -48,7 +48,7 @@
 }
 
 .customer-display-item-name {
-  text-align: left;
+  text-align: match-parent; /* see .pos-item-name */
 }
 
 .customer-display-item-qty {
@@ -58,7 +58,7 @@
 .customer-display-item-amount {
   font-family: var(--font-mono);
   min-width: 110px;
-  text-align: right;
+  text-align: end;
 }
 
 .customer-display-totals {

@@ -1,5 +1,6 @@
 import axios from "../api/config";
 import db from "./db";
+import { __ } from "../translation";
 
 // Offline write queue for Sales Invoice creation (easy_pos.api.pos.create_invoice).
 // engine/index.js diverts a create_invoice call here instead of the network when
@@ -56,7 +57,7 @@ const extractErrorMessage = (err) => {
 			// fall through to the generic message below
 		}
 	}
-	return err?.response?.data?.exception || err?.message || "Failed to sync invoice";
+	return err?.response?.data?.exception || err?.message || __("Failed to sync invoice");
 };
 
 // Queues a create_invoice call locally and returns a response shaped like the

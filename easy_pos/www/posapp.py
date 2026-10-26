@@ -26,7 +26,12 @@ def get_context(context):
 
 
 def get_boot():
+	from frappe.translate import get_user_lang
+
 	return {
 		"site_name": frappe.local.site,
 		"system_timezone": get_system_timezone(),
+		# Default POS UI language (see posapp/src/store/languageStore.js) — the
+		# logged-in user's User.language, else the System Settings language.
+		"lang": get_user_lang(frappe.session.user) if frappe.session.user != "Guest" else None,
 	}
