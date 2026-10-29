@@ -74,6 +74,17 @@ const usePOSSessionStore = create((set, get) => ({
 	// easy_pos.patches.add_pos_profile_customer_display.
 	customerDisplayEnabled: false,
 
+	// Re-fetch the Pricing Rule snapshot (also re-caches it for offline reloads).
+	// Called when connectivity returns, since rules may have changed or expired
+	// since the shift-open fetch. fetchPricingRules returns [] on failure, so an
+	// empty result never replaces a working snapshot.
+	refreshPricingRules: async () => {
+		const { posProfile } = get();
+		if (!posProfile) return;
+		const rules = await fetchPricingRules(posProfile);
+		if (rules?.length) set({ pricingRules: rules });
+	},
+
 	loadProfileDetails: async (pos_profile) => {
 		if (!pos_profile) return;
 		const [profile, precisionSettings] = await Promise.all([

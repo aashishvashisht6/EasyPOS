@@ -125,6 +125,18 @@ const readPricingRulesForProfile = async ({ pos_profile } = {}) => {
 const readCustomerGet = async ({ name } = {}) => ok((await db.customers.get(name)) ?? null);
 const readCustomerList = listReader(db.customers);
 
+// easy_pos.api.customer.get_customer_with_loyalty — Customer doc plus loyalty
+// summary. Offline, the last online result for this customer (api/Customer.js
+// caches it) is preferred since it alone has the loyalty balance; otherwise
+// the synced customer row still supplies customer_group/territory, which is
+// what the Cart's pricing engine needs for group/territory-scoped rules.
+const readCustomerWithLoyalty = async ({ name } = {}) => {
+	if (!name) return ok({});
+	const cached = await db.meta.get(`customerWithLoyalty:${name}`);
+	if (cached?.data) return ok(cached.data);
+	return ok((await db.customers.get(name)) ?? {});
+};
+
 // --- POS Profile / Tax template / Price List / Pricing Rule --------------------
 
 const readPOSProfileGet = async ({ name } = {}) => ok((await db.pos_profiles.get(name)) ?? null);
@@ -262,6 +274,10 @@ const ADAPTERS = [
 	{
 		test: (url) => url.endsWith("easy_pos.api.pricing.get_pricing_rules"),
 		read: (ctx) => readPricingRulesForProfile(ctx.params),
+	},
+	{
+		test: (url) => url.endsWith("easy_pos.api.customer.get_customer_with_loyalty"),
+		read: (ctx) => readCustomerWithLoyalty(ctx.params),
 	},
 	{
 		test: (url, ctx) =>

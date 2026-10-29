@@ -193,6 +193,22 @@ const pushOne = async (row) => {
 		await upsertInvoiceCache(doc);
 		return { ok: true, offline_id: row.offline_id, name: doc.name };
 	} catch (err) {
+		// No HTTP response at all = the connection dropped mid-push, not a
+		// validation failure. The server may or may not have created the invoice;
+		// either way re-queue it (the backend is idempotent on offline_id) rather
+		// than parking it as "failed" for a manual retry nobody knows to do.
+		if (!err?.response) {
+			await db.pending_invoices.update(row.offline_id, {
+				status: "queued",
+				updated_at: new Date().toISOString(),
+			});
+			return {
+				ok: false,
+				offline_id: row.offline_id,
+				error: "Connection lost",
+				requeued: true,
+			};
+		}
 		const message = extractErrorMessage(err);
 		await db.pending_invoices.update(row.offline_id, {
 			status: "failed",
@@ -218,13 +234,20 @@ export const pushPendingInvoices = async () => {
 	if (pushInFlight) return pushInFlight;
 
 	pushInFlight = (async () => {
+		// "syncing" at the start of a pass (none is in flight — see the guard
+		// above) is a row whose push was cut off by a reload or a dropped
+		// connection; it is safe to push again because the backend de-duplicates
+		// on offline_id.
 		const queued = await db.pending_invoices
 			.where("status")
-			.equals("queued")
+			.anyOf(["queued", "syncing"])
 			.sortBy("created_at");
 		const results = [];
 		for (const row of queued) {
-			results.push(await pushOne(row));
+			const result = await pushOne(row);
+			results.push(result);
+			// Still offline — don't hammer the rest of the queue.
+			if (result.requeued) break;
 		}
 		return results;
 	})();

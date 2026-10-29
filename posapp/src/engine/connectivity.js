@@ -22,6 +22,14 @@ const useConnectivityStore = create((set) => ({
 				import("./outbox").then(({ pushPendingInvoices }) =>
 					pushPendingInvoices().catch((error) => console.error(error))
 				);
+				// Pricing rules edited on the server while the till was offline
+				// (or expired since shift-open) must not keep pricing the cart.
+				import("../store/posSessionStore").then(({ default: store }) =>
+					store
+						.getState()
+						.refreshPricingRules()
+						.catch((error) => console.error(error))
+				);
 			}
 			return { isOnline };
 		}),

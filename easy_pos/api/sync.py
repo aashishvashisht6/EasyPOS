@@ -194,6 +194,24 @@ def get_offline_snapshot(pos_profile: str) -> dict:
 	}
 
 
+def _resume_pushed_invoice(name, offline_id, invoice, opening_details, submit, coupon_code):
+	"""A row with this offline_id already reached the server — usually a push
+	whose response was lost to a connectivity drop. If that copy is still a Draft
+	but the queued row has since been upgraded to a completed sale (the cashier
+	resumed the held sale offline and took payment), the newer payload and the
+	submit must still land: returning the stale Draft would leave a sale the
+	customer already paid for unsubmitted and unpaid in the ledger."""
+	doc = frappe.get_doc("Sales Invoice", name)
+	if doc.docstatus != 0 or not submit:
+		return doc.as_dict()
+
+	sales_invoice, pos_profile = _save_sales_invoice(
+		{**invoice, "sales_invoice": name}, opening_details, ep_offline_id=offline_id
+	)
+	_finalize_invoice(sales_invoice, pos_profile, coupon_code)
+	return sales_invoice.as_dict()
+
+
 @frappe.whitelist()
 def push_offline_invoice(
 	offline_id: str, invoice: dict, opening_details: dict, submit: bool, coupon_code: str | None = None
@@ -205,13 +223,16 @@ def push_offline_invoice(
 
 	Idempotent: if a Sales Invoice with this ep_offline_id already exists (e.g. a
 	prior push actually succeeded but the response was lost to a connectivity
-	drop before the client could mark the row synced), that doc is returned
-	as-is instead of inserting a duplicate — the frontend always treats the
+	drop before the client could mark the row synced), that doc is reused
+	(and submitted if the queued row has since become a paid sale) instead of
+	inserting a duplicate — the frontend always treats the
 	returned name as authoritative regardless of which branch ran.
 	"""
 	existing_name = frappe.db.exists("Sales Invoice", {"ep_offline_id": offline_id})
 	if existing_name:
-		return frappe.get_doc("Sales Invoice", existing_name).as_dict()
+		return _resume_pushed_invoice(
+			existing_name, offline_id, invoice, opening_details, submit, coupon_code
+		)
 
 	try:
 		sales_invoice, pos_profile = _save_sales_invoice(invoice, opening_details, ep_offline_id=offline_id)
@@ -225,7 +246,9 @@ def push_offline_invoice(
 		# the idempotent branch above rather than surfacing a spurious failure.
 		existing_name = frappe.db.exists("Sales Invoice", {"ep_offline_id": offline_id})
 		if existing_name:
-			return frappe.get_doc("Sales Invoice", existing_name).as_dict()
+			return _resume_pushed_invoice(
+				existing_name, offline_id, invoice, opening_details, submit, coupon_code
+			)
 		raise
 
 	if submit:

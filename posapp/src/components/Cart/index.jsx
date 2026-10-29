@@ -12,17 +12,37 @@ import useCartStore from "../../store/cartStore";
 import useConnectivityStore from "../../engine/connectivity";
 import useEngineSettingsStore from "../../engine/settingsStore";
 import { computeCartPricingLocally } from "../../utils/pricingEngine";
+import db from "../../engine/db";
 import InvoicePay from "../InvoicePay";
 import NewCustomerModal from "../Customer/NewCustomerModal";
 import DraftPickerModal from "./DraftPickerModal";
 import { LinkField, TextField, SelectField, NumberField, CurrencyField, AlertModal } from "../common";
-import { roundCurrency } from "../../utils/number";
+import { flt, roundCurrency } from "../../utils/number";
 import useCustomerDisplayBroadcaster from "../../hooks/useCustomerDisplayBroadcaster";
 import useCurrencyFormatter from "../../hooks/useCurrencyFormatter";
 import useCartTotals from "../../hooks/useCartTotals";
 import { getServerMessage } from "../../utils/serverError";
 
 const PRICING_DEBOUNCE_MS = 400;
+
+// A free item the local engine resolved only knows its item_code; borrow the
+// name/UOM from the offline catalog (when synced) so the cart line reads like
+// the one get_cart_pricing would have returned.
+const fillFreeItemNames = async (result) => {
+  if (!result.free_items.length) return result;
+  try {
+    const free_items = await Promise.all(
+      result.free_items.map(async (f) => {
+        const row = await db.items.get(f.item_code);
+        return row ? { ...f, item_name: row.item_name || f.item_name, uom: f.uom || row.stock_uom } : f;
+      }),
+    );
+    return { ...result, free_items };
+  } catch {
+    return result;
+  }
+};
+
 
 const Cart = ({ onSaleComplete }) => {
   const { __ } = useTranslation();
@@ -35,6 +55,9 @@ const Cart = ({ onSaleComplete }) => {
   const floatPrecision = usePOSSessionStore((s) => s.floatPrecision);
   const posProfile = usePOSSessionStore((s) => s.posProfile);
   const pricingRules = usePOSSessionStore((s) => s.pricingRules);
+  const currencyCode = usePOSSessionStore((s) => s.currencyCode);
+  const priceList = usePOSSessionStore((s) => s.priceList);
+  const ignorePricingRule = usePOSSessionStore((s) => s.ignorePricingRule);
   const warehouse = usePOSSessionStore((s) => s.warehouse);
   const allowRateChange = usePOSSessionStore((s) => s.allowRateChange);
   const allowDiscountChange = usePOSSessionStore((s) => s.allowDiscountChange);
@@ -121,32 +144,55 @@ const Cart = ({ onSaleComplete }) => {
     if (!posProfile) return;
     setCouponError("");
 
-    const lineItems = cartItems.map(({ item_code, qty, item_group, price_list_rate }) => ({
-      item_code,
-      qty,
-      item_group,
-      price_list_rate,
-    }));
+    const lineItems = cartItems.map(
+      ({ item_code, qty, item_group, brand, variant_of, price_list_rate, base_price_list_rate }) => ({
+        item_code,
+        qty,
+        item_group,
+        brand,
+        variant_of,
+        // Always the catalog price, never a rule-rewritten one (see cartStore.addItem).
+        price_list_rate: base_price_list_rate ?? price_list_rate,
+      }),
+    );
 
-    if (!couponCode) {
-      const localResult = computeCartPricingLocally(
+    // Resolve locally first — it's the common case and the only option while
+    // offline. A coupon is validated against the shift-open snapshot too; a
+    // code the snapshot doesn't know falls through to the server below.
+    let localResult = null;
+    try {
+      localResult = computeCartPricingLocally(
         lineItems,
         pricingRules,
-        { customer, customerGroup, territory },
+        {
+          customer,
+          customerGroup,
+          territory,
+          currency: currencyCode,
+          priceList,
+          couponCode,
+          ignorePricingRule,
+        },
         currencyPrecision,
       );
-      if (localResult) {
-        setOfflinePricingUnresolved(false);
-        applyPricing(localResult, currencyPrecision);
+    } catch (err) {
+      if (err.coupon) {
+        setCouponError(err.message);
         return;
       }
-      // Fall through to the server for the Product Discount case below —
-      // offline, that call can't succeed, so warn instead of silently
-      // leaving whichever line(s) matched a free-item rule undiscounted.
-      if (offlineModeEnabled && !isOnline) {
-        setOfflinePricingUnresolved(true);
-        return;
-      }
+      throw err;
+    }
+    if (localResult) {
+      setOfflinePricingUnresolved(false);
+      fillFreeItemNames(localResult).then(applyPricing);
+      return;
+    }
+    // A rule the local engine can't evaluate (or an unknown coupon) needs the
+    // server. Offline, that call can't succeed, so flag it instead of silently
+    // leaving the lines at list price.
+    if (offlineModeEnabled && !isOnline) {
+      setOfflinePricingUnresolved(true);
+      return;
     }
     setOfflinePricingUnresolved(false);
 
@@ -170,7 +216,7 @@ const Cart = ({ onSaleComplete }) => {
     }, PRICING_DEBOUNCE_MS);
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartKey, customer, customerGroup, territory, pricingRules, posProfile, couponCode, currencyPrecision, offlineModeEnabled, isOnline]);
+  }, [cartKey, customer, customerGroup, territory, pricingRules, posProfile, couponCode, currencyPrecision, currencyCode, priceList, ignorePricingRule, offlineModeEnabled, isOnline]);
 
   // Customer doc (customer_group/territory, for the pricing engine above) +
   // live Loyalty Program summary — one combined fetch
@@ -286,25 +332,48 @@ const Cart = ({ onSaleComplete }) => {
   // DraftPickerModal passes the full pending_invoices row object for those
   // instead of a name string, so it can be loaded straight from its locally
   // queued payload (see engine/outbox.js).
-  const loadDraftFromDoc = (doc, pendingOfflineId = "") => {
+  const loadDraftFromDoc = async (doc, pendingOfflineId = "") => {
+    // The pricing engine re-prices every line from its catalog price plus the
+    // line's item_group/brand, none of which a saved draft row carries besides
+    // price_list_rate (and not even that for a locally queued one) — recover
+    // them, or every resumed line would be re-priced from zero.
+    const catalog = new Map();
+    try {
+      const rows = await db.items.bulkGet((doc.items ?? []).map((item) => item.item_code));
+      rows.forEach((row) => row && catalog.set(row.item_code, row));
+    } catch {
+      /* catalog not synced yet — the saved rate is still a usable starting price */
+    }
     loadDraft(
       {
         name: doc.name,
         customer: doc.customer,
         customer_name: doc.customer_name,
-        items: (doc.items ?? []).map((item) => ({
-          item_code: item.item_code,
-          qty: item.qty,
-          rate: item.rate,
-          amount: item.amount,
-          discount_amount: item.discount_amount ?? 0,
-          serial_no: item.serial_no ?? "",
-          batch_no: item.batch_no ?? "",
-          has_serial_no: !!item.serial_no,
-          has_batch_no: !!item.batch_no,
-          item_tax_template: item.item_tax_template ?? "",
-          item_tax_rate: item.item_tax_rate ? JSON.parse(item.item_tax_rate) : {},
-        })),
+        items: (doc.items ?? []).map((item) => {
+          const meta = catalog.get(item.item_code) ?? {};
+          const listRate =
+            item.price_list_rate || flt(flt(item.rate) + flt(item.discount_amount)) || flt(item.rate);
+          return {
+            item_code: item.item_code,
+            qty: item.qty,
+            rate: item.rate,
+            amount: item.amount,
+            price_list_rate: listRate,
+            base_price_list_rate: meta.rate || listRate,
+            item_group: item.item_group || meta.item_group || "",
+            brand: item.brand || meta.brand || "",
+            variant_of: item.variant_of || "",
+            discount_amount: item.discount_amount ?? 0,
+            discount_percentage: item.discount_percentage ?? 0,
+            pricing_rules: item.pricing_rules ? String(item.pricing_rules).split(",") : [],
+            serial_no: item.serial_no ?? "",
+            batch_no: item.batch_no ?? "",
+            has_serial_no: !!item.serial_no,
+            has_batch_no: !!item.batch_no,
+            item_tax_template: item.item_tax_template ?? "",
+            item_tax_rate: item.item_tax_rate ? JSON.parse(item.item_tax_rate) : {},
+          };
+        }),
         payments: (doc.payments ?? []).map((p) => ({
           mode_of_payment: p.mode_of_payment,
           amount: p.amount,
@@ -781,7 +850,7 @@ const Cart = ({ onSaleComplete }) => {
               <div className="mb-2" style={{ fontSize: 11, color: "var(--color-text-muted)" }}>
                 <i className="bi bi-cloud-slash me-1" />
                 {__(
-                  "A free-item offer in this cart needs a connection to resolve — pricing/discounts for this whole cart are on hold at list price until reconnected.",
+                  "A pricing rule in this cart can't be calculated offline, so the total shown may be wrong. Payment is on hold until you reconnect — you can still save the cart as a draft.",
                 )}
               </div>
             )}
@@ -849,7 +918,7 @@ const Cart = ({ onSaleComplete }) => {
                 sendPaymentStatus({ status: "processing", grandTotal });
                 setPayInvoice(true);
               }}
-              disabled={cartItems.length === 0 || !customer}
+              disabled={cartItems.length === 0 || !customer || offlinePricingUnresolved}
             >
               <i className="bi bi-credit-card me-1" />
               {__("Pay {amount}", { amount: formatAmount(grandTotal) })}

@@ -1,3 +1,4 @@
+import db from "../engine/db";
 import { engineGet, enginePost } from "../engine";
 import { fetchList } from "./ListView";
 
@@ -101,7 +102,17 @@ export const fetchCustomerWithLoyalty = async (name, company) => {
 				params: { name, company },
 			}
 		);
-		return response.data.message;
+		const doc = response.data.message;
+		// Mirror of engine/localReads.js's readCustomerWithLoyalty: the last
+		// online result (it alone carries the loyalty balance) is what an offline
+		// re-selection of this customer gets back.
+		// Only a server answer carries the loyalty fields; offline, the adapter
+		// serves a thin synced row that must not overwrite the last real one.
+		if (doc?.name && "loyalty_points" in doc)
+			db.meta
+				.put({ key: `customerWithLoyalty:${name}`, data: doc })
+				.catch((e) => console.warn("customer cache write failed", e));
+		return doc;
 	} catch (error) {
 		console.error(error);
 	}

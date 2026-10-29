@@ -18,10 +18,12 @@ PRICING_RULE_ENGINE_FIELDS = [
 	"rate",
 	"discount_percentage",
 	"discount_amount",
+	"apply_discount_on_rate",
 	"applicable_for",
 	"customer",
 	"customer_group",
 	"territory",
+	"company",
 	"min_qty",
 	"max_qty",
 	"min_amt",
@@ -32,7 +34,30 @@ PRICING_RULE_ENGINE_FIELDS = [
 	"apply_multiple_pricing_rules",
 	"for_price_list",
 	"currency",
+	"coupon_code_based",
+	# Product Discount (free item) fields
+	"free_item",
+	"free_qty",
+	"free_item_rate",
+	"same_item",
+	"is_recursive",
+	"apply_recursion_over",
+	"recurse_for",
+	"round_free_qty",
+	# Features the local engine does not model. A rule using any of them is
+	# flagged `needs_server` in get_pricing_rules so the Cart defers to
+	# get_cart_pricing (or warns offline) instead of silently mispricing.
+	"mixed_conditions",
+	"is_cumulative",
+	"apply_rule_on_other",
+	"condition",
+	"margin_rate_or_amount",
 ]
+
+
+class _CartDoc(frappe._dict):
+	def as_dict(self):
+		return self
 
 
 def _coupon_code_name(coupon_code):
@@ -76,20 +101,41 @@ def _effective_rate(price_list_rate, discount_percentage, discount_amount, preci
 	return price_list_rate, 0.0
 
 
+def _descendants(doctype, names):
+	"""`names` plus every descendant in the `doctype` tree (lft/rgt nested set).
+
+	ERPNext matches a rule scoped to a group against an item/customer sitting
+	anywhere underneath it (pricing_rule.utils._get_tree_conditions), so the
+	client — which only does exact lookups — gets the expanded list."""
+	out = set()
+	for name in names:
+		lft, rgt = frappe.db.get_value(doctype, name, ["lft", "rgt"]) or (None, None)
+		if lft is None:
+			out.add(name)
+			continue
+		out.update(frappe.get_all(doctype, filters={"lft": [">=", lft], "rgt": ["<=", rgt]}, pluck="name"))
+	return sorted(out)
+
+
 @frappe.whitelist()
 def get_pricing_rules(pos_profile: str) -> list:
-	"""Snapshot of this profile's directly-resolvable Selling Pricing Rules,
-	fetched once at shift-open (posSessionStore.loadProfileDetails, same
-	pattern as get_taxes_and_charges_template) so the Cart's client-side
-	pricing engine (posapp/src/utils/pricingEngine.js) can match/discount
-	every add-to-cart locally instead of round-tripping to get_cart_pricing.
+	"""Snapshot of this profile's Selling Pricing Rules, fetched once at
+	shift-open (posSessionStore.loadProfileDetails) so the Cart's client-side
+	pricing engine (posapp/src/utils/pricingEngine.js) can resolve every
+	add-to-cart locally — including when the till is offline — instead of
+	round-tripping to get_cart_pricing.
 
-	Only Item Code / Item Group scoped, non-coupon rules are returned — Brand
-	scoping, Transaction-level rules, and coupon-code-based rules are the same
-	documented gap get_cart_pricing itself carries (see its own docstring);
-	the Cart still calls get_cart_pricing directly whenever a coupon code is
-	typed, or whenever the local engine matches a Product Discount (free
-	item) rule it isn't equipped to resolve.
+	Mirrors what erpnext.accounts.doctype.pricing_rule.utils.get_pricing_rules
+	would consider: Item Code / Item Group / Brand scoped rules, rules with a
+	blank company, and coupon-based rules (their Coupon Code rows ride along
+	as `coupon_codes`). Group scoping is pre-expanded to the whole subtree
+	(`item_groups`, `customer_group_tree`, `territory_tree`) so the client
+	needs only exact lookups.
+
+	Rules using features the local engine can't evaluate (mixed conditions,
+	cumulative, apply_rule_on_other, a Python `condition`, margins, a UOM
+	restriction) are still returned, flagged `needs_server`, so the Cart knows
+	a line they match can't be priced locally.
 	"""
 	profile = frappe.get_cached_doc("POS Profile", pos_profile)
 	today = getdate(nowdate())
@@ -97,44 +143,71 @@ def get_pricing_rules(pos_profile: str) -> list:
 
 	rules = frappe.get_all(
 		"Pricing Rule",
-		filters={
-			"selling": 1,
-			"disable": 0,
-			"apply_on": ["in", ["Item Code", "Item Group"]],
-			"coupon_code_based": 0,
-			"company": profile.company,
-		},
+		filters={"selling": 1, "disable": 0, "apply_on": ["in", ["Item Code", "Item Group", "Brand"]]},
 		fields=PRICING_RULE_ENGINE_FIELDS,
 	)
 	rules = [
 		r
 		for r in rules
-		if (not r.valid_from or getdate(r.valid_from) <= today)
+		if (not r.company or r.company == profile.company)
+		and (not r.valid_from or getdate(r.valid_from) <= today)
 		and (not r.valid_upto or getdate(r.valid_upto) >= today)
 		and (not r.for_price_list or r.for_price_list == profile.selling_price_list)
-		# ERPNext only applies a fixed "Rate" rule when the rule's currency is the
-		# invoice's (pricing_rule.apply_price_discount_rule); otherwise the item
-		# keeps its price list rate. Drop those here so the local engine can't
-		# charge e.g. an INR "Rate = 500" as 500 USD at a USD till.
-		and not (r.rate_or_discount == "Rate" and r.currency and r.currency != invoice_currency)
 	]
 	rule_names = [r.name for r in rules]
 
-	items_by_rule = {}
-	for row in frappe.get_all(
-		"Pricing Rule Item Code", filters={"parent": ["in", rule_names]}, fields=["parent", "item_code"]
-	):
-		items_by_rule.setdefault(row.parent, []).append(row.item_code)
+	# A rule row pinned to a UOM other than the item's stock UOM scales its
+	# min/max qty by the conversion factor (filter_pricing_rules_for_qty_amount);
+	# the Cart only sells in stock UOM, so a row whose UOM equals the item's
+	# stock UOM (the UI fills "Nos" in by default) is harmless, anything else
+	# needs the server.
+	uom_restricted = set()
 
-	groups_by_rule = {}
-	for row in frappe.get_all(
-		"Pricing Rule Item Group", filters={"parent": ["in", rule_names]}, fields=["parent", "item_group"]
+	def _children(doctype, field):
+		out = {}
+		for row in frappe.get_all(
+			doctype, filters={"parent": ["in", rule_names]}, fields=["parent", field, "uom"]
+		):
+			out.setdefault(row.parent, []).append(row[field])
+			if row.uom and (
+				doctype != "Pricing Rule Item Code"
+				or row.uom != frappe.get_cached_value("Item", row.item_code, "stock_uom")
+			):
+				uom_restricted.add(row.parent)
+		return out
+
+	items_by_rule = _children("Pricing Rule Item Code", "item_code")
+	groups_by_rule = _children("Pricing Rule Item Group", "item_group")
+	brands_by_rule = _children("Pricing Rule Brand", "brand")
+
+	coupons_by_rule = {}
+	for c in frappe.get_all(
+		"Coupon Code",
+		filters={"pricing_rule": ["in", rule_names]},
+		fields=["name", "coupon_code", "pricing_rule", "valid_from", "valid_upto", "maximum_use", "used"],
 	):
-		groups_by_rule.setdefault(row.parent, []).append(row.item_group)
+		coupons_by_rule.setdefault(c.pricing_rule, []).append(c)
 
 	for r in rules:
 		r["item_codes"] = items_by_rule.get(r.name, [])
-		r["item_groups"] = groups_by_rule.get(r.name, [])
+		r["item_groups"] = _descendants("Item Group", groups_by_rule.get(r.name, []))
+		r["brands"] = brands_by_rule.get(r.name, [])
+		r["customer_group_tree"] = (
+			_descendants("Customer Group", [r.customer_group]) if r.customer_group else []
+		)
+		r["territory_tree"] = _descendants("Territory", [r.territory]) if r.territory else []
+		r["coupon_codes"] = coupons_by_rule.get(r.name, [])
+		# ERPNext only honours a fixed "Rate" rule when the rule's currency is
+		# the invoice's (pricing_rule.apply_price_discount_rule).
+		r["currency_matches"] = (not r.currency) or r.currency == invoice_currency
+		r["needs_server"] = bool(
+			cint(r.mixed_conditions)
+			or cint(r.is_cumulative)
+			or r.apply_rule_on_other
+			or r.condition
+			or flt(r.margin_rate_or_amount)
+			or r.name in uom_restricted
+		)
 
 	return rules
 
@@ -175,7 +248,30 @@ def get_cart_pricing(
 			frappe.throw(_("Invalid coupon code"))
 		validate_coupon_code(coupon_name)
 
+	from erpnext.accounts.doctype.pricing_rule.utils import MultiplePricingRuleConflict
 	from erpnext.stock.get_item_details import get_item_details
+
+	# Rules that look at the whole cart (recursive free items, conditions) need a
+	# document with the other lines; get_item_details only takes one when called
+	# from a real Sales Invoice form.
+	cart_doc = _CartDoc(
+		doctype="Sales Invoice",
+		company=profile.company,
+		# Without a date on the doc ERPNext drops the valid_from/valid_upto filter
+		# and applies expired and not-yet-active rules.
+		transaction_date=nowdate(),
+		posting_date=nowdate(),
+		items=[
+			frappe._dict(
+				item_code=r.get("item_code"),
+				qty=flt(r.get("qty") or 1),
+				stock_qty=flt(r.get("qty") or 1),
+				is_free_item=0,
+				pricing_rules=None,
+			)
+			for r in items
+		],
+	)
 
 	results = []
 	free_items = {}
@@ -208,10 +304,21 @@ def get_cart_pricing(
 
 		entry = {"item_code": item_code, "qty": qty, "error": None}
 		try:
+			details = get_item_details(args, doc=cart_doc)
+		except MultiplePricingRuleConflict as e:
+			# Two rules tie on every criterion (ERPNext asks the admin to set a
+			# priority). The line still has to be sellable: price it from the plain
+			# price list with no rule applied and tell the cashier why.
+			args["ignore_pricing_rule"] = 1
 			details = get_item_details(args)
+			entry["error"] = frappe.as_unicode(e)
 		except Exception:
 			frappe.log_error(title="easy_pos.api.pricing.get_cart_pricing")
-			details = frappe._dict()
+			args["ignore_pricing_rule"] = 1
+			try:
+				details = get_item_details(args)
+			except Exception:
+				details = frappe._dict()
 			entry["error"] = "Could not resolve pricing rules for this item"
 
 		price_list_rate = flt(details.get("price_list_rate"))

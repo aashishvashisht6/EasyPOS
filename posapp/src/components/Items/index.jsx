@@ -282,6 +282,9 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         // same group as its template (variantTemplate, still in scope from
         // the picker this Add came from).
         item_group: variantTemplate?.item_group,
+        // Pricing Rules scoped to the template (or its brand) apply to its variants.
+        brand: variant.brand ?? variantTemplate?.brand,
+        variant_of: variantTemplate?.item_code,
       }, currencyPrecision);
     },
     [addItem, currencyPrecision, variantTemplate],

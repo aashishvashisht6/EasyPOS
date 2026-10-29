@@ -68,6 +68,7 @@ const useCartStore = create((set, get) => ({
 								...item,
 								qty: item.qty + addedQty,
 								rate,
+								base_price_list_rate: rate,
 								amount: flt((item.qty + addedQty) * rate, precision),
 						  }
 						: item
@@ -92,6 +93,8 @@ const useCartStore = create((set, get) => ({
 						// so utils/pricingEngine.js can match Item Group-scoped Pricing
 						// Rules against this line without a second lookup.
 						item_group: meta.item_group ?? "",
+						brand: meta.brand ?? "",
+						variant_of: meta.variant_of ?? "",
 						// Item-level discount, independent of the cart/order-level discount —
 						// populated by applyPricing() from the Pricing Rule engine, or left
 						// at 0 until the next pricing fetch resolves (see PP-01/PP-02 for
@@ -99,6 +102,11 @@ const useCartStore = create((set, get) => ({
 						discount_amount: 0,
 						discount_percentage: 0,
 						price_list_rate: rate,
+						// The catalog price this line was added at. applyPricing() rewrites
+						// price_list_rate (a "Rate" rule replaces it), so the pricing engine
+						// must start from this instead, or switching customer re-applies
+						// discounts on top of the previous customer's rule rate.
+						base_price_list_rate: rate,
 						pricing_rules: [],
 						// Item Tax Template link (sent to create_invoice so ERPNext's own
 						// calculate_taxes_and_totals applies the item-wise override) and
@@ -198,16 +206,24 @@ const useCartStore = create((set, get) => ({
 	},
 
 	setCustomer: (customer, customerName = "") =>
-		set({
-			customer,
-			customerName,
-			loyaltyProgram: "",
-			loyaltyPointsBalance: 0,
-			loyaltyConversionFactor: 0,
-			loyaltyTierName: "",
-			customerGroup: "",
-			territory: "",
-		}),
+		set((state) =>
+			// Re-selecting the customer already on the cart must not wipe the
+			// group/territory/loyalty fields: the Cart only re-fetches them when
+			// `customer` changes, so they'd stay blank and group/territory-scoped
+			// Pricing Rules would silently stop applying.
+			customer === state.customer
+				? { customerName: customerName || state.customerName }
+				: {
+						customer,
+						customerName,
+						loyaltyProgram: "",
+						loyaltyPointsBalance: 0,
+						loyaltyConversionFactor: 0,
+						loyaltyTierName: "",
+						customerGroup: "",
+						territory: "",
+				  }
+		),
 	clearCustomer: () =>
 		set({
 			customer: "",

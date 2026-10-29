@@ -10,6 +10,7 @@ ITEM_FIELDS = [
 	"item_name",
 	"description",
 	"item_group",
+	"brand",
 	"image",
 	"has_serial_no",
 	"has_batch_no",
